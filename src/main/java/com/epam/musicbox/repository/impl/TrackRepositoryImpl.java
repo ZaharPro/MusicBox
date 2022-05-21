@@ -1,15 +1,16 @@
 package com.epam.musicbox.repository.impl;
 
-import com.epam.musicbox.exception.HttpException;
-import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.EntityBuilder;
 import com.epam.musicbox.entity.Track;
+import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.util.QueryHelper;
+import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
+@Singleton
 public class TrackRepositoryImpl implements TrackRepository {
     private static final String SQL_FIND_ALL = """
             SELECT *\040

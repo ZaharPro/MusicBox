@@ -4,10 +4,12 @@ import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.repository.ArtistRepository;
 import com.epam.musicbox.util.QueryHelper;
+import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
+@Singleton
 public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_FIND_ALL = """
             SELECT *\040
