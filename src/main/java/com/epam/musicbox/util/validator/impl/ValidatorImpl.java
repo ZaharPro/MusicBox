@@ -1,6 +1,6 @@
-package com.epam.musicbox.validator.impl;
+package com.epam.musicbox.util.validator.impl;
 
-import com.epam.musicbox.validator.Validator;
+import com.epam.musicbox.util.validator.Validator;
 import jakarta.inject.Singleton;
 
 import java.util.regex.Pattern;
