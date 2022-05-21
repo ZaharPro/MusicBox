@@ -1,6 +1,7 @@
 package com.epam.musicbox.hasher.impl;
 
 import com.epam.musicbox.hasher.PasswordHasher;
+import jakarta.inject.Singleton;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -11,19 +12,15 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
+@Singleton
 public class PBKDF2PasswordHasher implements PasswordHasher {
     private static final String ALGORITHM = "PBKDF2WithHmacSHA512";
     private static final int ITERATIONS = 65536;
     private static final int KEY_LENGTH = 128;
     private static final int SALT_LENGTH = KEY_LENGTH / 8;
     private static final SecureRandom random = new SecureRandom();
-    private static final PBKDF2PasswordHasher instance = new PBKDF2PasswordHasher();
 
     private PBKDF2PasswordHasher() {
-    }
-
-    public static PBKDF2PasswordHasher getInstance() {
-        return instance;
     }
 
     public String hash(char[] password) {
