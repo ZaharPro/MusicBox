@@ -3,13 +3,17 @@ package com.epam.musicbox.controller.command;
 import com.epam.musicbox.controller.command.impl.LoginCommand;
 import com.epam.musicbox.controller.command.impl.LogoutCommand;
 import com.epam.musicbox.controller.command.impl.SingUpCommand;
-import jakarta.inject.Singleton;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-@Singleton
 public class CommandProvider {
+    public static final CommandProvider instance = new CommandProvider();
+
+    public static CommandProvider getInstance() {
+        return instance;
+    }
+
     private final Map<CommandType, Command> commands;
 
     private CommandProvider() {

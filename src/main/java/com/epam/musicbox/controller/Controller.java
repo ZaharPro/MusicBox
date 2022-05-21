@@ -1,26 +1,22 @@
 package com.epam.musicbox.controller;
 
-import java.io.*;
-import java.util.Enumeration;
-
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandProvider;
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.exception.HttpException;
-import jakarta.inject.Inject;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 @WebServlet(name = "controller", urlPatterns = "/controller")
 public class Controller extends HttpServlet {
     public static final Logger logger = LogManager.getLogger();
-
-    @Inject
-    private CommandProvider commandProvider;
 
     @Override
     public void init() {
@@ -55,6 +51,7 @@ public class Controller extends HttpServlet {
         try {
             String commandName = req.getParameter(Parameter.COMMAND);
             CommandType commandType = CommandType.of(commandName);
+            CommandProvider commandProvider = CommandProvider.getInstance();
             Command command = commandProvider.get(commandType);
             command.execute(req, resp);
         } catch (HttpException e) {
