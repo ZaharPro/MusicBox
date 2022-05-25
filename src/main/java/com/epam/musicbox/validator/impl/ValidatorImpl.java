@@ -22,18 +22,22 @@ public class ValidatorImpl implements Validator {
     }
 
     public boolean isValidId(String id) {
-        return ID_PATTERN.matcher(id).matches();
+        return id != null &&
+                ID_PATTERN.matcher(id).matches();
     }
 
     public boolean isValidLogin(String login) {
-        return LOGIN_PATTERN.matcher(login).matches();
+        return login != null &&
+                LOGIN_PATTERN.matcher(login).matches();
     }
 
     public boolean isValidPassword(String password) {
-        return PASSWORD_PATTERN.matcher(password).matches();
+        return password != null &&
+                PASSWORD_PATTERN.matcher(password).matches();
     }
 
     public boolean isValidEmail(String email) {
-        return EMAIL_PATTERN.matcher(email).matches();
+        return email != null &&
+                EMAIL_PATTERN.matcher(email).matches();
     }
 }

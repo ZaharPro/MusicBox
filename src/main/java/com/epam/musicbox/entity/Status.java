@@ -1,23 +1,19 @@
 package com.epam.musicbox.entity;
 
 import com.epam.musicbox.exception.HttpException;
-import com.epam.musicbox.util.ObjectUtils;
 import jakarta.inject.Singleton;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Status {
-    public static final String ACTIVE = "active";
-    public static final String BANNED = "banned";
+public enum Status {
+    ACTIVE(0, "active"),
+    BANNED(1, "banned");
 
-    private Integer id;
-    private String name;
+    private final Integer id;
+    private final String name;
 
-    public Status() {
-    }
-
-    public Status(Integer id, String name) {
+    Status(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -26,52 +22,35 @@ public class Status {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static Status findById(int id) {
+        for (Status status : Status.values()) {
+            if (status.getId() == id) {
+                return status;
+            }
+        }
+        return null;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Status status = (Status) o;
-        return ObjectUtils.equals(id, status.id) &&
-                ObjectUtils.equals(name, status.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return ObjectUtils.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return new StringBuilder("Status{")
-                .append("id=").append(id)
-                .append(", name='").append(name).append('\'')
-                .append('}')
-                .toString();
+    public static Status findByName(String name) {
+        for (Status Status : Status.values()) {
+            if (Status.getName().equals(name)) {
+                return Status;
+            }
+        }
+        return null;
     }
 
     @Singleton
     public static class Builder implements EntityBuilder<Status> {
-
-        private Builder() {
-        }
-
         @Override
         public Status build(ResultSet resultSet) throws HttpException {
             try {
-                return new Status(resultSet.getInt("status_id"),
-                        resultSet.getString("name"));
+                int statusId = resultSet.getInt("status_id");
+                return findById(statusId);
             } catch (SQLException e) {
                 throw new HttpException(e);
             }

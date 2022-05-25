@@ -12,5 +12,6 @@ public class LogoutCommand implements Command {
         HttpSession session = req.getSession();
         session.removeAttribute(Parameter.USER_ID);
         session.removeAttribute(Parameter.LOGIN);
+        session.removeAttribute(Parameter.ROLE);
     }
 }

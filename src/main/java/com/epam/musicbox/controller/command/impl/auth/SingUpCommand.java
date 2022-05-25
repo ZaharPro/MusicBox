@@ -2,12 +2,13 @@ package com.epam.musicbox.controller.command.impl.auth;
 
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.guard.Guard;
+import com.epam.musicbox.guard.ValidationGuard;
 import com.epam.musicbox.hasher.PasswordHasher;
 import com.epam.musicbox.service.UserService;
-import com.epam.musicbox.util.ObjectUtils;
-import com.epam.musicbox.validator.Validator;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,16 +25,14 @@ public class SingUpCommand implements Command {
     @Inject
     private PasswordHasher passwordHasher;
 
-    @Inject
-    private Validator validator;
-
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         String login = req.getParameter(Parameter.LOGIN);
         String email = req.getParameter(Parameter.EMAIL);
         String password = req.getParameter(Parameter.PASSWORD);
 
-        ObjectUtils.requireValid(validator, login, email, password);
+        Guard guard = new ValidationGuard(login, email, password);
+        guard.protect();
 
         Optional<User> optionalUser = userService.findByLogin(login);
         if (optionalUser.isPresent())
@@ -55,5 +54,6 @@ public class SingUpCommand implements Command {
         HttpSession session = req.getSession();
         session.setAttribute(Parameter.USER_ID, user.getId());
         session.setAttribute(Parameter.LOGIN, user.getLogin());
+        session.setAttribute(Parameter.ROLE, Role.USER);
     }
 }
