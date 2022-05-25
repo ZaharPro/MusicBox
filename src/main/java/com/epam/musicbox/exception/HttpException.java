@@ -13,7 +13,7 @@ public class HttpException extends Exception {
     }
 
     public HttpException(Throwable cause, int statusCode) {
-        super(buildMessage(cause, statusCode), cause);
+        super(cause);
         this.statusCode = statusCode;
     }
 
@@ -25,7 +25,8 @@ public class HttpException extends Exception {
         return statusCode;
     }
 
-    private static String buildMessage(Throwable cause, int statusCode) {
-        return cause.toString() + ", statusCode = " + statusCode;
+    @Override
+    public String getMessage() {
+        return super.getMessage() + ", statusCode = " + statusCode;
     }
 }

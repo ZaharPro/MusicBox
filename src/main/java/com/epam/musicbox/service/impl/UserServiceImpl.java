@@ -54,13 +54,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllByStatus(Integer statusId, int page) throws HttpException {
-        return userRepository.findAllByStatus(statusId,
-                Service.getOffset(page),
-                Service.PAGE_SIZE);
-    }
-
-    @Override
     public List<Playlist> getPlaylists(Integer userId, int page) throws HttpException {
         return userRepository.getPlaylists(userId,
                 Service.getOffset(page),
@@ -96,16 +89,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<Role> getRole(Integer userId) {
         return userRepository.getRole(userId);
-    }
-
-    @Override
-    public void setStatus(Integer userId, Integer statusId) throws HttpException {
-        userRepository.setStatus(userId, statusId);
-    }
-
-    @Override
-    public Optional<Status> getStatus(Integer userId) {
-        return userRepository.getStatus(userId);
     }
 
     @Override

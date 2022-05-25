@@ -13,8 +13,6 @@ public interface UserRepository extends Repository<User> {
 
     List<User> findAllByRole(Integer roleId, int offset, int limit) throws HttpException;
 
-    List<User> findAllByStatus(Integer statusId, int offset, int limit) throws HttpException;
-
     List<Playlist> getPlaylists(Integer userId, int offset, int limit) throws HttpException;
 
     List<Artist> getLikedArtists(Integer userId, int offset, int limit) throws HttpException;
@@ -26,10 +24,6 @@ public interface UserRepository extends Repository<User> {
     void setRole(Integer userId, Integer roleId) throws HttpException;
 
     Optional<Role> getRole(Integer userId);
-
-    void setStatus(Integer userId, Integer statusId) throws HttpException;
-
-    Optional<Status> getStatus(Integer userId);
 
     void addPlaylist(Integer userId, Integer playlistId) throws HttpException;
 

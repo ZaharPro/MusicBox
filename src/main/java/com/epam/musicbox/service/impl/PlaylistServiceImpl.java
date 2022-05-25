@@ -39,6 +39,16 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
+    public Optional<Playlist> findByUser(Integer userId) {
+        return playlistRepository.findByUser(userId);
+    }
+
+    @Override
+    public Optional<Playlist> findByName(String name) {
+        return playlistRepository.findByName(name);
+    }
+
+    @Override
     public List<Track> getTracks(Integer playlistId, int page) throws HttpException {
         return playlistRepository.getTracks(playlistId,
                 Service.getOffset(page),

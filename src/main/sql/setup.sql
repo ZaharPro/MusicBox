@@ -14,27 +14,12 @@ create table if not exists artists
     avatar    varchar(128) not null
 );
 
-create table if not exists playlists
-(
-    playlist_id int auto_increment
-    primary key
-);
-
 create table if not exists roles
 (
     role_id int auto_increment
     primary key,
     name    varchar(32) not null,
     constraint roles_name_uindex
-    unique (name)
-);
-
-create table if not exists statuses
-(
-    status_id int auto_increment
-    primary key,
-    name      varchar(32) not null,
-    constraint statuses_name_uindex
     unique (name)
 );
 
@@ -69,6 +54,33 @@ create table if not exists artist_tracks
     foreign key (artist_track_id) references tracks (track_id)
 );
 
+create table if not exists users
+(
+    user_id      int auto_increment
+    primary key,
+    login        varchar(32)                         not null,
+    password     varchar(64)                         not null,
+    email        varchar(32)                         not null,
+    banned       tinyint(1)                          not null,
+    registration timestamp default CURRENT_TIMESTAMP not null,
+    constraint users_email_uindex
+    unique (email),
+    constraint users_nickname_uindex
+    unique (login)
+);
+
+create table if not exists playlists
+(
+    playlist_id int auto_increment
+    primary key,
+    name        varchar(32) not null,
+    user_id     int         not null,
+    constraint playlists_user_id_uindex
+    unique (user_id),
+    constraint playlists_users_user_id_fk
+    foreign key (playlist_id) references users (user_id)
+);
+
 create table if not exists playlist_tracks
 (
     playlist_track_id int auto_increment
@@ -83,20 +95,6 @@ create table if not exists playlist_tracks
     foreign key (playlist_track_id) references playlists (playlist_id),
     constraint playlist_tracks_tracks_track_id_fk
     foreign key (playlist_track_id) references tracks (track_id)
-);
-
-create table if not exists users
-(
-    user_id      int auto_increment
-    primary key,
-    login        varchar(32)                         not null,
-    password     varchar(64)                         not null,
-    email        varchar(32)                         not null,
-    registration timestamp default CURRENT_TIMESTAMP not null,
-    constraint users_email_uindex
-    unique (email),
-    constraint users_nickname_uindex
-    unique (login)
 );
 
 create table if not exists user_liked_albums
@@ -147,18 +145,6 @@ create table if not exists user_liked_tracks
     foreign key (user_liked_track_id) references users (user_id)
 );
 
-create table if not exists user_playlists
-(
-    user_playlist_id int auto_increment
-    primary key,
-    user_id          int not null,
-    playlist_id      int not null,
-    constraint user_playlists_playlists_playlist_id_fk
-    foreign key (playlist_id) references playlists (playlist_id),
-    constraint user_playlists_users_user_id_fk
-    foreign key (user_id) references users (user_id)
-);
-
 create table if not exists user_roles
 (
     user_role_id int auto_increment
@@ -169,16 +155,4 @@ create table if not exists user_roles
     foreign key (user_role_id) references roles (role_id),
     constraint user_roles_users_user_id_fk
     foreign key (user_role_id) references users (user_id)
-);
-
-create table if not exists user_statuses
-(
-    user_status_id int auto_increment
-    primary key,
-    user_id        int not null,
-    status_id      int not null,
-    constraint user_statuses_statuses_status_id_fk
-    foreign key (user_status_id) references statuses (status_id),
-    constraint user_statuses_users_user_id_fk
-    foreign key (user_status_id) references users (user_id)
 );

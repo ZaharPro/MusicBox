@@ -38,14 +38,16 @@ public class LoginCommand implements Command {
             throw new HttpException("User doesn't exists", HttpServletResponse.SC_BAD_REQUEST);
 
         User user = optionalUser.get();
-        if (!passwordHasher.checkPassword(password, user.getPassword())) {
+        if (user.getBanned())
+            throw new HttpException("User banned", HttpServletResponse.SC_FORBIDDEN);
+
+        if (!passwordHasher.checkPassword(password, user.getPassword()))
             throw new HttpException("Invalid password", HttpServletResponse.SC_BAD_REQUEST);
-        }
 
         Optional<Role> optionalRole = userService.getRole(user.getId());
-        if (optionalRole.isEmpty()) {
+        if (optionalRole.isEmpty())
             throw new HttpException("User has no role", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+
         HttpSession session = req.getSession();
         session.setAttribute(Parameter.USER_ID, user.getId());
         session.setAttribute(Parameter.LOGIN, user.getLogin());

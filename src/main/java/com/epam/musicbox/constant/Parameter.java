@@ -8,4 +8,9 @@ public class Parameter {
     public static final String PASSWORD = "password";
     public static final String ROLE = "role";
     public static final String PLAYLIST_ID = "playlistid";
+    public static final String ALBUM_ID = "albumid";
+    public static final String ARTIST_ID = "artistid";
+    public static final String TRACK_ID = "trackid";
+    public static final String ROLE_NAME = "rolename";
+    public static final String PLAYLIST_NAME = "playlistname";
 }

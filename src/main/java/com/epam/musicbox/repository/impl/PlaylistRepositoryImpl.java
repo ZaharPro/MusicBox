@@ -16,6 +16,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     private static final String SQL_FIND_ALL = ;
     private static final String SQL_FIND_BY_ID = ;
     private static final String SQL_INSERT_ONE = ;
+    private static final String SQL_UPDATE_ONE = ;
     private static final String SQL_DELETE_BY_ID = ;
     private static final String SQL_FIND_TRACKS = ;
     private static final String SQL_ADD_TRACK = ;
@@ -41,13 +42,30 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     public void save(Playlist playlist) throws HttpException {
         Integer playlistId = playlist.getId();
         if (playlistId == null) {
-            QueryHelper.update(SQL_INSERT_ONE);
+            QueryHelper.update(SQL_INSERT_ONE,
+                    playlist.getName(),
+                    playlist.getUserId());
+        } else {
+            QueryHelper.update(SQL_UPDATE_ONE,
+                    playlistId,
+                    playlist.getName(),
+                    playlist.getUserId());
         }
     }
 
     @Override
     public void deleteById(Integer id) throws HttpException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
+    }
+
+    @Override
+    public Optional<Playlist> findByUser(Integer userId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Playlist> findByName(String name) {
+        return Optional.empty();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.epam.musicbox.controller.command.impl.user;
 
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.guard.AuthGuard;
 import com.epam.musicbox.guard.Guard;
@@ -18,7 +19,7 @@ public class AddPlaylistCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
-        Guard guard = new AuthGuard(req);
+        Guard guard = new AuthGuard(req, Role.USER, Role.ADMIN);
         guard.protect();
         HttpSession session = req.getSession();
         Integer userId = ((Integer) session.getAttribute(Parameter.USER_ID));

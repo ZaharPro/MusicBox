@@ -13,6 +13,7 @@ public class User {
     private String login;
     private String email;
     private String password;
+    private Boolean banned;
     private Timestamp registration;
 
     public User() {
@@ -22,11 +23,12 @@ public class User {
                 String login,
                 String email,
                 String password,
-                Timestamp registration) {
+                Boolean banned, Timestamp registration) {
         this.id = id;
         this.login = login;
         this.email = email;
         this.password = password;
+        this.banned = banned;
         this.registration = registration;
     }
 
@@ -62,6 +64,14 @@ public class User {
         this.password = password;
     }
 
+    public Boolean getBanned() {
+        return banned;
+    }
+
+    public void setBanned(Boolean banned) {
+        this.banned = banned;
+    }
+
     public Timestamp getRegistration() {
         return registration;
     }
@@ -79,6 +89,7 @@ public class User {
                 && ObjectUtils.equals(login, user.login)
                 && ObjectUtils.equals(email, user.email)
                 && ObjectUtils.equals(password, user.password)
+                && ObjectUtils.equals(banned, user.banned)
                 && ObjectUtils.equals(registration, user.registration);
     }
 
@@ -94,6 +105,7 @@ public class User {
                 .append(", login='").append(login).append('\'')
                 .append(", email='").append(email).append('\'')
                 .append(", password='").append(password).append('\'')
+                .append(", banned=").append(banned)
                 .append(", registration=").append(registration)
                 .append('}')
                 .toString();
@@ -112,6 +124,7 @@ public class User {
                         resultSet.getString("login"),
                         resultSet.getString("email"),
                         resultSet.getString("password"),
+                        resultSet.getBoolean("banned"),
                         Timestamp.valueOf(resultSet.getString("registration")));
             } catch (SQLException e) {
                 throw new HttpException(e);

@@ -22,7 +22,6 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_FIND_BY_EMAIL = ;
     private static final String SQL_FIND_BY_LOGIN_AND_PASSWORD = ;
     private static final String SQL_FIND_BY_ROLE = ;
-    private static final String SQL_FIND_BY_STATUS = ;
 
     private static final String SQL_FIND_PLAYLISTS = ;
     private static final String SQL_FIND_LIKED_ARTISTS = ;
@@ -31,9 +30,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     private static final String SQL_SET_ROLE = ;
     private static final String SQL_GET_ROLE = ;
-
-    private static final String SQL_SET_STATUS = ;
-    private static final String SQL_GET_STATUS = ;
 
     private static final String SQL_ADD_PLAYLIST = ;
     private static final String SQL_REMOVE_PLAYLIST = ;
@@ -65,10 +61,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Inject
     private Role.Builder roleEntityBuilder;
-
-    @Inject
-    private Status.Builder statusEntityBuilder;
-
 
     @Override
     public List<User> findAll(int offset, int limit) throws HttpException {
@@ -120,11 +112,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAllByStatus(Integer statusId, int offset, int limit) throws HttpException {
-        return QueryHelper.queryAll(SQL_FIND_BY_STATUS, userEntityBuilder, statusId, offset, limit);
-    }
-
-    @Override
     public List<Playlist> getPlaylists(Integer userId, int offset, int limit) throws HttpException {
         return QueryHelper.queryAll(SQL_FIND_PLAYLISTS, playlistEntityBuilder, userId, offset, limit);
     }
@@ -152,16 +139,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<Role> getRole(Integer userId) {
         return QueryHelper.queryOne(SQL_GET_ROLE, roleEntityBuilder, userId);
-    }
-
-    @Override
-    public void setStatus(Integer userId, Integer statusId) throws HttpException {
-        QueryHelper.update(SQL_SET_STATUS, userId, statusId);
-    }
-
-    @Override
-    public Optional<Status> getStatus(Integer userId) {
-        return QueryHelper.queryOne(SQL_GET_STATUS, statusEntityBuilder, userId);
     }
 
     @Override
