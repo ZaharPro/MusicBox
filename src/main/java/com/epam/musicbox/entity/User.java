@@ -11,8 +11,8 @@ import java.sql.Timestamp;
 public class User {
     private Integer id;
     private String login;
-    private String password;
     private String email;
+    private String password;
     private Timestamp registration;
 
     public User() {
@@ -20,13 +20,13 @@ public class User {
 
     public User(Integer id,
                 String login,
-                String password,
                 String email,
+                String password,
                 Timestamp registration) {
         this.id = id;
         this.login = login;
-        this.password = password;
         this.email = email;
+        this.password = password;
         this.registration = registration;
     }
 
@@ -46,20 +46,20 @@ public class User {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Timestamp getRegistration() {
@@ -77,14 +77,14 @@ public class User {
         User user = (User) o;
         return ObjectUtils.equals(id, user.id)
                 && ObjectUtils.equals(login, user.login)
-                && ObjectUtils.equals(password, user.password)
                 && ObjectUtils.equals(email, user.email)
+                && ObjectUtils.equals(password, user.password)
                 && ObjectUtils.equals(registration, user.registration);
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtils.hash(id, login, password, email, registration);
+        return ObjectUtils.hash(id, login, email, password, registration);
     }
 
     @Override
@@ -92,10 +92,9 @@ public class User {
         return new StringBuilder("User{")
                 .append("id=").append(id)
                 .append(", login='").append(login).append('\'')
-                .append(", password='").append(password).append('\'')
                 .append(", email='").append(email).append('\'')
-                .append(", registration=")
-                .append(registration)
+                .append(", password='").append(password).append('\'')
+                .append(", registration=").append(registration)
                 .append('}')
                 .toString();
     }
@@ -111,8 +110,8 @@ public class User {
             try {
                 return new User(resultSet.getInt("id"),
                         resultSet.getString("login"),
-                        resultSet.getString("password"),
                         resultSet.getString("email"),
+                        resultSet.getString("password"),
                         Timestamp.valueOf(resultSet.getString("registration")));
             } catch (SQLException e) {
                 throw new HttpException(e);

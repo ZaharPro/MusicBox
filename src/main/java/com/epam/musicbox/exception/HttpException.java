@@ -7,6 +7,11 @@ public class HttpException extends Exception {
 
     private final int statusCode;
 
+    public HttpException(String message, int statusCode) {
+        super(message);
+        this.statusCode = statusCode;
+    }
+
     public HttpException(Throwable cause, int statusCode) {
         super(buildMessage(cause, statusCode), cause);
         this.statusCode = statusCode;
