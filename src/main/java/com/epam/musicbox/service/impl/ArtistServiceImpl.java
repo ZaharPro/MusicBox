@@ -44,4 +44,14 @@ public class ArtistServiceImpl implements ArtistService {
                 Service.getOffset(page),
                 Service.PAGE_SIZE);
     }
+
+    @Override
+    public void addTrack(Integer artistId, Integer trackId) throws HttpException {
+        artistRepository.addTrack(artistId, trackId);
+    }
+
+    @Override
+    public void removeTrack(Integer artistId, Integer trackId) throws HttpException {
+        artistRepository.removeTrack(artistId, trackId);
+    }
 }

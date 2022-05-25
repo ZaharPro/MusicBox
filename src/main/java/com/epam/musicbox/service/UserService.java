@@ -11,8 +11,6 @@ public interface UserService extends Service<User> {
 
     Optional<User> findByEmail(String email);
 
-    Optional<User> findByLoginAndPassword(String login, String password);
-
     List<User> findAllByRole(Integer roleId, int page) throws HttpException;
 
     List<User> findAllByStatus(Integer statusId, int page) throws HttpException;

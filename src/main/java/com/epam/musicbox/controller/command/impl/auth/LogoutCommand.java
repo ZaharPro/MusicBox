@@ -1,4 +1,4 @@
-package com.epam.musicbox.controller.command.impl;
+package com.epam.musicbox.controller.command.impl.auth;
 
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;

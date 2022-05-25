@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface PlaylistService extends Service<Playlist> {
     List<Track> getTracks(Integer playlistId, int page) throws HttpException;
+
+    void addTrack(Integer playlistId, Integer trackId) throws HttpException;
+
+    void removeTrack(Integer playlistId, Integer trackId) throws HttpException;
 }

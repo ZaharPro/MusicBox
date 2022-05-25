@@ -18,6 +18,8 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_UPDATE_ONE = ;
     private static final String SQL_DELETE_BY_ID = ;
     private static final String SQL_FIND_TRACKS = ;
+    private static final String SQL_ADD_TRACK = ;
+    private static final String SQL_REMOVE_TRACK = ;
 
     @Inject
     private Track.Builder trackEntityBuilder;
@@ -58,5 +60,15 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     @Override
     public List<Track> getTracks(Integer artistId, int offset, int limit) throws HttpException {
         return QueryHelper.queryAll(SQL_FIND_TRACKS, trackEntityBuilder, artistId, offset, limit);
+    }
+
+    @Override
+    public void addTrack(Integer playlistId, Integer trackId) throws HttpException {
+        QueryHelper.update(SQL_ADD_TRACK, playlistId, trackId);
+    }
+
+    @Override
+    public void removeTrack(Integer playlistId, Integer trackId) throws HttpException {
+        QueryHelper.update(SQL_REMOVE_TRACK, playlistId, trackId);
     }
 }

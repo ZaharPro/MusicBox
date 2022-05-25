@@ -44,4 +44,14 @@ public class PlaylistServiceImpl implements PlaylistService {
                 Service.getOffset(page),
                 Service.PAGE_SIZE);
     }
+
+    @Override
+    public void addTrack(Integer playlistId, Integer trackId) throws HttpException {
+        playlistRepository.addTrack(playlistId, trackId);
+    }
+
+    @Override
+    public void removeTrack(Integer playlistId, Integer trackId) throws HttpException {
+        playlistRepository.removeTrack(playlistId, trackId);
+    }
 }

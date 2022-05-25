@@ -1,8 +1,8 @@
 package com.epam.musicbox.controller.command;
 
-import com.epam.musicbox.controller.command.impl.LoginCommand;
-import com.epam.musicbox.controller.command.impl.LogoutCommand;
-import com.epam.musicbox.controller.command.impl.SingUpCommand;
+import com.epam.musicbox.controller.command.impl.auth.LoginCommand;
+import com.epam.musicbox.controller.command.impl.auth.LogoutCommand;
+import com.epam.musicbox.controller.command.impl.auth.SingUpCommand;
 import jakarta.inject.Singleton;
 
 import java.util.EnumMap;

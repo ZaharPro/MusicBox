@@ -115,11 +115,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByLoginAndPassword(String login, String password) {
-        return QueryHelper.queryOne(SQL_FIND_BY_LOGIN_AND_PASSWORD, userEntityBuilder, login, password);
-    }
-
-    @Override
     public List<User> findAllByRole(Integer roleId, int offset, int limit) throws HttpException {
         return QueryHelper.queryAll(SQL_FIND_BY_ROLE, userEntityBuilder, roleId, offset, limit);
     }

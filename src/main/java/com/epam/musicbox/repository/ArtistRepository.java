@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface ArtistRepository extends Repository<Artist> {
     List<Track> getTracks(Integer artistId, int offset, int limit) throws HttpException;
+
+    void addTrack(Integer playlistId, Integer trackId) throws HttpException;
+
+    void removeTrack(Integer playlistId, Integer trackId) throws HttpException;
 }

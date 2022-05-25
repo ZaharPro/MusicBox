@@ -47,11 +47,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByLoginAndPassword(String login, String password) {
-        return userRepository.findByLoginAndPassword(login, password);
-    }
-
-    @Override
     public List<User> findAllByRole(Integer roleId, int page) throws HttpException {
         return userRepository.findAllByRole(roleId,
                 Service.getOffset(page),
