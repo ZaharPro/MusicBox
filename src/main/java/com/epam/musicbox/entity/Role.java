@@ -2,14 +2,12 @@ package com.epam.musicbox.entity;
 
 import com.epam.musicbox.util.ObjectUtils;
 import com.epam.musicbox.exception.HttpException;
+import jakarta.inject.Singleton;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Role {
-    public static final String USER = "user";
-    public static final String ADMIN = "admin";
-
     private Integer id;
     private String name;
 
@@ -60,14 +58,19 @@ public class Role {
                 .toString();
     }
 
+    @Singleton
     public static class Builder implements EntityBuilder<Role> {
+
+        private Builder() {
+        }
+
         @Override
         public Role build(ResultSet resultSet) throws HttpException {
             try {
                 return new Role(resultSet.getInt("role_id"),
                         resultSet.getString("name"));
             } catch (SQLException e) {
-                throw new HttpException(e.getMessage(), e);
+                throw new HttpException(e);
             }
         }
     }

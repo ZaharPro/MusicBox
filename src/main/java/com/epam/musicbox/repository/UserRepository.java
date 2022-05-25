@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends Repository<User> {
-    Optional<User> findByLogin(String login) throws HttpException;
+    Optional<User> findByLogin(String login);
 
-    Optional<User> findByEmail(String email) throws HttpException;
+    Optional<User> findByEmail(String email);
 
-    Optional<User> findByLoginAndPassword(String login, String password) throws HttpException;
+    Optional<User> findByLoginAndPassword(String login, String password);
 
     List<User> findAllByRole(Integer roleId, int offset, int limit) throws HttpException;
 
@@ -27,25 +27,25 @@ public interface UserRepository extends Repository<User> {
 
     void setRole(Integer userId, Integer roleId) throws HttpException;
 
-    Optional<Role> getRole(Integer userId) throws HttpException;
+    Optional<Role> getRole(Integer userId);
 
-    void setStatus(Integer userId, Integer statusId);
+    void setStatus(Integer userId, Integer statusId) throws HttpException;
 
     Optional<Status> getStatus(Integer userId);
 
-    void addPlaylist(Integer userId, Integer playlistId);
+    void addPlaylist(Integer userId, Integer playlistId) throws HttpException;
 
-    void removePlayList(Integer userId, Integer playlistId);
+    void removePlayList(Integer userId, Integer playlistId) throws HttpException;
 
-    void likeArtist(Integer userId, Integer artistId);
+    void likeArtist(Integer userId, Integer artistId) throws HttpException;
 
-    void cancelLikeArtist(Integer userId, Integer artistId);
+    void cancelLikeArtist(Integer userId, Integer artistId) throws HttpException;
 
-    void likeAlbum(Integer userId, Integer albumId);
+    void likeAlbum(Integer userId, Integer albumId) throws HttpException;
 
-    void cancelLikeAlbum(Integer userId, Integer albumId);
+    void cancelLikeAlbum(Integer userId, Integer albumId) throws HttpException;
 
-    void likeTrack(Integer userId, Integer trackId);
+    void likeTrack(Integer userId, Integer trackId) throws HttpException;
 
-    void cancelLikeTrack(Integer userId, Integer trackId);
+    void cancelLikeTrack(Integer userId, Integer trackId) throws HttpException;
 }

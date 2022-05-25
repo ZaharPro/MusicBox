@@ -41,16 +41,6 @@ public class Controller extends HttpServlet {
         doProcess(req, resp);
     }
 
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        doProcess(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        doProcess(req, resp);
-    }
-
     private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             String commandName = req.getParameter(Parameter.COMMAND);
@@ -58,15 +48,11 @@ public class Controller extends HttpServlet {
             Command command = commandProvider.get(commandType);
             command.execute(req, resp);
         } catch (HttpException e) {
-            String message = e.getMessage() + ", statusCode: " + e.getStatusCode();
-            int statusCode = e.getStatusCode();
-            logger.error(message, e);
-            resp.sendError(statusCode, message);
+            logger.error(e.getMessage(), e);
+            resp.sendError(e.getStatusCode(), e.getMessage());
         } catch (Throwable e) {
-            String message = e.getMessage();
-            int statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-            logger.error(message, e);
-            resp.sendError(statusCode, message);
+            logger.error(e.getMessage(), e);
+            resp.sendError(HttpException.DEFAULT_STATUS_CODE, e.getMessage());
         }
     }
 }

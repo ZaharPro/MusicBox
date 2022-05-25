@@ -6,6 +6,7 @@ import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.Service;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.util.List;
@@ -13,11 +14,8 @@ import java.util.Optional;
 
 @Singleton
 public class PlaylistServiceImpl implements PlaylistService {
-    private final PlaylistRepository playlistRepository;
-
-    public PlaylistServiceImpl(PlaylistRepository playlistRepository) {
-        this.playlistRepository = playlistRepository;
-    }
+    @Inject
+    private PlaylistRepository playlistRepository;
 
     @Override
     public List<Playlist> findPage(int page) throws HttpException {
@@ -26,7 +24,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public Optional<Playlist> findById(Integer id) throws HttpException {
+    public Optional<Playlist> findById(Integer id) {
         return playlistRepository.findById(id);
     }
 

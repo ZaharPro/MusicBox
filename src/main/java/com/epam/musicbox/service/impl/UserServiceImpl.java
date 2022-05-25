@@ -5,6 +5,7 @@ import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.UserRepository;
 import com.epam.musicbox.service.Service;
 import com.epam.musicbox.service.UserService;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.util.List;
@@ -12,11 +13,8 @@ import java.util.Optional;
 
 @Singleton
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Inject
+    private UserRepository userRepository;
 
     @Override
     public List<User> findPage(int page) throws HttpException {
@@ -24,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Integer id) throws HttpException {
+    public Optional<User> findById(Integer id) {
         return userRepository.findById(id);
     }
 
@@ -39,17 +37,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByLogin(String login) throws HttpException {
+    public Optional<User> findByLogin(String login) {
         return userRepository.findByLogin(login);
     }
 
     @Override
-    public Optional<User> findByEmail(String email) throws HttpException {
+    public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public Optional<User> findByLoginAndPassword(String login, String password) throws HttpException {
+    public Optional<User> findByLoginAndPassword(String login, String password) {
         return userRepository.findByLoginAndPassword(login, password);
     }
 
@@ -93,5 +91,65 @@ public class UserServiceImpl implements UserService {
         return userRepository.getLikedTracks(userId,
                 Service.getOffset(page),
                 Service.PAGE_SIZE);
+    }
+
+    @Override
+    public void setRole(Integer userId, Integer roleId) throws HttpException {
+        userRepository.setRole(userId, roleId);
+    }
+
+    @Override
+    public Optional<Role> getRole(Integer userId) {
+        return userRepository.getRole(userId);
+    }
+
+    @Override
+    public void setStatus(Integer userId, Integer statusId) throws HttpException {
+        userRepository.setStatus(userId, statusId);
+    }
+
+    @Override
+    public Optional<Status> getStatus(Integer userId) {
+        return userRepository.getStatus(userId);
+    }
+
+    @Override
+    public void addPlaylist(Integer userId, Integer playlistId) throws HttpException {
+        userRepository.addPlaylist(userId, playlistId);
+    }
+
+    @Override
+    public void removePlayList(Integer userId, Integer playlistId) throws HttpException {
+        userRepository.removePlayList(userId, playlistId);
+    }
+
+    @Override
+    public void likeArtist(Integer userId, Integer artistId) throws HttpException {
+        userRepository.likeArtist(userId, artistId);
+    }
+
+    @Override
+    public void cancelLikeArtist(Integer userId, Integer artistId) throws HttpException {
+        userRepository.cancelLikeArtist(userId, artistId);
+    }
+
+    @Override
+    public void likeAlbum(Integer userId, Integer albumId) throws HttpException {
+        userRepository.likeAlbum(userId, albumId);
+    }
+
+    @Override
+    public void cancelLikeAlbum(Integer userId, Integer albumId) throws HttpException {
+        userRepository.cancelLikeAlbum(userId, albumId);
+    }
+
+    @Override
+    public void likeTrack(Integer userId, Integer trackId) throws HttpException {
+        userRepository.likeTrack(userId, trackId);
+    }
+
+    @Override
+    public void cancelLikeTrack(Integer userId, Integer trackId) throws HttpException {
+        userRepository.cancelLikeTrack(userId, trackId);
     }
 }

@@ -10,7 +10,7 @@ public interface Service<T> {
 
     List<T> findPage(int page) throws HttpException;
 
-    Optional<T> findById(Integer id) throws HttpException;
+    Optional<T> findById(Integer id);
 
     void save(T t) throws HttpException;
 

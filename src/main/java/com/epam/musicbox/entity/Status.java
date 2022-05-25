@@ -2,6 +2,7 @@ package com.epam.musicbox.entity;
 
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.util.ObjectUtils;
+import jakarta.inject.Singleton;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,14 +61,19 @@ public class Status {
                 .toString();
     }
 
+    @Singleton
     public static class Builder implements EntityBuilder<Status> {
+
+        private Builder() {
+        }
+
         @Override
         public Status build(ResultSet resultSet) throws HttpException {
             try {
                 return new Status(resultSet.getInt("status_id"),
                         resultSet.getString("name"));
             } catch (SQLException e) {
-                throw new HttpException(e.getMessage(), e);
+                throw new HttpException(e);
             }
         }
     }

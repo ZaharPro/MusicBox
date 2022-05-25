@@ -3,28 +3,24 @@ package com.epam.musicbox.exception;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class HttpException extends Exception {
-    private int statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+    public static final int DEFAULT_STATUS_CODE = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
-    public HttpException() {
-    }
+    private final int statusCode;
 
-    public HttpException(String message) {
-        super(message);
-    }
-
-    public HttpException(String message, Throwable cause) {
-        super(message, cause);
+    public HttpException(Throwable cause, int statusCode) {
+        super(buildMessage(cause, statusCode), cause);
+        this.statusCode = statusCode;
     }
 
     public HttpException(Throwable cause) {
-        super(cause);
+        this(cause, DEFAULT_STATUS_CODE);
     }
 
     public int getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    private static String buildMessage(Throwable cause, int statusCode) {
+        return cause.toString() + ", statusCode = " + statusCode;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface Repository<T> {
     List<T> findAll(int offset, int limit) throws HttpException;
 
-    Optional<T> findById(Integer id) throws HttpException;
+    Optional<T> findById(Integer id);
 
     void save(T t) throws HttpException;
 

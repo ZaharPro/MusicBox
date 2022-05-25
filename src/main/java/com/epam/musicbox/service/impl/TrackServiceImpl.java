@@ -5,6 +5,7 @@ import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.service.Service;
 import com.epam.musicbox.service.TrackService;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.util.List;
@@ -12,11 +13,8 @@ import java.util.Optional;
 
 @Singleton
 public class TrackServiceImpl implements TrackService {
-    private final TrackRepository trackRepository;
-
-    public TrackServiceImpl(TrackRepository trackRepository) {
-        this.trackRepository = trackRepository;
-    }
+    @Inject
+    private TrackRepository trackRepository;
 
     @Override
     public List<Track> findPage(int page) throws HttpException {
@@ -25,7 +23,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Optional<Track> findById(Integer id) throws HttpException {
+    public Optional<Track> findById(Integer id) {
         return trackRepository.findById(id);
     }
 

@@ -3,6 +3,8 @@ package com.epam.musicbox.util;
 import com.epam.musicbox.database.ConnectionPool;
 import com.epam.musicbox.entity.EntityBuilder;
 import com.epam.musicbox.exception.HttpException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,13 +12,20 @@ import java.util.List;
 import java.util.Optional;
 
 public class QueryHelper {
+    public static final Logger logger = LogManager.getLogger();
+
     public static <T> Optional<T> queryOne(String sql,
                                            EntityBuilder<T> builder,
-                                           Object... params) throws HttpException {
-        List<T> items = QueryHelper.queryAll(sql, builder, params);
-        return items.size() == 1 ?
-                Optional.of(items.get(0)) :
-                Optional.empty();
+                                           Object... params) {
+        try {
+            List<T> items = QueryHelper.queryAll(sql, builder, params);
+            return items.size() == 1 ?
+                    Optional.of(items.get(0)) :
+                    Optional.empty();
+        } catch (HttpException e) {
+            logger.error(e.getMessage(), e);
+            return Optional.empty();
+        }
     }
 
     public static <T> List<T> queryAll(String sql,
@@ -35,18 +44,18 @@ public class QueryHelper {
             }
             return list;
         } catch (SQLException e) {
-            throw new HttpException(e.getMessage(), e);
+            throw new HttpException(e);
         }
     }
 
-    public static void update(String sql, Object... fields) throws HttpException {
+    public static void update(String sql, Object... params) throws HttpException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            QueryHelper.prepare(preparedStatement, fields);
+            QueryHelper.prepare(preparedStatement, params);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new HttpException(e.getMessage(), e);
+            throw new HttpException(e);
         }
     }
 
