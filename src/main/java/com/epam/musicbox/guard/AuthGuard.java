@@ -24,9 +24,9 @@ public class AuthGuard implements Guard {
         if (userId == null)
             throw new HttpException("Unauthorized", HttpServletResponse.SC_UNAUTHORIZED);
 
-        Role actualRole = (Role) session.getAttribute(Parameter.ROLE);
         if (expectedRoles.length == 0)
             return;
+        Role actualRole = (Role) session.getAttribute(Parameter.ROLE);
         for (Role expectedRole : expectedRoles) {
             if (expectedRole.equals(actualRole))
                 return;

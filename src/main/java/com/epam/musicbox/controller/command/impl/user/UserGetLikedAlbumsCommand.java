@@ -5,7 +5,7 @@ import com.epam.musicbox.exception.HttpException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class GetUsersByRoleCommand implements Command {
+public class UserGetLikedAlbumsCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
 

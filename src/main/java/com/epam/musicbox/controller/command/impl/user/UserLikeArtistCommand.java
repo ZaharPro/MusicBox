@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class AddPlaylistCommand implements Command {
+public class UserLikeArtistCommand implements Command {
     @Inject
     private UserService userService;
 
@@ -23,8 +23,8 @@ public class AddPlaylistCommand implements Command {
         guard.protect();
         HttpSession session = req.getSession();
         Integer userId = ((Integer) session.getAttribute(Parameter.USER_ID));
-        String playlistIdSting = req.getParameter(Parameter.PLAYLIST_ID);
-        Integer playlistId = ObjectUtils.parseInt(playlistIdSting);
-        userService.addPlaylist(userId, playlistId);
+        String artistIdString = req.getParameter(Parameter.ARTIST_ID);
+        Integer artistId = ObjectUtils.parseInt(artistIdString);
+        userService.likeArtist(userId, artistId);
     }
 }

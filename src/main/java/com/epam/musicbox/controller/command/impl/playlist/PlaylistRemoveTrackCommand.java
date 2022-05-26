@@ -12,7 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class RemoveTrackCommand implements Command {
+public class PlaylistRemoveTrackCommand implements Command {
     @Inject
     private PlaylistService playlistService;
 

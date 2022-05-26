@@ -8,13 +8,12 @@ import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.guard.AuthGuard;
 import com.epam.musicbox.guard.Guard;
 import com.epam.musicbox.service.PlaylistService;
-import com.epam.musicbox.util.ObjectUtils;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class CreatePlaylistCommand implements Command {
+public class PlaylistCreateCommand implements Command {
     @Inject
     private PlaylistService playlistService;
 

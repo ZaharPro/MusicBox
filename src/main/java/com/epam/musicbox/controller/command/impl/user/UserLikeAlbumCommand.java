@@ -1,24 +1,21 @@
-package com.epam.musicbox.controller.command.impl.playlist;
+package com.epam.musicbox.controller.command.impl.user;
 
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.guard.AuthGuard;
 import com.epam.musicbox.guard.Guard;
-import com.epam.musicbox.service.PlaylistService;
+import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.util.ObjectUtils;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.Optional;
-
-public class DeletePlaylistCommand implements Command {
+public class UserLikeAlbumCommand implements Command {
     @Inject
-    private PlaylistService playlistService;
+    private UserService userService;
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
@@ -26,16 +23,8 @@ public class DeletePlaylistCommand implements Command {
         guard.protect();
         HttpSession session = req.getSession();
         Integer userId = ((Integer) session.getAttribute(Parameter.USER_ID));
-
-        String playlistIdSting = req.getParameter(Parameter.PLAYLIST_ID);
-        Integer playlistId = ObjectUtils.parseInt(playlistIdSting);
-
-        Optional<Playlist> optionalPlaylist = playlistService.findById(playlistId);
-        if (optionalPlaylist.isPresent()) {
-            Playlist playlist = optionalPlaylist.get();
-            if (userId.equals(playlist.getUserId())) {
-                playlistService.deleteById(playlistId);
-            }
-        }
+        String albumIdString = req.getParameter(Parameter.ALBUM_ID);
+        Integer albumId = ObjectUtils.parseInt(albumIdString);
+        userService.likeAlbum(userId, albumId);
     }
 }
