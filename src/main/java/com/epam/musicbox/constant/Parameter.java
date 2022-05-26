@@ -13,5 +13,5 @@ public class Parameter {
     public static final String TRACK_ID = "trackid";
     public static final String ROLE_NAME = "rolename";
     public static final String PLAYLIST_NAME = "playlistname";
-    public static final String ERROR_MESSAGE = "errormsg";
+    public static final String ERROR_MESSAGE = "errorMessage";
 }

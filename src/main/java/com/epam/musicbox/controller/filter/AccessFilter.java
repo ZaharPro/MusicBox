@@ -29,22 +29,28 @@ public class AccessFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         HttpSession session = req.getSession();
-        Integer userId = (Integer) session.getAttribute(Parameter.USER_ID);
         Role role = (Role) session.getAttribute(Parameter.ROLE);
-        if (userId == null || role == null) {
-            sendError(req, resp, UNAUTHORIZED, HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+        if (role == null) {
+            role = Role.GUEST;
+            session.setAttribute(Parameter.ROLE, role);
+        } else if (role == Role.USER || role == Role.ADMIN) {
+            Integer userId = (Integer) session.getAttribute(Parameter.USER_ID);
+            if (userId == null) {
+                sendError(req, resp, UNAUTHORIZED, HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            Optional<User> optionalUser = userService.findById(userId);
+            if (optionalUser.isEmpty()) {
+                sendError(req, resp, UNAUTHORIZED, HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            User user = optionalUser.get();
+            if (user.getBanned()) {
+                sendError(req, resp, PERMISSION_DENIED, HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
         }
-        Optional<User> optionalUser = userService.findById(userId);
-        if (optionalUser.isEmpty()) {
-            sendError(req, resp, UNAUTHORIZED, HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
-        User user = optionalUser.get();
-        if (user.getBanned()) {
-            sendError(req, resp, PERMISSION_DENIED, HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }
+
         String commandName = req.getParameter(Parameter.COMMAND);
         CommandType commandType = CommandType.of(commandName);
         if (!role.isExistCommandType(commandType)) {
