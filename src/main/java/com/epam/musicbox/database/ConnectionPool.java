@@ -36,18 +36,18 @@ public class ConnectionPool {
     private static ConnectionPool createInstance() {
         try {
             ClassLoader classLoader = ConnectionPool.class.getClassLoader();
-            InputStream inputStream = classLoader.getResourceAsStream("db.properties");
+            InputStream inputStream = classLoader.getResourceAsStream("properties");
 
             Properties property = new Properties();
             property.load(inputStream);
 
-            String url = property.getProperty("db.url");
-            String name = property.getProperty("db.name");
-            String password = property.getProperty("db.password");
-            String driver = property.getProperty("db.driver");
+            String url = property.getProperty("url");
+            String name = property.getProperty("name");
+            String password = property.getProperty("password");
+            String driver = property.getProperty("driver");
             Class.forName(driver);
 
-            int connectionSize = Integer.parseInt(property.getProperty("db.connectionSize"));
+            int connectionSize = Integer.parseInt(property.getProperty("poolSize"));
             Deque<Connection> connections = new ArrayDeque<>(connectionSize);
 
             for (int i = 0; i < connectionSize; i++) {

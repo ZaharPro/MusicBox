@@ -17,6 +17,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     private static final String SQL_INSERT_ONE = ;
     private static final String SQL_UPDATE_ONE = ;
     private static final String SQL_DELETE_BY_ID = ;
+    private static final String SQL_FIND_BY_NAME = ;
 
     @Inject
     private Track.Builder trackBuilder;
@@ -49,5 +50,10 @@ public class TrackRepositoryImpl implements TrackRepository {
     @Override
     public void deleteById(Integer id) throws HttpException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
+    }
+
+    @Override
+    public Optional<Track> findByName(String name) {
+        return QueryHelper.queryOne(SQL_FIND_BY_NAME, trackBuilder, name);
     }
 }

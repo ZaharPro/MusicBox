@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlaylistService extends Service<Playlist> {
-    Optional<Playlist> findByUser(Integer userId);
-
     Optional<Playlist> findByName(String name);
+
+    Optional<Playlist> findByUser(Integer userId);
 
     List<Track> getTracks(Integer playlistId, int page) throws HttpException;
 

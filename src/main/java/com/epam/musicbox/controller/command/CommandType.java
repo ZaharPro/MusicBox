@@ -6,8 +6,21 @@ public enum CommandType {
     LOGOUT("logout"),
     SING_UP("singup"),
 
+    //track
+    TRACK_GET("trackget"),
+    TRACK_GET_BY_ID("trackgetbyid"),
+    TRACK_SAVE("tracksave"),
+    TRACK_DELETE("trackdelete"),
+
+    //album
+    ALBUM_GET("albumget"),
+    ALBUM_GET_BY_ID("albumgetbyid"),
+    ALBUM_SAVE("albumsave"),
+    ALBUM_DELETE("albumdelete"),
+
     //artist
     ARTIST_GET("artistget"),
+    ARTIST_GET_BY_ID("artistgetbyid"),
     ARTIST_SAVE("artistsave"),
     ARTIST_DELETE("artistdelete"),
 
@@ -19,6 +32,7 @@ public enum CommandType {
     PLAYLIST_CREATE("playlistcreate"),
     PLAYLIST_DELETE("playlistdelete"),
     PLAYLIST_GET("playlistget"),
+    PLAYLIST_GET_BY_ID("playlistgetbyid"),
 
     PLAYLIST_GET_TRACKS("playlistgettracks"),
     PLAYLIST_ADD_TRACK("playlistaddtrack"),
@@ -26,6 +40,7 @@ public enum CommandType {
 
     //user
     USER_GET("userget"),
+    USER_GET_BY_ID("usergetbyid"),
     USER_GET_BY_LOGIN("usergetbylogin"),
     USER_GET_BY_EMAIL("usergetbyemail"),
     USER_GET_BY_ROLE("usergetbyrole"),
@@ -47,9 +62,8 @@ public enum CommandType {
     USER_ADD_PLAYLIST("useraddplaylist"),
     USER_REMOVE_PLAYLIST("userremoveplaylist"),
 
-    //admin
-    ADMIN_SET_BAN("usersetban"),
-    ADMIN_SET_ROLE("usersetrole");
+    USER_SET_BAN("usersetban"),
+    USER_SET_ROLE("usersetrole");
 
     private final String name;
 

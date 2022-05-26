@@ -1,11 +1,15 @@
 package com.epam.musicbox.controller;
 
+import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandProvider;
 import com.epam.musicbox.controller.command.CommandType;
+import com.epam.musicbox.database.ConnectionPool;
 import com.epam.musicbox.exception.HttpException;
 import jakarta.inject.Inject;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +32,8 @@ public class Controller extends HttpServlet {
 
     @Override
     public void destroy() {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        connectionPool.destroyPool();
     }
 
 
@@ -48,9 +54,19 @@ public class Controller extends HttpServlet {
             Command command = commandProvider.get(commandType);
             command.execute(req, resp);
         } catch (HttpException e) {
-            logger.error(e.getMessage(), e);
-            resp.sendError(e.getStatusCode(), e.getMessage());
-        } catch (Throwable e) {
+            handleException(req, resp, e);
+        }
+    }
+
+    private void handleException(HttpServletRequest req,
+                                 HttpServletResponse resp,
+                                 HttpException e) throws IOException {
+        logger.error(e.getMessage(), e);
+        req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
+        RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
+        try {
+            dispatcher.forward(req, resp);
+        } catch (ServletException ex) {
             logger.error(e.getMessage(), e);
             resp.sendError(HttpException.DEFAULT_STATUS_CODE, e.getMessage());
         }

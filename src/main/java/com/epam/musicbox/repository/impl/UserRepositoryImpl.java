@@ -20,7 +20,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     private static final String SQL_FIND_BY_LOGIN = ;
     private static final String SQL_FIND_BY_EMAIL = ;
-    private static final String SQL_FIND_BY_LOGIN_AND_PASSWORD = ;
     private static final String SQL_FIND_BY_ROLE = ;
 
     private static final String SQL_FIND_PLAYLISTS = ;

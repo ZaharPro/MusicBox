@@ -1,13 +1,13 @@
 package com.epam.musicbox.controller.command;
 
-import com.epam.musicbox.controller.command.impl.admin.AdminSetBanCommand;
-import com.epam.musicbox.controller.command.impl.admin.AdminSetRoleCommand;
+import com.epam.musicbox.controller.command.impl.album.*;
 import com.epam.musicbox.controller.command.impl.artist.*;
 import com.epam.musicbox.controller.command.impl.auth.LoginCommand;
 import com.epam.musicbox.controller.command.impl.auth.LogoutCommand;
 import com.epam.musicbox.controller.command.impl.auth.SingUpCommand;
 import com.epam.musicbox.controller.command.impl.playlist.*;
 import com.epam.musicbox.controller.command.impl.user.*;
+import com.epam.musicbox.controller.command.impl.track.*;
 import jakarta.inject.Singleton;
 
 import java.util.EnumMap;
@@ -24,7 +24,18 @@ public class CommandProvider {
         commands.put(CommandType.LOGOUT, new LogoutCommand());
         commands.put(CommandType.SING_UP, new SingUpCommand());
 
+        commands.put(CommandType.TRACK_GET, new TrackGetCommand());
+        commands.put(CommandType.TRACK_GET_BY_ID, new TrackGetByIdCommand());
+        commands.put(CommandType.TRACK_SAVE, new TrackSaveCommand());
+        commands.put(CommandType.TRACK_DELETE, new TrackDeleteCommand());
+
+        commands.put(CommandType.ALBUM_GET, new AlbumGetCommand());
+        commands.put(CommandType.ALBUM_GET_BY_ID, new AlbumGetByIdCommand());
+        commands.put(CommandType.ALBUM_SAVE, new AlbumSaveCommand());
+        commands.put(CommandType.ALBUM_DELETE, new AlbumDeleteCommand());
+
         commands.put(CommandType.ARTIST_GET, new ArtistGetCommand());
+        commands.put(CommandType.ARTIST_GET_BY_ID, new ArtistGetByIdCommand());
         commands.put(CommandType.ARTIST_SAVE, new ArtistSaveCommand());
         commands.put(CommandType.ARTIST_DELETE, new ArtistDeleteCommand());
         commands.put(CommandType.ARTIST_GET_TRACKS, new ArtistGetCommand());
@@ -34,11 +45,13 @@ public class CommandProvider {
         commands.put(CommandType.PLAYLIST_CREATE, new PlaylistCreateCommand());
         commands.put(CommandType.PLAYLIST_DELETE, new PlaylistDeleteCommand());
         commands.put(CommandType.PLAYLIST_GET, new PlaylistGetCommand());
+        commands.put(CommandType.PLAYLIST_GET_BY_ID, new PlaylistGetByIdCommand());
         commands.put(CommandType.PLAYLIST_GET_TRACKS, new PlaylistGetTracksCommand());
         commands.put(CommandType.PLAYLIST_ADD_TRACK, new PlaylistAddTrackCommand());
         commands.put(CommandType.PLAYLIST_REMOVE_TRACK, new PlaylistRemoveTrackCommand());
 
         commands.put(CommandType.USER_GET, new UserGetCommand());
+        commands.put(CommandType.USER_GET_BY_ID, new UserGetByIdCommand());
         commands.put(CommandType.USER_GET_BY_LOGIN, new UserGetByLoginCommand());
         commands.put(CommandType.USER_GET_BY_EMAIL, new UserGetByEmailCommand());
         commands.put(CommandType.USER_GET_BY_ROLE, new UserGetByRoleCommand());
@@ -56,8 +69,8 @@ public class CommandProvider {
         commands.put(CommandType.USER_ADD_PLAYLIST, new UserAddPlaylistCommand());
         commands.put(CommandType.USER_REMOVE_PLAYLIST, new UserRemovePlaylistCommand());
 
-        commands.put(CommandType.ADMIN_SET_BAN, new AdminSetBanCommand());
-        commands.put(CommandType.ADMIN_SET_ROLE, new AdminSetRoleCommand());
+        commands.put(CommandType.USER_SET_BAN, new UserSetBanCommand());
+        commands.put(CommandType.USER_SET_ROLE, new UserSetRoleCommand());
 
         this.commands = commands;
     }
@@ -66,3 +79,14 @@ public class CommandProvider {
         return commands.get(type);
     }
 }
+
+
+
+
+
+
+
+
+
+
+

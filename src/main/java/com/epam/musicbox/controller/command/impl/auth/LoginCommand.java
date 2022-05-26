@@ -5,10 +5,9 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.HttpException;
-import com.epam.musicbox.guard.Guard;
-import com.epam.musicbox.guard.ValidationGuard;
 import com.epam.musicbox.hasher.PasswordHasher;
 import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.validator.Validator;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +22,8 @@ public class LoginCommand implements Command {
     @Inject
     private PasswordHasher passwordHasher;
 
+    @Inject
+    private Validator validator;
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
@@ -30,8 +31,7 @@ public class LoginCommand implements Command {
         String email = req.getParameter(Parameter.EMAIL);
         String password = req.getParameter(Parameter.PASSWORD);
 
-        Guard guard = new ValidationGuard(login, email, password);
-        guard.protect();
+        requireValid(login, email, password);
 
         Optional<User> optionalUser = userService.findByLogin(login);
         if (optionalUser.isEmpty())
@@ -52,5 +52,28 @@ public class LoginCommand implements Command {
         session.setAttribute(Parameter.USER_ID, user.getId());
         session.setAttribute(Parameter.LOGIN, user.getLogin());
         session.setAttribute(Parameter.ROLE, optionalRole.get());
+    }
+
+    private void requireValid(String login, String email, String password) throws HttpException {
+        String msg = null;
+        if (!validator.isValidLogin(login)) {
+            msg = "Invalid login";
+        }
+        if (!validator.isValidEmail(email)) {
+            if (msg == null) {
+                msg = "Invalid email";
+            } else {
+                msg = msg + ", invalid email";
+            }
+        }
+        if (!validator.isValidPassword(password)) {
+            if (msg == null) {
+                msg = "Invalid password";
+            } else {
+                msg = msg + ", invalid password";
+            }
+        }
+        if (msg != null)
+            throw new HttpException(msg, HttpServletResponse.SC_BAD_REQUEST);
     }
 }

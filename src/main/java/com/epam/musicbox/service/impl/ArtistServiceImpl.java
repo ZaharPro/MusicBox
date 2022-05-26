@@ -39,6 +39,11 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
+    public Optional<Artist> findByName(String name) {
+        return artistRepository.findByName(name);
+    }
+
+    @Override
     public List<Track> getTracks(Integer artistId, int page) throws HttpException {
         return artistRepository.getTracks(artistId,
                 Service.getOffset(page),

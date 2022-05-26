@@ -36,4 +36,9 @@ public class TrackServiceImpl implements TrackService {
     public void deleteById(Integer id) throws HttpException {
         trackRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Track> findByName(String name) {
+        return trackRepository.findByName(name);
+    }
 }
