@@ -5,6 +5,9 @@ import com.epam.musicbox.controller.command.impl.artist.*;
 import com.epam.musicbox.controller.command.impl.auth.LoginCommand;
 import com.epam.musicbox.controller.command.impl.auth.LogoutCommand;
 import com.epam.musicbox.controller.command.impl.auth.SingUpCommand;
+import com.epam.musicbox.controller.command.impl.page.GoToHomePageCommand;
+import com.epam.musicbox.controller.command.impl.page.GoToLoginPageCommand;
+import com.epam.musicbox.controller.command.impl.page.GoToSingUpPageCommand;
 import com.epam.musicbox.controller.command.impl.playlist.*;
 import com.epam.musicbox.controller.command.impl.user.*;
 import com.epam.musicbox.controller.command.impl.track.*;
@@ -19,6 +22,10 @@ public class CommandProvider {
 
     private CommandProvider() {
         Map<CommandType, Command> commands = new EnumMap<>(CommandType.class);
+
+        commands.put(CommandType.GO_TO_SING_UP_PAGE, new GoToSingUpPageCommand());
+        commands.put(CommandType.GO_TO_LOGIN_PAGE, new GoToLoginPageCommand());
+        commands.put(CommandType.GO_TO_HOME_PAGE, new GoToHomePageCommand());
 
         commands.put(CommandType.LOGIN, new LoginCommand());
         commands.put(CommandType.LOGOUT, new LogoutCommand());

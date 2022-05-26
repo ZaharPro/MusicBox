@@ -6,6 +6,8 @@ import jakarta.inject.Singleton;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Set;
 
 public enum Role {
@@ -64,7 +66,7 @@ public enum Role {
             CommandType.USER_GET_BY_ROLE,
             CommandType.USER_DELETE,
             CommandType.USER_SET_BAN,
-            CommandType.USER_SET_ROLE),;
+            CommandType.USER_SET_ROLE);
 
     private final int id;
     private final String name;
@@ -73,7 +75,7 @@ public enum Role {
     Role(int id, String name, CommandType... commandTypes) {
         this.id = id;
         this.name = name;
-        this.commandTypes = Set.of(commandTypes);
+        this.commandTypes = EnumSet.copyOf(Arrays.asList(commandTypes));
     }
 
     public int getId() {
@@ -85,7 +87,8 @@ public enum Role {
     }
 
     public boolean isExistCommandType(CommandType type) {
-        return this.commandTypes.contains(type);
+        return this.commandTypes.contains(type) &&
+                this == ADMIN && USER.isExistCommandType(type);
     }
 
     public static Role findById(int id) {

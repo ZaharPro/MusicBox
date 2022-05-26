@@ -7,11 +7,11 @@
 
 <html lang="<fmt:message key="html.lang"/>">
 <head>
-    <c:import url="/jsp/parts/head.jsp"/>
+    <c:import url="/jsp/fragments/head.jsp"/>
     <title>Error Page</title>
 </head>
 <body>
-<c:import url="/jsp/parts/navbar.jsp"/>
+<c:import url="/jsp/fragments/navbar.jsp"/>
 
 <div class="container py-3 h4">
     <c:if test="${not empty pageContext.errorData.requestURI}">
