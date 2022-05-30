@@ -106,7 +106,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAllByRole(Long roleId, int offset, int limit) throws HttpException {
+    public List<User> findAllByRole(Integer roleId, int offset, int limit) throws HttpException {
         return QueryHelper.queryAll(SQL_FIND_BY_ROLE, userEntityBuilder, roleId, offset, limit);
     }
 

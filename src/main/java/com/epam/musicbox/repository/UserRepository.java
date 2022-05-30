@@ -11,7 +11,7 @@ public interface UserRepository extends Repository<User> {
 
     Optional<User> findByEmail(String email);
 
-    List<User> findAllByRole(Long roleId, int offset, int limit) throws HttpException;
+    List<User> findAllByRole(Integer roleId, int offset, int limit) throws HttpException;
 
     List<Playlist> getPlaylists(Long userId, int offset, int limit) throws HttpException;
 

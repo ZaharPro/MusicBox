@@ -82,6 +82,8 @@ public enum CommandType {
     }
 
     public static CommandType of(String name) {
+        if (name == null)
+            return null;
         for (CommandType type : CommandType.values()) {
             if (name.equals(type.getName())) {
                 return type;

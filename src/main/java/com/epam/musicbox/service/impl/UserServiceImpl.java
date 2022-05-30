@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllByRole(Long roleId, int page) throws HttpException {
+    public List<User> findAllByRole(Integer roleId, int page) throws HttpException {
         return userRepository.findAllByRole(roleId,
                 Service.getOffset(page),
                 Service.PAGE_SIZE);

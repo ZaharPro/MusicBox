@@ -9,25 +9,25 @@ public class AuthUtils {
                                     String login,
                                     String email,
                                     String password) throws HttpException {
-        String msg = null;
+        StringBuilder sb = new StringBuilder();
         if (!validator.isValidLogin(login)) {
-            msg = "Invalid login";
+            sb.append("Invalid login");
         }
         if (!validator.isValidEmail(email)) {
-            if (msg == null) {
-                msg = "Invalid email";
-            } else {
-                msg = msg + ", invalid email";
-            }
+            String s = sb.isEmpty() ?
+                    "Invalid email" :
+                    ", invalid email";
+            sb.append(s);
         }
         if (!validator.isValidPassword(password)) {
-            if (msg == null) {
-                msg = "Invalid password";
-            } else {
-                msg = msg + ", invalid password";
-            }
+            String s = sb.isEmpty() ?
+                    "Invalid password" :
+                    ", invalid password";
+            sb.append(s);
         }
-        if (msg != null)
+        if (!sb.isEmpty()) {
+            String msg = sb.toString();
             throw new HttpException(msg, HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 }

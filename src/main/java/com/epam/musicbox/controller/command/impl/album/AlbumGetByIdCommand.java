@@ -1,13 +1,12 @@
 package com.epam.musicbox.controller.command.impl.album;
 
-import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.exception.HttpException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.epam.musicbox.constant.PagePath;
+import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.controller.command.impl.common.GetByIdCommand;
+import com.epam.musicbox.entity.Album;
 
-public class AlbumGetByIdCommand implements Command {
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
-
+public class AlbumGetByIdCommand extends GetByIdCommand<Album> {
+    public AlbumGetByIdCommand() {
+        super(Parameter.ALBUM_ID, Parameter.OBJECT, PagePath.ALBUM);
     }
 }

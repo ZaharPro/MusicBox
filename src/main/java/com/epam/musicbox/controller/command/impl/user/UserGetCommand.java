@@ -1,13 +1,13 @@
 package com.epam.musicbox.controller.command.impl.user;
 
-import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.exception.HttpException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.epam.musicbox.constant.PagePath;
+import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.controller.command.impl.common.GetCommand;
+import com.epam.musicbox.entity.User;
 
-public class UserGetCommand implements Command {
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+public class UserGetCommand extends GetCommand<User> {
 
+    public UserGetCommand() {
+        super(Parameter.LIST, PagePath.USER);
     }
 }

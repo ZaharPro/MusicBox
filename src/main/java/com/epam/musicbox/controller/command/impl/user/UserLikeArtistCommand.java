@@ -18,7 +18,7 @@ public class UserLikeArtistCommand implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         HttpSession session = req.getSession();
         long userId = Parameters.get(session, Parameter.USER_ID);
-        long artistId = Parameters.getLong(req, Parameter.ARTIST_ID);
+        long artistId = Parameters.getLong(req, Parameter.ALBUM_ID);
         userService.likeArtist(userId, artistId);
     }
 }

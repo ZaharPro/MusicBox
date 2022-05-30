@@ -1,13 +1,11 @@
 package com.epam.musicbox.controller.command.impl.track;
 
-import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.exception.HttpException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.controller.command.impl.common.DeleteCommand;
+import com.epam.musicbox.entity.Track;
 
-public class TrackDeleteCommand implements Command {
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
-
+public class TrackDeleteCommand extends DeleteCommand<Track> {
+    public TrackDeleteCommand() {
+        super(Parameter.TRACK_ID);
     }
 }

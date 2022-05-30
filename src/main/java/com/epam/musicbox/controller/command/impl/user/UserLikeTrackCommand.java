@@ -18,7 +18,7 @@ public class UserLikeTrackCommand implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         HttpSession session = req.getSession();
         long userId = Parameters.get(session, Parameter.USER_ID);
-        long trackId = Parameters.getLong(req, Parameter.ALBUM_ID);
+        long trackId = Parameters.getLong(req, Parameter.TRACK_ID);
         userService.likeTrack(userId, trackId);
     }
 }

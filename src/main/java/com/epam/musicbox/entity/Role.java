@@ -43,7 +43,11 @@ public enum Role {
             CommandType.USER_ADD_PLAYLIST,
             CommandType.USER_REMOVE_PLAYLIST),
 
-    ADMIN(1, "admin");
+    ADMIN(1, "admin"),
+
+    GUEST(Integer.MAX_VALUE, null,
+            CommandType.SING_UP,
+            CommandType.LOGIN);
 
     private final int id;
     private final String name;

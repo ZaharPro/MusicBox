@@ -19,7 +19,7 @@ public class UserSetRoleCommand implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         HttpSession session = req.getSession();
         long userId = Parameters.get(session, Parameter.USER_ID);
-        Role role = Parameters.get(req, Parameter.ROLE_NAME, Role::findByName);
+        Role role = Parameters.getRole(req);
         userService.setRole(userId, role.getId());
     }
 }

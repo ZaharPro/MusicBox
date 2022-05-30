@@ -45,7 +45,7 @@ public class CommandProvider {
         commands.put(CommandType.ARTIST_GET_BY_ID, new ArtistGetByIdCommand());
         commands.put(CommandType.ARTIST_SAVE, new ArtistSaveCommand());
         commands.put(CommandType.ARTIST_DELETE, new ArtistDeleteCommand());
-        commands.put(CommandType.ARTIST_GET_TRACKS, new ArtistGetCommand());
+        commands.put(CommandType.ARTIST_GET_TRACKS, new ArtistGetTracksCommand());
         commands.put(CommandType.ARTIST_ADD_TRACK, new ArtistAddTrackCommand());
         commands.put(CommandType.ARTIST_REMOVE_TRACK, new ArtistRemoveTrackCommand());
 
