@@ -34,10 +34,10 @@ public enum CommandType {
     ARTIST_REMOVE_TRACK("artistremovetrack"),
 
     //playlist
-    PLAYLIST_CREATE("playlistcreate"),
-    PLAYLIST_DELETE("playlistdelete"),
     PLAYLIST_GET("playlistget"),
     PLAYLIST_GET_BY_ID("playlistgetbyid"),
+    PLAYLIST_SAVE("playlistsave"),
+    PLAYLIST_DELETE("playlistdelete"),
 
     PLAYLIST_GET_TRACKS("playlistgettracks"),
     PLAYLIST_ADD_TRACK("playlistaddtrack"),
@@ -45,11 +45,12 @@ public enum CommandType {
 
     //user
     USER_GET("userget"),
+    USER_DELETE("userdelete"),
+
     USER_GET_BY_ID("usergetbyid"),
     USER_GET_BY_LOGIN("usergetbylogin"),
     USER_GET_BY_EMAIL("usergetbyemail"),
     USER_GET_BY_ROLE("usergetbyrole"),
-    USER_DELETE("userdelete"),
 
     USER_GET_LIKED_ALBUMS("usergetlikedalbums"),
     USER_LIKE_ALBUM("userlikealbum"),

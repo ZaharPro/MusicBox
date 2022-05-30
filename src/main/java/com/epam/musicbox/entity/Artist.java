@@ -8,24 +8,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Artist {
-    private Integer id;
+    private Long id;
     private String name;
     private String avatar;
 
     public Artist() {
     }
 
-    public Artist(Integer id, String name, String avatar) {
+    public Artist(Long id, String name, String avatar) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -79,7 +79,7 @@ public class Artist {
         @Override
         public Artist build(ResultSet resultSet) throws HttpException {
             try {
-                return new Artist(resultSet.getInt("id"),
+                return new Artist(resultSet.getLong("artist_id"),
                         resultSet.getString("name"),
                         resultSet.getString("avatar"));
             } catch (SQLException e) {

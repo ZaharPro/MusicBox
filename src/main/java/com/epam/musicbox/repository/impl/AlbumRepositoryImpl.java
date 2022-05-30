@@ -26,13 +26,13 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     }
 
     @Override
-    public Optional<Album> findById(Integer id) {
+    public Optional<Album> findById(Long id) {
         return QueryHelper.queryOne(SQL_FIND_BY_ID, albumEntityBuilder, id);
     }
 
     @Override
     public void save(Album artist) throws HttpException {
-        Integer artistId = artist.getId();
+        Long artistId = artist.getId();
         if (artistId == null) {
             QueryHelper.update(SQL_INSERT_ONE,
                     artist.getName(),
@@ -46,7 +46,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     }
 
     @Override
-    public void deleteById(Integer id) throws HttpException {
+    public void deleteById(Long id) throws HttpException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 

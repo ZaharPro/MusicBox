@@ -8,24 +8,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Playlist {
-    private Integer id;
+    private Long id;
     private String name;
-    private Integer userId;
+    private Long userId;
 
     public Playlist() {
     }
 
-    public Playlist(Integer id, String name, Integer userId) {
+    public Playlist(Long id, String name, Long userId) {
         this.id = id;
         this.name = name;
         this.userId = userId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,11 +37,11 @@ public class Playlist {
         this.name = name;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -79,9 +79,9 @@ public class Playlist {
         @Override
         public Playlist build(ResultSet resultSet) throws HttpException {
             try {
-                return new Playlist(resultSet.getInt("playlist_id"),
+                return new Playlist(resultSet.getLong("playlist_id"),
                         resultSet.getString("name"),
-                        resultSet.getInt("user_id"));
+                        resultSet.getLong("user_id"));
             } catch (SQLException e) {
                 throw new HttpException(e);
             }

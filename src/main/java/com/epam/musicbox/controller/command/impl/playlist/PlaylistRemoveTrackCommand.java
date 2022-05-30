@@ -4,7 +4,7 @@ import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.PlaylistService;
-import com.epam.musicbox.util.ObjectUtils;
+import com.epam.musicbox.util.Parameters;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,11 +15,8 @@ public class PlaylistRemoveTrackCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
-        String playlistIdSting = req.getParameter(Parameter.PLAYLIST_ID);
-        Integer playlistId = ObjectUtils.parseInt(playlistIdSting);
-
-        String trackIdString = req.getParameter(Parameter.PLAYLIST_ID);
-        Integer trackId = ObjectUtils.parseInt(trackIdString);
+        long playlistId = Parameters.getLong(req, Parameter.PLAYLIST_ID);
+        long trackId = Parameters.getLong(req, Parameter.TRACK_ID);
         playlistService.removeTrack(playlistId, trackId);
     }
 }

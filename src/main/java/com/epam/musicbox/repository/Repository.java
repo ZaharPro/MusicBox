@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface Repository<T> {
     List<T> findAll(int offset, int limit) throws HttpException;
 
-    Optional<T> findById(Integer id);
+    Optional<T> findById(Long id);
 
     void save(T t) throws HttpException;
 
-    void deleteById(Integer id) throws HttpException;
+    void deleteById(Long id) throws HttpException;
 }

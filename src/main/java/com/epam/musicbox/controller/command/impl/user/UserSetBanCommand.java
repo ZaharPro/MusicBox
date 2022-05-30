@@ -5,6 +5,7 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.util.Parameters;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,9 +20,8 @@ public class UserSetBanCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         HttpSession session = req.getSession();
-        Integer userId = ((Integer) session.getAttribute(Parameter.USER_ID));
-        String bannedString = req.getParameter(Parameter.ROLE_NAME);
-        boolean banned = Boolean.parseBoolean(bannedString);
+        long userId = Parameters.get(session, Parameter.USER_ID);
+        boolean banned = Parameters.getBoolean(req, Parameter.BANNED);
         Optional<User> optionalUser = userService.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();

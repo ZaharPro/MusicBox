@@ -10,11 +10,11 @@ import java.util.Optional;
 public interface PlaylistService extends Service<Playlist> {
     Optional<Playlist> findByName(String name);
 
-    Optional<Playlist> findByUser(Integer userId);
+    Optional<Playlist> findByUser(Long userId);
 
-    List<Track> getTracks(Integer playlistId, int page) throws HttpException;
+    List<Track> getTracks(Long playlistId, int page) throws HttpException;
 
-    void addTrack(Integer playlistId, Integer trackId) throws HttpException;
+    void addTrack(Long playlistId, Long trackId) throws HttpException;
 
-    void removeTrack(Integer playlistId, Integer trackId) throws HttpException;
+    void removeTrack(Long playlistId, Long trackId) throws HttpException;
 }

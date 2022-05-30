@@ -49,20 +49,20 @@ public class CommandProvider {
         commands.put(CommandType.ARTIST_ADD_TRACK, new ArtistAddTrackCommand());
         commands.put(CommandType.ARTIST_REMOVE_TRACK, new ArtistRemoveTrackCommand());
 
-        commands.put(CommandType.PLAYLIST_CREATE, new PlaylistCreateCommand());
-        commands.put(CommandType.PLAYLIST_DELETE, new PlaylistDeleteCommand());
         commands.put(CommandType.PLAYLIST_GET, new PlaylistGetCommand());
         commands.put(CommandType.PLAYLIST_GET_BY_ID, new PlaylistGetByIdCommand());
+        commands.put(CommandType.PLAYLIST_SAVE, new PlaylistSaveCommand());
+        commands.put(CommandType.PLAYLIST_DELETE, new PlaylistDeleteCommand());
         commands.put(CommandType.PLAYLIST_GET_TRACKS, new PlaylistGetTracksCommand());
         commands.put(CommandType.PLAYLIST_ADD_TRACK, new PlaylistAddTrackCommand());
         commands.put(CommandType.PLAYLIST_REMOVE_TRACK, new PlaylistRemoveTrackCommand());
 
         commands.put(CommandType.USER_GET, new UserGetCommand());
         commands.put(CommandType.USER_GET_BY_ID, new UserGetByIdCommand());
+        commands.put(CommandType.USER_DELETE, new UserDeleteCommand());
         commands.put(CommandType.USER_GET_BY_LOGIN, new UserGetByLoginCommand());
         commands.put(CommandType.USER_GET_BY_EMAIL, new UserGetByEmailCommand());
         commands.put(CommandType.USER_GET_BY_ROLE, new UserGetByRoleCommand());
-        commands.put(CommandType.USER_DELETE, new UserDeleteCommand());
         commands.put(CommandType.USER_GET_LIKED_ALBUMS, new UserGetLikedAlbumsCommand());
         commands.put(CommandType.USER_LIKE_ALBUM, new UserLikeAlbumCommand());
         commands.put(CommandType.USER_CANCEL_LIKE_ALBUM, new UserCancelLikeAlbumCommand());

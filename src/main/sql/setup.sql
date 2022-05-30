@@ -1,158 +1,121 @@
-create table if not exists albums
+CREATE SCHEMA IF NOT EXISTS `music_schema` DEFAULT CHARACTER SET utf8;
+USE `music_schema`;
+
+CREATE TABLE IF NOT EXISTS `music_schema`.`albums`
 (
-    album_id int auto_increment
-    primary key,
-    name     varchar(32)  not null,
-    picture  varchar(128) not null
+    `album_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `name`     VARCHAR(32)  NOT NULL,
+    `picture`  VARCHAR(128) NOT NULL
 );
 
-create table if not exists artists
+CREATE TABLE IF NOT EXISTS `music_schema`.`artists`
 (
-    artist_id int auto_increment
-    primary key,
-    name      varchar(32)  not null,
-    avatar    varchar(128) not null
+    `artist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `name`      VARCHAR(32)  NOT NULL,
+    `avatar`    VARCHAR(128) NOT NULL
 );
 
-create table if not exists roles
+CREATE TABLE IF NOT EXISTS `music_schema`.`roles`
 (
-    role_id int auto_increment
-    primary key,
-    name    varchar(32) not null,
-    constraint roles_name_uindex
-    unique (name)
+    `role_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `name`    VARCHAR(32) NOT NULL
 );
 
-create table if not exists tracks
+CREATE TABLE IF NOT EXISTS `music_schema`.`tracks`
 (
-    track_id int auto_increment
-    primary key,
-    name     varchar(32)  not null,
-    path     varchar(128) not null,
-    album_id int          not null,
-    constraint tracks_path_uindex
-    unique (path),
-    constraint tracks_albums_album_id_fk
-    foreign key (track_id) references albums (album_id),
-    constraint tracks_albums_album_id_fk_2
-    foreign key (track_id) references albums (album_id)
+    `track_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `name`     VARCHAR(32)  NOT NULL,
+    `path`     VARCHAR(128) NOT NULL,
+    `album_id` BIGINT       NOT NULL,
+    CONSTRAINT `tracks_album_id`
+        FOREIGN KEY (`album_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table if not exists artist_tracks
+CREATE TABLE IF NOT EXISTS `music_schema`.`artist_tracks`
 (
-    artist_track_id int auto_increment
-    primary key,
-    artist_id       int not null,
-    track_id        int not null,
-    constraint artist_tracks_artist_id_uindex
-    unique (artist_id),
-    constraint artist_tracks_track_id_uindex
-    unique (track_id),
-    constraint artist_tracks_artists_artist_id_fk
-    foreign key (artist_track_id) references artists (artist_id),
-    constraint artist_tracks_tracks_track_id_fk
-    foreign key (artist_track_id) references tracks (track_id)
+    `artist_track_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `artist_id`       BIGINT NOT NULL,
+    `track_id`        BIGINT NOT NULL,
+    CONSTRAINT `artist_tracks_artist_id`
+        FOREIGN KEY (`artist_id`) REFERENCES artists (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `artist_tracks_track_id`
+        FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table if not exists users
+CREATE TABLE IF NOT EXISTS `music_schema`.`users`
 (
-    user_id      int auto_increment
-    primary key,
-    login        varchar(32)                         not null,
-    password     varchar(64)                         not null,
-    email        varchar(32)                         not null,
-    banned       tinyint(1)                          not null,
-    registration timestamp default CURRENT_TIMESTAMP not null,
-    constraint users_email_uindex
-    unique (email),
-    constraint users_nickname_uindex
-    unique (login)
+    `user_id`      BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `login`        VARCHAR(32)                         NOT NULL,
+    `password`     VARCHAR(128)                        NOT NULL,
+    `email`        VARCHAR(32)                         NOT NULL,
+    `banned`       tinyint(1)                          NOT NULL,
+    `registration` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
-create table if not exists playlists
+CREATE TABLE IF NOT EXISTS `music_schema`.`playlists`
 (
-    playlist_id int auto_increment
-    primary key,
-    name        varchar(32) not null,
-    user_id     int         not null,
-    constraint playlists_user_id_uindex
-    unique (user_id),
-    constraint playlists_users_user_id_fk
-    foreign key (playlist_id) references users (user_id)
+    `playlist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `name`        VARCHAR(32) NOT NULL,
+    `user_id`     BIGINT      NOT NULL,
+    CONSTRAINT `playlists_user_id`
+        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table if not exists playlist_tracks
+CREATE TABLE IF NOT EXISTS `music_schema`.`playlist_tracks`
 (
-    playlist_track_id int auto_increment
-    primary key,
-    playlist_id       int not null,
-    track_id          int not null,
-    constraint playlist_tracks_playlist_id_uindex
-    unique (playlist_id),
-    constraint playlist_tracks_track_id_uindex
-    unique (track_id),
-    constraint playlist_tracks_playlists_playlist_id_fk
-    foreign key (playlist_track_id) references playlists (playlist_id),
-    constraint playlist_tracks_tracks_track_id_fk
-    foreign key (playlist_track_id) references tracks (track_id)
+    `playlist_track_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `playlist_id`       BIGINT NOT NULL,
+    `track_id`          BIGINT NOT NULL,
+    CONSTRAINT `playlist_tracks_playlist_id`
+        FOREIGN KEY (`playlist_id`) REFERENCES playlists (`playlist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `playlist_tracks_track_id`
+        FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table if not exists user_liked_albums
+CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_albums`
 (
-    user_liked_album_id int auto_increment
-    primary key,
-    user_id             int not null,
-    album_id            int not null,
-    constraint user_liked_albums_album_id_uindex
-    unique (album_id),
-    constraint user_liked_albums_user_id_uindex
-    unique (user_id),
-    constraint user_liked_albums_albums_album_id_fk
-    foreign key (user_liked_album_id) references albums (album_id),
-    constraint user_liked_albums_users_user_id_fk
-    foreign key (user_liked_album_id) references users (user_id)
+    `user_liked_album_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `user_id`             BIGINT NOT NULL,
+    `album_id`            BIGINT NOT NULL,
+    CONSTRAINT `user_liked_albums_user_id`
+        FOREIGN KEY (`user_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `user_liked_albums_album_id`
+        FOREIGN KEY (`album_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table if not exists user_liked_artists
+CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_artists`
 (
-    user_liked_artist_id int auto_increment
-    primary key,
-    user_id              int not null,
-    artist_id            int not null,
-    constraint user_liked_artists_artist_id_uindex
-    unique (artist_id),
-    constraint user_liked_artists_user_id_uindex
-    unique (user_id),
-    constraint user_liked_artists_artists_artist_id_fk
-    foreign key (user_liked_artist_id) references artists (artist_id),
-    constraint user_liked_artists_users_user_id_fk
-    foreign key (user_liked_artist_id) references users (user_id)
+    `user_liked_artist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `user_id`              BIGINT NOT NULL,
+    `artist_id`            BIGINT NOT NULL,
+    CONSTRAINT `user_liked_artists_user_id`
+        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `user_liked_artists_artist_id`
+        FOREIGN KEY (`artist_id`) REFERENCES artists (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table if not exists user_liked_tracks
+CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_tracks`
 (
-    user_liked_track_id int auto_increment
-    primary key,
-    user_id             int not null,
-    track_id            int not null,
-    constraint user_liked_tracks_track_id_uindex
-    unique (track_id),
-    constraint user_liked_tracks_user_id_uindex
-    unique (user_id),
-    constraint user_liked_tracks_tracks_track_id_fk
-    foreign key (user_liked_track_id) references tracks (track_id),
-    constraint user_liked_tracks_users_user_id_fk
-    foreign key (user_liked_track_id) references users (user_id)
+    `user_liked_track_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `user_id`             BIGINT NOT NULL,
+    `track_id`            BIGINT NOT NULL,
+    CONSTRAINT `user_liked_tracks_user_id`
+        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `user_liked_tracks_track_id`
+        FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table if not exists user_roles
+CREATE TABLE IF NOT EXISTS `music_schema`.`user_roles`
 (
-    user_role_id int auto_increment
-    primary key,
-    user_id      int not null,
-    role_id      int not null,
-    constraint user_roles_roles_role_id_fk
-    foreign key (user_role_id) references roles (role_id),
-    constraint user_roles_users_user_id_fk
-    foreign key (user_role_id) references users (user_id)
+    `user_role_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `user_id`      BIGINT NOT NULL,
+    `role_id`      BIGINT NOT NULL,
+    CONSTRAINT `user_roles_user_id`
+        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `user_roles_role_id`
+        FOREIGN KEY (`role_id`) REFERENCES roles (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE UNIQUE INDEX roles_name_uindex on roles (`name`);
+CREATE UNIQUE INDEX user_login_uindex on users (`login`);
+CREATE UNIQUE INDEX user_email_uindex on users (`email`);

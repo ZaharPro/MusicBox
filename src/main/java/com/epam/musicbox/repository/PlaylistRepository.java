@@ -11,11 +11,11 @@ import java.util.Optional;
 public interface PlaylistRepository extends Repository<Playlist> {
     Optional<Playlist> findByName(String name);
 
-    Optional<Playlist> findByUser(Integer userId);
+    Optional<Playlist> findByUser(Long userId);
 
-    List<Track> getTracks(Integer playListId, int offset, int limit) throws HttpException;
+    List<Track> getTracks(Long playListId, int offset, int limit) throws HttpException;
 
-    void addTrack(Integer playlistId, Integer trackId) throws HttpException;
+    void addTrack(Long playlistId, Long trackId) throws HttpException;
 
-    void removeTrack(Integer playlistId, Integer trackId) throws HttpException;
+    void removeTrack(Long playlistId, Long trackId) throws HttpException;
 }

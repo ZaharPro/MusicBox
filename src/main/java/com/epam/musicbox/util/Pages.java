@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class PageUtils {
+public class Pages {
     public static void forward(HttpServletRequest req, HttpServletResponse resp, String page) throws HttpException {
         try {
             RequestDispatcher dispatcher = req.getRequestDispatcher(page);

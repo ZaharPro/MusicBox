@@ -24,7 +24,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public Optional<Artist> findById(Integer id) {
+    public Optional<Artist> findById(Long id) {
         return artistRepository.findById(id);
     }
 
@@ -34,7 +34,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public void deleteById(Integer id) throws HttpException {
+    public void deleteById(Long id) throws HttpException {
         artistRepository.deleteById(id);
     }
 
@@ -44,19 +44,19 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<Track> getTracks(Integer artistId, int page) throws HttpException {
+    public List<Track> getTracks(Long artistId, int page) throws HttpException {
         return artistRepository.getTracks(artistId,
                 Service.getOffset(page),
                 Service.PAGE_SIZE);
     }
 
     @Override
-    public void addTrack(Integer artistId, Integer trackId) throws HttpException {
+    public void addTrack(Long artistId, Long trackId) throws HttpException {
         artistRepository.addTrack(artistId, trackId);
     }
 
     @Override
-    public void removeTrack(Integer artistId, Integer trackId) throws HttpException {
+    public void removeTrack(Long artistId, Long trackId) throws HttpException {
         artistRepository.removeTrack(artistId, trackId);
     }
 }

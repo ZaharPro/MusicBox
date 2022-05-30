@@ -4,7 +4,7 @@ import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.UserService;
-import com.epam.musicbox.util.ObjectUtils;
+import com.epam.musicbox.util.Parameters;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,9 +17,8 @@ public class UserCancelLikeTrackCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         HttpSession session = req.getSession();
-        Integer userId = ((Integer) session.getAttribute(Parameter.USER_ID));
-        String trackIdString = req.getParameter(Parameter.TRACK_ID);
-        Integer trackId = ObjectUtils.parseInt(trackIdString);
+        long userId = Parameters.get(session, Parameter.USER_ID);
+        long trackId = Parameters.getLong(req, Parameter.TRACK_ID);
         userService.cancelLikeTrack(userId, trackId);
     }
 }

@@ -10,11 +10,11 @@ public interface Service<T> {
 
     List<T> findPage(int page) throws HttpException;
 
-    Optional<T> findById(Integer id);
+    Optional<T> findById(Long id);
 
     void save(T t) throws HttpException;
 
-    void deleteById(Integer id) throws HttpException;
+    void deleteById(Long id) throws HttpException;
 
     static int getOffset(int page) {
         return PAGE_SIZE * page;

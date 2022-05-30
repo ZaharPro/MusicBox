@@ -34,13 +34,13 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public Optional<Artist> findById(Integer id) {
+    public Optional<Artist> findById(Long id) {
         return QueryHelper.queryOne(SQL_FIND_BY_ID, artistEntityBuilder, id);
     }
 
     @Override
     public void save(Artist artist) throws HttpException {
-        Integer artistId = artist.getId();
+        Long artistId = artist.getId();
         if (artistId == null) {
             QueryHelper.update(SQL_INSERT_ONE,
                     artist.getName(),
@@ -54,7 +54,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public void deleteById(Integer id) throws HttpException {
+    public void deleteById(Long id) throws HttpException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 
@@ -64,17 +64,17 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public List<Track> getTracks(Integer artistId, int offset, int limit) throws HttpException {
+    public List<Track> getTracks(Long artistId, int offset, int limit) throws HttpException {
         return QueryHelper.queryAll(SQL_FIND_TRACKS, trackEntityBuilder, artistId, offset, limit);
     }
 
     @Override
-    public void addTrack(Integer playlistId, Integer trackId) throws HttpException {
+    public void addTrack(Long playlistId, Long trackId) throws HttpException {
         QueryHelper.update(SQL_ADD_TRACK, playlistId, trackId);
     }
 
     @Override
-    public void removeTrack(Integer playlistId, Integer trackId) throws HttpException {
+    public void removeTrack(Long playlistId, Long trackId) throws HttpException {
         QueryHelper.update(SQL_REMOVE_TRACK, playlistId, trackId);
     }
 }

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class User {
-    private Integer id;
+    private Long id;
     private String login;
     private String email;
     private String password;
@@ -19,7 +19,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id,
+    public User(Long id,
                 String login,
                 String email,
                 String password,
@@ -32,11 +32,11 @@ public class User {
         this.registration = registration;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -120,12 +120,12 @@ public class User {
         @Override
         public User build(ResultSet resultSet) throws HttpException {
             try {
-                return new User(resultSet.getInt("id"),
+                return new User(resultSet.getLong("user_id"),
                         resultSet.getString("login"),
                         resultSet.getString("email"),
                         resultSet.getString("password"),
                         resultSet.getBoolean("banned"),
-                        Timestamp.valueOf(resultSet.getString("registration")));
+                        resultSet.getTimestamp("registration"));
             } catch (SQLException e) {
                 throw new HttpException(e);
             }

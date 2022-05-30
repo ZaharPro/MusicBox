@@ -28,13 +28,13 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public Optional<Track> findById(Integer id) {
+    public Optional<Track> findById(Long id) {
         return QueryHelper.queryOne(SQL_FIND_BY_ID, trackBuilder, id);
     }
 
     @Override
     public void save(Track track) throws HttpException {
-        Integer trackId = track.getId();
+        Long trackId = track.getId();
         if (trackId == null) {
             QueryHelper.update(SQL_INSERT_ONE,
                     track.getName(),
@@ -48,7 +48,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public void deleteById(Integer id) throws HttpException {
+    public void deleteById(Long id) throws HttpException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 

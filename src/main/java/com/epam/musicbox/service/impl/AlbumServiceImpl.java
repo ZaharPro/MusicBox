@@ -23,7 +23,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public Optional<Album> findById(Integer id) {
+    public Optional<Album> findById(Long id) {
         return albumRepository.findById(id);
     }
 
@@ -33,7 +33,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public void deleteById(Integer id) throws HttpException {
+    public void deleteById(Long id) throws HttpException {
         albumRepository.deleteById(id);
     }
 

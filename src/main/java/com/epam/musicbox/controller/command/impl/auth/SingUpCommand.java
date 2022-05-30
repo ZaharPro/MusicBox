@@ -7,6 +7,7 @@ import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.hasher.PasswordHasher;
 import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.util.AuthUtils;
 import com.epam.musicbox.validator.Validator;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class SingUpCommand implements Command {
         String email = req.getParameter(Parameter.EMAIL);
         String password = req.getParameter(Parameter.PASSWORD);
 
-        requireValid(login, email, password);
+        AuthUtils.requireValid(validator, login, email, password);
 
         Optional<User> optionalUser = userService.findByLogin(login);
         if (optionalUser.isPresent())
@@ -56,28 +57,5 @@ public class SingUpCommand implements Command {
         session.setAttribute(Parameter.USER_ID, user.getId());
         session.setAttribute(Parameter.LOGIN, user.getLogin());
         session.setAttribute(Parameter.ROLE, Role.USER);
-    }
-
-    private void requireValid(String login, String email, String password) throws HttpException {
-        String msg = null;
-        if (!validator.isValidLogin(login)) {
-            msg = "Invalid login";
-        }
-        if (!validator.isValidEmail(email)) {
-            if (msg == null) {
-                msg = "Invalid email";
-            } else {
-                msg = msg + ", invalid email";
-            }
-        }
-        if (!validator.isValidPassword(password)) {
-            if (msg == null) {
-                msg = "Invalid password";
-            } else {
-                msg = msg + ", invalid password";
-            }
-        }
-        if (msg != null)
-            throw new HttpException(msg, HttpServletResponse.SC_BAD_REQUEST);
     }
 }

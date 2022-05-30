@@ -11,11 +11,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public enum Role {
-    GUEST(0, "guest",
-            CommandType.SING_UP,
-            CommandType.LOGIN),
-
-    USER(1, "user",
+    USER(0, "user",
             CommandType.TRACK_GET,
             CommandType.TRACK_GET_BY_ID,
 
@@ -26,7 +22,7 @@ public enum Role {
             CommandType.ARTIST_GET_BY_ID,
             CommandType.ARTIST_GET_TRACKS,
 
-            CommandType.PLAYLIST_CREATE,
+            CommandType.PLAYLIST_SAVE,
             CommandType.PLAYLIST_DELETE,
             CommandType.PLAYLIST_GET,
             CommandType.PLAYLIST_GET_BY_ID,
@@ -47,26 +43,7 @@ public enum Role {
             CommandType.USER_ADD_PLAYLIST,
             CommandType.USER_REMOVE_PLAYLIST),
 
-    ADMIN(2, "admin",
-            CommandType.TRACK_SAVE,
-            CommandType.TRACK_DELETE,
-
-            CommandType.ALBUM_SAVE,
-            CommandType.ALBUM_DELETE,
-
-            CommandType.ARTIST_SAVE,
-            CommandType.ARTIST_DELETE,
-            CommandType.ARTIST_ADD_TRACK,
-            CommandType.ARTIST_REMOVE_TRACK,
-
-            CommandType.USER_GET,
-            CommandType.USER_GET_BY_ID,
-            CommandType.USER_GET_BY_LOGIN,
-            CommandType.USER_GET_BY_EMAIL,
-            CommandType.USER_GET_BY_ROLE,
-            CommandType.USER_DELETE,
-            CommandType.USER_SET_BAN,
-            CommandType.USER_SET_ROLE);
+    ADMIN(1, "admin");
 
     private final int id;
     private final String name;
@@ -87,8 +64,8 @@ public enum Role {
     }
 
     public boolean isExistCommandType(CommandType type) {
-        return this.commandTypes.contains(type) &&
-                this == ADMIN && USER.isExistCommandType(type);
+        return type != null &&
+                (this == ADMIN || this.commandTypes.contains(type));
     }
 
     public static Role findById(int id) {

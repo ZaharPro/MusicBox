@@ -8,26 +8,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Track {
-    private Integer id;
+    private Long id;
     private String name;
     private String path;
-    private Integer albumId;
+    private Long albumId;
 
     public Track() {
     }
 
-    public Track(Integer id, String name, String path, Integer albumId) {
+    public Track(Long id, String name, String path, Long albumId) {
         this.id = id;
         this.name = name;
         this.albumId = albumId;
         this.path = path;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -39,11 +39,11 @@ public class Track {
         this.name = name;
     }
 
-    public Integer getAlbumId() {
+    public Long getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(Integer albumId) {
+    public void setAlbumId(Long albumId) {
         this.albumId = albumId;
     }
 
@@ -91,10 +91,10 @@ public class Track {
         @Override
         public Track build(ResultSet resultSet) throws HttpException {
             try {
-                return new Track(resultSet.getInt("id"),
+                return new Track(resultSet.getLong("track_id"),
                         resultSet.getString("name"),
                         resultSet.getString("path"),
-                        resultSet.getInt("album_id"));
+                        resultSet.getLong("album_id"));
             } catch (SQLException e) {
                 throw new HttpException(e);
             }
