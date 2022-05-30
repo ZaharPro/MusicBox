@@ -19,6 +19,6 @@ public class UserCancelLikeArtistCommand implements Command {
         HttpSession session = req.getSession();
         long userId = Parameters.get(session, Parameter.USER_ID);
         long artistId = Parameters.getLong(req, Parameter.ARTIST_ID);
-        userService.cancelLikeAlbum(userId, artistId);
+        userService.cancelLikeArtist(userId, artistId);
     }
 }

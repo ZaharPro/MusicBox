@@ -105,6 +105,17 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_tracks`
         FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS `music_schema`.`user_playlists`
+(
+    `user_playlists_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `user_id`           BIGINT NOT NULL,
+    `playlist_id`       BIGINT NOT NULL,
+    CONSTRAINT `user_playlists_user_id`
+        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `user_playlists_track_id`
+        FOREIGN KEY (`playlist_id`) REFERENCES playlists (`playlist_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS `music_schema`.`user_roles`
 (
     `user_role_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -119,3 +130,6 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`user_roles`
 CREATE UNIQUE INDEX roles_name_uindex on roles (`name`);
 CREATE UNIQUE INDEX user_login_uindex on users (`login`);
 CREATE UNIQUE INDEX user_email_uindex on users (`email`);
+
+/*INSERT INTO roles VALUES (0, 'user');
+INSERT INTO roles VALUES (1, 'admin');*/

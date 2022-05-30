@@ -13,14 +13,54 @@ import java.util.Optional;
 
 @Singleton
 public class PlaylistRepositoryImpl implements PlaylistRepository {
-    private static final String SQL_FIND_ALL = ;
-    private static final String SQL_FIND_BY_ID = ;
-    private static final String SQL_INSERT_ONE = ;
-    private static final String SQL_UPDATE_ONE = ;
-    private static final String SQL_DELETE_BY_ID = ;
-    private static final String SQL_FIND_TRACKS = ;
-    private static final String SQL_ADD_TRACK = ;
-    private static final String SQL_REMOVE_TRACK = ;
+    private static final String SQL_FIND_ALL = """
+            SELECT *
+            FROM playlists
+            ORDER BY name
+            LIMIT ?,?""";
+
+    private static final String SQL_FIND_BY_ID = """
+            SELECT *
+            FROM playlists
+            WHERE playlist_id=?""";
+
+    private static final String SQL_INSERT_ONE = """
+            INSERT INTO playlists (name, user_id)
+            VALUES (?,?)""";
+
+    private static final String SQL_UPDATE_ONE = """
+            UPDATE playlists (name, user_id)
+            SET name=? user_id=?
+            WHERE playlist_id=?""";
+
+    private static final String SQL_DELETE_BY_ID = """
+            DELETE FROM playlists
+            WHERE playlist_id=?""";
+
+    private static final String SQL_FIND_BY_NAME = """
+            SELECT *
+            FROM playlists
+            WHERE name=?""";
+
+    private static final String SQL_FIND_BY_USER = """
+            SELECT *
+            FROM playlists
+            WHERE user_id=?""";
+
+    private static final String SQL_FIND_TRACKS = """
+            SELECT *
+            FROM tracks
+            JOIN playlist_tracks
+            ON playlist_tracks.track_id = tracks.track_id
+            WHERE playlist_tracks.playlist_id=?""";
+
+    private static final String SQL_ADD_TRACK = """
+            INSERT INTO playlist_tracks (playlist_id, track_id)
+            VALUES (?,?)""";
+
+    private static final String SQL_REMOVE_TRACK =  """
+            DELETE FROM playlist_tracks
+            WHERE playlist_id=? AND track_id=?""";
 
     @Inject
     private Track.Builder trackEntityBuilder;
@@ -47,9 +87,9 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                     playlist.getUserId());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
-                    playlistId,
                     playlist.getName(),
-                    playlist.getUserId());
+                    playlist.getUserId(),
+                    playlistId);
         }
     }
 
@@ -60,12 +100,12 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public Optional<Playlist> findByUser(Long userId) {
-        return Optional.empty();
+        return QueryHelper.queryOne(SQL_FIND_BY_USER, playlistEntityBuilder, userId);
     }
 
     @Override
     public Optional<Playlist> findByName(String name) {
-        return Optional.empty();
+        return QueryHelper.queryOne(SQL_FIND_BY_NAME, playlistEntityBuilder, name);
     }
 
     @Override

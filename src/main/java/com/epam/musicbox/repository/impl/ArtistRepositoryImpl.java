@@ -12,15 +12,49 @@ import java.util.Optional;
 
 @Singleton
 public class ArtistRepositoryImpl implements ArtistRepository {
-    private static final String SQL_FIND_ALL = ;
-    private static final String SQL_FIND_BY_ID = ;
-    private static final String SQL_INSERT_ONE = ;
-    private static final String SQL_UPDATE_ONE = ;
-    private static final String SQL_DELETE_BY_ID = ;
-    private static final String SQL_FIND_TRACKS = ;
-    private static final String SQL_ADD_TRACK = ;
-    private static final String SQL_REMOVE_TRACK = ;
-    private static final String SQL_FIND_BY_NAME = ;
+    private static final String SQL_FIND_ALL = """
+            SELECT *
+            FROM artists
+            ORDER BY name
+            LIMIT ?,?""";
+
+    private static final String SQL_FIND_BY_ID = """
+            SELECT *
+            FROM artists
+            WHERE artist_id=?""";
+
+    private static final String SQL_INSERT_ONE = """
+            INSERT INTO artists (name, avatar)
+            VALUES (?,?)""";
+
+    private static final String SQL_UPDATE_ONE = """
+            UPDATE artists (name, avatar)
+            SET name=? avatar=?
+            WHERE artist_id=?""";
+
+    private static final String SQL_DELETE_BY_ID = """
+            DELETE FROM artists
+            WHERE artist_id=?""";
+
+    private static final String SQL_FIND_BY_NAME = """
+            SELECT *
+            FROM artists
+            WHERE name=?""";
+
+    private static final String SQL_FIND_TRACKS = """
+            SELECT *
+            FROM tracks
+            JOIN artist_tracks
+            ON artist_tracks.track_id = tracks.track_id
+            WHERE artist_tracks.artist_id=?""";
+
+    private static final String SQL_ADD_TRACK = """
+            INSERT INTO artist_tracks (artist_id, track_id)
+            VALUES (?,?)""";
+
+    private static final String SQL_REMOVE_TRACK =  """
+            DELETE FROM artist_tracks
+            WHERE artist_id=? AND artist_id=?""";
 
     @Inject
     private Track.Builder trackEntityBuilder;
@@ -47,9 +81,9 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                     artist.getAvatar());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
-                    artist.getId(),
                     artist.getName(),
-                    artist.getAvatar());
+                    artist.getAvatar(),
+                    artist.getId());
         }
     }
 
@@ -69,12 +103,12 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public void addTrack(Long playlistId, Long trackId) throws HttpException {
-        QueryHelper.update(SQL_ADD_TRACK, playlistId, trackId);
+    public void addTrack(Long artistId, Long trackId) throws HttpException {
+        QueryHelper.update(SQL_ADD_TRACK, artistId, trackId);
     }
 
     @Override
-    public void removeTrack(Long playlistId, Long trackId) throws HttpException {
-        QueryHelper.update(SQL_REMOVE_TRACK, playlistId, trackId);
+    public void removeTrack(Long artistId, Long trackId) throws HttpException {
+        QueryHelper.update(SQL_REMOVE_TRACK, artistId, trackId);
     }
 }

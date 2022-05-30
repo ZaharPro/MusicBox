@@ -12,7 +12,7 @@ public interface ArtistRepository extends Repository<Artist> {
 
     List<Track> getTracks(Long artistId, int offset, int limit) throws HttpException;
 
-    void addTrack(Long playlistId, Long trackId) throws HttpException;
+    void addTrack(Long artistId, Long trackId) throws HttpException;
 
-    void removeTrack(Long playlistId, Long trackId) throws HttpException;
+    void removeTrack(Long artistId, Long trackId) throws HttpException;
 }

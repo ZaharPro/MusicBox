@@ -45,7 +45,7 @@ public class SingUpCommand implements Command {
             throw new HttpException("User with this email already exists", HttpServletResponse.SC_BAD_REQUEST);
 
         String hash = passwordHasher.hash(password);
-        User user = new User(null, login, email, hash, false, Timestamp.from(Instant.now()));
+        User user = new User(null, login, email, hash, false, null);
         userService.save(user);
 
         Optional<User> savedUser = userService.findByLogin(login);

@@ -5,17 +5,42 @@ import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.util.QueryHelper;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
+@Singleton
 public class AlbumRepositoryImpl implements AlbumRepository {
-    private static final String SQL_FIND_ALL = ;
-    private static final String SQL_FIND_BY_ID = ;
-    private static final String SQL_INSERT_ONE = ;
-    private static final String SQL_UPDATE_ONE = ;
-    private static final String SQL_DELETE_BY_ID = ;
-    private static final String SQL_FIND_BY_NAME = ;
+    private static final String SQL_FIND_ALL = """
+            SELECT *
+            FROM albums
+            ORDER BY name
+            LIMIT ?,?""";
+
+    private static final String SQL_FIND_BY_ID = """
+            SELECT *
+            FROM albums
+            WHERE album_id=?""";
+
+    private static final String SQL_INSERT_ONE = """
+            INSERT INTO albums (name, picture)
+            VALUES (?,?)""";
+
+    private static final String SQL_UPDATE_ONE = """
+            UPDATE albums (name, picture)
+            SET name=? picture=?
+            WHERE album_id=?""";
+
+    private static final String SQL_DELETE_BY_ID = """
+            DELETE FROM albums
+            WHERE album_id=?""";
+
+    private static final String SQL_FIND_BY_NAME = """
+            SELECT *
+            FROM albums
+            WHERE name=?""";
+
 
     @Inject
     private Album.Builder albumEntityBuilder;
@@ -39,9 +64,9 @@ public class AlbumRepositoryImpl implements AlbumRepository {
                     artist.getPicture());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
-                    artist.getId(),
                     artist.getName(),
-                    artist.getPicture());
+                    artist.getPicture(),
+                    artist.getId());
         }
     }
 

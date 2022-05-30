@@ -12,12 +12,29 @@ import java.util.Optional;
 
 @Singleton
 public class TrackRepositoryImpl implements TrackRepository {
-    private static final String SQL_FIND_ALL = ;
-    private static final String SQL_FIND_BY_ID = ;
-    private static final String SQL_INSERT_ONE = ;
-    private static final String SQL_UPDATE_ONE = ;
-    private static final String SQL_DELETE_BY_ID = ;
-    private static final String SQL_FIND_BY_NAME = ;
+    private static final String SQL_FIND_ALL = """
+            SELECT *
+            FROM tracks
+            ORDER BY name
+            LIMIT ?,?""";
+    private static final String SQL_FIND_BY_ID = """
+            SELECT *
+            FROM tracks
+            WHERE track_id=?""";
+    private static final String SQL_INSERT_ONE = """
+            INSERT INTO tracks (name, path)
+            VALUES (?,?)""";
+    private static final String SQL_UPDATE_ONE = """
+            UPDATE tracks (name, path)
+            SET name=? path=?
+            WHERE track_id=?""";
+    private static final String SQL_DELETE_BY_ID = """
+            DELETE FROM tracks
+            WHERE track_id=?""";
+    private static final String SQL_FIND_BY_NAME = """
+            SELECT *
+            FROM tracks
+            WHERE name=?""";
 
     @Inject
     private Track.Builder trackBuilder;
@@ -41,9 +58,9 @@ public class TrackRepositoryImpl implements TrackRepository {
                     track.getPath());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
-                    track.getId(),
                     track.getName(),
-                    track.getPath());
+                    track.getPath(),
+                    track.getId());
         }
     }
 
