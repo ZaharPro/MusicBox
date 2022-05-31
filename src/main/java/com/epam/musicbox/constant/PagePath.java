@@ -1,6 +1,6 @@
 package com.epam.musicbox.constant;
 
-public class PagePath {
+public final class PagePath {
     public static final String ERROR = "/jsp/pages/error/error.jsp";
     public static final String SIGN_UP = "/jsp/pages/sign-up.jsp";
     public static final String LOGIN = "/jsp/pages/login.jsp";
@@ -11,4 +11,7 @@ public class PagePath {
     public static final String ALBUM = "/jsp/pages/album.jsp";
     public static final String ARTIST = "/jsp/pages/artist.jsp";
     public static final String PLAYLIST = "/jsp/pages/playlist.jsp";
+
+    private PagePath() {
+    }
 }

@@ -6,6 +6,6 @@
     <title>MusicBox</title>
 </head>
 <body>
-<c:redirect url="${pageContext.request.contextPath}/controller?command=home"/>
+<c:redirect url="${pageContext.request.contextPath}/controller?command=login"/>
 </body>
 </html>

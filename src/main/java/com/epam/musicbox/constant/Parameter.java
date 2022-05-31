@@ -1,6 +1,6 @@
 package com.epam.musicbox.constant;
 
-public class Parameter {
+public final class Parameter {
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String COMMAND = "command";
 
@@ -23,4 +23,7 @@ public class Parameter {
 
     public static final String PAGE = "page";
     public static final String ACCESS_TOKEN = "accesstoken";
+
+    private Parameter() {
+    }
 }

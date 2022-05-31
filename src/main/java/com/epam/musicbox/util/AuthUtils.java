@@ -1,12 +1,10 @@
 package com.epam.musicbox.util;
 
 import com.epam.musicbox.constant.Parameter;
-import com.epam.musicbox.database.ConnectionPool;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.validator.Validator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtParserBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -33,7 +31,7 @@ public final class AuthUtils {
     }
 
     static {
-        ClassLoader classLoader = ConnectionPool.class.getClassLoader();
+        ClassLoader classLoader = AuthUtils.class.getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream("prop/application.properties")) {
             Properties properties = new Properties();
             properties.load(inputStream);
