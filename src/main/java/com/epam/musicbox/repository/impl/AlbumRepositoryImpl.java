@@ -3,14 +3,12 @@ package com.epam.musicbox.repository.impl;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.AlbumRepository;
+import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.util.QueryHelper;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
 public class AlbumRepositoryImpl implements AlbumRepository {
     private static final String SQL_FIND_ALL = """
             SELECT *
@@ -43,9 +41,13 @@ public class AlbumRepositoryImpl implements AlbumRepository {
             ORDER BY name
             LIMIT ?,?""";
 
+    public static final AlbumRepositoryImpl instance = new AlbumRepositoryImpl();
 
-    @Inject
-    private Album.Builder albumEntityBuilder;
+    private final Album.Builder albumEntityBuilder = Album.Builder.getInstance();
+
+    public static AlbumRepository getInstance() {
+        return instance;
+    }
 
     @Override
     public List<Album> findAll(int offset, int limit) throws HttpException {

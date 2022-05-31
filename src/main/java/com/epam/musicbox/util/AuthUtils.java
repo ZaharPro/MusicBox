@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class AuthUtils {
     private static final int TIMEZONE_GMT_PLUS_THREE = 60 * 60 * 3;
-    public static final int MAX_AGE;
+    public static final int COOKIE_MAX_AGE;
 
     private static final Key SECRET_KEY;
     private static final long TOKEN_LIFETIME;
@@ -40,7 +40,7 @@ public final class AuthUtils {
             String lifetime = (String) properties.get("jwt.accessToken.lifeTime");
             TOKEN_LIFETIME = Long.parseLong(lifetime);
             SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-            MAX_AGE = (int) (TIMEZONE_GMT_PLUS_THREE + TimeUnit.MINUTES.toSeconds(TOKEN_LIFETIME));
+            COOKIE_MAX_AGE = (int) (TIMEZONE_GMT_PLUS_THREE + TimeUnit.MINUTES.toSeconds(TOKEN_LIFETIME));
         } catch (IOException e) {
             throw new RuntimeException("Error read application properties!", e);
         }
@@ -67,9 +67,11 @@ public final class AuthUtils {
     }
 
     public static Optional<Cookie> getTokenFromCookies(Cookie[] cookies) {
-        return Arrays.stream(cookies)
-                .filter(c -> c.getName().equals(Parameter.ACCESS_TOKEN))
-                .findFirst();
+        return cookies == null ?
+                Optional.empty() :
+                Arrays.stream(cookies)
+                        .filter(c -> c.getName().equals(Parameter.ACCESS_TOKEN))
+                        .findFirst();
     }
 
     public static Jws<Claims> getClaimsJws(HttpServletRequest req) throws HttpException {

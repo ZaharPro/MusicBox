@@ -7,7 +7,6 @@ import com.epam.musicbox.controller.command.CommandProvider;
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.database.ConnectionPool;
 import com.epam.musicbox.exception.HttpException;
-import jakarta.inject.Inject;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,8 +22,7 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
     public static final Logger logger = LogManager.getLogger();
 
-    @Inject
-    private CommandProvider commandProvider;
+    private final CommandProvider commandProvider = CommandProvider.getInstance();
 
     @Override
     public void init() {
@@ -50,6 +48,8 @@ public class Controller extends HttpServlet {
     private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             String commandName = req.getParameter(Parameter.COMMAND);
+            if (commandName == null)
+                return;
             CommandType commandType = CommandType.of(commandName);
             Command command = commandProvider.get(commandType);
             command.execute(req, resp);
@@ -63,12 +63,12 @@ public class Controller extends HttpServlet {
                                  HttpException e) throws IOException {
         logger.error(e.getMessage(), e);
         req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
-        RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
         try {
+            RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
             dispatcher.forward(req, resp);
         } catch (ServletException ex) {
-            logger.error(e.getMessage(), e);
-            resp.sendError(HttpException.DEFAULT_STATUS_CODE, e.getMessage());
+            logger.error(ex.getMessage(), ex);
+            resp.sendError(HttpException.DEFAULT_STATUS_CODE, ex.getMessage());
         }
     }
 }

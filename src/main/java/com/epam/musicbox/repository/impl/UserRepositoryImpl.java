@@ -5,14 +5,11 @@ import com.epam.musicbox.entity.*;
 import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.repository.UserRepository;
 import com.epam.musicbox.util.QueryHelper;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
 public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_FIND_ALL = """
             SELECT *
@@ -123,27 +120,25 @@ public class UserRepositoryImpl implements UserRepository {
             DELETE FROM user_liked_tracks
             WHERE user_id=? AND track_id=?""";
 
+    public static final UserRepositoryImpl instance = new UserRepositoryImpl();
 
-    @Inject
-    private User.Builder userEntityBuilder;
+    private final User.Builder userEntityBuilder = User.Builder.getInstance();
 
-    @Inject
-    private Playlist.Builder playlistEntityBuilder;
+    private final Playlist.Builder playlistEntityBuilder = Playlist.Builder.getInstance();
 
-    @Inject
-    private Artist.Builder artistEntityBuilder;
+    private final Artist.Builder artistEntityBuilder = Artist.Builder.getInstance();
 
-    @Inject
-    private Album.Builder albumEntityBuilder;
+    private final Album.Builder albumEntityBuilder = Album.Builder.getInstance();
 
-    @Inject
-    private Track.Builder trackEntityBuilder;
+    private final Track.Builder trackEntityBuilder = Track.Builder.getInstance();
 
-    @Inject
-    private Role.Builder roleEntityBuilder;
+    private final Role.Builder roleEntityBuilder = Role.Builder.getInstance();
 
-    @Inject
-    private PlaylistRepository playlistRepository;
+    private final PlaylistRepository playlistRepository = PlaylistRepositoryImpl.getInstance();
+
+    public static UserRepositoryImpl getInstance() {
+        return instance;
+    }
 
     @Override
     public List<User> findAll(int offset, int limit) throws HttpException {

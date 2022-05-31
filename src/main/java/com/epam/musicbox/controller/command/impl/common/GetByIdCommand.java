@@ -6,19 +6,19 @@ import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.Service;
 import com.epam.musicbox.util.Pages;
 import com.epam.musicbox.util.Parameters;
-import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Optional;
 
 public class GetByIdCommand<T> implements Command {
-    @Inject
-    protected Service<T> service;
+
+    protected final Service<T> service;
     protected final String idName;
     protected final String pagePath;
 
-    public GetByIdCommand(String id, String pagePath) {
+    public GetByIdCommand(Service<T> service, String id, String pagePath) {
+        this.service = service;
         this.idName = id;
         this.pagePath = pagePath;
     }

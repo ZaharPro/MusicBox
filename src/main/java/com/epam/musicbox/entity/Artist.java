@@ -2,7 +2,6 @@ package com.epam.musicbox.entity;
 
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.util.ObjectUtils;
-import jakarta.inject.Singleton;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,10 +69,14 @@ public class Artist {
                 .toString();
     }
 
-    @Singleton
     public static class Builder implements EntityBuilder<Artist> {
+        private static final Builder instance = new Builder();
 
         private Builder() {
+        }
+
+        public static Builder getInstance() {
+            return instance;
         }
 
         @Override

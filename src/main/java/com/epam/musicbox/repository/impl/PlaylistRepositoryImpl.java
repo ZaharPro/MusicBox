@@ -1,17 +1,14 @@
 package com.epam.musicbox.repository.impl;
 
-import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Track;
+import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.util.QueryHelper;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
 public class PlaylistRepositoryImpl implements PlaylistRepository {
     private static final String SQL_FIND_ALL = """
             SELECT *
@@ -59,11 +56,15 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
             DELETE FROM playlist_tracks
             WHERE playlist_id=? AND track_id=?""";
 
-    @Inject
-    private Track.Builder trackEntityBuilder;
+    public static final PlaylistRepositoryImpl instance = new PlaylistRepositoryImpl();
 
-    @Inject
-    private Playlist.Builder playlistEntityBuilder;
+    private final Track.Builder trackEntityBuilder = Track.Builder.getInstance();
+
+    private final Playlist.Builder playlistEntityBuilder = Playlist.Builder.getInstance();
+
+    public static PlaylistRepositoryImpl getInstance() {
+        return instance;
+    }
 
     @Override
     public List<Playlist> findAll(int offset, int limit) throws HttpException {

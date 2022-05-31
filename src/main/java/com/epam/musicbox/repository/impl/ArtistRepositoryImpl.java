@@ -2,15 +2,13 @@ package com.epam.musicbox.repository.impl;
 
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.entity.*;
+import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.repository.ArtistRepository;
 import com.epam.musicbox.util.QueryHelper;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
 public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_FIND_ALL = """
             SELECT *
@@ -58,11 +56,15 @@ public class ArtistRepositoryImpl implements ArtistRepository {
             DELETE FROM artist_tracks
             WHERE artist_id=? AND artist_id=?""";
 
-    @Inject
-    private Track.Builder trackEntityBuilder;
+    public static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();
 
-    @Inject
-    private Artist.Builder artistEntityBuilder;
+    private final Track.Builder trackEntityBuilder = Track.Builder.getInstance();
+
+    private final Artist.Builder artistEntityBuilder = Artist.Builder.getInstance();
+
+    public static ArtistRepositoryImpl getInstance() {
+        return instance;
+    }
 
     @Override
     public List<Artist> findAll(int offset, int limit) throws HttpException {

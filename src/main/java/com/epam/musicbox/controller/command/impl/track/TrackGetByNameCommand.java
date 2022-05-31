@@ -5,13 +5,13 @@ import com.epam.musicbox.controller.command.impl.common.GetByNameCommand;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.TrackService;
-import jakarta.inject.Inject;
+import com.epam.musicbox.service.impl.TrackServiceImpl;
 
 import java.util.List;
 
 public class TrackGetByNameCommand extends GetByNameCommand<Track> {
-    @Inject
-    private TrackService TrackService;
+
+    private final TrackService service = TrackServiceImpl.getInstance();
 
     public TrackGetByNameCommand() {
         super(PagePath.TRACK);
@@ -19,6 +19,6 @@ public class TrackGetByNameCommand extends GetByNameCommand<Track> {
 
     @Override
     protected List<Track> findByName(String name, int page) throws HttpException {
-        return TrackService.findByName(name, page);
+        return service.findByName(name, page);
     }
 }

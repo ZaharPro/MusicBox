@@ -4,18 +4,22 @@ import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.ArtistRepository;
+import com.epam.musicbox.repository.impl.ArtistRepositoryImpl;
 import com.epam.musicbox.service.ArtistService;
 import com.epam.musicbox.util.Services;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
 public class ArtistServiceImpl implements ArtistService {
-    @Inject
-    private ArtistRepository artistRepository;
+
+    public static final ArtistServiceImpl instance = new ArtistServiceImpl();
+
+    public static ArtistServiceImpl getInstance() {
+        return instance;
+    }
+
+    private final ArtistRepository artistRepository = ArtistRepositoryImpl.getInstance();
 
     @Override
     public List<Artist> findPage(int page) throws HttpException {

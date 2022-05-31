@@ -1,15 +1,16 @@
 package com.epam.musicbox.controller.filter;
 
+import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.AuthUtils;
 import com.epam.musicbox.util.Parameters;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,8 +24,7 @@ public class AccessFilter implements Filter {
     private static final String PERMISSION_DENIED = "Permission denied";
     private static final String SESSION_TIMEOUT = "Session timeout";
 
-    @Inject
-    private UserService userService;
+    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -69,19 +69,22 @@ public class AccessFilter implements Filter {
         }
 
         String commandName = req.getParameter(Parameter.COMMAND);
-        CommandType commandType = CommandType.of(commandName);
-        if (!role.isExistCommandType(commandType)) {
-            sendError(req, resp, PERMISSION_DENIED, HttpServletResponse.SC_FORBIDDEN);
-            return;
+        if (commandName != null) {
+            CommandType commandType = CommandType.of(commandName);
+            if (!role.isExistCommandType(commandType)) {
+                sendError(req, resp, PERMISSION_DENIED, HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    private void sendError(HttpServletRequest request,
-                           HttpServletResponse response,
+    private void sendError(HttpServletRequest req,
+                           HttpServletResponse resp,
                            String message,
-                           int statusCode) throws IOException {
-        request.setAttribute(Parameter.ERROR_MESSAGE, message);
-        response.sendError(statusCode);
+                           int statusCode) throws IOException, ServletException {
+        req.setAttribute(Parameter.ERROR_MESSAGE, message + ", statusCode= " + statusCode);
+        RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
+        dispatcher.forward(req, resp);
     }
 }

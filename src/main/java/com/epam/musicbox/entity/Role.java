@@ -2,16 +2,20 @@ package com.epam.musicbox.entity;
 
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.exception.HttpException;
-import jakarta.inject.Singleton;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
 public enum Role {
     USER(0, "user",
+            CommandType.GO_TO_LOGIN_PAGE,
+            CommandType.GO_TO_SING_UP_PAGE,
+            CommandType.GO_TO_HOME_PAGE,
+
             CommandType.TRACK_GET,
             CommandType.TRACK_GET_BY_ID,
             CommandType.TRACK_GET_BY_NAME,
@@ -50,6 +54,9 @@ public enum Role {
     ADMIN(1, "admin"),
 
     GUEST(Integer.MAX_VALUE, null,
+            CommandType.GO_TO_LOGIN_PAGE,
+            CommandType.GO_TO_SING_UP_PAGE,
+            CommandType.GO_TO_HOME_PAGE,
             CommandType.SING_UP,
             CommandType.LOGIN);
 
@@ -60,7 +67,9 @@ public enum Role {
     Role(int id, String name, CommandType... commandTypes) {
         this.id = id;
         this.name = name;
-        this.commandTypes = EnumSet.copyOf(Arrays.asList(commandTypes));
+        this.commandTypes = commandTypes.length == 0 ?
+                Collections.emptySet() :
+                EnumSet.copyOf(Arrays.asList(commandTypes));
     }
 
     public int getId() {
@@ -94,8 +103,16 @@ public enum Role {
         return null;
     }
 
-    @Singleton
     public static class Builder implements EntityBuilder<Role> {
+        private static final Builder instance = new Builder();
+
+        private Builder() {
+        }
+
+        public static Builder getInstance() {
+            return instance;
+        }
+
         @Override
         public Role build(ResultSet resultSet) throws HttpException {
             try {

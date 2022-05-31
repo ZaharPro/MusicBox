@@ -5,14 +5,14 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.TrackService;
+import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.util.Parameters;
-import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class TrackSaveCommand implements Command {
-    @Inject
-    private TrackService trackService;
+
+    private final TrackService service = TrackServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
@@ -21,6 +21,6 @@ public class TrackSaveCommand implements Command {
         String path = req.getParameter(Parameter.PICTURE);
         Long albumId = Parameters.getLong(req, Parameter.ALBUM_ID);
         Track track = new Track(trackId, name, path, albumId);
-        trackService.save(track);
+        service.save(track);
     }
 }

@@ -5,17 +5,17 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.AuthUtils;
 import com.epam.musicbox.util.Parameters;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class UserSetRoleCommand implements Command {
-    @Inject
-    private UserService userService;
+
+    private final UserService service = UserServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
@@ -23,6 +23,6 @@ public class UserSetRoleCommand implements Command {
         Claims body = claimsJws.getBody();
         long userId = Parameters.get(body, Parameter.USER_ID);
         Role role = Parameters.getRole(req);
-        userService.setRole(userId, role.getId());
+        service.setRole(userId, role.getId());
     }
 }

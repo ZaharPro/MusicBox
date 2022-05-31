@@ -5,14 +5,14 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.ArtistService;
+import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.util.Parameters;
-import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class ArtistSaveCommand implements Command {
-    @Inject
-    private ArtistService artistService;
+
+    private final ArtistService service = ArtistServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
@@ -20,6 +20,6 @@ public class ArtistSaveCommand implements Command {
         String name = req.getParameter(Parameter.NAME);
         String picture = req.getParameter(Parameter.PICTURE);
         Artist artist = new Artist(artistId, name, picture);
-        artistService.save(artist);
+        service.save(artist);
     }
 }

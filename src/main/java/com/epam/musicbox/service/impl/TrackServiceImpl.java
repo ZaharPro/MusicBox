@@ -3,18 +3,22 @@ package com.epam.musicbox.service.impl;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.TrackRepository;
+import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.util.Services;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
 public class TrackServiceImpl implements TrackService {
-    @Inject
-    private TrackRepository trackRepository;
+
+    public static final TrackServiceImpl instance = new TrackServiceImpl();
+
+    private final TrackRepository trackRepository = TrackRepositoryImpl.getInstance();
+
+    public static TrackServiceImpl getInstance() {
+        return instance;
+    }
 
     @Override
     public List<Track> findPage(int page) throws HttpException {

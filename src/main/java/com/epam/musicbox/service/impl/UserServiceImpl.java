@@ -2,19 +2,21 @@ package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.exception.HttpException;
-import com.epam.musicbox.repository.UserRepository;
+import com.epam.musicbox.repository.impl.UserRepositoryImpl;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.util.Services;
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
 public class UserServiceImpl implements UserService {
-    @Inject
-    private UserRepository userRepository;
+    public static final UserServiceImpl instance = new UserServiceImpl();
+
+    private final UserRepositoryImpl userRepository = UserRepositoryImpl.getInstance();
+
+    public static UserServiceImpl getInstance() {
+        return instance;
+    }
 
     @Override
     public List<User> findPage(int page) throws HttpException {
@@ -48,37 +50,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByRole(Integer roleId, int page) throws HttpException {
-        return userRepository.findByRole(roleId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+        return userRepository.findByRole(roleId, Services.getOffset(page), Services.PAGE_SIZE);
     }
 
     @Override
     public List<Playlist> getPlaylists(Long userId, int page) throws HttpException {
-        return userRepository.getPlaylists(userId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+        return userRepository.getPlaylists(userId, Services.getOffset(page), Services.PAGE_SIZE);
     }
 
     @Override
     public List<Artist> getLikedArtists(Long userId, int page) throws HttpException {
-        return userRepository.getLikedArtists(userId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+        return userRepository.getLikedArtists(userId, Services.getOffset(page), Services.PAGE_SIZE);
     }
 
     @Override
     public List<Album> getLikedAlbums(Long userId, int page) throws HttpException {
-        return userRepository.getLikedAlbums(userId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+        return userRepository.getLikedAlbums(userId, Services.getOffset(page), Services.PAGE_SIZE);
     }
 
     @Override
     public List<Track> getLikedTracks(Long userId, int page) throws HttpException {
-        return userRepository.getLikedTracks(userId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+        return userRepository.getLikedTracks(userId, Services.getOffset(page), Services.PAGE_SIZE);
     }
 
     @Override

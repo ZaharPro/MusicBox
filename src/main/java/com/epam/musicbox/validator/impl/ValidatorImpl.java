@@ -1,11 +1,9 @@
 package com.epam.musicbox.validator.impl;
 
 import com.epam.musicbox.validator.Validator;
-import jakarta.inject.Singleton;
 
 import java.util.regex.Pattern;
 
-@Singleton
 public class ValidatorImpl implements Validator {
     private static final String LOGIN_REGEX = "^([\\w\\s:.'-]{1,30})$";
     private static final String PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=\\S+$).{6,50}$";
@@ -16,7 +14,13 @@ public class ValidatorImpl implements Validator {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
+    private static final ValidatorImpl instance = new ValidatorImpl();
+
     private ValidatorImpl() {
+    }
+
+    public static ValidatorImpl getInstance() {
+        return instance;
     }
 
     public boolean isValidLogin(String login) {

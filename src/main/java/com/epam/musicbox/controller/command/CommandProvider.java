@@ -9,15 +9,15 @@ import com.epam.musicbox.controller.command.impl.page.GoToHomePageCommand;
 import com.epam.musicbox.controller.command.impl.page.GoToLoginPageCommand;
 import com.epam.musicbox.controller.command.impl.page.GoToSingUpPageCommand;
 import com.epam.musicbox.controller.command.impl.playlist.*;
-import com.epam.musicbox.controller.command.impl.user.*;
 import com.epam.musicbox.controller.command.impl.track.*;
-import jakarta.inject.Singleton;
+import com.epam.musicbox.controller.command.impl.user.*;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-@Singleton
 public class CommandProvider {
+    private static final CommandProvider instance = new CommandProvider();
+
     private final Map<CommandType, Command> commands;
 
     private CommandProvider() {
@@ -84,6 +84,10 @@ public class CommandProvider {
         commands.put(CommandType.USER_SET_ROLE, new UserSetRoleCommand());
 
         this.commands = commands;
+    }
+
+    public static CommandProvider getInstance() {
+        return instance;
     }
 
     public Command get(CommandType type) {

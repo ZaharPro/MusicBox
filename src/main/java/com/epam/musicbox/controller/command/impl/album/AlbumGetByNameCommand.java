@@ -5,13 +5,13 @@ import com.epam.musicbox.controller.command.impl.common.GetByNameCommand;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.AlbumService;
-import jakarta.inject.Inject;
+import com.epam.musicbox.service.impl.AlbumServiceImpl;
 
 import java.util.List;
 
 public class AlbumGetByNameCommand extends GetByNameCommand<Album> {
-    @Inject
-    private AlbumService albumService;
+
+    private final AlbumService service = AlbumServiceImpl.getInstance();
 
     public AlbumGetByNameCommand() {
         super(PagePath.ALBUM);
@@ -19,6 +19,6 @@ public class AlbumGetByNameCommand extends GetByNameCommand<Album> {
 
     @Override
     protected List<Album> findByName(String name, int page) throws HttpException {
-        return albumService.findByName(name, page);
+        return service.findByName(name, page);
     }
 }
