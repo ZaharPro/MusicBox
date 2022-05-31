@@ -60,7 +60,4 @@ Listen to your favorite music without interference. Terms of Use apply. Editoria
 | Set user role          |       |      | *     |
 
 ### Database schema
-![text](https://github.com/ZaharPro/MusicBox/blob/master/src/main/sql/music_schema.png?raw=true)
-
-
-
+![db schema image](https://github.com/ZaharPro/MusicBox/blob/main/src/main/sql/music_schema.png?raw=true)
