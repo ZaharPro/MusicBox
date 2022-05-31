@@ -8,6 +8,6 @@ import com.epam.musicbox.entity.Track;
 public class TrackGetByIdCommand extends GetByIdCommand<Track> {
 
     public TrackGetByIdCommand() {
-        super(Parameter.TRACK_ID, Parameter.OBJECT, PagePath.TRACK);
+        super(Parameter.TRACK_ID, PagePath.TRACK);
     }
 }

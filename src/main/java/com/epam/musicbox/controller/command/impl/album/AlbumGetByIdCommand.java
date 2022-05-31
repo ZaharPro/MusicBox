@@ -7,6 +7,6 @@ import com.epam.musicbox.entity.Album;
 
 public class AlbumGetByIdCommand extends GetByIdCommand<Album> {
     public AlbumGetByIdCommand() {
-        super(Parameter.ALBUM_ID, Parameter.OBJECT, PagePath.ALBUM);
+        super(Parameter.ALBUM_ID, PagePath.ALBUM);
     }
 }

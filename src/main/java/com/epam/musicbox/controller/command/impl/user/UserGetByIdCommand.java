@@ -8,6 +8,6 @@ import com.epam.musicbox.entity.User;
 public class UserGetByIdCommand extends GetByIdCommand<User> {
 
     public UserGetByIdCommand() {
-        super(Parameter.USER_ID, Parameter.OBJECT, PagePath.USER);
+        super(Parameter.USER_ID, PagePath.USER);
     }
 }

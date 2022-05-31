@@ -14,18 +14,22 @@ public enum Role {
     USER(0, "user",
             CommandType.TRACK_GET,
             CommandType.TRACK_GET_BY_ID,
+            CommandType.TRACK_GET_BY_NAME,
 
             CommandType.ALBUM_GET,
             CommandType.ALBUM_GET_BY_ID,
+            CommandType.ALBUM_GET_BY_NAME,
 
             CommandType.ARTIST_GET,
             CommandType.ARTIST_GET_BY_ID,
+            CommandType.ARTIST_GET_BY_NAME,
             CommandType.ARTIST_GET_TRACKS,
 
             CommandType.PLAYLIST_SAVE,
             CommandType.PLAYLIST_DELETE,
             CommandType.PLAYLIST_GET,
             CommandType.PLAYLIST_GET_BY_ID,
+            CommandType.PLAYLIST_GET_BY_NAME,
             CommandType.PLAYLIST_GET_TRACKS,
             CommandType.PLAYLIST_ADD_TRACK,
             CommandType.PLAYLIST_REMOVE_TRACK,

@@ -7,6 +7,6 @@ import com.epam.musicbox.entity.Playlist;
 
 public class PlaylistGetByIdCommand extends GetByIdCommand<Playlist> {
     public PlaylistGetByIdCommand() {
-        super(Parameter.PLAYLIST_ID, PagePath.PLAYLIST, PagePath.PLAYLIST);
+        super(Parameter.PLAYLIST_ID, PagePath.PLAYLIST);
     }
 }

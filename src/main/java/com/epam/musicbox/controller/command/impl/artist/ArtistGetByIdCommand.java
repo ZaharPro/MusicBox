@@ -7,6 +7,6 @@ import com.epam.musicbox.entity.Artist;
 
 public class ArtistGetByIdCommand extends GetByIdCommand<Artist> {
     public ArtistGetByIdCommand() {
-        super(Parameter.ARTIST_ID, Parameter.OBJECT, PagePath.ARTIST);
+        super(Parameter.ARTIST_ID, PagePath.ARTIST);
     }
 }

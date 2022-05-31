@@ -14,18 +14,21 @@ public enum CommandType {
     //track
     TRACK_GET("trackget"),
     TRACK_GET_BY_ID("trackgetbyid"),
+    TRACK_GET_BY_NAME("trackgetbyname"),
     TRACK_SAVE("tracksave"),
     TRACK_DELETE("trackdelete"),
 
     //album
     ALBUM_GET("albumget"),
     ALBUM_GET_BY_ID("albumgetbyid"),
+    ALBUM_GET_BY_NAME("albumgetbyname"),
     ALBUM_SAVE("albumsave"),
     ALBUM_DELETE("albumdelete"),
 
     //artist
     ARTIST_GET("artistget"),
     ARTIST_GET_BY_ID("artistgetbyid"),
+    ARTIST_GET_BY_NAME("artistgetbyname"),
     ARTIST_SAVE("artistsave"),
     ARTIST_DELETE("artistdelete"),
 
@@ -36,6 +39,7 @@ public enum CommandType {
     //playlist
     PLAYLIST_GET("playlistget"),
     PLAYLIST_GET_BY_ID("playlistgetbyid"),
+    PLAYLIST_GET_BY_NAME("playlistgetbyname"),
     PLAYLIST_SAVE("playlistsave"),
     PLAYLIST_DELETE("playlistdelete"),
 

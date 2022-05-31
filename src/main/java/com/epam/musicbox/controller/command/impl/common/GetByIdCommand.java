@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.command.impl.common;
 
+import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.Service;
@@ -15,12 +16,10 @@ public class GetByIdCommand<T> implements Command {
     @Inject
     protected Service<T> service;
     protected final String idName;
-    protected final String attributeName;
     protected final String pagePath;
 
-    public GetByIdCommand(String id, String attributeName, String pagePath) {
+    public GetByIdCommand(String id, String pagePath) {
         this.idName = id;
-        this.attributeName = attributeName;
         this.pagePath = pagePath;
     }
 
@@ -32,7 +31,7 @@ public class GetByIdCommand<T> implements Command {
             throw new HttpException("Resource not found", HttpServletResponse.SC_NOT_FOUND);
         }
         T t = optional.get();
-        req.setAttribute(attributeName, t);
+        req.setAttribute(Parameter.OBJECT, t);
         Pages.forward(req, resp, pagePath);
     }
 }

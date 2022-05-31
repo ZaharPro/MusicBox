@@ -33,16 +33,19 @@ public class CommandProvider {
 
         commands.put(CommandType.TRACK_GET, new TrackGetCommand());
         commands.put(CommandType.TRACK_GET_BY_ID, new TrackGetByIdCommand());
+        commands.put(CommandType.TRACK_GET_BY_NAME, new TrackGetByNameCommand());
         commands.put(CommandType.TRACK_SAVE, new TrackSaveCommand());
         commands.put(CommandType.TRACK_DELETE, new TrackDeleteCommand());
 
         commands.put(CommandType.ALBUM_GET, new AlbumGetCommand());
         commands.put(CommandType.ALBUM_GET_BY_ID, new AlbumGetByIdCommand());
+        commands.put(CommandType.ALBUM_GET_BY_NAME, new AlbumGetByNameCommand());
         commands.put(CommandType.ALBUM_SAVE, new AlbumSaveCommand());
         commands.put(CommandType.ALBUM_DELETE, new AlbumDeleteCommand());
 
         commands.put(CommandType.ARTIST_GET, new ArtistGetCommand());
         commands.put(CommandType.ARTIST_GET_BY_ID, new ArtistGetByIdCommand());
+        commands.put(CommandType.ARTIST_GET_BY_NAME, new ArtistGetByNameCommand());
         commands.put(CommandType.ARTIST_SAVE, new ArtistSaveCommand());
         commands.put(CommandType.ARTIST_DELETE, new ArtistDeleteCommand());
         commands.put(CommandType.ARTIST_GET_TRACKS, new ArtistGetTracksCommand());
@@ -51,6 +54,7 @@ public class CommandProvider {
 
         commands.put(CommandType.PLAYLIST_GET, new PlaylistGetCommand());
         commands.put(CommandType.PLAYLIST_GET_BY_ID, new PlaylistGetByIdCommand());
+        commands.put(CommandType.PLAYLIST_GET_BY_NAME, new PlaylistGetByNameCommand());
         commands.put(CommandType.PLAYLIST_SAVE, new PlaylistSaveCommand());
         commands.put(CommandType.PLAYLIST_DELETE, new PlaylistDeleteCommand());
         commands.put(CommandType.PLAYLIST_GET_TRACKS, new PlaylistGetTracksCommand());
