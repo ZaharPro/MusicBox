@@ -39,7 +39,9 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_FIND_BY_NAME = """
             SELECT *
             FROM artists
-            WHERE name=?""";
+            WHERE name REGEXP (?)
+            ORDER BY name
+            LIMIT ?,?""";
 
     private static final String SQL_FIND_TRACKS = """
             SELECT *
@@ -93,8 +95,8 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public Optional<Artist> findByName(String name) {
-        return QueryHelper.queryOne(SQL_FIND_BY_NAME, artistEntityBuilder, name);
+    public List<Artist> findByName(String regex, int offset, int limit) throws HttpException {
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, artistEntityBuilder, regex, offset, limit);
     }
 
     @Override

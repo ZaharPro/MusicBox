@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArtistRepository extends Repository<Artist> {
-    Optional<Artist> findByName(String name);
+    List<Artist> findByName(String regex, int offset, int limit) throws HttpException;
 
     List<Track> getTracks(Long artistId, int offset, int limit) throws HttpException;
 

@@ -1,9 +1,10 @@
 package com.epam.musicbox.repository;
 
 import com.epam.musicbox.entity.Album;
+import com.epam.musicbox.exception.HttpException;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface AlbumRepository extends Repository<Album> {
-    Optional<Album> findByName(String name);
+    List<Album> findByName(String regex, int offset, int limit) throws HttpException;
 }

@@ -5,7 +5,7 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.service.PlaylistService;
-import com.epam.musicbox.service.Service;
+import com.epam.musicbox.util.Services;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -19,8 +19,8 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     public List<Playlist> findPage(int page) throws HttpException {
-        return playlistRepository.findAll(Service.getOffset(page),
-                Service.PAGE_SIZE);
+        return playlistRepository.findAll(Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
@@ -39,20 +39,17 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public Optional<Playlist> findByUser(Long userId) {
-        return playlistRepository.findByUser(userId);
-    }
-
-    @Override
-    public Optional<Playlist> findByName(String name) {
-        return playlistRepository.findByName(name);
+    public List<Playlist> findByName(String name, int page) throws HttpException {
+        return playlistRepository.findByName(Services.buildRegex(name),
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
     public List<Track> getTracks(Long playlistId, int page) throws HttpException {
         return playlistRepository.getTracks(playlistId,
-                Service.getOffset(page),
-                Service.PAGE_SIZE);
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override

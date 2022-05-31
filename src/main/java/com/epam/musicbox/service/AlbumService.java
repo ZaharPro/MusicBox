@@ -1,9 +1,10 @@
 package com.epam.musicbox.service;
 
 import com.epam.musicbox.entity.Album;
+import com.epam.musicbox.exception.HttpException;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface AlbumService extends Service<Album> {
-    Optional<Album> findByName(String name);
+    List<Album> findByName(String name, int page) throws HttpException;
 }

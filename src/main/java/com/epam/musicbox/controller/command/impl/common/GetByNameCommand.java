@@ -4,35 +4,32 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.Service;
 import com.epam.musicbox.util.Pages;
-import com.epam.musicbox.util.Parameters;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.Optional;
+import java.util.List;
 
-public class GetByIdCommand<T> implements Command {
+public abstract class GetByNameCommand<T> implements Command {
     @Inject
     protected Service<T> service;
-    protected final String idName;
+    protected final String name;
     protected final String attributeName;
     protected final String pagePath;
 
-    public GetByIdCommand(String id, String attributeName, String pagePath) {
-        this.idName = id;
+    public GetByNameCommand(String id, String attributeName, String pagePath) {
+        this.name = id;
         this.attributeName = attributeName;
         this.pagePath = pagePath;
     }
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
-        long id = Parameters.getLong(req, idName);
-        Optional<T> optional = service.findById(id);
-        if (optional.isEmpty()) {
-            throw new HttpException("Resource not found", HttpServletResponse.SC_NOT_FOUND);
-        }
-        T t = optional.get();
-        req.setAttribute(attributeName, t);
+        String name = req.getParameter(this.name);
+        List<T> list = findByName(name);
+        req.setAttribute(attributeName, list);
         Pages.forward(req, resp, pagePath);
     }
+
+    protected abstract List<T> findByName(String name);
 }

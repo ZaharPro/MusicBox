@@ -3,8 +3,8 @@ package com.epam.musicbox.service.impl;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.TrackRepository;
-import com.epam.musicbox.service.Service;
 import com.epam.musicbox.service.TrackService;
+import com.epam.musicbox.util.Services;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -18,8 +18,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<Track> findPage(int page) throws HttpException {
-        return trackRepository.findAll(Service.getOffset(page),
-                Service.PAGE_SIZE);
+        return trackRepository.findAll(Services.getOffset(page), Services.PAGE_SIZE);
     }
 
     @Override
@@ -38,7 +37,9 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Optional<Track> findByName(String name) {
-        return trackRepository.findByName(name);
+    public List<Track> findByName(String name, int page) throws HttpException {
+        return trackRepository.findByName(Services.buildRegex(name),
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 }

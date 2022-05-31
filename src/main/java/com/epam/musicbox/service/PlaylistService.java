@@ -5,12 +5,9 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.HttpException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PlaylistService extends Service<Playlist> {
-    Optional<Playlist> findByName(String name);
-
-    Optional<Playlist> findByUser(Long userId);
+    List<Playlist> findByName(String name, int page) throws HttpException;
 
     List<Track> getTracks(Long playlistId, int page) throws HttpException;
 

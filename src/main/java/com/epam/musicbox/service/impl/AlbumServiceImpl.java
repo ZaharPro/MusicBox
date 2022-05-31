@@ -4,7 +4,7 @@ import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.service.AlbumService;
-import com.epam.musicbox.service.Service;
+import com.epam.musicbox.util.Services;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -18,8 +18,8 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public List<Album> findPage(int page) throws HttpException {
-        return albumRepository.findAll(Service.getOffset(page),
-                Service.PAGE_SIZE);
+        return albumRepository.findAll(Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
@@ -38,8 +38,9 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public Optional<Album> findByName(String name) {
-        return albumRepository.findByName(name);
+    public List<Album> findByName(String name, int page) throws HttpException {
+        return albumRepository.findByName(Services.buildRegex(name),
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
-
 }

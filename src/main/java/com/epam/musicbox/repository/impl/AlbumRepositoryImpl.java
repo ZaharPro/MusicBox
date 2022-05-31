@@ -39,7 +39,9 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     private static final String SQL_FIND_BY_NAME = """
             SELECT *
             FROM albums
-            WHERE name=?""";
+            WHERE name REGEXP (?)
+            ORDER BY name
+            LIMIT ?,?""";
 
 
     @Inject
@@ -76,7 +78,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     }
 
     @Override
-    public Optional<Album> findByName(String name) {
-        return QueryHelper.queryOne(SQL_FIND_BY_NAME, albumEntityBuilder, name);
+    public List<Album> findByName(String regex, int offset, int limit) throws HttpException {
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, albumEntityBuilder, regex, offset, limit);
     }
 }

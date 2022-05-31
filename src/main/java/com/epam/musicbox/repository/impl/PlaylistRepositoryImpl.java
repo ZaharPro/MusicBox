@@ -40,12 +40,9 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     private static final String SQL_FIND_BY_NAME = """
             SELECT *
             FROM playlists
-            WHERE name=?""";
-
-    private static final String SQL_FIND_BY_USER = """
-            SELECT *
-            FROM playlists
-            WHERE user_id=?""";
+            WHERE name REGEXP (?)
+            ORDER BY name
+            LIMIT ?,?""";
 
     private static final String SQL_FIND_TRACKS = """
             SELECT *
@@ -99,13 +96,8 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     }
 
     @Override
-    public Optional<Playlist> findByUser(Long userId) {
-        return QueryHelper.queryOne(SQL_FIND_BY_USER, playlistEntityBuilder, userId);
-    }
-
-    @Override
-    public Optional<Playlist> findByName(String name) {
-        return QueryHelper.queryOne(SQL_FIND_BY_NAME, playlistEntityBuilder, name);
+    public List<Playlist> findByName(String regex, int offset, int limit) throws HttpException {
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, playlistEntityBuilder, regex, offset, limit);
     }
 
     @Override

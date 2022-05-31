@@ -1,9 +1,10 @@
 package com.epam.musicbox.service;
 
 import com.epam.musicbox.entity.Track;
+import com.epam.musicbox.exception.HttpException;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface TrackService extends Service<Track> {
-    Optional<Track> findByName(String name);
+    List<Track> findByName(String name, int page) throws HttpException;
 }

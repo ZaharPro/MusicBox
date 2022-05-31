@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
-import java.util.Optional;
 
 public class UserGetByRoleCommand implements Command {
     @Inject
@@ -24,7 +23,7 @@ public class UserGetByRoleCommand implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         Role role = Parameters.getRole(req);
         int page = Parameters.getInt(req, Parameter.PAGE);
-        List<User> list = service.findAllByRole(role.getId(), page);
+        List<User> list = service.findByRole(role.getId(), page);
         req.setAttribute(Parameter.LIST, list);
         Pages.forward(req, resp, PagePath.USER);
     }

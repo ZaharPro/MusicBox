@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlaylistRepository extends Repository<Playlist> {
-    Optional<Playlist> findByName(String name);
-
-    Optional<Playlist> findByUser(Long userId);
+    List<Playlist> findByName(String regex, int offset, int limit) throws HttpException;
 
     List<Track> getTracks(Long playListId, int offset, int limit) throws HttpException;
 

@@ -11,7 +11,7 @@ public interface UserService extends Service<User> {
 
     Optional<User> findByEmail(String email);
 
-    List<User> findAllByRole(Integer roleId, int page) throws HttpException;
+    List<User> findByRole(Integer roleId, int page) throws HttpException;
 
     void setRole(Long userId, Integer roleId) throws HttpException;
 
