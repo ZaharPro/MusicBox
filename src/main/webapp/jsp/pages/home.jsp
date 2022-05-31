@@ -8,8 +8,8 @@
 
 <html lang="<fmt:message key="html.lang"/>">
 <head>
-    <c:import url="/jsp/fragments/head.jsp"/>
-    <title><fmt:message key="label.title"/></title>
+    <title><fmt:message key="title"/></title>
+    <c:import url="/jsp/head.jsp"/>
 </head>
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>

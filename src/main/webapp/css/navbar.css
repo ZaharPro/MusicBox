@@ -1,0 +1,48 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+}
+
+header > div, .menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header > div {
+    width: 100%;
+}
+
+header a {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s linear;
+}
+
+header a:hover {
+    color: #ff512f;
+}
+
+.logo a {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 10px;
+    color: #ffffff;
+}
+
+.menuitem {
+    width: 70px;
+    margin-right: 10px;
+    padding: 10px 0;
+
+    background-color: rgba(255, 255, 255, 0.27);
+    color: #ffffff;
+}

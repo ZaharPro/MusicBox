@@ -57,6 +57,7 @@ public enum Role {
             CommandType.GO_TO_LOGIN_PAGE,
             CommandType.GO_TO_SING_UP_PAGE,
             CommandType.GO_TO_HOME_PAGE,
+
             CommandType.SING_UP,
             CommandType.LOGIN);
 

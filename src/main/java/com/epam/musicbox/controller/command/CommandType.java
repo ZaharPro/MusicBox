@@ -2,9 +2,9 @@ package com.epam.musicbox.controller.command;
 
 public enum CommandType {
     //page
-    GO_TO_SING_UP_PAGE("gotosinguppage"),
-    GO_TO_LOGIN_PAGE("gotosloginpage"),
-    GO_TO_HOME_PAGE("gotohomepage"),
+    GO_TO_SING_UP_PAGE("singuppage"),
+    GO_TO_LOGIN_PAGE("loginpage"),
+    GO_TO_HOME_PAGE("homepage"),
 
     //auth
     LOGIN("login"),
