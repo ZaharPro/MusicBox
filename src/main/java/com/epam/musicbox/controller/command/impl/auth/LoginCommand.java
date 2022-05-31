@@ -10,10 +10,12 @@ import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.util.AuthUtils;
 import com.epam.musicbox.validator.Validator;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class LoginCommand implements Command {
@@ -49,9 +51,14 @@ public class LoginCommand implements Command {
         if (optionalRole.isEmpty())
             throw new HttpException("User has no role", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 
-        HttpSession session = req.getSession();
-        session.setAttribute(Parameter.USER_ID, user.getId());
-        session.setAttribute(Parameter.LOGIN, user.getLogin());
-        session.setAttribute(Parameter.ROLE, optionalRole.get());
+        Map<String, String> claims = new HashMap<>();
+        claims.put(Parameter.USER_ID, String.valueOf(user.getId()));
+        claims.put(Parameter.LOGIN, String.valueOf(user.getLogin()));
+        claims.put(Parameter.ROLE, optionalRole.get().getName());
+        String token = AuthUtils.generateToken(claims);
+        Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, token);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(AuthUtils.MAX_AGE);
+        resp.addCookie(cookie);
     }
 }

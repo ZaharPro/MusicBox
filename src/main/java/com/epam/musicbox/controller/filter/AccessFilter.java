@@ -5,12 +5,15 @@ import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.util.AuthUtils;
 import com.epam.musicbox.util.Parameters;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -18,6 +21,7 @@ import java.util.Optional;
 public class AccessFilter implements Filter {
     private static final String UNAUTHORIZED = "Unauthorized";
     private static final String PERMISSION_DENIED = "Permission denied";
+    private static final String SESSION_TIMEOUT = "Session timeout";
 
     @Inject
     private UserService userService;
@@ -29,12 +33,25 @@ public class AccessFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        HttpSession session = req.getSession();
-        Role role = Parameters.getNullable(session, Parameter.ROLE);
-        if (role == null) {
+        Role role;
+        Optional<Cookie> optionalCookie = AuthUtils.getTokenFromCookies(req.getCookies());
+        if (optionalCookie.isEmpty()) {
             role = Role.GUEST;
-        } else if (role == Role.USER || role == Role.ADMIN) {
-            Long userId = Parameters.getNullable(session, Parameter.USER_ID);
+        } else {
+            Jws<Claims> claims;
+            try {
+                String token = optionalCookie.get().getValue();
+                claims = AuthUtils.getClaimsFromToken(token);
+            } catch (Exception e) {
+                Cookie deleteBlackToken = new Cookie(Parameter.ACCESS_TOKEN, null);
+                deleteBlackToken.setMaxAge(0);
+                resp.addCookie(deleteBlackToken);
+                sendError(req, resp, SESSION_TIMEOUT, HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            Claims body = claims.getBody();
+            Long userId = Parameters.getNullable(body, Parameter.USER_ID);
+            role = Parameters.getNullable(body, Parameter.ROLE);
             if (userId == null) {
                 sendError(req, resp, UNAUTHORIZED, HttpServletResponse.SC_UNAUTHORIZED);
                 return;

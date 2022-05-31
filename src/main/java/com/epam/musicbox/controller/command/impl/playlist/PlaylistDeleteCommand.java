@@ -5,10 +5,12 @@ import com.epam.musicbox.controller.command.impl.common.DeleteCommand;
 import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.util.AuthUtils;
 import com.epam.musicbox.util.Parameters;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.Optional;
 
@@ -19,11 +21,13 @@ public class PlaylistDeleteCommand extends DeleteCommand<Playlist> {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
-        HttpSession session = req.getSession();
-        long userId = Parameters.get(session, Parameter.USER_ID);
+        Jws<Claims> claimsJws = AuthUtils.getClaimsJws(req);
+        Claims body = claimsJws.getBody();
+
+        long userId = Parameters.get(body, Parameter.USER_ID);
         long playlistId = Parameters.getLong(req, Parameter.PLAYLIST_ID);
 
-        Role role = Parameters.get(session, Parameter.NAME);
+        Role role = Parameters.get(body, Parameter.NAME);
         if (role == Role.ADMIN) {
             service.deleteById(playlistId);
             return;

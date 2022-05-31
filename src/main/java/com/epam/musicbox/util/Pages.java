@@ -8,7 +8,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class Pages {
+public final class Pages {
+    private Pages() {
+    }
+
     public static void forward(HttpServletRequest req, HttpServletResponse resp, String page) throws HttpException {
         try {
             RequestDispatcher dispatcher = req.getRequestDispatcher(page);
@@ -17,6 +20,7 @@ public class Pages {
             throw new HttpException(e);
         }
     }
+
     public static void redirect(HttpServletResponse resp, String page) throws HttpException {
         try {
             resp.sendRedirect(page);

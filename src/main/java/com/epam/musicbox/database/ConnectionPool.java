@@ -34,10 +34,8 @@ public class ConnectionPool {
     }
 
     private static ConnectionPool createInstance() {
-        try {
-            ClassLoader classLoader = ConnectionPool.class.getClassLoader();
-            InputStream inputStream = classLoader.getResourceAsStream("properties");
-
+        ClassLoader classLoader = ConnectionPool.class.getClassLoader();
+        try (InputStream inputStream = classLoader.getResourceAsStream("prop/database.properties")) {
             Properties property = new Properties();
             property.load(inputStream);
 
@@ -60,7 +58,7 @@ public class ConnectionPool {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Driver is not found" + e.getMessage(), e);
         } catch (IOException e) {
-            throw new RuntimeException("File not found" + e.getMessage(), e);
+            throw new RuntimeException("Error read application properties!", e);
         }
     }
 

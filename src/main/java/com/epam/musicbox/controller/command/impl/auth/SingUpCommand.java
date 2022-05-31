@@ -10,12 +10,12 @@ import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.util.AuthUtils;
 import com.epam.musicbox.validator.Validator;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class SingUpCommand implements Command {
@@ -53,9 +53,19 @@ public class SingUpCommand implements Command {
             throw new HttpException("Server error", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         user = savedUser.get();
 
-        HttpSession session = req.getSession();
-        session.setAttribute(Parameter.USER_ID, user.getId());
-        session.setAttribute(Parameter.LOGIN, user.getLogin());
-        session.setAttribute(Parameter.ROLE, Role.USER);
+        Long userId = user.getId();
+        Role role = Role.USER;
+        userService.setRole(userId, role.getId());
+
+        Map<String, String> claims = new HashMap<>();
+        claims.put(Parameter.USER_ID, String.valueOf(userId));
+        claims.put(Parameter.LOGIN, String.valueOf(user.getLogin()));
+        claims.put(Parameter.ROLE, role.getName());
+
+        String token = AuthUtils.generateToken(claims);
+        Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, token);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(AuthUtils.MAX_AGE);
+        resp.addCookie(cookie);
     }
 }

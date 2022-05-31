@@ -11,8 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class QueryHelper {
+public final class QueryHelper {
     public static final Logger logger = LogManager.getLogger();
+
+    private QueryHelper() {
+    }
 
     public static <T> Optional<T> queryOne(String sql,
                                            EntityBuilder<T> builder,

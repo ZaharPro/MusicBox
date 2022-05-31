@@ -3,16 +3,19 @@ package com.epam.musicbox.util;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.HttpException;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.function.Function;
 
-public class Parameters {
+public final class Parameters {
     private static final Function<String, Integer> INT_MAPPER = Integer::parseInt;
     private static final Function<String, Long> LONG_MAPPER = Long::parseLong;
     private static final Function<String, Boolean> BOOLEAN_MAPPER = Parameters::parseBoolean;
+
+    private Parameters() {
+    }
 
     private static Boolean parseBoolean(String s) {
         if (s == null)
@@ -24,14 +27,14 @@ public class Parameters {
         };
     }
 
-    public static <T> T getNullable(HttpSession session, String parameterName) {
-        return (T) session.getAttribute(parameterName);
+    public static <T> T getNullable(Claims body, String parameterName) {
+        return (T) body.get(parameterName);
     }
 
-    public static <T> T get(HttpSession session, String paramName) throws HttpException {
-        T value = Parameters.getNullable(session, paramName);
+    public static <T> T get(Claims body, String paramName) throws HttpException {
+        T value = Parameters.getNullable(body, paramName);
         if (value == null) {
-            throw new HttpException("Invalid session attribute: " + paramName, HttpServletResponse.SC_BAD_REQUEST);
+            throw new HttpException("Invalid body attribute: " + paramName, HttpServletResponse.SC_BAD_REQUEST);
         }
         return value;
     }
