@@ -23,6 +23,9 @@ public final class Parameter {
 
     public static final String PAGE = "page";
     public static final String ACCESS_TOKEN = "accesstoken";
+    public static final String ARTIST_LIST = "artistlist";
+    public static final String ALBUM_LIST = "albumlist";
+    public static final String TRACK_LIST = "tracklist";
 
     private Parameter() {
     }

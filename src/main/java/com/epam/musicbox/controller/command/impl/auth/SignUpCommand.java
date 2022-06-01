@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class SingUpCommand implements Command {
+public class SignUpCommand implements Command {
 
     private final UserService userService = UserServiceImpl.getInstance();
 

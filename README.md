@@ -8,7 +8,6 @@ Listen to your favorite music without interference. Terms of Use apply. Editoria
 * MySQL
 * HTML5
 * CSS3
-* Bootstrap 5
 * JavaScript
 
 |                        | Guest | User | Admin |

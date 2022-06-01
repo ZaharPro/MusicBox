@@ -1,27 +1,34 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css"/>
 
-<header>
+<header class="header">
     <div class="container">
-        <h1 class="logo">
+        <h1 class="header-logo">
             <a href="${pageContext.request.contextPath}/controller?command=homepage">
                 <fmt:message key="navbar.logo"/>
             </a>
         </h1>
-        <div class="menu">
-            <a href="${pageContext.request.contextPath}/controller?command=homepage" class="menuitem active">
+        <form method="POST" id="headerSearchForm"
+              action="${pageContext.request.contextPath}/controller?command=search" class="header-search-form">
+            <input type="text" class="header-search-input">
+            <button type="submit" class="header-search-btn">
+                <fmt:message key="navbar.search.button"/>
+            </button>
+        </form>
+        <div class="header-menu">
+            <a href="${pageContext.request.contextPath}/controller?command=homepage" class="header-menu-item active">
                 <fmt:message key="navbar.home"/>
             </a>
-            <a href="${pageContext.request.contextPath}/controller?command=loginpage" class="menuitem">
+            <a href="${pageContext.request.contextPath}/controller?command=loginpage" class="header-menu-item">
                 <fmt:message key="navbar.login"/>
             </a>
-            <a href="${pageContext.request.contextPath}/controller?command=singuppage" class="menuitem">
-                <fmt:message key="navbar.singup"/>
+            <a href="${pageContext.request.contextPath}/controller?command=signuppage" class="header-menu-item">
+                <fmt:message key="navbar.signup"/>
             </a>
         </div>
     </div>

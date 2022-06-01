@@ -1,7 +1,3 @@
-form label, form input {
-    display: block;
-}
-
 .background {
     width: 430px;
     min-height: 420px;
@@ -18,7 +14,7 @@ form label, form input {
     border-radius: 50%;
 }
 
-.shape:first-child {
+.background .shape:first-child {
     background: linear-gradient(
             #1845ad,
             #23a2f6
@@ -27,7 +23,7 @@ form label, form input {
     top: -80px;
 }
 
-.shape:last-child {
+.background .shape:last-child {
     background: linear-gradient(
             to right,
             #ff512f,
@@ -37,7 +33,7 @@ form label, form input {
     bottom: -80px;
 }
 
-form {
+.auth-form {
     width: 400px;
     min-height: 420px;
     background-color: rgba(255, 255, 255, 0.13);
@@ -52,34 +48,33 @@ form {
     padding: 50px 35px;
 }
 
-form * {
+.auth-form * {
     color: #ffffff;
     letter-spacing: 0.5px;
 }
 
-form h3 {
+.auth-form h3 {
     font-size: 32px;
     font-weight: 500;
     line-height: 42px;
     text-align: center;
 }
 
-label {
-    display: block;
+.auth-form label {
     margin-top: 30px;
     font-size: 16px;
     font-weight: 500;
 }
 
-label[for=passwordCheckbox], label[for=repeatPasswordCheckbox] {
+.auth-form label[for=passwordCheckbox],
+.auth-form label[for=repeatPasswordCheckbox] {
     display: inline-block;
     margin-top: 20px;
     font-size: 14px;
     font-weight: 400;
 }
 
-input {
-    display: block;
+.auth-form input {
     height: 50px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.07);
@@ -90,7 +85,15 @@ input {
     font-weight: 300;
 }
 
-input[type=checkbox] {
+#invalidRepPassLabel {
+    display: none;
+}
+
+#invalidRepPassLabel.active {
+    display: block;
+}
+
+.auth-form input[type=checkbox] {
     display: inline-block;
     width: 15px;
     height: 15px;
@@ -101,8 +104,8 @@ input[type=checkbox] {
     color: #e5e5e5;
 }
 
-form button, form a {
-    display: block;
+.auth-form button,
+.auth-form a {
     margin-top: 20px;
     width: 100%;
     background-color: #ffffff;
@@ -115,6 +118,22 @@ form button, form a {
     cursor: pointer;
 }
 
-form a {
-    background-color: rgba(255,255,255,0.27);
+.auth-form a {
+    background-color: rgba(255, 255, 255, 0.27);
+}
+
+#submit {
+    cursor: not-allowed;
+    pointer-events: none;
+
+    color: #c0c0c0;
+    background-color: #ffffff;
+}
+
+#submit.active {
+    cursor: pointer;
+    pointer-events: all;
+
+    background-color: #ffffff;
+    color: #080710;
 }

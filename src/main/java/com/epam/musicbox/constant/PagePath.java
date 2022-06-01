@@ -11,6 +11,7 @@ public final class PagePath {
     public static final String ALBUM = "/jsp/pages/album.jsp";
     public static final String ARTIST = "/jsp/pages/artist.jsp";
     public static final String PLAYLIST = "/jsp/pages/playlist.jsp";
+    public static final String SEARCH = "/jsp/pages/search.jsp";
 
     private PagePath() {
     }

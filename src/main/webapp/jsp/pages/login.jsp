@@ -21,11 +21,12 @@
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form method="POST" name="loginForm" action="${pageContext.request.contextPath}/controller?command=login">
+<form method="POST" action="${pageContext.request.contextPath}/controller?command=login"
+      class="auth-form">
     <h3><fmt:message key="login.title"/></h3>
 
     <label for="loginInput"><fmt:message key="login.input.login"/></label>
-    <input type="text" id="loginInput" minlength="8" maxlength="32" name="login" required>
+    <input type="text" id="loginInput" name="login" minlength="8" maxlength="32" required>
 
     <label for="passwordInput"><fmt:message key="login.input.password"/></label>
     <input type="password" id="passwordInput" name="password" minlength="8" maxlength="32" required>
@@ -36,21 +37,8 @@
     <c:if test="${errorMessage != null}">
         <div><fmt:message key="login.error.${errorMessage}"/></div>
     </c:if>
-    <button type="submit" name="Log in"><fmt:message key="login.button.submit"/></button>
+    <button type="submit" class="active"><fmt:message key="login.button.submit"/></button>
 </form>
-<script>
-    const passwordInput = document.getElementById('passwordInput');
-
-    function togglePasswordCheckbox() {
-        toggleCheckBox(passwordInput);
-    }
-
-    function toggleCheckBox(input) {
-        input.type =
-            input.type === "password" ?
-                "text" :
-                "password";
-    }
-</script>
+<script src="../../js/login.js"></script>
 </body>
 </html>

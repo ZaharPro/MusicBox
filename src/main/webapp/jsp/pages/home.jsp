@@ -15,4 +15,6 @@
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
 </body>
+
+<script src="../../js/header-search.js"></script>
 </html>

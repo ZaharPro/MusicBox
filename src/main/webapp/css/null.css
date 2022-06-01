@@ -17,7 +17,7 @@ a:focus, a:active {
     outline: none;
 }
 
-nav, footer, header, aside {
+nav, footer, header, aside, label, input, button, a, form {
     display: block;
 }
 

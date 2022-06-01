@@ -21,52 +21,37 @@
     <div class="shape"></div>
 </div>
 
-<form method="POST" action="${pageContext.request.contextPath}/controller?command=singup">
+<form method="POST" action="${pageContext.request.contextPath}/controller?command=signup" class="auth-form">
 
-    <h3><fmt:message key="singup.title"/></h3>
+    <h3><fmt:message key="signup.title"/></h3>
 
-    <label for="loginInput"><fmt:message key="singup.input.login"/></label>
-    <input type="text" id="loginInput" minlength="8" maxlength="32" required>
+    <label for="loginInput"><fmt:message key="signup.input.login"/></label>
+    <input type="text" id="loginInput" name="login" minlength="8" maxlength="32" required>
 
-    <label for="passwordInput"><fmt:message key="singup.input.password"/></label>
-    <input type="password" id="passwordInput" minlength="8" maxlength="32" required>
+    <label for="passwordInput"><fmt:message key="signup.input.password"/></label>
+    <input type="password" id="passwordInput" name="password" minlength="8" maxlength="32" required>
 
-    <label for="passwordCheckbox"><fmt:message key="singup.checkbox.password"/></label>
+    <label for="passwordCheckbox"><fmt:message key="signup.checkbox.password"/></label>
     <input type="checkbox" id="passwordCheckbox" onclick="togglePasswordCheckbox()">
 
-    <label for="repeatPasswordInput"><fmt:message key="singup.input.repeatPassword"/></label>
+    <label for="repeatPasswordInput"><fmt:message key="signup.input.repeatPassword"/></label>
     <input type="password" id="repeatPasswordInput" minlength="8" maxlength="32" required>
+    <div id="invalidRepPassLabel">
+        <fmt:message key="signup.input.inv.rep.pass.msg"/>
+    </div>
 
-    <label for="repeatPasswordCheckbox"><fmt:message key="singup.checkbox.repeatPassword"/></label>
+    <label for="repeatPasswordCheckbox"><fmt:message key="signup.checkbox.repeatPassword"/></label>
     <input type="checkbox" id="repeatPasswordCheckbox" onclick="toggleRepeatPasswordCheckbox()">
 
     <label for="emailInput"><fmt:message key="signup.input.email"/></label>
-    <input type="email" id="emailInput" minlength="5" maxlength="64" required>
+    <input type="email" id="emailInput" name="email" minlength="5" maxlength="64" required>
 
     <c:if test="${errorMessage != null}">
-        <div><fmt:message key="singup.error.${errorMessage}"/></div>
+        <div><fmt:message key="signup.error.${errorMessage}"/></div>
     </c:if>
-    <button type="submit"><fmt:message key="signup.button.submit"/></button>
+    <button type="submit" id="submit"><fmt:message key="signup.button.submit"/></button>
 </form>
 
-<script>
-    const passwordInput = document.getElementById('passwordInput');
-    const repeatPasswordInput = document.getElementById('repeatPasswordInput');
-
-    function togglePasswordCheckbox() {
-        toggleCheckBox(passwordInput);
-    }
-
-    function toggleRepeatPasswordCheckbox() {
-        toggleCheckBox(repeatPasswordInput);
-    }
-
-    function toggleCheckBox(input) {
-        input.type =
-            input.type === "password" ?
-                "text" :
-                "password";
-    }
-</script>
+<script src="../../js/signup.js"></script>
 </body>
 </html>
