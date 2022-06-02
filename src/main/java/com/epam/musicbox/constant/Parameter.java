@@ -9,6 +9,7 @@ public final class Parameter {
     public static final String PASSWORD = "password";
     public static final String ROLE = "role";
     public static final String NAME = "name";
+    public static final String PAGE = "page";
     public static final String BANNED = "banned";
     public static final String PICTURE = "picture";
 
@@ -20,12 +21,12 @@ public final class Parameter {
 
     public static final String OBJECT = "object";
     public static final String LIST = "list";
-
-    public static final String PAGE = "page";
-    public static final String ACCESS_TOKEN = "accesstoken";
     public static final String ARTIST_LIST = "artistlist";
     public static final String ALBUM_LIST = "albumlist";
     public static final String TRACK_LIST = "tracklist";
+
+    public static final String ACCESS_TOKEN = "accesstoken";
+    public static final String INVALIDATE = "invalidate";
 
     private Parameter() {
     }
