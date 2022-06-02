@@ -7,6 +7,6 @@
     <title><fmt:message key="title"/></title>
 </head>
 <body>
-<c:redirect url="${pageContext.request.contextPath}/controller?command=loginpage"/>
+<c:redirect url="${pageContext.request.contextPath}/controller?command=homepage"/>
 </body>
 </html>

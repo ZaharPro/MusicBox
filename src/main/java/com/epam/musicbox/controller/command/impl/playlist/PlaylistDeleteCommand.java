@@ -16,31 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 public class PlaylistDeleteCommand extends DeleteCommand<Playlist> {
-
     public PlaylistDeleteCommand() {
-        super(PlaylistServiceImpl.getInstance(), Parameter.USER_ID);
-    }
-
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
-        Jws<Claims> claimsJws = AuthUtils.getClaimsJws(req);
-        Claims body = claimsJws.getBody();
-
-        long userId = Parameters.get(body, Parameter.USER_ID);
-        long playlistId = Parameters.getLong(req, Parameter.PLAYLIST_ID);
-
-        Role role = Parameters.get(body, Parameter.NAME);
-        if (role == Role.ADMIN) {
-            service.deleteById(playlistId);
-            return;
-        }
-        Optional<Playlist> optionalPlaylist = service.findById(playlistId);
-        if (optionalPlaylist.isPresent()) {
-            Playlist playlist = optionalPlaylist.get();
-            Long playlistUserId = playlist.getUserId();
-            if (playlistUserId != null && userId == playlistUserId) {
-                service.deleteById(playlistId);
-            }
-        }
+        super(PlaylistServiceImpl.getInstance(), Parameter.PLAYLIST_ID);
     }
 }

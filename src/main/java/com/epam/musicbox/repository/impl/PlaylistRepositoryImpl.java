@@ -22,12 +22,12 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
             WHERE playlist_id=?""";
 
     private static final String SQL_INSERT_ONE = """
-            INSERT INTO playlists (name, user_id)
-            VALUES (?,?)""";
+            INSERT INTO playlists (name)
+            VALUES (?)""";
 
     private static final String SQL_UPDATE_ONE = """
-            UPDATE playlists (name, user_id)
-            SET name=? user_id=?
+            UPDATE playlists (name)
+            SET name=?
             WHERE playlist_id=?""";
 
     private static final String SQL_DELETE_BY_ID = """
@@ -81,12 +81,10 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
         Long playlistId = playlist.getId();
         if (playlistId == null) {
             QueryHelper.update(SQL_INSERT_ONE,
-                    playlist.getName(),
-                    playlist.getUserId());
+                    playlist.getName());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
                     playlist.getName(),
-                    playlist.getUserId(),
                     playlistId);
         }
     }

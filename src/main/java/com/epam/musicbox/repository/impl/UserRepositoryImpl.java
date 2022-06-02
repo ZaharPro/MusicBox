@@ -134,8 +134,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final Role.Builder roleEntityBuilder = Role.Builder.getInstance();
 
-    private final PlaylistRepository playlistRepository = PlaylistRepositoryImpl.getInstance();
-
     public static UserRepositoryImpl getInstance() {
         return instance;
     }
@@ -221,13 +219,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void addPlaylist(Long userId, Long playlistId) throws HttpException {
-        Optional<Playlist> optionalPlaylist = playlistRepository.findById(playlistId);
-        if (optionalPlaylist.isEmpty()) {
-            throw new HttpException("Playlist not found", HttpServletResponse.SC_NOT_FOUND);
-        }
-        Playlist playlist = optionalPlaylist.get();
-        String name = playlist.getName();
-        QueryHelper.update(SQL_ADD_PLAYLIST, name, userId);
+        QueryHelper.update(SQL_ADD_PLAYLIST, userId, playlistId);
     }
 
     @Override

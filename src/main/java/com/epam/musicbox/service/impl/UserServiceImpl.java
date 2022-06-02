@@ -20,7 +20,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findPage(int page) throws HttpException {
-        return userRepository.findAll(Services.getOffset(page), Services.PAGE_SIZE);
+        return userRepository.findAll(Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
@@ -50,27 +51,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByRole(Integer roleId, int page) throws HttpException {
-        return userRepository.findByRole(roleId, Services.getOffset(page), Services.PAGE_SIZE);
+        return userRepository.findByRole(roleId,
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
     public List<Playlist> getPlaylists(Long userId, int page) throws HttpException {
-        return userRepository.getPlaylists(userId, Services.getOffset(page), Services.PAGE_SIZE);
+        return userRepository.getPlaylists(userId,
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
     public List<Artist> getLikedArtists(Long userId, int page) throws HttpException {
-        return userRepository.getLikedArtists(userId, Services.getOffset(page), Services.PAGE_SIZE);
+        return userRepository.getLikedArtists(userId,
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
     public List<Album> getLikedAlbums(Long userId, int page) throws HttpException {
-        return userRepository.getLikedAlbums(userId, Services.getOffset(page), Services.PAGE_SIZE);
+        return userRepository.getLikedAlbums(userId,
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
     public List<Track> getLikedTracks(Long userId, int page) throws HttpException {
-        return userRepository.getLikedTracks(userId, Services.getOffset(page), Services.PAGE_SIZE);
+        return userRepository.getLikedTracks(userId,
+                Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override

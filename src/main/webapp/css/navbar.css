@@ -6,14 +6,10 @@
     width: 100%;
 }
 
-.header > div, .header-menu {
+.header div, .header-menu {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.header > div {
-    width: 100%;
 }
 
 .header a {
@@ -48,12 +44,9 @@
 }
 
 .header-search-form {
-    display: none;
+    display: flex;
     width: 100%;
     margin: 0 10px;
-}
-.header-search-form.active {
-    display: flex;
 }
 
 .header-search-input {

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`tracks`
     `path`     VARCHAR(128) NOT NULL,
     `album_id` BIGINT       NOT NULL,
     CONSTRAINT `tracks_album_id`
-        FOREIGN KEY (`album_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`album_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`artist_tracks`
@@ -37,9 +37,9 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`artist_tracks`
     `artist_id`       BIGINT NOT NULL,
     `track_id`        BIGINT NOT NULL,
     CONSTRAINT `artist_tracks_artist_id`
-        FOREIGN KEY (`artist_id`) REFERENCES artists (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`artist_id`) REFERENCES artists (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `artist_tracks_track_id`
-        FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`users`
@@ -55,10 +55,7 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`users`
 CREATE TABLE IF NOT EXISTS `music_schema`.`playlists`
 (
     `playlist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `name`        VARCHAR(32) NOT NULL,
-    `user_id`     BIGINT      NOT NULL,
-    CONSTRAINT `playlists_user_id`
-        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    `name`        VARCHAR(32) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`playlist_tracks`
@@ -67,9 +64,9 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`playlist_tracks`
     `playlist_id`       BIGINT NOT NULL,
     `track_id`          BIGINT NOT NULL,
     CONSTRAINT `playlist_tracks_playlist_id`
-        FOREIGN KEY (`playlist_id`) REFERENCES playlists (`playlist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`playlist_id`) REFERENCES playlists (`playlist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `playlist_tracks_track_id`
-        FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_albums`
@@ -78,20 +75,9 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_albums`
     `user_id`             BIGINT NOT NULL,
     `album_id`            BIGINT NOT NULL,
     CONSTRAINT `user_liked_albums_user_id`
-        FOREIGN KEY (`user_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `user_liked_albums_album_id`
-        FOREIGN KEY (`album_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_artists`
-(
-    `user_liked_artist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `user_id`              BIGINT NOT NULL,
-    `artist_id`            BIGINT NOT NULL,
-    CONSTRAINT `user_liked_artists_user_id`
-        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `user_liked_artists_artist_id`
-        FOREIGN KEY (`artist_id`) REFERENCES artists (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`album_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_tracks`
@@ -100,9 +86,20 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_tracks`
     `user_id`             BIGINT NOT NULL,
     `track_id`            BIGINT NOT NULL,
     CONSTRAINT `user_liked_tracks_user_id`
-        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `user_liked_tracks_track_id`
-        FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`track_id`) REFERENCES tracks (`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_artists`
+(
+    `user_liked_artist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `user_id`              BIGINT NOT NULL,
+    `artist_id`            BIGINT NOT NULL,
+    CONSTRAINT `user_liked_artists_user_id`
+    FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `user_liked_artists_artist_id`
+    FOREIGN KEY (`artist_id`) REFERENCES artists (`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`user_playlists`
@@ -111,10 +108,11 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`user_playlists`
     `user_id`           BIGINT NOT NULL,
     `playlist_id`       BIGINT NOT NULL,
     CONSTRAINT `user_playlists_user_id`
-        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `user_playlists_track_id`
-        FOREIGN KEY (`playlist_id`) REFERENCES playlists (`playlist_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`playlist_id`) REFERENCES playlists (`playlist_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`user_roles`
 (
@@ -122,9 +120,9 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`user_roles`
     `user_id`      BIGINT NOT NULL,
     `role_id`      BIGINT NOT NULL,
     CONSTRAINT `user_roles_user_id`
-        FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `user_roles_role_id`
-        FOREIGN KEY (`role_id`) REFERENCES roles (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`role_id`) REFERENCES roles (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE UNIQUE INDEX roles_name_uindex on roles (`name`);

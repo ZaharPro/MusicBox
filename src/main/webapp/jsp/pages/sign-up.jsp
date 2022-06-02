@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -9,12 +9,21 @@
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
-    <c:import url="/jsp/head.jsp"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css"/>
 </head>
 <body>
-
-<c:import url="/jsp/fragments/navbar.jsp"/>
+<header class="header">
+    <div class="container">
+        <h1 class="header-logo">
+            <a href="${pageContext.request.contextPath}/controller?command=loginpage">
+                <fmt:message key="navbar.logo"/>
+            </a>
+        </h1>
+    </div>
+</header>
 
 <div class="background">
     <div class="shape"></div>

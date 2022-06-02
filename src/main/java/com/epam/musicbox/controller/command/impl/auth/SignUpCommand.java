@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.command.impl.auth;
 
+import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.entity.Role;
@@ -10,6 +11,7 @@ import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.AuthUtils;
+import com.epam.musicbox.util.Pages;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;
 import jakarta.servlet.http.Cookie;
@@ -57,15 +59,7 @@ public class SignUpCommand implements Command {
         Role role = Role.USER;
         userService.setRole(userId, role.getId());
 
-        Map<String, String> claims = new HashMap<>();
-        claims.put(Parameter.USER_ID, String.valueOf(userId));
-        claims.put(Parameter.LOGIN, String.valueOf(user.getLogin()));
-        claims.put(Parameter.ROLE, role.getName());
-
-        String token = AuthUtils.generateToken(claims);
-        Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, token);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(AuthUtils.COOKIE_MAX_AGE);
-        resp.addCookie(cookie);
+        req.setAttribute(Parameter.LOGIN, login);
+        Pages.forward(req, resp, PagePath.LOGIN);
     }
 }

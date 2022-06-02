@@ -9,11 +9,9 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.AlbumService;
 import com.epam.musicbox.service.ArtistService;
-import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
-import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.util.Pages;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class SearchCommand implements Command {
-    private static final int MAX_LIST_SIZE = 5;
+    private static final int MAX_LIST_SIZE = 7;
 
     private final ArtistService artistService = ArtistServiceImpl.getInstance();
     private final AlbumService albumService = AlbumServiceImpl.getInstance();

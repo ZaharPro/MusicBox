@@ -7,6 +7,7 @@ import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.util.Services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,8 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<Track> findPage(int page) throws HttpException {
-        return trackRepository.findAll(Services.getOffset(page), Services.PAGE_SIZE);
+        return trackRepository.findAll(Services.getOffset(page),
+                Services.PAGE_SIZE);
     }
 
     @Override
@@ -42,8 +44,10 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<Track> findByName(String name, int page) throws HttpException {
-        return trackRepository.findByName(Services.buildRegex(name),
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+        return name.length() < 2 ?
+                Collections.emptyList() :
+                trackRepository.findByName(Services.buildRegex(name),
+                        Services.getOffset(page),
+                        Services.PAGE_SIZE);
     }
 }

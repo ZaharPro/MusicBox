@@ -15,20 +15,14 @@
         </h1>
         <form method="POST" id="headerSearchForm"
               action="${pageContext.request.contextPath}/controller?command=search" class="header-search-form">
-            <input type="text" class="header-search-input">
+            <input type="text" name="name" class="header-search-input">
             <button type="submit" class="header-search-btn">
                 <fmt:message key="navbar.search.button"/>
             </button>
         </form>
         <div class="header-menu">
-            <a href="${pageContext.request.contextPath}/controller?command=homepage" class="header-menu-item active">
-                <fmt:message key="navbar.home"/>
-            </a>
-            <a href="${pageContext.request.contextPath}/controller?command=loginpage" class="header-menu-item">
-                <fmt:message key="navbar.login"/>
-            </a>
-            <a href="${pageContext.request.contextPath}/controller?command=signuppage" class="header-menu-item">
-                <fmt:message key="navbar.signup"/>
+            <a href="${pageContext.request.contextPath}/controller?command=logout" class="header-menu-item">
+                <fmt:message key="navbar.logout"/>
             </a>
         </div>
     </div>

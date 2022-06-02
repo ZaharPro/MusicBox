@@ -16,5 +16,4 @@
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
 </body>
-
 </html>

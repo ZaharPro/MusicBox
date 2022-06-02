@@ -7,6 +7,7 @@ import com.epam.musicbox.repository.impl.AlbumRepositoryImpl;
 import com.epam.musicbox.service.AlbumService;
 import com.epam.musicbox.util.Services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +43,10 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public List<Album> findByName(String name, int page) throws HttpException {
-        return albumRepository.findByName(Services.buildRegex(name),
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+        return name.length() < 2 ?
+                Collections.emptyList() :
+                albumRepository.findByName(Services.buildRegex(name),
+                        Services.getOffset(page),
+                        Services.PAGE_SIZE);
     }
 }

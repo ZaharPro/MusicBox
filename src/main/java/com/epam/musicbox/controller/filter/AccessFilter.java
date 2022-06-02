@@ -23,6 +23,7 @@ public class AccessFilter implements Filter {
     private static final String UNAUTHORIZED = "Unauthorized";
     private static final String PERMISSION_DENIED = "Permission denied";
     private static final String SESSION_TIMEOUT = "Session timeout";
+    private static final String USER_BANNED = "User banned";
 
     private final UserService userService = UserServiceImpl.getInstance();
 
@@ -46,24 +47,24 @@ public class AccessFilter implements Filter {
                 Cookie deleteBlackToken = new Cookie(Parameter.ACCESS_TOKEN, null);
                 deleteBlackToken.setMaxAge(0);
                 resp.addCookie(deleteBlackToken);
-                sendError(req, resp, SESSION_TIMEOUT, HttpServletResponse.SC_UNAUTHORIZED);
+                redirectToLogin(req, resp, SESSION_TIMEOUT);
                 return;
             }
             Claims body = claims.getBody();
             Long userId = Parameters.getNullable(body, Parameter.USER_ID);
             role = Parameters.getNullable(body, Parameter.ROLE);
             if (userId == null) {
-                sendError(req, resp, UNAUTHORIZED, HttpServletResponse.SC_UNAUTHORIZED);
+                redirectToLogin(req, resp, UNAUTHORIZED);
                 return;
             }
             Optional<User> optionalUser = userService.findById(userId);
             if (optionalUser.isEmpty()) {
-                sendError(req, resp, UNAUTHORIZED, HttpServletResponse.SC_UNAUTHORIZED);
+                redirectToLogin(req, resp, UNAUTHORIZED);
                 return;
             }
             User user = optionalUser.get();
             if (user.getBanned()) {
-                sendError(req, resp, PERMISSION_DENIED, HttpServletResponse.SC_FORBIDDEN);
+                sendForbiddenError(req, resp, USER_BANNED);
                 return;
             }
         }
@@ -72,19 +73,32 @@ public class AccessFilter implements Filter {
         if (commandName != null) {
             CommandType commandType = CommandType.of(commandName);
             if (!role.isExistCommandType(commandType)) {
-                sendError(req, resp, PERMISSION_DENIED, HttpServletResponse.SC_FORBIDDEN);
+                sendForbiddenError(req, resp, PERMISSION_DENIED);
                 return;
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
+    private void redirectToLogin(HttpServletRequest req,
+                                 HttpServletResponse resp,
+                                 String message) throws ServletException, IOException {
+        sendError(req, message, PagePath.LOGIN, resp);
+    }
+
+    private void sendForbiddenError(HttpServletRequest req,
+                                    HttpServletResponse resp,
+                                    String message) throws IOException, ServletException {
+        message += ", statusCode = " + HttpServletResponse.SC_FORBIDDEN;
+        sendError(req, message, PagePath.ERROR, resp);
+    }
+
     private void sendError(HttpServletRequest req,
-                           HttpServletResponse resp,
                            String message,
-                           int statusCode) throws IOException, ServletException {
-        req.setAttribute(Parameter.ERROR_MESSAGE, message + ", statusCode= " + statusCode);
-        RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
+                           String error,
+                           HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute(Parameter.ERROR_MESSAGE, message);
+        RequestDispatcher dispatcher = req.getRequestDispatcher(error);
         dispatcher.forward(req, resp);
     }
 }

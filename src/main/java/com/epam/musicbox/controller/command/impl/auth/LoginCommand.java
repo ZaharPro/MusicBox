@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.command.impl.auth;
 
+import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.entity.Role;
@@ -10,6 +11,7 @@ import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.AuthUtils;
+import com.epam.musicbox.util.Pages;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;
 import jakarta.servlet.http.Cookie;
@@ -61,5 +63,7 @@ public class LoginCommand implements Command {
         cookie.setHttpOnly(true);
         cookie.setMaxAge(AuthUtils.COOKIE_MAX_AGE);
         resp.addCookie(cookie);
+
+        Pages.forward(req, resp, PagePath.HOME);
     }
 }

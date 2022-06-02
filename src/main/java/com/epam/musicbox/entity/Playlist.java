@@ -9,15 +9,13 @@ import java.sql.SQLException;
 public class Playlist {
     private Long id;
     private String name;
-    private Long userId;
 
     public Playlist() {
     }
 
-    public Playlist(Long id, String name, Long userId) {
+    public Playlist(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.userId = userId;
     }
 
     public Long getId() {
@@ -36,27 +34,18 @@ public class Playlist {
         this.name = name;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Playlist playlist = (Playlist) o;
         return ObjectUtils.equals(id, playlist.id) &&
-                ObjectUtils.equals(name, playlist.name) &&
-                ObjectUtils.equals(userId, playlist.userId);
+                ObjectUtils.equals(name, playlist.name);
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtils.hash(id, name, userId);
+        return ObjectUtils.hash(id, name);
     }
 
     @Override
@@ -64,7 +53,6 @@ public class Playlist {
         return new StringBuilder("Playlist{")
                 .append("id=").append(id)
                 .append("name= '").append(name).append('\'')
-                .append("userId=").append(userId)
                 .append('}')
                 .toString();
     }
@@ -83,8 +71,7 @@ public class Playlist {
         public Playlist build(ResultSet resultSet) throws HttpException {
             try {
                 return new Playlist(resultSet.getLong("playlist_id"),
-                        resultSet.getString("name"),
-                        resultSet.getLong("user_id"));
+                        resultSet.getString("name"));
             } catch (SQLException e) {
                 throw new HttpException(e);
             }

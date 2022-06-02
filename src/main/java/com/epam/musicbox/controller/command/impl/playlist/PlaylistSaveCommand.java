@@ -17,9 +17,8 @@ public class PlaylistSaveCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         Long playlistId = Parameters.getNullableLong(req, Parameter.PLAYLIST_ID);
-        Long userId = Parameters.getNullableLong(req, Parameter.USER_ID);
         String name = req.getParameter(Parameter.NAME);
-        Playlist playlist = new Playlist(playlistId, name, userId);
+        Playlist playlist = new Playlist(playlistId, name);
         service.save(playlist);
     }
 }
