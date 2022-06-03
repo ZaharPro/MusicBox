@@ -17,8 +17,7 @@ public class PBKDF2PasswordHasher implements PasswordHasher {
     private static final int KEY_LENGTH = 128;
     private static final int SALT_LENGTH = KEY_LENGTH / 8;
     private static final SecureRandom random = new SecureRandom();
-
-
+    
     private static final PBKDF2PasswordHasher instance = new PBKDF2PasswordHasher();
 
     private PBKDF2PasswordHasher() {

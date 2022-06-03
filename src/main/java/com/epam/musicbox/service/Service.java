@@ -10,7 +10,7 @@ public interface Service<T> {
 
     Optional<T> findById(Long id);
 
-    void save(T t) throws HttpException;
+    long save(T t) throws HttpException;
 
     void deleteById(Long id) throws HttpException;
 }

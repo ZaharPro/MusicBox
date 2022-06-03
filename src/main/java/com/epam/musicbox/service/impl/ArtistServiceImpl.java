@@ -34,8 +34,8 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public void save(Artist artist) throws HttpException {
-        artistRepository.save(artist);
+    public long save(Artist artist) throws HttpException {
+        return artistRepository.save(artist);
     }
 
     @Override

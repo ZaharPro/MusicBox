@@ -29,7 +29,7 @@
             <c:forEach items="${artistlist}" var="artist" varStatus="counter">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a class="page-link"
-                       href="${pageContext.request.contextPath}/controller?command=artist-get-by-id?id=${artist.getId()}">
+                       href="${pageContext.request.contextPath}/controller?command=artist-get-by-id?artistid=${artist.getId()}">
                             ${artist.getName()}
                     </a>
                     <div class="image-parent">

@@ -149,10 +149,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void save(User user) throws HttpException {
+    public long save(User user) throws HttpException {
         Long userId = user.getId();
         if (userId == null) {
-            QueryHelper.update(SQL_INSERT_ONE,
+            return QueryHelper.insert(SQL_INSERT_ONE,
                     user.getLogin(),
                     user.getPassword(),
                     user.getEmail(),
@@ -163,7 +163,8 @@ public class UserRepositoryImpl implements UserRepository {
                     user.getPassword(),
                     user.getEmail(),
                     user.getRegistration(),
-                    user.getId());
+                    userId);
+            return userId;
         }
     }
 

@@ -77,17 +77,18 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public void save(Artist artist) throws HttpException {
+    public long save(Artist artist) throws HttpException {
         Long artistId = artist.getId();
         if (artistId == null) {
-            QueryHelper.update(SQL_INSERT_ONE,
+            return QueryHelper.insert(SQL_INSERT_ONE,
                     artist.getName(),
                     artist.getAvatar());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
                     artist.getName(),
                     artist.getAvatar(),
-                    artist.getId());
+                    artistId);
+            return artistId;
         }
     }
 

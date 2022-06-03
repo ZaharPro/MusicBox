@@ -33,8 +33,8 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public void save(Track track) throws HttpException {
-        trackRepository.save(track);
+    public long save(Track track) throws HttpException {
+        return trackRepository.save(track);
     }
 
     @Override

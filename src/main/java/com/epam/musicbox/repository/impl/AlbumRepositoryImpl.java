@@ -60,17 +60,18 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     }
 
     @Override
-    public void save(Album artist) throws HttpException {
+    public long save(Album artist) throws HttpException {
         Long artistId = artist.getId();
         if (artistId == null) {
-            QueryHelper.update(SQL_INSERT_ONE,
+            return QueryHelper.insert(SQL_INSERT_ONE,
                     artist.getName(),
                     artist.getPicture());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
                     artist.getName(),
                     artist.getPicture(),
-                    artist.getId());
+                    artistId);
+            return artistId;
         }
     }
 

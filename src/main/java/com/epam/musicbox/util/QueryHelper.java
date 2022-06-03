@@ -51,6 +51,20 @@ public final class QueryHelper {
         }
     }
 
+    public static long insert(String sql, Object... params) throws HttpException {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        try (Connection connection = connectionPool.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            QueryHelper.prepare(preparedStatement, params);
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
+            return resultSet.getLong(1);
+        } catch (SQLException e) {
+            throw new HttpException(e);
+        }
+    }
+
     public static void update(String sql, Object... params) throws HttpException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {

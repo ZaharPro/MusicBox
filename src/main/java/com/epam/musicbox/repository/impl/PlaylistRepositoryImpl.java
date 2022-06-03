@@ -77,15 +77,16 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     }
 
     @Override
-    public void save(Playlist playlist) throws HttpException {
+    public long save(Playlist playlist) throws HttpException {
         Long playlistId = playlist.getId();
         if (playlistId == null) {
-            QueryHelper.update(SQL_INSERT_ONE,
+            return QueryHelper.insert(SQL_INSERT_ONE,
                     playlist.getName());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
                     playlist.getName(),
                     playlistId);
+            return playlistId;
         }
     }
 

@@ -17,6 +17,8 @@ import com.epam.musicbox.validator.impl.ValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 
 public class SignUpCommand implements Command {
@@ -44,15 +46,8 @@ public class SignUpCommand implements Command {
             throw new HttpException("User with this email already exists", HttpServletResponse.SC_BAD_REQUEST);
 
         String hash = passwordHasher.hash(password);
-        User user = new User(null, login, email, hash, false, null);
-        userService.save(user);
-
-        Optional<User> savedUser = userService.findByLogin(login);
-        if (savedUser.isEmpty())
-            throw new HttpException("Server error", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        user = savedUser.get();
-
-        Long userId = user.getId();
+        User user = new User(null, login, email, hash, false, Timestamp.from(Instant.now()));
+        long userId = userService.save(user);
         Role role = Role.USER;
         userService.setRole(userId, role.getId());
 

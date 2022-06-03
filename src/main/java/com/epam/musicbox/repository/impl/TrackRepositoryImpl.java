@@ -55,17 +55,18 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public void save(Track track) throws HttpException {
+    public long save(Track track) throws HttpException {
         Long trackId = track.getId();
         if (trackId == null) {
-            QueryHelper.update(SQL_INSERT_ONE,
+            return QueryHelper.insert(SQL_INSERT_ONE,
                     track.getName(),
                     track.getPath());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
                     track.getName(),
                     track.getPath(),
-                    track.getId());
+                    trackId);
+            return trackId;
         }
     }
 

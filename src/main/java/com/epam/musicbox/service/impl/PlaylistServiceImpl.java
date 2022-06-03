@@ -34,8 +34,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public void save(Playlist playlist) throws HttpException {
-        playlistRepository.save(playlist);
+    public long save(Playlist playlist) throws HttpException {
+        return playlistRepository.save(playlist);
     }
 
     @Override

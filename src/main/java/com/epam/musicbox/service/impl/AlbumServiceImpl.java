@@ -32,8 +32,8 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public void save(Album album) throws HttpException {
-        albumRepository.save(album);
+    public long save(Album album) throws HttpException {
+        return albumRepository.save(album);
     }
 
     @Override

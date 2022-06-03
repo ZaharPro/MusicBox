@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) throws HttpException {
-        userRepository.save(user);
+    public long save(User user) throws HttpException {
+        return userRepository.save(user);
     }
 
     @Override
