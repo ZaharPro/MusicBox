@@ -2,6 +2,7 @@ package com.epam.musicbox.controller.command;
 
 import com.epam.musicbox.controller.command.impl.album.*;
 import com.epam.musicbox.controller.command.impl.artist.*;
+import com.epam.musicbox.controller.command.impl.auth.ChangePasswordCommand;
 import com.epam.musicbox.controller.command.impl.auth.LoginCommand;
 import com.epam.musicbox.controller.command.impl.auth.LogoutCommand;
 import com.epam.musicbox.controller.command.impl.auth.SignUpCommand;
@@ -27,6 +28,7 @@ public class CommandProvider {
         commands.put(CommandType.GO_TO_SIGN_UP_PAGE, new GoToSingUpPageCommand());
         commands.put(CommandType.GO_TO_LOGIN_PAGE, new GoToLoginPageCommand());
         commands.put(CommandType.GO_TO_HOME_PAGE, new GoToHomePageCommand());
+        commands.put(CommandType.CHANGE_PASSWORD, new ChangePasswordCommand());
         commands.put(CommandType.SEARCH, new SearchCommand());
 
         commands.put(CommandType.LOGIN, new LoginCommand());

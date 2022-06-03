@@ -12,6 +12,7 @@ import java.util.Set;
 
 public enum Role {
     USER(0, "user",
+            CommandType.LOGOUT,
             CommandType.SEARCH,
             CommandType.GO_TO_HOME_PAGE,
 

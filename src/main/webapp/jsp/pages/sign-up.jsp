@@ -9,57 +9,78 @@
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/auth.css"/>
+    <c:import url="/jsp/head.jsp"/>
 </head>
 <body>
-<header class="header">
-    <div class="container">
-        <h1 class="header-logo">
-            <a href="${pageContext.request.contextPath}/controller?command=loginpage">
-                <fmt:message key="navbar.logo"/>
-            </a>
-        </h1>
+
+<section class="d-flex justify-content-center align-items-center" style="min-height: 100vh">
+    <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-semitransparent">
+        <form method="POST" action="${pageContext.request.contextPath}/controller?command=signup">
+            <h2 class="lead font-weight-normal mb-4 me-3">
+                <fmt:message key="signup.title"/>
+            </h2>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="signupInput">
+                    <fmt:message key="signup.input.login"/>
+                </label>
+                <input type="text" id="signupInput" placeholder="Enter signup" name="login"
+                       class="form-control form-control-lg" minlength="8" maxlength="32" required/>
+            </div>
+
+            <div class="form-outline mb-3">
+                <label class="form-label" for="passwordInput">
+                    <fmt:message key="signup.input.password"/>
+                </label>
+                <input type="password" id="passwordInput" placeholder="Enter password" name="password"
+                       class="form-control form-control-lg"/>
+            </div>
+            <div class="form-check mb-4">
+                <input class="form-check-input me-2" type="checkbox" id="passwordCheckbox" value=""
+                       minlength="8" maxlength="32" required onclick="togglePasswordCheckbox()"/>
+                <label class="form-check-label" for="passwordCheckbox">
+                    <fmt:message key="signup.checkbox.password"/>
+                </label>
+            </div>
+
+            <div class="form-outline mb-3">
+                <label class="form-label" for="repeatPasswordInput">
+                    <fmt:message key="signup.input.repeatPassword"/>
+                </label>
+                <input type="password" id="repeatPasswordInput" placeholder="Enter password"
+                       class="form-control form-control-lg"/>
+                <span class="email-error d-none text-danger"><fmt:message key="signup.error.pass"/></span>
+            </div>
+            <div class="form-check mb-4">
+                <input class="form-check-input me-2" type="checkbox" id="repeatPasswordCheckbox" value=""
+                       minlength="8" maxlength="32" required onclick="toggleRepeatPasswordCheckbox()"/>
+                <label class="form-check-label" for="repeatPasswordCheckbox">
+                    <fmt:message key="signup.checkbox.repeatPassword"/>
+                </label>
+            </div>
+
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="emailInput">
+                    <fmt:message key="signup.input.email"/>
+                </label>
+                <input type="email" id="emailInput" placeholder="Enter email" name="email"
+                       class="form-control form-control-lg" minlength="5" maxlength="64" required/>
+            </div>
+
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <button type="submit" class="btn btn-primary btn-lg"
+                        style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                    <fmt:message key="signup.button.submit"/>
+                </button>
+            </div>
+
+            <c:if test="${errorMessage != null}">
+                <div><fmt:message key="signup.error.${errorMessage}"/></div>
+            </c:if>
+        </form>
     </div>
-</header>
-
-<div class="background">
-    <div class="shape"></div>
-    <div class="shape"></div>
-</div>
-
-<form method="POST" action="${pageContext.request.contextPath}/controller?command=signup" class="auth-form">
-
-    <h3><fmt:message key="signup.title"/></h3>
-
-    <label for="loginInput"><fmt:message key="signup.input.login"/></label>
-    <input type="text" id="loginInput" name="login" minlength="8" maxlength="32" required>
-
-    <label for="passwordInput"><fmt:message key="signup.input.password"/></label>
-    <input type="password" id="passwordInput" name="password" minlength="8" maxlength="32" required>
-
-    <label for="passwordCheckbox"><fmt:message key="signup.checkbox.password"/></label>
-    <input type="checkbox" id="passwordCheckbox" onclick="togglePasswordCheckbox()">
-
-    <label for="repeatPasswordInput"><fmt:message key="signup.input.repeatPassword"/></label>
-    <input type="password" id="repeatPasswordInput" minlength="8" maxlength="32" required>
-    <div id="invalidRepPassLabel">
-        <fmt:message key="signup.input.inv.rep.pass.msg"/>
-    </div>
-
-    <label for="repeatPasswordCheckbox"><fmt:message key="signup.checkbox.repeatPassword"/></label>
-    <input type="checkbox" id="repeatPasswordCheckbox" onclick="toggleRepeatPasswordCheckbox()">
-
-    <label for="emailInput"><fmt:message key="signup.input.email"/></label>
-    <input type="email" id="emailInput" name="email" minlength="5" maxlength="64" required>
-
-    <c:if test="${errorMessage != null}">
-        <div><fmt:message key="signup.error.${errorMessage}"/></div>
-    </c:if>
-    <button type="submit" id="submit"><fmt:message key="signup.button.submit"/></button>
-</form>
+</section>
 
 <script src="../../js/signup.js"></script>
 </body>

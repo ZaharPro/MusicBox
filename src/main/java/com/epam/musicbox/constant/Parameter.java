@@ -27,6 +27,8 @@ public final class Parameter {
 
     public static final String ACCESS_TOKEN = "accesstoken";
     public static final String INVALIDATE = "invalidate";
+    public static final String CURRENT_PASSWORD = "currpass";
+    public static final String NEW_PASSWORD = "newpass";
 
     private Parameter() {
     }

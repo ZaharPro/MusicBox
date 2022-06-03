@@ -2,79 +2,80 @@ package com.epam.musicbox.controller.command;
 
 public enum CommandType {
     //page
-    GO_TO_SIGN_UP_PAGE("signuppage"),
-    GO_TO_LOGIN_PAGE("loginpage"),
-    GO_TO_HOME_PAGE("homepage"),
+    GO_TO_SIGN_UP_PAGE("sign-up-page"),
+    GO_TO_LOGIN_PAGE("login-page"),
+    GO_TO_HOME_PAGE("home-page"),
     SEARCH("search"),
 
     //auth
     LOGIN("login"),
     LOGOUT("logout"),
-    SING_UP("singup"),
+    SING_UP("sing-up"),
+    CHANGE_PASSWORD("change-pass"),
 
     //track
-    TRACK_GET("trackget"),
-    TRACK_GET_BY_ID("trackgetbyid"),
-    TRACK_GET_BY_NAME("trackgetbyname"),
-    TRACK_SAVE("tracksave"),
-    TRACK_DELETE("trackdelete"),
+    TRACK_GET("track-get"),
+    TRACK_GET_BY_ID("track-get-by-id"),
+    TRACK_GET_BY_NAME("track-get-by-name"),
+    TRACK_SAVE("track-save"),
+    TRACK_DELETE("track-delete"),
 
     //album
-    ALBUM_GET("albumget"),
-    ALBUM_GET_BY_ID("albumgetbyid"),
-    ALBUM_GET_BY_NAME("albumgetbyname"),
-    ALBUM_SAVE("albumsave"),
-    ALBUM_DELETE("albumdelete"),
+    ALBUM_GET("album-get"),
+    ALBUM_GET_BY_ID("album-get-by-id"),
+    ALBUM_GET_BY_NAME("album-get-by-name"),
+    ALBUM_SAVE("album-save"),
+    ALBUM_DELETE("album-delete"),
 
     //artist
-    ARTIST_GET("artistget"),
-    ARTIST_GET_BY_ID("artistgetbyid"),
-    ARTIST_GET_BY_NAME("artistgetbyname"),
-    ARTIST_SAVE("artistsave"),
-    ARTIST_DELETE("artistdelete"),
+    ARTIST_GET("artist-get"),
+    ARTIST_GET_BY_ID("artist-get-by-id"),
+    ARTIST_GET_BY_NAME("artist-get-by-name"),
+    ARTIST_SAVE("artist-save"),
+    ARTIST_DELETE("artist-delete"),
 
-    ARTIST_GET_TRACKS("artistgettracks"),
-    ARTIST_ADD_TRACK("artistaddtrack"),
-    ARTIST_REMOVE_TRACK("artistremovetrack"),
+    ARTIST_GET_TRACKS("artist-get-tracks"),
+    ARTIST_ADD_TRACK("artist-add-track"),
+    ARTIST_REMOVE_TRACK("artist-remove-track"),
 
     //playlist
-    PLAYLIST_GET("playlistget"),
-    PLAYLIST_GET_BY_ID("playlistgetbyid"),
-    PLAYLIST_GET_BY_NAME("playlistgetbyname"),
-    PLAYLIST_SAVE("playlistsave"),
-    PLAYLIST_DELETE("playlistdelete"),
+    PLAYLIST_GET("playlist-get"),
+    PLAYLIST_GET_BY_ID("playlist-get-by-id"),
+    PLAYLIST_GET_BY_NAME("playlist-get-by-name"),
+    PLAYLIST_SAVE("playlist-save"),
+    PLAYLIST_DELETE("playlist-delete"),
 
-    PLAYLIST_GET_TRACKS("playlistgettracks"),
-    PLAYLIST_ADD_TRACK("playlistaddtrack"),
-    PLAYLIST_REMOVE_TRACK("playlistremovetrack"),
+    PLAYLIST_GET_TRACKS("playlist-get-tracks"),
+    PLAYLIST_ADD_TRACK("playlist-add-track"),
+    PLAYLIST_REMOVE_TRACK("playlist-remove-track"),
 
     //user
-    USER_GET("userget"),
-    USER_DELETE("userdelete"),
+    USER_GET("user-get"),
+    USER_DELETE("user-delete"),
 
-    USER_GET_BY_ID("usergetbyid"),
-    USER_GET_BY_LOGIN("usergetbylogin"),
-    USER_GET_BY_EMAIL("usergetbyemail"),
-    USER_GET_BY_ROLE("usergetbyrole"),
+    USER_GET_BY_ID("user-get-by-id"),
+    USER_GET_BY_LOGIN("user-get-by-login"),
+    USER_GET_BY_EMAIL("user-get-by-email"),
+    USER_GET_BY_ROLE("user-get-by-role"),
 
-    USER_GET_LIKED_ALBUMS("usergetlikedalbums"),
-    USER_LIKE_ALBUM("userlikealbum"),
-    USER_CANCEL_LIKE_ALBUM("usercancellikealbum"),
+    USER_GET_LIKED_ALBUMS("user-get-liked-albums"),
+    USER_LIKE_ALBUM("user-like-album"),
+    USER_CANCEL_LIKE_ALBUM("user-cancel-like-album"),
 
-    USER_GET_LIKED_ARTISTS("usergetlikedartists"),
-    USER_LIKE_ARTIST("userlikeartist"),
-    USER_CANCEL_LIKE_ARTIST("usercancellikeartist"),
+    USER_GET_LIKED_ARTISTS("user-get-liked-artists"),
+    USER_LIKE_ARTIST("user-like-artist"),
+    USER_CANCEL_LIKE_ARTIST("user-cancel-like-artist"),
 
-    USER_GET_LIKED_TRACKS("usergetlikedtracks"),
-    USER_LIKE_TRACK("userliketrack"),
-    USER_CANCEL_LIKE_TRACK("usercancelliketrack"),
+    USER_GET_LIKED_TRACKS("user-get-liked-tracks"),
+    USER_LIKE_TRACK("user-like-track"),
+    USER_CANCEL_LIKE_TRACK("user-cancel-like-track"),
 
-    USER_GET_PLAYLISTS("usergetplaylists"),
-    USER_ADD_PLAYLIST("useraddplaylist"),
-    USER_REMOVE_PLAYLIST("userremoveplaylist"),
+    USER_GET_PLAYLISTS("user-get-playlists"),
+    USER_ADD_PLAYLIST("user-add-playlist"),
+    USER_REMOVE_PLAYLIST("user-remove-playlist"),
 
-    USER_SET_BAN("usersetban"),
-    USER_SET_ROLE("usersetrole");
+    USER_SET_BAN("user-set-ban"),
+    USER_SET_ROLE("user-set-role");
 
     private final String name;
 

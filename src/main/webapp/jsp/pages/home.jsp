@@ -9,8 +9,7 @@
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css"/>
+    <c:import url="/jsp/head.jsp"/>
 </head>
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
