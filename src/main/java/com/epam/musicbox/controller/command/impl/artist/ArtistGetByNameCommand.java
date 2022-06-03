@@ -14,7 +14,7 @@ public class ArtistGetByNameCommand extends GetByNameCommand<Artist> {
     private final ArtistService service = ArtistServiceImpl.getInstance();
 
     public ArtistGetByNameCommand() {
-        super(PagePath.ARTIST);
+        super(PagePath.ARTISTS);
     }
 
     @Override

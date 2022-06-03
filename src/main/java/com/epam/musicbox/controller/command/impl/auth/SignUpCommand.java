@@ -3,6 +3,7 @@ package com.epam.musicbox.controller.command.impl.auth;
 import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.HttpException;
@@ -11,15 +12,11 @@ import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.AuthUtils;
-import com.epam.musicbox.util.Pages;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 public class SignUpCommand implements Command {
@@ -31,7 +28,7 @@ public class SignUpCommand implements Command {
     private final Validator validator = ValidatorImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         String login = req.getParameter(Parameter.LOGIN);
         String email = req.getParameter(Parameter.EMAIL);
         String password = req.getParameter(Parameter.PASSWORD);
@@ -60,6 +57,7 @@ public class SignUpCommand implements Command {
         userService.setRole(userId, role.getId());
 
         req.setAttribute(Parameter.LOGIN, login);
-        Pages.forward(req, resp, PagePath.LOGIN);
+
+        return CommandResult.forward(PagePath.LOGIN);
     }
 }

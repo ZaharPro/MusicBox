@@ -2,6 +2,7 @@ package com.epam.musicbox.controller.command.impl.user;
 
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.service.UserService;
@@ -20,7 +21,7 @@ public class UserSetBanCommand implements Command {
     private final UserService service = UserServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         Jws<Claims> claimsJws = AuthUtils.getClaimsJws(req);
         Claims body = claimsJws.getBody();
         long userId = Parameters.get(body, Parameter.USER_ID);
@@ -29,9 +30,10 @@ public class UserSetBanCommand implements Command {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (banned == user.getBanned())
-                return;
+                return CommandResult.refresh();
             user.setBanned(banned);
             service.save(user);
         }
+        return CommandResult.refresh();
     }
 }

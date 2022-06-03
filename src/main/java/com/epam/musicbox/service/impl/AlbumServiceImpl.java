@@ -43,7 +43,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public List<Album> findByName(String name, int page) throws HttpException {
-        return name.length() < 2 ?
+        return name == null || name.length() < 2 ?
                 Collections.emptyList() :
                 albumRepository.findByName(Services.buildRegex(name),
                         Services.getOffset(page),

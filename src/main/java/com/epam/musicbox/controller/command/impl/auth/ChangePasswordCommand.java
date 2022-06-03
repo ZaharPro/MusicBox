@@ -2,6 +2,7 @@ package com.epam.musicbox.controller.command.impl.auth;
 
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.HttpException;
 import com.epam.musicbox.hasher.PasswordHasher;
@@ -28,7 +29,7 @@ public class ChangePasswordCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         String currentPassword = req.getParameter(Parameter.CURRENT_PASSWORD);
         String newPassword = req.getParameter(Parameter.NEW_PASSWORD);
 
@@ -49,5 +50,6 @@ public class ChangePasswordCommand implements Command {
             throw new HttpException("Invalid current password", HttpServletResponse.SC_BAD_REQUEST);
         user.setPassword(newPassword);
         userService.save(user);
+        return CommandResult.refresh();
     }
 }

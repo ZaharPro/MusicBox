@@ -3,6 +3,7 @@ package com.epam.musicbox.controller.command.impl.auth;
 import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.HttpException;
@@ -11,7 +12,6 @@ import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.AuthUtils;
-import com.epam.musicbox.util.Pages;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;
 import jakarta.servlet.http.Cookie;
@@ -31,7 +31,7 @@ public class LoginCommand implements Command {
     private final Validator validator = ValidatorImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         String login = req.getParameter(Parameter.LOGIN);
         String email = req.getParameter(Parameter.EMAIL);
         String password = req.getParameter(Parameter.PASSWORD);
@@ -64,6 +64,6 @@ public class LoginCommand implements Command {
         cookie.setMaxAge(AuthUtils.COOKIE_MAX_AGE);
         resp.addCookie(cookie);
 
-        Pages.forward(req, resp, PagePath.HOME);
+        return CommandResult.forward(PagePath.HOME);
     }
 }

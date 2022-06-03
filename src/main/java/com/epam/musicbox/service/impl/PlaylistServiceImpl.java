@@ -45,7 +45,7 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     public List<Playlist> findByName(String name, int page) throws HttpException {
-        return name.length() < 2 ?
+        return name == null || name.length() < 2 ?
                 Collections.emptyList() :
                 playlistRepository.findByName(Services.buildRegex(name),
                         Services.getOffset(page),

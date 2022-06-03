@@ -2,8 +2,8 @@ package com.epam.musicbox.controller.command.impl.common;
 
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.exception.HttpException;
-import com.epam.musicbox.util.Pages;
 import com.epam.musicbox.util.Parameters;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,12 +19,12 @@ public abstract class GetByNameCommand<T> implements Command {
     }
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
         String name = req.getParameter(Parameter.NAME);
         int page = Parameters.getInt(req, Parameter.PAGE);
         List<T> list = findByName(name, page);
         req.setAttribute(Parameter.LIST, list);
-        Pages.forward(req, resp, pagePath);
+        return CommandResult.forward(pagePath);
     }
 
     protected abstract List<T> findByName(String name, int page) throws HttpException;

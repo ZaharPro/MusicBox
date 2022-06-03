@@ -14,7 +14,7 @@ public class AlbumGetByNameCommand extends GetByNameCommand<Album> {
     private final AlbumService service = AlbumServiceImpl.getInstance();
 
     public AlbumGetByNameCommand() {
-        super(PagePath.ALBUM);
+        super(PagePath.ALBUMS);
     }
 
     @Override

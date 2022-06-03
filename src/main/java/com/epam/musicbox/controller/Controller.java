@@ -2,9 +2,7 @@ package com.epam.musicbox.controller;
 
 import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
-import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.controller.command.CommandProvider;
-import com.epam.musicbox.controller.command.CommandType;
+import com.epam.musicbox.controller.command.*;
 import com.epam.musicbox.database.ConnectionPool;
 import com.epam.musicbox.exception.HttpException;
 import jakarta.servlet.RequestDispatcher;
@@ -36,23 +34,38 @@ public class Controller extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         doProcess(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         doProcess(req, resp);
     }
 
-    private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             String commandName = req.getParameter(Parameter.COMMAND);
             if (commandName == null)
                 return;
             CommandType commandType = CommandType.of(commandName);
             Command command = commandProvider.get(commandType);
-            command.execute(req, resp);
+            CommandResult commandResult = command.execute(req, resp);
+            CommandResultType type = commandResult.getType();
+            switch (type) {
+                case FORWARD -> {
+                    String page = commandResult.getPage();
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+                    dispatcher.forward(req, resp);
+                }
+                case REDIRECT -> {
+                    String page = commandResult.getPage();
+                    resp.sendRedirect(page);
+                }
+                case REFRESH -> {
+                    resp.setIntHeader("Refresh", 0);
+                }
+            }
         } catch (HttpException e) {
             handleException(req, resp, e);
         }

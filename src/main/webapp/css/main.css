@@ -33,3 +33,7 @@ body {
 .bg-semitransparent {
     background-color: rgba(255, 255, 255, 0.5);
 }
+
+.image-parent {
+    max-width: 40px;
+}
