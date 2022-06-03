@@ -6,7 +6,7 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.Parameters;
@@ -20,7 +20,7 @@ public class UserGetByRoleCommand implements Command {
     private final UserService service = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         Role role = Parameters.getRole(req);
         int page = Parameters.getInt(req, Parameter.PAGE);
         List<User> list = service.findByRole(role.getId(), page);

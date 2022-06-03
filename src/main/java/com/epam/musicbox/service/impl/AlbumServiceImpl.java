@@ -1,7 +1,8 @@
 package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.entity.Album;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.repository.impl.AlbumRepositoryImpl;
 import com.epam.musicbox.service.AlbumService;
@@ -21,9 +22,13 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public List<Album> findPage(int page) throws HttpException {
-        return albumRepository.findAll(Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<Album> findPage(int page) throws ServiceException {
+        try {
+            return albumRepository.findAll(Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -32,21 +37,33 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public long save(Album album) throws HttpException {
-        return albumRepository.save(album);
+    public long save(Album album) throws ServiceException {
+        try {
+            return albumRepository.save(album);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void deleteById(Long id) throws HttpException {
-        albumRepository.deleteById(id);
+    public void deleteById(Long id) throws ServiceException {
+        try {
+            albumRepository.deleteById(id);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Album> findByName(String name, int page) throws HttpException {
-        return name == null || name.length() < 2 ?
-                Collections.emptyList() :
-                albumRepository.findByName(Services.buildRegex(name),
-                        Services.getOffset(page),
-                        Services.PAGE_SIZE);
+    public List<Album> findByName(String name, int page) throws ServiceException {
+        try {
+            return name == null || name.length() < 2 ?
+                    Collections.emptyList() :
+                    albumRepository.findByName(Services.buildRegex(name),
+                            Services.getOffset(page),
+                            Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 }

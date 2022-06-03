@@ -6,14 +6,10 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
-import com.epam.musicbox.exception.HttpException;
-import com.epam.musicbox.hasher.PasswordHasher;
-import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.util.AuthUtils;
-import com.epam.musicbox.validator.Validator;
-import com.epam.musicbox.validator.impl.ValidatorImpl;
+import com.epam.musicbox.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,42 +22,27 @@ public class LoginCommand implements Command {
 
     private final UserService userService = UserServiceImpl.getInstance();
 
-    private final PasswordHasher passwordHasher = PBKDF2PasswordHasher.getInstance();
-
-    private final Validator validator = ValidatorImpl.getInstance();
+    private final AuthService authService = AuthService.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         String login = req.getParameter(Parameter.LOGIN);
-        String email = req.getParameter(Parameter.EMAIL);
         String password = req.getParameter(Parameter.PASSWORD);
 
-        AuthUtils.requireValid(validator, login, email, password);
-
-        Optional<User> optionalUser = userService.findByLogin(login);
-        if (optionalUser.isEmpty())
-            throw new HttpException("User doesn't exists", HttpServletResponse.SC_BAD_REQUEST);
-
-        User user = optionalUser.get();
-        if (user.getBanned())
-            throw new HttpException("User banned", HttpServletResponse.SC_FORBIDDEN);
-
-        if (!passwordHasher.checkPassword(password, user.getPassword()))
-            throw new HttpException("Invalid password", HttpServletResponse.SC_BAD_REQUEST);
-
+        User user = authService.login(login, password);
         Optional<Role> optionalRole = userService.getRole(user.getId());
         if (optionalRole.isEmpty())
-            throw new HttpException("User has no role", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new ServiceException("User has no role");
 
         Map<String, String> claims = new HashMap<>();
         claims.put(Parameter.USER_ID, String.valueOf(user.getId()));
         claims.put(Parameter.LOGIN, String.valueOf(user.getLogin()));
         claims.put(Parameter.ROLE, optionalRole.get().getName());
 
-        String token = AuthUtils.generateToken(claims);
+        String token = authService.generateToken(claims);
         Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, token);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(AuthUtils.COOKIE_MAX_AGE);
+        cookie.setMaxAge(authService.getCookieMaxAge());
         resp.addCookie(cookie);
 
         return CommandResult.forward(PagePath.HOME);

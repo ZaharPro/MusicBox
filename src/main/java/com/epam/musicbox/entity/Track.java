@@ -1,6 +1,6 @@
 package com.epam.musicbox.entity;
 
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.util.ObjectUtils;
 
 import java.sql.ResultSet;
@@ -92,14 +92,14 @@ public class Track {
         }
 
         @Override
-        public Track build(ResultSet resultSet) throws HttpException {
+        public Track build(ResultSet resultSet) throws RepositoryException {
             try {
                 return new Track(resultSet.getLong("track_id"),
                         resultSet.getString("name"),
                         resultSet.getString("path"),
                         resultSet.getLong("album_id"));
             } catch (SQLException e) {
-                throw new HttpException(e);
+                throw new RepositoryException(e);
             }
         }
     }

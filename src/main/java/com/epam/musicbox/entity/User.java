@@ -1,6 +1,6 @@
 package com.epam.musicbox.entity;
 
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.util.ObjectUtils;
 
 import java.sql.ResultSet;
@@ -121,7 +121,7 @@ public class User {
         }
 
         @Override
-        public User build(ResultSet resultSet) throws HttpException {
+        public User build(ResultSet resultSet) throws RepositoryException {
             try {
                 return new User(resultSet.getLong("user_id"),
                         resultSet.getString("login"),
@@ -130,7 +130,7 @@ public class User {
                         resultSet.getBoolean("banned"),
                         resultSet.getTimestamp("registration"));
             } catch (SQLException e) {
-                throw new HttpException(e);
+                throw new RepositoryException(e);
             }
         }
     }

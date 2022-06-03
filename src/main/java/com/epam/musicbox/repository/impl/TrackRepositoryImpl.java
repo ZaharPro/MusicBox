@@ -1,8 +1,7 @@
 package com.epam.musicbox.repository.impl;
 
-import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Track;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.util.QueryHelper;
 
@@ -10,31 +9,30 @@ import java.util.List;
 import java.util.Optional;
 
 public class TrackRepositoryImpl implements TrackRepository {
-    private static final String SQL_FIND_ALL = """
-            SELECT *
-            FROM tracks
-            ORDER BY name
-            LIMIT ?,?""";
-    private static final String SQL_FIND_BY_ID = """
-            SELECT *
-            FROM tracks
-            WHERE track_id=?""";
-    private static final String SQL_INSERT_ONE = """
-            INSERT INTO tracks (name, path)
-            VALUES (?,?)""";
-    private static final String SQL_UPDATE_ONE = """
-            UPDATE tracks (name, path)
-            SET name=? path=?
-            WHERE track_id=?""";
-    private static final String SQL_DELETE_BY_ID = """
-            DELETE FROM tracks
-            WHERE track_id=?""";
-    private static final String SQL_FIND_BY_NAME = """
-            SELECT *
-            FROM tracks
-            WHERE name REGEXP (?)
-            ORDER BY name
-            LIMIT ?,?""";
+    private static final String SQL_FIND_ALL = "SELECT * " +
+                                               "FROM tracks " +
+                                               "ORDER BY name " +
+                                               "LIMIT ?,?";
+
+    private static final String SQL_FIND_BY_ID = "SELECT * " +
+                                                 "FROM tracks " +
+                                                 "WHERE track_id=?";
+
+    private static final String SQL_INSERT_ONE = "INSERT INTO tracks (name, path) " +
+                                                 "VALUES (?,?)";
+
+    private static final String SQL_UPDATE_ONE = "UPDATE tracks (name, path) " +
+                                                 "SET name=? path=? " +
+                                                 "WHERE track_id=?";
+
+    private static final String SQL_DELETE_BY_ID = "DELETE FROM tracks " +
+                                                   "WHERE track_id=?";
+
+    private static final String SQL_FIND_BY_NAME = "SELECT * " +
+                                                   "FROM tracks " +
+                                                   "WHERE name REGEXP (?) " +
+                                                   "ORDER BY name " +
+                                                   "LIMIT ?,?";
 
     public static final TrackRepositoryImpl instance = new TrackRepositoryImpl();
 
@@ -45,7 +43,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public List<Track> findAll(int offset, int limit) throws HttpException {
+    public List<Track> findAll(int offset, int limit) throws RepositoryException {
         return QueryHelper.queryAll(SQL_FIND_ALL, trackEntityBuilder, offset, limit);
     }
 
@@ -55,7 +53,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public long save(Track track) throws HttpException {
+    public long save(Track track) throws RepositoryException {
         Long trackId = track.getId();
         if (trackId == null) {
             return QueryHelper.insert(SQL_INSERT_ONE,
@@ -71,12 +69,12 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public void deleteById(Long id) throws HttpException {
+    public void deleteById(Long id) throws RepositoryException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 
     @Override
-    public List<Track> findByName(String regex, int offset, int limit) throws HttpException {
+    public List<Track> findByName(String regex, int offset, int limit) throws RepositoryException {
         return QueryHelper.queryAll(SQL_FIND_BY_NAME, trackEntityBuilder, regex, offset, limit);
     }
 }

@@ -3,7 +3,7 @@ package com.epam.musicbox.controller.command.impl.common;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.Service;
 import com.epam.musicbox.util.Parameters;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,11 +24,11 @@ public class GetByIdCommand<T> implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         long id = Parameters.getLong(req, idName);
         Optional<T> optional = service.findById(id);
         if (optional.isEmpty()) {
-            throw new HttpException("Resource not found", HttpServletResponse.SC_NOT_FOUND);
+            throw new ServiceException("Resource not found");
         }
         T t = optional.get();
         req.setAttribute(Parameter.OBJECT, t);

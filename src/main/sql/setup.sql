@@ -129,5 +129,5 @@ CREATE UNIQUE INDEX roles_name_uindex on roles (`name`);
 CREATE UNIQUE INDEX user_login_uindex on users (`login`);
 CREATE UNIQUE INDEX user_email_uindex on users (`email`);
 
-/*INSERT INTO roles VALUES (0, 'user');
-INSERT INTO roles VALUES (1, 'admin');*/
+INSERT INTO roles VALUES (1, 'user');
+INSERT INTO roles VALUES (2, 'admin');

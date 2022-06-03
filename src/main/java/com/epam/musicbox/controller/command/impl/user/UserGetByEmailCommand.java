@@ -5,7 +5,7 @@ import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.User;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ public class UserGetByEmailCommand implements Command {
     private final UserService service = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         String email = req.getParameter(Parameter.EMAIL);
         Optional<User> optionalUser = service.findByEmail(email);
         User user = optionalUser.orElse(null);

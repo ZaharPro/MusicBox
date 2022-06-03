@@ -5,7 +5,7 @@ import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Track;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.Parameters;
@@ -19,7 +19,7 @@ public class UserGetLikedTracksCommand implements Command {
     private final UserService service = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         long userId = Parameters.getLong(req, Parameter.USER_ID);
         int page = Parameters.getInt(req, Parameter.PAGE);
         List<Track> list = service.getLikedTracks(userId, page);

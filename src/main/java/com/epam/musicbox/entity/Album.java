@@ -1,6 +1,6 @@
 package com.epam.musicbox.entity;
 
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.util.ObjectUtils;
 
 import java.sql.ResultSet;
@@ -80,13 +80,13 @@ public class Album {
         }
 
         @Override
-        public Album build(ResultSet resultSet) throws HttpException {
+        public Album build(ResultSet resultSet) throws RepositoryException {
             try {
                 return new Album(resultSet.getLong("album_id"),
                         resultSet.getString("name"),
                         resultSet.getString("picture"));
             } catch (SQLException e) {
-                throw new HttpException(e);
+                throw new RepositoryException(e);
             }
         }
     }

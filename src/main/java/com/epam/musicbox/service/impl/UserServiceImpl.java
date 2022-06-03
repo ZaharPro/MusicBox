@@ -1,7 +1,8 @@
 package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.entity.*;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.impl.UserRepositoryImpl;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.util.Services;
@@ -19,9 +20,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findPage(int page) throws HttpException {
-        return userRepository.findAll(Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<User> findPage(int page) throws ServiceException {
+        try {
+            return userRepository.findAll(Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -30,13 +35,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long save(User user) throws HttpException {
-        return userRepository.save(user);
+    public long save(User user) throws ServiceException {
+        try {
+            return userRepository.save(user);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void deleteById(Long id) throws HttpException {
-        userRepository.deleteById(id);
+    public void deleteById(Long id) throws ServiceException {
+        try {
+            userRepository.deleteById(id);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -50,43 +63,67 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByRole(Integer roleId, int page) throws HttpException {
-        return userRepository.findByRole(roleId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<User> findByRole(Integer roleId, int page) throws ServiceException {
+        try {
+            return userRepository.findByRole(roleId,
+                    Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Playlist> getPlaylists(Long userId, int page) throws HttpException {
-        return userRepository.getPlaylists(userId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<Playlist> getPlaylists(Long userId, int page) throws ServiceException {
+        try {
+            return userRepository.getPlaylists(userId,
+                    Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Artist> getLikedArtists(Long userId, int page) throws HttpException {
-        return userRepository.getLikedArtists(userId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<Artist> getLikedArtists(Long userId, int page) throws ServiceException {
+        try {
+            return userRepository.getLikedArtists(userId,
+                    Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Album> getLikedAlbums(Long userId, int page) throws HttpException {
-        return userRepository.getLikedAlbums(userId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<Album> getLikedAlbums(Long userId, int page) throws ServiceException {
+        try {
+            return userRepository.getLikedAlbums(userId,
+                    Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Track> getLikedTracks(Long userId, int page) throws HttpException {
-        return userRepository.getLikedTracks(userId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<Track> getLikedTracks(Long userId, int page) throws ServiceException {
+        try {
+            return userRepository.getLikedTracks(userId,
+                    Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void setRole(Long userId, Integer roleId) throws HttpException {
-        userRepository.setRole(userId, roleId);
+    public void setRole(Long userId, Integer roleId) throws ServiceException {
+        try {
+            userRepository.setRole(userId, roleId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -95,42 +132,74 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addPlaylist(Long userId, Long playlistId) throws HttpException {
-        userRepository.addPlaylist(userId, playlistId);
+    public void addPlaylist(Long userId, Long playlistId) throws ServiceException {
+        try {
+            userRepository.addPlaylist(userId, playlistId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void removePlayList(Long userId, Long playlistId) throws HttpException {
-        userRepository.removePlayList(userId, playlistId);
+    public void removePlayList(Long userId, Long playlistId) throws ServiceException {
+        try {
+            userRepository.removePlayList(userId, playlistId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void likeArtist(Long userId, Long artistId) throws HttpException {
-        userRepository.likeArtist(userId, artistId);
+    public void likeArtist(Long userId, Long artistId) throws ServiceException {
+        try {
+            userRepository.likeArtist(userId, artistId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void cancelLikeArtist(Long userId, Long artistId) throws HttpException {
-        userRepository.cancelLikeArtist(userId, artistId);
+    public void cancelLikeArtist(Long userId, Long artistId) throws ServiceException {
+        try {
+            userRepository.cancelLikeArtist(userId, artistId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void likeAlbum(Long userId, Long albumId) throws HttpException {
-        userRepository.likeAlbum(userId, albumId);
+    public void likeAlbum(Long userId, Long albumId) throws ServiceException {
+        try {
+            userRepository.likeAlbum(userId, albumId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void cancelLikeAlbum(Long userId, Long albumId) throws HttpException {
-        userRepository.cancelLikeAlbum(userId, albumId);
+    public void cancelLikeAlbum(Long userId, Long albumId) throws ServiceException {
+        try {
+            userRepository.cancelLikeAlbum(userId, albumId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void likeTrack(Long userId, Long trackId) throws HttpException {
-        userRepository.likeTrack(userId, trackId);
+    public void likeTrack(Long userId, Long trackId) throws ServiceException {
+        try {
+            userRepository.likeTrack(userId, trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void cancelLikeTrack(Long userId, Long trackId) throws HttpException {
-        userRepository.cancelLikeTrack(userId, trackId);
+    public void cancelLikeTrack(Long userId, Long trackId) throws ServiceException {
+        try {
+            userRepository.cancelLikeTrack(userId, trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 }

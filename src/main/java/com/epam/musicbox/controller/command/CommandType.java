@@ -10,7 +10,7 @@ public enum CommandType {
     //auth
     LOGIN("login"),
     LOGOUT("logout"),
-    SING_UP("sing-up"),
+    SING_UP("sign-up"),
     CHANGE_PASSWORD("change-pass"),
 
     //track

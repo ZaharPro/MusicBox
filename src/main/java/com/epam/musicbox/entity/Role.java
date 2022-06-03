@@ -1,7 +1,7 @@
 package com.epam.musicbox.entity;
 
 import com.epam.musicbox.controller.command.CommandType;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public enum Role {
-    USER(0, "user",
+    USER(1, "user",
             CommandType.LOGOUT,
             CommandType.SEARCH,
             CommandType.GO_TO_HOME_PAGE,
@@ -51,7 +51,7 @@ public enum Role {
             CommandType.USER_ADD_PLAYLIST,
             CommandType.USER_REMOVE_PLAYLIST),
 
-    ADMIN(1, "admin"),
+    ADMIN(2, "admin"),
 
     GUEST(Integer.MAX_VALUE, null,
             CommandType.GO_TO_LOGIN_PAGE,
@@ -82,9 +82,8 @@ public enum Role {
     }
 
     public boolean isExistCommandType(CommandType type) {
-        return true;
-        /*return type != null &&
-                (this == ADMIN || this.commandTypes.contains(type));*/
+        return type != null &&
+                (this == ADMIN || this.commandTypes.contains(type));
     }
 
     public static Role findById(int id) {
@@ -116,12 +115,12 @@ public enum Role {
         }
 
         @Override
-        public Role build(ResultSet resultSet) throws HttpException {
+        public Role build(ResultSet resultSet) throws RepositoryException {
             try {
                 int roleId = resultSet.getInt("role_id");
                 return findById(roleId);
             } catch (SQLException e) {
-                throw new HttpException(e);
+                throw new RepositoryException(e);
             }
         }
     }

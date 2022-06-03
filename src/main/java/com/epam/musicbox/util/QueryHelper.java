@@ -2,7 +2,7 @@ package com.epam.musicbox.util;
 
 import com.epam.musicbox.database.ConnectionPool;
 import com.epam.musicbox.entity.EntityBuilder;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +25,7 @@ public final class QueryHelper {
             return items.size() == 1 ?
                     Optional.of(items.get(0)) :
                     Optional.empty();
-        } catch (HttpException e) {
+        } catch (RepositoryException e) {
             logger.error(e.getMessage(), e);
             return Optional.empty();
         }
@@ -33,7 +33,7 @@ public final class QueryHelper {
 
     public static <T> List<T> queryAll(String sql,
                                        EntityBuilder<T> builder,
-                                       Object... params) throws HttpException {
+                                       Object... params) throws RepositoryException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -47,32 +47,32 @@ public final class QueryHelper {
             }
             return list;
         } catch (SQLException e) {
-            throw new HttpException(e);
+            throw new RepositoryException(e);
         }
     }
 
-    public static long insert(String sql, Object... params) throws HttpException {
+    public static long insert(String sql, Object... params) throws RepositoryException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             QueryHelper.prepare(preparedStatement, params);
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
             return resultSet.getLong(1);
         } catch (SQLException e) {
-            throw new HttpException(e);
+            throw new RepositoryException(e);
         }
     }
 
-    public static void update(String sql, Object... params) throws HttpException {
+    public static void update(String sql, Object... params) throws RepositoryException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             QueryHelper.prepare(preparedStatement, params);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new HttpException(e);
+            throw new RepositoryException(e);
         }
     }
 
@@ -82,7 +82,9 @@ public final class QueryHelper {
             Class<?> paramClass = param.getClass();
             if (paramClass == Integer.class) {
                 preparedStatement.setInt(i, (Integer) param);
-            } else if (paramClass == Timestamp.class) {
+            } else if (paramClass == Boolean.class) {
+                preparedStatement.setBoolean(i, (boolean) param);
+            }else if (paramClass == Timestamp.class) {
                 preparedStatement.setTimestamp(i, (Timestamp) param);
             } else {
                 preparedStatement.setString(i, String.valueOf(param));

@@ -1,16 +1,16 @@
 package com.epam.musicbox.service;
 
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface Service<T> {
-    List<T> findPage(int page) throws HttpException;
+    List<T> findPage(int page) throws ServiceException;
 
     Optional<T> findById(Long id);
 
-    long save(T t) throws HttpException;
+    long save(T t) throws ServiceException;
 
-    void deleteById(Long id) throws HttpException;
+    void deleteById(Long id) throws ServiceException;
 }

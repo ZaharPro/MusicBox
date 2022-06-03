@@ -4,7 +4,7 @@ import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.*;
 import com.epam.musicbox.database.ConnectionPool;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -51,37 +51,18 @@ public class Controller extends HttpServlet {
             CommandType commandType = CommandType.of(commandName);
             Command command = commandProvider.get(commandType);
             CommandResult commandResult = command.execute(req, resp);
-            CommandResultType type = commandResult.getType();
-            switch (type) {
-                case FORWARD -> {
-                    String page = commandResult.getPage();
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-                    dispatcher.forward(req, resp);
-                }
-                case REDIRECT -> {
-                    String page = commandResult.getPage();
-                    resp.sendRedirect(page);
-                }
-                case REFRESH -> {
-                    resp.setIntHeader("Refresh", 0);
-                }
+            String page = commandResult.getPage();
+            if (commandResult.isRedirect()) {
+                resp.sendRedirect(page);
+            } else {
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+                dispatcher.forward(req, resp);
             }
-        } catch (HttpException e) {
-            handleException(req, resp, e);
-        }
-    }
-
-    private void handleException(HttpServletRequest req,
-                                 HttpServletResponse resp,
-                                 HttpException e) throws IOException {
-        logger.error(e.getMessage(), e);
-        req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
-        try {
+        } catch (ServiceException e) {
+            logger.error(e.getMessage(), e);
+            req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
             RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
             dispatcher.forward(req, resp);
-        } catch (ServletException ex) {
-            logger.error(ex.getMessage(), ex);
-            resp.sendError(HttpException.DEFAULT_STATUS_CODE, ex.getMessage());
         }
     }
 }

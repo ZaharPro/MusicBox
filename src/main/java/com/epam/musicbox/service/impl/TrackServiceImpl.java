@@ -1,7 +1,8 @@
 package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.entity.Track;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
 import com.epam.musicbox.service.TrackService;
@@ -22,9 +23,13 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public List<Track> findPage(int page) throws HttpException {
-        return trackRepository.findAll(Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<Track> findPage(int page) throws ServiceException {
+        try {
+            return trackRepository.findAll(Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -33,21 +38,33 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public long save(Track track) throws HttpException {
-        return trackRepository.save(track);
+    public long save(Track track) throws ServiceException {
+        try {
+            return trackRepository.save(track);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void deleteById(Long id) throws HttpException {
-        trackRepository.deleteById(id);
+    public void deleteById(Long id) throws ServiceException {
+        try {
+            trackRepository.deleteById(id);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Track> findByName(String name, int page) throws HttpException {
-        return name == null || name.length() < 2 ?
-                Collections.emptyList() :
-                trackRepository.findByName(Services.buildRegex(name),
-                        Services.getOffset(page),
-                        Services.PAGE_SIZE);
+    public List<Track> findByName(String name, int page) throws ServiceException {
+        try {
+            return name == null || name.length() < 2 ?
+                    Collections.emptyList() :
+                    trackRepository.findByName(Services.buildRegex(name),
+                            Services.getOffset(page),
+                            Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 }

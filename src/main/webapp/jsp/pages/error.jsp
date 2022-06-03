@@ -18,24 +18,10 @@
         <h2 class="lead font-weight-normal mb-4 me-3">
             Request fail
         </h2>
-        <c:if test="${not empty pageContext.errorData.requestURI}">
-            <p class="mb-3">Request from ${pageContext.errorData.requestURI} is failed</p>
-        </c:if>
-        <c:if test="${not empty pageContext.errorData.servletName}">
-            <p class="mb-3">Servlet name or type: ${pageContext.errorData.servletName}</p>
-        </c:if>
-        <c:if test="${not empty pageContext.errorData.throwable}">
-            <p class="mb-3">Exception: ${pageContext.errorData.throwable}</p>
-        </c:if>
-        <c:if test="${errorMessage != null}">
-            <p class="mb-3">Message: ${errorMessage}</p>
-        </c:if>
-        <c:if test="${pageContext.errorData.statusCode != 0}">
-            <p class="mb-3">Status code: ${pageContext.errorData.statusCode}</p>
-        </c:if>
+        <p class="mb-3">Exception: ${errorMessage}</p>
         <button type="button" class="btn btn-primary btn-lg"
                 style="padding-left: 2.5rem; padding-right: 2.5rem;">
-            <a href="${pageContext.request.contextPath}/controller?command=home-page">Go home</a>
+            <a href="${pageContext.request.contextPath}/controller?command=home-page" class="text-white">Go home</a>
         </button>
     </div>
 </section>

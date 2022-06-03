@@ -1,31 +1,27 @@
 package com.epam.musicbox.controller.command;
 
 public class CommandResult {
-    private final CommandResultType type;
     private final String page;
+    private final boolean redirect;
 
-    private CommandResult(CommandResultType type, String page) {
-        this.type = type;
+    private CommandResult(String page, boolean redirect) {
         this.page = page;
-    }
-
-    public static CommandResult redirect(String page) {
-        return new CommandResult(CommandResultType.FORWARD, page);
+        this.redirect = redirect;
     }
 
     public static CommandResult forward(String page) {
-        return new CommandResult(CommandResultType.REDIRECT, page);
+        return new CommandResult(page, false);
     }
 
-    public static CommandResult refresh() {
-        return new CommandResult(CommandResultType.REFRESH, null);
-    }
-
-    public CommandResultType getType() {
-        return type;
+    public static CommandResult redirect(String page) {
+        return new CommandResult(page, true);
     }
 
     public String getPage() {
         return page;
+    }
+
+    public boolean isRedirect() {
+        return redirect;
     }
 }

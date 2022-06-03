@@ -5,9 +5,10 @@ import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.util.AuthUtils;
+import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.util.Parameters;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -26,6 +27,8 @@ public class AccessFilter implements Filter {
     private static final String PERMISSION_DENIED_MSG = "Permission denied";
     private static final String USER_BANNED_MSG = "User banned";
 
+    private final AuthService authService = AuthService.getInstance();
+
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
@@ -35,24 +38,24 @@ public class AccessFilter implements Filter {
 
         AccessCode code = checkRequest(req);
         switch (code) {
-            case OK -> {
+            case OK:
                 filterChain.doFilter(req, resp);
-            }
-            case UNAUTHORIZED -> {
+                break;
+            case UNAUTHORIZED:
                 sendError(req, resp, PagePath.LOGIN, UNAUTHORIZED_MSG);
-            }
-            case SESSION_TIMEOUT -> {
+                break;
+            case SESSION_TIMEOUT:
                 Cookie deleteBlackToken = new Cookie(Parameter.ACCESS_TOKEN, null);
                 deleteBlackToken.setMaxAge(0);
                 resp.addCookie(deleteBlackToken);
                 sendError(req, resp, PagePath.LOGIN, SESSION_TIMEOUT_MSG);
-            }
-            case PERMISSION_DENIED -> {
+                break;
+            case PERMISSION_DENIED:
                 sendError(req, resp, PagePath.ERROR, PERMISSION_DENIED_MSG);
-            }
-            case USER_BANNED -> {
+                break;
+            case USER_BANNED:
                 sendError(req, resp, PagePath.ERROR, USER_BANNED_MSG);
-            }
+                break;
         }
     }
 
@@ -65,36 +68,34 @@ public class AccessFilter implements Filter {
             String commandName = req.getParameter(Parameter.COMMAND);
             return checkCommand(role, commandName);
         }
-        Optional<Cookie> optionalCookie = AuthUtils.getTokenFromCookies(req.getCookies());
+        Optional<Cookie> optionalCookie = authService.getTokenFromCookies(req.getCookies());
         if (optionalCookie.isEmpty()) {
             Role role = Role.GUEST;
             String commandName = req.getParameter(Parameter.COMMAND);
             return checkCommand(role, commandName);
         }
-        Jws<Claims> claims;
         try {
             String token = optionalCookie.get().getValue();
-            claims = AuthUtils.getClaimsFromToken(token);
-        } catch (Exception e) {
-            return AccessCode.SESSION_TIMEOUT;
-        }
-        Claims body = claims.getBody();
-        Long userId = Parameters.getNullable(body, Parameter.USER_ID);
-        Role role = Parameters.getNullable(body, Parameter.ROLE);
-        if (userId == null) {
+            Jws<Claims> claims = authService.getClaimsFromToken(token);
+            Claims body = claims.getBody();
+
+            long userId = Parameters.getLong(body, Parameter.USER_ID);
+            Role role = Parameters.getRole(body);
+
+            UserService userService = UserServiceImpl.getInstance();
+            Optional<User> optionalUser = userService.findById(userId);
+            if (optionalUser.isEmpty()) {
+                return AccessCode.UNAUTHORIZED;
+            }
+            User user = optionalUser.get();
+            if (user.getBanned()) {
+                return AccessCode.USER_BANNED;
+            }
+            String commandName = req.getParameter(Parameter.COMMAND);
+            return checkCommand(role, commandName);
+        } catch (ServiceException e) {
             return AccessCode.UNAUTHORIZED;
         }
-        UserService userService = UserServiceImpl.getInstance();
-        Optional<User> optionalUser = userService.findById(userId);
-        if (optionalUser.isEmpty()) {
-            return AccessCode.UNAUTHORIZED;
-        }
-        User user = optionalUser.get();
-        if (user.getBanned()) {
-            return AccessCode.USER_BANNED;
-        }
-        String commandName = req.getParameter(Parameter.COMMAND);
-        return checkCommand(role, commandName);
     }
 
     private AccessCode checkCommand(Role role, String commandName) {

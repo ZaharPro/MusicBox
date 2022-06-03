@@ -2,7 +2,8 @@ package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.RepositoryException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.ArtistRepository;
 import com.epam.musicbox.repository.impl.ArtistRepositoryImpl;
 import com.epam.musicbox.service.ArtistService;
@@ -23,9 +24,13 @@ public class ArtistServiceImpl implements ArtistService {
     private final ArtistRepository artistRepository = ArtistRepositoryImpl.getInstance();
 
     @Override
-    public List<Artist> findPage(int page) throws HttpException {
-        return artistRepository.findAll(Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<Artist> findPage(int page) throws ServiceException {
+        try {
+            return artistRepository.findAll(Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -34,38 +39,62 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public long save(Artist artist) throws HttpException {
-        return artistRepository.save(artist);
+    public long save(Artist artist) throws ServiceException {
+        try {
+            return artistRepository.save(artist);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void deleteById(Long id) throws HttpException {
-        artistRepository.deleteById(id);
+    public void deleteById(Long id) throws ServiceException {
+        try {
+            artistRepository.deleteById(id);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Artist> findByName(String name, int page) throws HttpException {
-        return name == null || name.length() < 2 ?
-                Collections.emptyList() :
-                artistRepository.findByName(Services.buildRegex(name),
-                        Services.getOffset(page),
-                        Services.PAGE_SIZE);
+    public List<Artist> findByName(String name, int page) throws ServiceException {
+        try {
+            return name == null || name.length() < 2 ?
+                    Collections.emptyList() :
+                    artistRepository.findByName(Services.buildRegex(name),
+                            Services.getOffset(page),
+                            Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Track> getTracks(Long artistId, int page) throws HttpException {
-        return artistRepository.getTracks(artistId,
-                Services.getOffset(page),
-                Services.PAGE_SIZE);
+    public List<Track> getTracks(Long artistId, int page) throws ServiceException {
+        try {
+            return artistRepository.getTracks(artistId,
+                    Services.getOffset(page),
+                    Services.PAGE_SIZE);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void addTrack(Long artistId, Long trackId) throws HttpException {
-        artistRepository.addTrack(artistId, trackId);
+    public void addTrack(Long artistId, Long trackId) throws ServiceException {
+        try {
+            artistRepository.addTrack(artistId, trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void removeTrack(Long artistId, Long trackId) throws HttpException {
-        artistRepository.removeTrack(artistId, trackId);
+    public void removeTrack(Long artistId, Long trackId) throws ServiceException {
+        try {
+            artistRepository.removeTrack(artistId, trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 }

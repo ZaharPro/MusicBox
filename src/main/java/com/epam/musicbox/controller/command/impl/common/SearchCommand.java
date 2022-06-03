@@ -7,7 +7,7 @@ import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AlbumService;
 import com.epam.musicbox.service.ArtistService;
 import com.epam.musicbox.service.TrackService;
@@ -27,7 +27,7 @@ public class SearchCommand implements Command {
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         String name = req.getParameter(Parameter.NAME);
 
         List<Artist> artistList = cutList(artistService.findByName(name, 0));

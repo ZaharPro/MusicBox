@@ -1,8 +1,9 @@
 package com.epam.musicbox.controller.command.impl.common;
 
+import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.Service;
 import com.epam.musicbox.util.Parameters;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,9 +20,9 @@ public class DeleteCommand<T> implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws HttpException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         long id = Parameters.getLong(req, idName);
         service.deleteById(id);
-        return CommandResult.refresh();
+        return CommandResult.forward(PagePath.HOME);
     }
 }

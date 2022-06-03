@@ -3,7 +3,7 @@ package com.epam.musicbox.controller.command.impl.album;
 import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.controller.command.impl.common.GetByNameCommand;
 import com.epam.musicbox.entity.Album;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AlbumService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 
@@ -18,7 +18,7 @@ public class AlbumGetByNameCommand extends GetByNameCommand<Album> {
     }
 
     @Override
-    protected List<Album> findByName(String name, int page) throws HttpException {
+    protected List<Album> findByName(String name, int page) throws ServiceException {
         return service.findByName(name, page);
     }
 }

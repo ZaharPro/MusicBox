@@ -2,7 +2,7 @@ package com.epam.musicbox.util;
 
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.entity.Role;
-import com.epam.musicbox.exception.HttpException;
+import com.epam.musicbox.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,83 +12,90 @@ import java.util.function.Function;
 public final class Parameters {
     private static final Function<String, Integer> INT_MAPPER = Integer::parseInt;
     private static final Function<String, Long> LONG_MAPPER = Long::parseLong;
-    private static final Function<String, Boolean> BOOLEAN_MAPPER = Parameters::parseBoolean;
+    private static final Function<String, Boolean> BOOLEAN_MAPPER = Boolean::parseBoolean;
+    private static final Function<String, Role> ROLE_MAPPER = Role::findByName;
 
     private Parameters() {
     }
 
-    private static Boolean parseBoolean(String s) {
-        if (s == null)
+    public static <T> T getNullable(Claims body,
+                                    String paramName,
+                                    Function<String, T> function) {
+        String parameter = String.valueOf(body.get(paramName));
+        if ("null".equals(parameter))
             return null;
-        return switch (s) {
-            case "true" -> Boolean.TRUE;
-            case "false" -> Boolean.FALSE;
-            default -> null;
-        };
-    }
-
-    public static <T> T getNullable(Claims body, String parameterName) {
-        return (T) body.get(parameterName);
-    }
-
-    public static <T> T get(Claims body, String paramName) throws HttpException {
-        T value = Parameters.getNullable(body, paramName);
-        if (value == null) {
-            throw new HttpException("Invalid body attribute: " + paramName, HttpServletResponse.SC_BAD_REQUEST);
+        try {
+            return function.apply(parameter);
+        } catch (Throwable e) {
+            return null;
         }
+    }
+
+    public static <T> T get(Claims body,
+                            String paramName,
+                            Function<String, T> function) throws ServiceException {
+        T value = Parameters.getNullable(body, paramName, function);
+        if (value == null)
+            throw new ServiceException("Invalid body attribute: " + paramName);
         return value;
+    }
+
+    public static long getLong(Claims body,
+                               String paramName) throws ServiceException {
+        return Parameters.get(body, paramName, LONG_MAPPER);
+    }
+
+    public static Role getRole(Claims body) throws ServiceException {
+        return Parameters.get(body, Parameter.ROLE, ROLE_MAPPER);
     }
 
     public static <T> T getNullable(HttpServletRequest req,
                                     String paramName,
-                                    Function<String, T> function) throws HttpException {
+                                    Function<String, T> function) throws ServiceException {
         String parameter = req.getParameter(paramName);
-        if (parameter == null || "null".equals(parameter)) {
+        if (parameter == null || "null".equals(parameter))
             return null;
-        }
         try {
             return function.apply(parameter);
         } catch (Throwable e) {
-            throw new HttpException("Invalid parameter: " + paramName, HttpServletResponse.SC_BAD_REQUEST);
+            throw new ServiceException("Invalid parameter: " + paramName);
         }
     }
 
     public static <T> T get(HttpServletRequest req,
                             String paramName,
-                            Function<String, T> function) throws HttpException {
+                            Function<String, T> function) throws ServiceException {
         T value = Parameters.getNullable(req, paramName, function);
-        if (value == null) {
-            throw new HttpException("Invalid parameter: " + paramName, HttpServletResponse.SC_BAD_REQUEST);
-        }
+        if (value == null)
+            throw new ServiceException("Invalid parameter: " + paramName);
         return value;
     }
 
-    public static Integer getNullableInt(HttpServletRequest req, String paramName) throws HttpException {
+    public static Integer getNullableInt(HttpServletRequest req, String paramName) throws ServiceException {
         return Parameters.getNullable(req, paramName, INT_MAPPER);
     }
 
-    public static int getInt(HttpServletRequest req, String paramName) throws HttpException {
+    public static int getInt(HttpServletRequest req, String paramName) throws ServiceException {
         return Parameters.get(req, paramName, INT_MAPPER);
     }
 
-
-    public static Long getNullableLong(HttpServletRequest req, String paramName) throws HttpException {
+    public static Long getNullableLong(HttpServletRequest req, String paramName) throws ServiceException {
         return Parameters.getNullable(req, paramName, LONG_MAPPER);
     }
 
-    public static long getLong(HttpServletRequest req, String paramName) throws HttpException {
+    public static long getLong(HttpServletRequest req, String paramName) throws ServiceException {
         return Parameters.get(req, paramName, LONG_MAPPER);
     }
 
-    public static Boolean getNullableBoolean(HttpServletRequest req, String paramName) throws HttpException {
+    public static Boolean getNullableBoolean(HttpServletRequest req, String paramName) throws ServiceException {
         return Parameters.getNullable(req, paramName, BOOLEAN_MAPPER);
     }
 
-    public static boolean getBoolean(HttpServletRequest req, String paramName) throws HttpException {
+    public static boolean getBoolean(HttpServletRequest req, String paramName) throws ServiceException {
         return Parameters.get(req, paramName, BOOLEAN_MAPPER);
     }
 
-    public static Role getRole(HttpServletRequest req) throws HttpException {
-        return Parameters.get(req, Parameter.NAME, Role::findByName);
+    public static Role getRole(HttpServletRequest req) throws ServiceException {
+        return Parameters.get(req, Parameter.ROLE, ROLE_MAPPER);
     }
 }

@@ -17,7 +17,7 @@
 <section class="container">
     <li class="list-group-item d-flex justify-content-between align-items-center">
         <a class="page-link"
-           href="${pageContext.request.contextPath}/controller?command=artist-get-by-id?id=${1}">
+           href="${pageContext.request.contextPath}/controller?command=artist-get-by-id?artistid=${1}">
             asdf
         </a>
         <div class="image-parent">
