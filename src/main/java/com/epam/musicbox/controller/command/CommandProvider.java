@@ -33,7 +33,7 @@ public class CommandProvider {
 
         commands.put(CommandType.LOGIN, new LoginCommand());
         commands.put(CommandType.LOGOUT, new LogoutCommand());
-        commands.put(CommandType.SING_UP, new SignUpCommand());
+        commands.put(CommandType.SIGN_UP, new SignUpCommand());
 
         commands.put(CommandType.TRACK_GET, new TrackGetCommand());
         commands.put(CommandType.TRACK_GET_BY_ID, new TrackGetByIdCommand());

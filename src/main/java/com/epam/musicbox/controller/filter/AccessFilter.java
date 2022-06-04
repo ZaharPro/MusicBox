@@ -85,7 +85,7 @@ public class AccessFilter implements Filter {
             UserService userService = UserServiceImpl.getInstance();
             Optional<User> optionalUser = userService.findById(userId);
             if (optionalUser.isEmpty()) {
-                return AccessCode.UNAUTHORIZED;
+                return AccessCode.SESSION_TIMEOUT;
             }
             User user = optionalUser.get();
             if (user.getBanned()) {
@@ -94,7 +94,7 @@ public class AccessFilter implements Filter {
             String commandName = req.getParameter(Parameter.COMMAND);
             return checkCommand(role, commandName);
         } catch (ServiceException e) {
-            return AccessCode.UNAUTHORIZED;
+            return AccessCode.SESSION_TIMEOUT;
         }
     }
 
