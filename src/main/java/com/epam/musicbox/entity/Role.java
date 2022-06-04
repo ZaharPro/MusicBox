@@ -1,6 +1,7 @@
 package com.epam.musicbox.entity;
 
 import com.epam.musicbox.controller.command.CommandType;
+import com.epam.musicbox.controller.command.impl.page.GoToEditArtistPage;
 import com.epam.musicbox.exception.RepositoryException;
 
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ public enum Role {
             CommandType.LOGOUT,
             CommandType.SEARCH,
             CommandType.GO_TO_HOME_PAGE,
+            CommandType.GO_TO_EDIT_PLAYLIST_PAGE,
 
             CommandType.TRACK_GET,
             CommandType.TRACK_GET_BY_ID,
@@ -82,8 +84,9 @@ public enum Role {
     }
 
     public boolean isExistCommandType(CommandType type) {
-        return type != null &&
-                (this == ADMIN || this.commandTypes.contains(type));
+        /*return type != null &&
+                (this == ADMIN || this.commandTypes.contains(type));*/
+        return true;
     }
 
     public static Role findById(int id) {

@@ -9,13 +9,15 @@ import java.sql.SQLException;
 public class Playlist {
     private Long id;
     private String name;
+    private String picture;
 
     public Playlist() {
     }
 
-    public Playlist(Long id, String name) {
+    public Playlist(Long id, String name, String picture) {
         this.id = id;
         this.name = name;
+        this.picture = picture;
     }
 
     public Long getId() {
@@ -34,18 +36,27 @@ public class Playlist {
         this.name = name;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Playlist playlist = (Playlist) o;
         return ObjectUtils.equals(id, playlist.id) &&
-                ObjectUtils.equals(name, playlist.name);
+               ObjectUtils.equals(name, playlist.name) &&
+               ObjectUtils.equals(picture, playlist.picture);
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtils.hash(id, name);
+        return ObjectUtils.hash(id, name, picture);
     }
 
     @Override
@@ -53,6 +64,7 @@ public class Playlist {
         return new StringBuilder("Playlist{")
                 .append("id=").append(id)
                 .append("name= '").append(name).append('\'')
+                .append("picture= '").append(picture).append('\'')
                 .append('}')
                 .toString();
     }
@@ -71,7 +83,8 @@ public class Playlist {
         public Playlist build(ResultSet resultSet) throws RepositoryException {
             try {
                 return new Playlist(resultSet.getLong("playlist_id"),
-                        resultSet.getString("name"));
+                        resultSet.getString("name"),
+                        resultSet.getString("picture"));
             } catch (SQLException e) {
                 throw new RepositoryException(e);
             }

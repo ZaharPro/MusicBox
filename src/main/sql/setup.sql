@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`users`
 CREATE TABLE IF NOT EXISTS `music_schema`.`playlists`
 (
     `playlist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `name`        VARCHAR(32) NOT NULL
+    `name`        VARCHAR(32) NOT NULL,
+    `picture`  VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`playlist_tracks`

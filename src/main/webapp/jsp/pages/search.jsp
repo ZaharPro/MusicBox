@@ -25,13 +25,16 @@
         </div>
     </li>
     <c:if test="${not empty artistlist}">
-        <ul class="list-group col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-semitransparent">
+        <ul class="list-group col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
             <c:forEach items="${artistlist}" var="artist" varStatus="counter">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a class="page-link"
-                       href="${pageContext.request.contextPath}/controller?command=artist-get-by-id?artistid=${artist.getId()}">
-                            ${artist.getName()}
-                    </a>
+                    <form method="POST"
+                          action="${pageContext.request.contextPath}/controller?command=artist-get-by-id">
+                        <c:set var="artistid" value="${artist.getId()}"/>
+                        <button type="submit" class="page-link">
+                                ${artist.getName()}
+                        </button>
+                    </form>
                     <div class="image-parent">
                         <img src="${artist.getAvatar()}" class="img-fluid" alt="quixote">
                     </div>

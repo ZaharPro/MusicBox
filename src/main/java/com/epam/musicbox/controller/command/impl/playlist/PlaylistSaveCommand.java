@@ -20,7 +20,8 @@ public class PlaylistSaveCommand implements Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         Long playlistId = Parameters.getNullableLong(req, Parameter.PLAYLIST_ID);
         String name = req.getParameter(Parameter.NAME);
-        Playlist playlist = new Playlist(playlistId, name);
+        String picture = req.getParameter(Parameter.PICTURE);
+        Playlist playlist = new Playlist(playlistId, name, picture);
         service.save(playlist);
         return CommandResult.forward(PagePath.EDIT_PLAYLIST);
     }

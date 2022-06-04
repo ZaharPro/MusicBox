@@ -14,7 +14,7 @@
 <body>
 
 <section class="d-flex justify-content-center align-items-center" style="min-height: 100vh">
-    <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-semitransparent">
+    <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
         <form method="POST" action="${pageContext.request.contextPath}/controller?command=login">
             <h2 class="lead font-weight-normal mb-4 me-3">
                 <fmt:message key="login.title"/>
@@ -50,8 +50,7 @@
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">
-                <button type="submit" class="btn btn-primary btn-lg"
-                        style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                <button type="submit" class="btn btn-primary btn-lg">
                     <fmt:message key="login.button.submit"/>
                 </button>
                 <p class="small fw-bold mt-2 pt-1 mb-0">
@@ -63,8 +62,8 @@
                 </p>
             </div>
 
-            <c:if test="${errorMessage != null}">
-                <div><fmt:message key="login.error.${errorMessage}"/></div>
+            <c:if test="${sessionScope.errorMessage != null}">
+                <div><fmt:message key="login.error.${sessionScope.errorMessage}"/></div>
             </c:if>
         </form>
     </div>

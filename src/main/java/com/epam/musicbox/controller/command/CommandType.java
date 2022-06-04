@@ -5,6 +5,10 @@ public enum CommandType {
     GO_TO_SIGN_UP_PAGE("sign-up-page"),
     GO_TO_LOGIN_PAGE("login-page"),
     GO_TO_HOME_PAGE("home-page"),
+    GO_TO_EDIT_ARTIST_PAGE("login-page"),
+    GO_TO_EDIT_ALBUM_PAGE("home-page"),
+    GO_TO_EDIT_TRACK_PAGE("sign-up-page"),
+    GO_TO_EDIT_PLAYLIST_PAGE("login-page"),
     SEARCH("search"),
 
     //auth

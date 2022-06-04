@@ -1,25 +1,5 @@
 :root {
-    --blue: #007bff;
-    --indigo: #6610f2;
-    --purple: #6f42c1;
-    --pink: #e83e8c;
-    --red: #dc3545;
-    --orange: #fd7e14;
-    --yellow: #ffc107;
-    --green: #28a745;
-    --teal: #20c997;
-    --cyan: #17a2b8;
-    --white: #fff;
-    --gray: #6c757d;
-    --gray-dark: #343a40;
-    --primary: #007bff;
-    --secondary: #6c757d;
-    --success: #28a745;
-    --info: #17a2b8;
-    --warning: #ffc107;
-    --danger: #dc3545;
-    --light: #f8f9fa;
-    --dark: #343a40;
+    --gradient: linear-gradient(to left top, #DD2476 10%, #FF512F 90%) !important;
 }
 
 body {
@@ -30,10 +10,32 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-.bg-semitransparent {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
 .image-parent {
     max-width: 40px;
+}
+
+.card {
+    background: #222;
+    border: 1px solid #dd2476;
+    color: rgba(250, 250, 250, 0.8);
+    margin-bottom: 2rem;
+}
+
+.btn {
+    border: 5px solid;
+    border-image-slice: 1;
+    background: var(--gradient) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    border-image-source:  var(--gradient) !important;
+    text-decoration: none;
+    transition: all .4s ease;
+}
+
+.btn:hover, .btn:focus {
+    background: var(--gradient) !important;
+    -webkit-text-fill-color: #fff !important;
+    border: 5px solid #fff !important;
+    box-shadow: #222 1px 0 10px;
+    text-decoration: underline;
 }
