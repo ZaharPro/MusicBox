@@ -9,23 +9,26 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Enumeration;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static java.lang.String.format;
 
 public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
     private static final ReentrantLock instanceLock = new ReentrantLock();
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static ConnectionPool instance;
-
     private final ReentrantLock lock;
     private final Semaphore semaphore;
     private final Deque<Connection> connections;
+    private static final ResourceBundle RESOURCE_BUNDLE;
+
+    static {
+        RESOURCE_BUNDLE = System.getenv("Env") == null ? ResourceBundle.getBundle("prop/database") : null;
+    }
 
     private ConnectionPool(Deque<Connection> connections) {
         this.connections = connections;
@@ -34,18 +37,14 @@ public class ConnectionPool {
     }
 
     private static ConnectionPool createInstance() {
-        ClassLoader classLoader = ConnectionPool.class.getClassLoader();
-        try (InputStream inputStream = classLoader.getResourceAsStream("prop/database.properties")) {
-            Properties property = new Properties();
-            property.load(inputStream);
-
-            String url = property.getProperty("url");
-            String name = property.getProperty("name");
-            String password = property.getProperty("password");
-            String driver = property.getProperty("driver");
+        try {
+            String url = getProperty("URL_DB");
+            String name = getProperty("NAME");
+            String password = getProperty("PASS");
+            String driver = getProperty("DRIVER");
             Class.forName(driver);
 
-            int connectionSize = Integer.parseInt(property.getProperty("poolSize"));
+            int connectionSize = Integer.parseInt(getProperty("POOL_SIZE"));
             Deque<Connection> connections = new ArrayDeque<>(connectionSize);
 
             for (int i = 0; i < connectionSize; i++) {
@@ -56,9 +55,20 @@ public class ConnectionPool {
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Driver is not found" + e.getMessage(), e);
-        } catch (IOException e) {
-            throw new RuntimeException("Error read application properties!", e);
+            throw new RuntimeException(format("Driver is not found %s %s", e.getMessage(), e));
+        }
+    }
+
+    private static String getProperty(String propertyName) {
+        String valueFromEnv = System.getenv(propertyName);
+        if (valueFromEnv != null) {
+            return valueFromEnv;
+        }
+
+        try {
+            return RESOURCE_BUNDLE.getString(propertyName);
+        } catch (MissingResourceException e) {
+            throw new RuntimeException(format("Property %s is not found", propertyName));
         }
     }
 
@@ -70,7 +80,7 @@ public class ConnectionPool {
                     instance = createInstance();
                 }
             } catch (Throwable t) {
-                logger.error("Connection pool cannot be created", t);
+                logger.error("Connection pool cannot be created %s", t);
                 instanceCreated.set(false);
                 throw t;
             } finally {
