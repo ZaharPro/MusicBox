@@ -31,8 +31,6 @@ public class AuthService {
     private static final AuthService instance = createInstance();
     private static final ResourceBundle resourceBundle;
 
-    private static final int TIMEZONE_GMT_PLUS_THREE = 60 * 60 * 3;
-
     private final Key secretKey;
     private final long tokenLifetime;
     private final int cookieMaxAge;
@@ -49,9 +47,9 @@ public class AuthService {
 
     static {
         if (System.getenv("Env") == null) {
-            resourceBundle = ResourceBundle.getBundle("prop/database");
+            resourceBundle = ResourceBundle.getBundle("prop/application");
         } else {
-            throw new RuntimeException("Database properties not found");
+            throw new RuntimeException("Application properties not found");
         }
     }
 
@@ -71,7 +69,8 @@ public class AuthService {
     private static AuthService createInstance() {
         Key secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(getProperty("jwt.secretKey")));
         long tokenLifetime = Long.parseLong(getProperty("jwt.accessToken.lifeTime"));
-        int cookieMaxAge = (int) (TIMEZONE_GMT_PLUS_THREE + TimeUnit.MINUTES.toSeconds(tokenLifetime));
+        int timezoneGmtPlusThree = 60 * 60 * 3;
+        int cookieMaxAge = (int) (timezoneGmtPlusThree + TimeUnit.MINUTES.toSeconds(tokenLifetime));
         return new AuthService(secretKey, tokenLifetime, cookieMaxAge);
     }
 
