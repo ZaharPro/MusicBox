@@ -6,9 +6,6 @@
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
 
-<%--<jsp:useBean id="track" scope="request" type="com.epam.musicbox.entity.Track"/>
-<jsp:useBean id="album" scope="request" type="com.epam.musicbox.entity.Album"/>--%>
-
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
@@ -18,7 +15,7 @@
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
 <div>
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=track-save">
+    <form method="post" id="editTrackForm" action="${pageContext.request.contextPath}/controller?command=track-save">
         <label for="trackName"></label>
         <input type="text" id="trackName" name="name" required
         <c:if test="${track != null}">
@@ -39,30 +36,39 @@
             </div>
         </c:if>
 
-        <a href="${pageContext.request.contextPath}/controller?command=album-get"
-           onsubmit="
-           <c:set var="nextcommand" value="edit-track-page" scope="request"/>
-           <c:set var="trackid" value="${track.id}" scope="request"/>
-                   <c:set var="albumid" value="${track.albumId}" scope="request"/>
-                   <c:set var="page" value="0" scope="request"/>">
-            Set album
-        </a>
-
         <c:choose>
             <c:when test="${album != null}">
+                <input type="hidden" name="albumid" value="${album.id}"/>
                 <input type="submit">
-                <c:if test="${track != null}">
-                    <a href="${pageContext.request.contextPath}/controller?command=track-delete"
-                       onsubmit="<c:set var="trackid" value="${track.id}" scope="request"/>">
-                        Delete
-                    </a>
-                </c:if>
             </c:when>
             <c:otherwise>
                 <p>Choose album</p>
             </c:otherwise>
         </c:choose>
     </form>
+    <c:if test="${track != null}">
+        <form method="post" action="${pageContext.request.contextPath}/controller?command=track-delete">
+            <input type="hidden" name="trackid" value="${track.id}"/>
+            <input type="submit" form="editTrackForm" value="Delete">
+        </form>
+    </c:if>
+    <c:if test="${albums != null}">
+        <ul>
+            <c:forEach items="${albums}" var="album">
+                <li>
+                    <form method="post" action="${pageContext.request.contextPath}/controller?command=edit-track-page">
+                        <input type="hidden" name="trackid"
+                                <c:if test="${track != null}">
+                                    value="${track.id}"
+                                </c:if>/>
+                        <input type="hidden" name="albumid" value="${album.id}"/>
+                        <input type="submit" value="${album.name}">
+                    </form>
+                </li>
+            </c:forEach>
+        </ul>
+    </c:if>
+
 </div>
 
 </body>

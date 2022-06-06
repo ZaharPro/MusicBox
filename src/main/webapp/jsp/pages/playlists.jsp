@@ -6,9 +6,6 @@
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
 
-<%--<jsp:useBean id="playlists" scope="request" type="java.util.List"/>
-<jsp:useBean id="nextcommand" scope="request" type="java.lang.String"/>--%>
-
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
@@ -22,20 +19,10 @@
         <c:forEach items="${playlists}" var="playlist">
             <li>
                 <img src="/img/playlist${playlist.picture}" alt="Playlist picture"/>
-                <c:choose>
-                    <c:when test="${nextcommand == null}">
-                        <a href="${pageContext.request.contextPath}/controller?command=playlist-get-by-id"
-                           onsubmit="<c:set var="playlistid" value="${playlist.id}" scope="request"/>">
-                                ${playlist.name}
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/controller?command=${nextcommand}"
-                           onsubmit="<c:set var="playlistid" value="${playlist.id}" scope="request"/>">
-                                ${playlist.name}
-                        </a>
-                    </c:otherwise>
-                </c:choose>
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=playlist-get-by-id">
+                    <input type="hidden" name="playlistid" value="${playlist.id}"/>
+                    <input type="submit" value="${playlist.name}">
+                </form>
             </li>
         </c:forEach>
     </ul>

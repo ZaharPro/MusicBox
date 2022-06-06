@@ -20,7 +20,7 @@ public class TrackSaveCommand implements Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         Long trackId = Parameters.getNullableLong(req, Parameter.TRACK_ID);
         String name = req.getParameter(Parameter.NAME);
-        String path = req.getParameter(Parameter.PICTURE);
+        String path = req.getParameter(Parameter.PATH);
         Long albumId = Parameters.getLong(req, Parameter.ALBUM_ID);
         Track track = new Track(trackId, name, path, albumId);
         service.save(track);

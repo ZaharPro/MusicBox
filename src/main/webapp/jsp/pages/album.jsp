@@ -6,10 +6,6 @@
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
 
-<%--<jsp:useBean id="album" scope="request" type="com.epam.musicbox.entity.Album"/>
-<jsp:useBean id="tracks" scope="request" type="java.util.List"/>
-<jsp:useBean id="liked" scope="request" type="java.lang.Boolean"/>--%>
-
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
@@ -23,16 +19,18 @@
     <p>${album.name}</p>
     <c:choose>
         <c:when test="${liked == false}">
-            <a href="${pageContext.request.contextPath}/controller?command=user-like-album"
-               onsubmit="<c:set var="trackid" value="${album.id}" scope="request"/>">
-                    Like
-            </a>
+            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-like-album">
+                <input type="hidden" name="albumid" value="${album.id}"/>
+                <input type="hidden" name="trackpage" value="${trackpage}"/>
+                <input type="submit" value="Like">
+            </form>
         </c:when>
         <c:otherwise>
-            <a href="${pageContext.request.contextPath}/controller?command=user-cancel-like-album"
-               onsubmit="<c:set var="trackid" value="${album.id}" scope="request"/>">
-                    Like
-            </a>
+            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-cancel-like-album">
+                <input type="hidden" name="albumid" value="${album.id}"/>
+                <input type="hidden" name="trackpage" value="${trackpage}"/>
+                <input type="submit" value="Cancel like">
+            </form>
         </c:otherwise>
     </c:choose>
 
@@ -40,10 +38,10 @@
         <ul>
             <c:forEach items="${tracks}" var="track">
                 <li>
-                    <a href="${pageContext.request.contextPath}/controller?command=track-get-by-id"
-                       onsubmit="<c:set var="trackid" value="${track.id}" scope="request"/>">
-                            ${track.name}
-                    </a>
+                    <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
+                        <input type="hidden" name="trackid" value="${track.id}"/>
+                        <input type="submit" value="${track.name}">
+                    </form>
                 </li>
             </c:forEach>
         </ul>

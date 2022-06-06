@@ -9,10 +9,10 @@ public final class Parameter {
     public static final String PASSWORD = "password";
     public static final String ROLE = "role";
     public static final String NAME = "name";
-    public static final String PAGE = "page";
     public static final String BANNED = "banned";
     public static final String PICTURE = "picture";
     public static final String AVATAR = "avatar";
+    public static final String PATH = "path";
 
     public static final String USER_ID = "userid";
     public static final String TRACK_ID = "trackid";
@@ -36,6 +36,10 @@ public final class Parameter {
     public static final String OLD_PASSWORD = "oldpass";
     public static final String NEW_PASSWORD = "newpass";
     public static final String INVALIDATE = "invalidate";
+
+    public static final String PAGE = "page";
+    public static final String TRACK_PAGE = "trackpage";
+    public static final String ALBUM_PAGE = "albumpage";
 
     private Parameter() {
     }

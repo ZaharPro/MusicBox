@@ -44,7 +44,7 @@
                         <fmt:message key="login.checkbox.password"/>
                     </label>
                 </div>
-                <a href="${pageContext.request.contextPath}/controller?command=change-password" class="text-body">
+                <a href="${pageContext.request.contextPath}/controller?command=forgot-password" class="text-body">
                     <fmt:message key="login.button.forgot.pass"/>
                 </a>
             </div>

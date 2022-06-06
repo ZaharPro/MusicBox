@@ -6,9 +6,6 @@
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
 
-<%--<jsp:useBean id="tracks" scope="request" type="java.util.List"/>
-<jsp:useBean id="nextcommand" scope="request" type="java.lang.String"/>--%>
-
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
@@ -21,20 +18,10 @@
     <ul>
         <c:forEach items="${tracks}" var="track">
             <li>
-                <c:choose>
-                    <c:when test="${nextcommand == null}">
-                        <a href="${pageContext.request.contextPath}/controller?command=track-get-by-id"
-                           onsubmit="<c:set var="trackid" value="${track.id}" scope="request"/>">
-                            ${track.name}
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/controller?command=${nextcommand}"
-                           onsubmit="<c:set var="trackid" value="${track.id}" scope="request"/>">
-                            ${track.name}
-                        </a>
-                    </c:otherwise>
-                </c:choose>
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
+                    <input type="hidden" name="trackid" value="${track.id}"/>
+                    <input type="submit" value="${track.name}">
+                </form>
             </li>
         </c:forEach>
     </ul>

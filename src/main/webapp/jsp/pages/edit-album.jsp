@@ -6,8 +6,6 @@
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
 
-<%--<jsp:useBean id="album" scope="request" type="com.epam.musicbox.entity.Album"/>--%>
-
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
@@ -32,10 +30,10 @@
 
         <input type="submit">
         <c:if test="${album != null}">
-            <a href="${pageContext.request.contextPath}/controller?command=album-delete"
-               onsubmit="<c:set var="albumid" value="${album.id}" scope="request"/>">
-                Delete
-            </a>
+            <form method="post" action="${pageContext.request.contextPath}/controller?command=album-delete">
+                <input type="hidden" name="albumid" value="${album.id}"/>
+                <input type="submit" value="Delete">
+            </form>
         </c:if>
     </form>
 </div>

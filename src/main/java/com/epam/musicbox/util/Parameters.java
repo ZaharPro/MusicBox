@@ -35,7 +35,7 @@ public final class Parameters {
                             Function<String, T> function) throws ServiceException {
         T value = Parameters.getNullable(body, paramName, function);
         if (value == null)
-            throw new ServiceException("Invalid body attribute: " + paramName);
+            throw new ServiceException(String.format("Jwt token value: '%s', not found", paramName));
         return value;
     }
 
@@ -52,12 +52,12 @@ public final class Parameters {
                                     String paramName,
                                     Function<String, T> function) throws ServiceException {
         String value = req.getParameter(paramName);
-        if (value == null || "null".equals(value))
+        if (value == null || value.isBlank())
             return null;
         try {
             return function.apply(value);
         } catch (Throwable e) {
-            throw new ServiceException("Invalid parameter: " + paramName);
+            throw new ServiceException(String.format("Invalid parameter: '%s' = '%s'", paramName, value));
         }
     }
 
@@ -66,7 +66,7 @@ public final class Parameters {
                             Function<String, T> function) throws ServiceException {
         T value = Parameters.getNullable(req, paramName, function);
         if (value == null)
-            throw new ServiceException("Invalid parameter: " + paramName);
+            throw new ServiceException("Parameter not found: " + paramName);
         return value;
     }
 

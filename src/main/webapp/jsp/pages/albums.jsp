@@ -6,9 +6,6 @@
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
 
-<%--<jsp:useBean id="albums" scope="request" type="java.util.List"/>
-<jsp:useBean id="nextcommand" scope="request" type="java.lang.String"/>--%>
-
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
@@ -21,20 +18,10 @@
     <ul>
         <c:forEach items="${albums}" var="album">
             <li>
-                <c:choose>
-                    <c:when test="${nextcommand == null}">
-                        <a href="${pageContext.request.contextPath}/controller?command=album-get-by-id"
-                           onsubmit="<c:set var="albumid" value="${album.id}" scope="request"/>">
-                                ${album.name}
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/controller?command=${nextcommand}"
-                           onsubmit="<c:set var="albumid" value="${album.id}" scope="request"/>">
-                                ${album.name}
-                        </a>
-                    </c:otherwise>
-                </c:choose>
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=album-get-by-id">
+                    <input type="hidden" name="albumid" value="${album.id}"/>
+                    <input type="submit" value="${album.name}">
+                </form>
             </li>
         </c:forEach>
     </ul>

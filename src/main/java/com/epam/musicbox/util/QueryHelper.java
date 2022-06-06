@@ -76,18 +76,22 @@ public final class QueryHelper {
         }
     }
 
-    public static void prepare(PreparedStatement preparedStatement, Object... params) throws SQLException {
+    public static void prepare(PreparedStatement statement, Object... params) throws SQLException {
         int i = 1;
         for (Object param : params) {
-            Class<?> paramClass = param.getClass();
-            if (paramClass == Integer.class) {
-                preparedStatement.setInt(i, (Integer) param);
-            } else if (paramClass == Boolean.class) {
-                preparedStatement.setBoolean(i, (boolean) param);
-            }else if (paramClass == Timestamp.class) {
-                preparedStatement.setTimestamp(i, (Timestamp) param);
+            if (param == null) {
+                statement.setObject(i, "null");
             } else {
-                preparedStatement.setString(i, String.valueOf(param));
+                Class<?> paramClass = param.getClass();
+                if (paramClass == Integer.class) {
+                    statement.setInt(i, (Integer) param);
+                } else if (paramClass == Boolean.class) {
+                    statement.setBoolean(i, (boolean) param);
+                } else if (paramClass == Timestamp.class) {
+                    statement.setTimestamp(i, (Timestamp) param);
+                } else {
+                    statement.setString(i, String.valueOf(param));
+                }
             }
             i++;
         }
