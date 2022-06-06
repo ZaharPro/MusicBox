@@ -29,7 +29,6 @@ import java.util.concurrent.TimeUnit;
 
 public class AuthService {
     private static final AuthService instance = createInstance();
-    private static final ResourceBundle resourceBundle;
 
     private final Key secretKey;
     private final long tokenLifetime;
@@ -45,33 +44,19 @@ public class AuthService {
         this.cookieMaxAge = cookieMaxAge;
     }
 
-    static {
-        if (System.getenv("Env") == null) {
-            resourceBundle = ResourceBundle.getBundle("prop/application");
-        } else {
-            throw new RuntimeException("Application properties not found");
-        }
-    }
-
-    private static String getProperty(String propertyName) {
-        String valueFromEnv = System.getenv(propertyName);
-        if (valueFromEnv != null) {
-            return valueFromEnv;
-        }
-
-        try {
-            return resourceBundle.getString(propertyName);
-        } catch (MissingResourceException e) {
-            throw new RuntimeException(String.format("Property %s is not found", propertyName));
-        }
-    }
-
     private static AuthService createInstance() {
-        Key secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(getProperty("jwt.secretKey")));
-        long tokenLifetime = Long.parseLong(getProperty("jwt.accessToken.lifeTime"));
-        int timezoneGmtPlusThree = 60 * 60 * 3;
-        int cookieMaxAge = (int) (timezoneGmtPlusThree + TimeUnit.MINUTES.toSeconds(tokenLifetime));
-        return new AuthService(secretKey, tokenLifetime, cookieMaxAge);
+        ClassLoader classLoader = AuthService.class.getClassLoader();
+        try (InputStream inputStream = classLoader.getResourceAsStream("prop/application.properties")) {
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            Key secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode((String) properties.get("jwt.secretKey")));
+            long tokenLifetime = Long.parseLong((String) properties.get("jwt.accessToken.lifeTime"));
+            int timezoneGmtPlusThree = 60 * 60 * 3;
+            int cookieMaxAge = (int) (timezoneGmtPlusThree + TimeUnit.MINUTES.toSeconds(tokenLifetime));
+            return new AuthService(secretKey, tokenLifetime, cookieMaxAge);
+        } catch (IOException e) {
+            throw new RuntimeException("Error read application properties!", e);
+        }
     }
 
     public static AuthService getInstance() {

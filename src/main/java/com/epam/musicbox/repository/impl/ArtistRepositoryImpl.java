@@ -1,5 +1,7 @@
 package com.epam.musicbox.repository.impl;
 
+import com.epam.musicbox.entity.rowmapper.ArtistRowMapper;
+import com.epam.musicbox.entity.rowmapper.TrackRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.repository.ArtistRepository;
@@ -48,9 +50,9 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     public static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();
 
-    private final Track.Builder trackEntityBuilder = Track.Builder.getInstance();
+    private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
 
-    private final Artist.Builder artistEntityBuilder = Artist.Builder.getInstance();
+    private final ArtistRowMapper artistRowMapper = ArtistRowMapper.getInstance();
 
     public static ArtistRepositoryImpl getInstance() {
         return instance;
@@ -58,12 +60,12 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     @Override
     public List<Artist> findAll(int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_ALL, artistEntityBuilder, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_ALL, artistRowMapper, offset, limit);
     }
 
     @Override
     public Optional<Artist> findById(Long id) {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, artistEntityBuilder, id);
+        return QueryHelper.queryOne(SQL_FIND_BY_ID, artistRowMapper, id);
     }
 
     @Override
@@ -89,12 +91,12 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     @Override
     public List<Artist> findByName(String regex, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_NAME, artistEntityBuilder, regex, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, artistRowMapper, regex, offset, limit);
     }
 
     @Override
     public List<Track> getTracks(Long artistId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_TRACKS, trackEntityBuilder, artistId, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_TRACKS, trackRowMapper, artistId, offset, limit);
     }
 
     @Override

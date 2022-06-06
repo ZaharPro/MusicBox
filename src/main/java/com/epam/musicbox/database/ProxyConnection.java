@@ -14,10 +14,6 @@ public class ProxyConnection implements Connection {
         this.core = connectionPool.take();
     }
 
-    void reallyClose() throws SQLException {
-        core.close();
-    }
-
     @Override
     public void close() {
         this.connectionPool.release(core);

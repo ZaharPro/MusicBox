@@ -1,10 +1,6 @@
 package com.epam.musicbox.entity;
 
-import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.util.ObjectUtils;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Album {
     private Long id;
@@ -67,27 +63,5 @@ public class Album {
                 .append(", picture='").append(picture).append('\'')
                 .append('}')
                 .toString();
-    }
-
-    public static class Builder implements EntityBuilder<Album> {
-        private static final Builder instance = new Builder();
-
-        private Builder() {
-        }
-
-        public static Builder getInstance() {
-            return instance;
-        }
-
-        @Override
-        public Album build(ResultSet resultSet) throws RepositoryException {
-            try {
-                return new Album(resultSet.getLong("album_id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("picture"));
-            } catch (SQLException e) {
-                throw new RepositoryException(e);
-            }
-        }
     }
 }

@@ -2,6 +2,8 @@ package com.epam.musicbox.repository.impl;
 
 import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Track;
+import com.epam.musicbox.entity.rowmapper.PlaylistRowMapper;
+import com.epam.musicbox.entity.rowmapper.TrackRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.util.QueryHelper;
@@ -49,9 +51,9 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     public static final PlaylistRepositoryImpl instance = new PlaylistRepositoryImpl();
 
-    private final Track.Builder trackEntityBuilder = Track.Builder.getInstance();
+    private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
 
-    private final Playlist.Builder playlistEntityBuilder = Playlist.Builder.getInstance();
+    private final PlaylistRowMapper playlistRowMapper = PlaylistRowMapper.getInstance();
 
     public static PlaylistRepositoryImpl getInstance() {
         return instance;
@@ -59,12 +61,12 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public List<Playlist> findAll(int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_ALL, playlistEntityBuilder, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_ALL, playlistRowMapper, offset, limit);
     }
 
     @Override
     public Optional<Playlist> findById(Long id) {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, playlistEntityBuilder, id);
+        return QueryHelper.queryOne(SQL_FIND_BY_ID, playlistRowMapper, id);
     }
 
     @Override
@@ -88,12 +90,12 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public List<Playlist> findByName(String regex, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_NAME, playlistEntityBuilder, regex, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, playlistRowMapper, regex, offset, limit);
     }
 
     @Override
     public List<Track> getTracks(Long playlistId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_TRACKS, trackEntityBuilder, playlistId, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_TRACKS, trackRowMapper, playlistId, offset, limit);
     }
 
     @Override

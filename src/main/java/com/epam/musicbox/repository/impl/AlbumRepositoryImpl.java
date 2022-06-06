@@ -1,6 +1,7 @@
 package com.epam.musicbox.repository.impl;
 
 import com.epam.musicbox.entity.Album;
+import com.epam.musicbox.entity.rowmapper.AlbumRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.util.QueryHelper;
@@ -36,7 +37,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     public static final AlbumRepositoryImpl instance = new AlbumRepositoryImpl();
 
-    private final Album.Builder albumEntityBuilder = Album.Builder.getInstance();
+    private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
 
     public static AlbumRepository getInstance() {
         return instance;
@@ -44,12 +45,12 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @Override
     public List<Album> findAll(int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_ALL, albumEntityBuilder, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_ALL, albumRowMapper, offset, limit);
     }
 
     @Override
     public Optional<Album> findById(Long id) {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, albumEntityBuilder, id);
+        return QueryHelper.queryOne(SQL_FIND_BY_ID, albumRowMapper, id);
     }
 
     @Override
@@ -75,6 +76,6 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @Override
     public List<Album> findByName(String regex, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_NAME, albumEntityBuilder, regex, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, albumRowMapper, regex, offset, limit);
     }
 }

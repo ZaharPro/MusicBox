@@ -1,6 +1,7 @@
 package com.epam.musicbox.repository.impl;
 
 import com.epam.musicbox.entity.Track;
+import com.epam.musicbox.entity.rowmapper.TrackRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.util.QueryHelper;
@@ -36,7 +37,7 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     public static final TrackRepositoryImpl instance = new TrackRepositoryImpl();
 
-    private final Track.Builder trackEntityBuilder = Track.Builder.getInstance();
+    private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
 
     public static TrackRepositoryImpl getInstance() {
         return instance;
@@ -44,12 +45,12 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public List<Track> findAll(int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_ALL, trackEntityBuilder, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_ALL, trackRowMapper, offset, limit);
     }
 
     @Override
     public Optional<Track> findById(Long id) {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, trackEntityBuilder, id);
+        return QueryHelper.queryOne(SQL_FIND_BY_ID, trackRowMapper, id);
     }
 
     @Override
@@ -75,6 +76,6 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public List<Track> findByName(String regex, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_NAME, trackEntityBuilder, regex, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, trackRowMapper, regex, offset, limit);
     }
 }

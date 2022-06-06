@@ -1,7 +1,7 @@
 package com.epam.musicbox.util;
 
 import com.epam.musicbox.database.ConnectionPool;
-import com.epam.musicbox.entity.EntityBuilder;
+import com.epam.musicbox.entity.rowmapper.RowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public final class QueryHelper {
     }
 
     public static <T> Optional<T> queryOne(String sql,
-                                           EntityBuilder<T> builder,
+                                           RowMapper<T> builder,
                                            Object... params) {
         try {
             List<T> items = QueryHelper.queryAll(sql, builder, params);
@@ -32,7 +32,7 @@ public final class QueryHelper {
     }
 
     public static <T> List<T> queryAll(String sql,
-                                       EntityBuilder<T> builder,
+                                       RowMapper<T> builder,
                                        Object... params) throws RepositoryException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {
@@ -42,7 +42,7 @@ public final class QueryHelper {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<T> list = new ArrayList<>();
             while (resultSet.next()) {
-                T t = builder.build(resultSet);
+                T t = builder.map(resultSet);
                 list.add(t);
             }
             return list;

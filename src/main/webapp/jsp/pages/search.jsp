@@ -15,26 +15,14 @@
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
 <section class="container">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        <a class="page-link"
-           href="${pageContext.request.contextPath}/controller?command=artist-get-by-id?artistid=${1}">
-            asdf
-        </a>
-        <div class="image-parent">
-            <img src="https://img.icons8.com/office/40/000000/win.png" class="img-fluid" alt="quixote">
-        </div>
-    </li>
     <c:if test="${not empty artistlist}">
         <ul class="list-group col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
             <c:forEach items="${artistlist}" var="artist" varStatus="counter">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <form method="POST"
-                          action="${pageContext.request.contextPath}/controller?command=artist-get-by-id">
-                        <c:set var="artistid" value="${artist.getId()}"/>
-                        <button type="submit" class="page-link">
-                                ${artist.getName()}
-                        </button>
-                    </form>
+                    <a href="${pageContext.request.contextPath}/controller?command=artist-get-by-id"
+                       onsubmit="<c:set var="artistid" value="${artist.getId()}" scope="request"/>">
+                            ${artist.getName()}
+                    </a>
                     <div class="image-parent">
                         <img src="${artist.getAvatar()}" class="img-fluid" alt="quixote">
                     </div>

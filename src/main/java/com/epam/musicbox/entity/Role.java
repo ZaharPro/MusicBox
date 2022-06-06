@@ -1,11 +1,7 @@
 package com.epam.musicbox.entity;
 
 import com.epam.musicbox.controller.command.CommandType;
-import com.epam.musicbox.controller.command.impl.page.GoToEditArtistPage;
-import com.epam.musicbox.exception.RepositoryException;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -108,27 +104,4 @@ public enum Role {
         }
         return null;
     }
-
-    public static class Builder implements EntityBuilder<Role> {
-        private static final Builder instance = new Builder();
-
-        private Builder() {
-        }
-
-        public static Builder getInstance() {
-            return instance;
-        }
-
-        @Override
-        public Role build(ResultSet resultSet) throws RepositoryException {
-            try {
-                int roleId = resultSet.getInt("role_id");
-                return findById(roleId);
-            } catch (SQLException e) {
-                throw new RepositoryException(e);
-            }
-        }
-    }
 }
-
-

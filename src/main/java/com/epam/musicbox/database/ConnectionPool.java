@@ -29,11 +29,7 @@ public class ConnectionPool {
     }
 
     static {
-        if (System.getenv("Env") == null) {
-            resourceBundle = ResourceBundle.getBundle("prop/database");
-        } else {
-            throw new RuntimeException("Database properties not found");
-        }
+        resourceBundle = System.getenv("Env") == null ? ResourceBundle.getBundle("prop/database") : null;
     }
 
     private static String getProperty(String propertyName) {

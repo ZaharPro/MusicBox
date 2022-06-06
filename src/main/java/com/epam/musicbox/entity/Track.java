@@ -1,10 +1,6 @@
 package com.epam.musicbox.entity;
 
-import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.util.ObjectUtils;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class Track {
     private Long id;
@@ -79,28 +75,5 @@ public class Track {
                 .append(", albumId=").append(albumId)
                 .append('}')
                 .toString();
-    }
-
-    public static class Builder implements EntityBuilder<Track> {
-        private static final Builder instance = new Builder();
-
-        private Builder() {
-        }
-
-        public static Builder getInstance() {
-            return instance;
-        }
-
-        @Override
-        public Track build(ResultSet resultSet) throws RepositoryException {
-            try {
-                return new Track(resultSet.getLong("track_id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("path"),
-                        resultSet.getLong("album_id"));
-            } catch (SQLException e) {
-                throw new RepositoryException(e);
-            }
-        }
     }
 }

@@ -1,5 +1,6 @@
 package com.epam.musicbox.repository.impl;
 
+import com.epam.musicbox.entity.rowmapper.*;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.repository.UserRepository;
@@ -102,17 +103,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     public static final UserRepositoryImpl instance = new UserRepositoryImpl();
 
-    private final User.Builder userEntityBuilder = User.Builder.getInstance();
+    private final UserRowMapper userRowMapper = UserRowMapper.getInstance();
 
-    private final Playlist.Builder playlistEntityBuilder = Playlist.Builder.getInstance();
+    private final PlaylistRowMapper playlistRowMapper = PlaylistRowMapper.getInstance();
 
-    private final Artist.Builder artistEntityBuilder = Artist.Builder.getInstance();
+    private final ArtistRowMapper artistRowMapper = ArtistRowMapper.getInstance();
 
-    private final Album.Builder albumEntityBuilder = Album.Builder.getInstance();
+    private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
 
-    private final Track.Builder trackEntityBuilder = Track.Builder.getInstance();
+    private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
 
-    private final Role.Builder roleEntityBuilder = Role.Builder.getInstance();
+    private final RoleRowMapper roleRowMapper = RoleRowMapper.getInstance();
 
     public static UserRepositoryImpl getInstance() {
         return instance;
@@ -120,12 +121,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findAll(int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_ALL, userEntityBuilder, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_ALL, userRowMapper, offset, limit);
     }
 
     @Override
     public Optional<User> findById(Long id) {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, userEntityBuilder, id);
+        return QueryHelper.queryOne(SQL_FIND_BY_ID, userRowMapper, id);
     }
 
     @Override
@@ -155,37 +156,37 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findByLogin(String login) {
-        return QueryHelper.queryOne(SQL_FIND_BY_LOGIN, userEntityBuilder, login);
+        return QueryHelper.queryOne(SQL_FIND_BY_LOGIN, userRowMapper, login);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return QueryHelper.queryOne(SQL_FIND_BY_EMAIL, userEntityBuilder, email);
+        return QueryHelper.queryOne(SQL_FIND_BY_EMAIL, userRowMapper, email);
     }
 
     @Override
     public List<User> findByRole(Integer roleId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_ROLE, userEntityBuilder, roleId, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_BY_ROLE, userRowMapper, roleId, offset, limit);
     }
 
     @Override
     public List<Playlist> getPlaylists(Long userId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_PLAYLISTS, playlistEntityBuilder, userId, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_PLAYLISTS, playlistRowMapper, userId, offset, limit);
     }
 
     @Override
     public List<Artist> getLikedArtists(Long userId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_LIKED_ARTISTS, artistEntityBuilder, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_LIKED_ARTISTS, artistRowMapper, offset, limit);
     }
 
     @Override
     public List<Album> getLikedAlbums(Long userId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_LIKED_ALBUMS, albumEntityBuilder, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_LIKED_ALBUMS, albumRowMapper, offset, limit);
     }
 
     @Override
     public List<Track> getLikedTracks(Long userId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_LIKED_TRACKS, trackEntityBuilder, offset, limit);
+        return QueryHelper.queryAll(SQL_FIND_LIKED_TRACKS, trackRowMapper, offset, limit);
     }
 
     @Override
@@ -195,7 +196,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<Role> getRole(Long userId) {
-        return QueryHelper.queryOne(SQL_GET_ROLE, roleEntityBuilder, userId);
+        return QueryHelper.queryOne(SQL_GET_ROLE, roleRowMapper, userId);
     }
 
     @Override

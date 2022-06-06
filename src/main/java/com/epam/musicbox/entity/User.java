@@ -1,10 +1,7 @@
 package com.epam.musicbox.entity;
 
-import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.util.ObjectUtils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class User {
@@ -108,30 +105,5 @@ public class User {
                 .append(", registration=").append(registration)
                 .append('}')
                 .toString();
-    }
-
-    public static class Builder implements EntityBuilder<User> {
-        private static final Builder instance = new Builder();
-
-        private Builder() {
-        }
-
-        public static Builder getInstance() {
-            return instance;
-        }
-
-        @Override
-        public User build(ResultSet resultSet) throws RepositoryException {
-            try {
-                return new User(resultSet.getLong("user_id"),
-                        resultSet.getString("login"),
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("banned"),
-                        resultSet.getTimestamp("registration"));
-            } catch (SQLException e) {
-                throw new RepositoryException(e);
-            }
-        }
     }
 }
