@@ -9,6 +9,6 @@ import com.epam.musicbox.service.impl.UserServiceImpl;
 public class UserGetByIdCommand extends GetByIdCommand<User> {
 
     public UserGetByIdCommand() {
-        super(UserServiceImpl.getInstance(), Parameter.USER_ID, PagePath.USER);
+        super(UserServiceImpl.getInstance(), Parameter.USER_ID, Parameter.USER, PagePath.USER);
     }
 }

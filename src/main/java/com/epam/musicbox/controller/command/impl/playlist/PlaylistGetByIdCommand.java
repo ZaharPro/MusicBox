@@ -9,6 +9,6 @@ import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 public class PlaylistGetByIdCommand extends GetByIdCommand<Playlist> {
 
     public PlaylistGetByIdCommand() {
-        super(PlaylistServiceImpl.getInstance(), Parameter.PLAYLIST_ID, PagePath.PLAYLIST);
+        super(PlaylistServiceImpl.getInstance(), Parameter.PLAYLIST_ID, Parameter.PLAYLIST, PagePath.PLAYLIST);
     }
 }

@@ -15,11 +15,13 @@ public class GetByIdCommand<T> implements Command {
 
     private final Service<T> service;
     private final String idName;
+    private final String objectAttrName;
     private final String pagePath;
 
-    public GetByIdCommand(Service<T> service, String idName, String pagePath) {
+    public GetByIdCommand(Service<T> service, String idName, String objectAttrName, String pagePath) {
         this.service = service;
         this.idName = idName;
+        this.objectAttrName = objectAttrName;
         this.pagePath = pagePath;
     }
 
@@ -31,7 +33,7 @@ public class GetByIdCommand<T> implements Command {
             throw new ServiceException("Resource not found");
         }
         T t = optional.get();
-        req.setAttribute(Parameter.OBJECT, t);
+        req.setAttribute(objectAttrName, t);
         return CommandResult.forward(pagePath);
     }
 }

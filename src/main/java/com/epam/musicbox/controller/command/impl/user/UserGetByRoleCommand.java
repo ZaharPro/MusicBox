@@ -22,9 +22,9 @@ public class UserGetByRoleCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         Role role = Parameters.getRole(req);
-        int page = Parameters.getInt(req, Parameter.PAGE);
+        int page = Parameters.getIntOrZero(req, Parameter.PAGE);
         List<User> list = service.findByRole(role.getId(), page);
-        req.setAttribute(Parameter.LIST, list);
+        req.setAttribute(Parameter.USER_LIST, list);
         return CommandResult.forward(PagePath.USERS);
     }
 }

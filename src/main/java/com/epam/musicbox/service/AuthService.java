@@ -17,6 +17,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
+import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Key;
@@ -27,7 +28,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class AuthService {
-    private static final AuthService instance = new AuthService();
+    private static final AuthService instance = createInstance();
+    private static final ResourceBundle resourceBundle;
 
     private static final int TIMEZONE_GMT_PLUS_THREE = 60 * 60 * 3;
 
@@ -39,20 +41,38 @@ public class AuthService {
     private final PasswordHasher passwordHasher = PBKDF2PasswordHasher.getInstance();
     private final Validator validator = ValidatorImpl.getInstance();
 
-    private AuthService() {
-        ClassLoader classLoader = AuthService.class.getClassLoader();
-        try (InputStream inputStream = classLoader.getResourceAsStream("prop/application.properties")) {
-            Properties properties = new Properties();
-            properties.load(inputStream);
+    private AuthService(Key secretKey, long tokenLifetime, int cookieMaxAge) {
+        this.secretKey = secretKey;
+        this.tokenLifetime = tokenLifetime;
+        this.cookieMaxAge = cookieMaxAge;
+    }
 
-            String secretKey = (String) properties.get("jwt.secretKey");
-            String lifetime = (String) properties.get("jwt.accessToken.lifeTime");
-            tokenLifetime = Long.parseLong(lifetime);
-            this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-            cookieMaxAge = (int) (TIMEZONE_GMT_PLUS_THREE + TimeUnit.MINUTES.toSeconds(tokenLifetime));
-        } catch (IOException e) {
-            throw new RuntimeException("Error read application properties!", e);
+    static {
+        if (System.getenv("Env") == null) {
+            resourceBundle = ResourceBundle.getBundle("prop/database");
+        } else {
+            throw new RuntimeException("Database properties not found");
         }
+    }
+
+    private static String getProperty(String propertyName) {
+        String valueFromEnv = System.getenv(propertyName);
+        if (valueFromEnv != null) {
+            return valueFromEnv;
+        }
+
+        try {
+            return resourceBundle.getString(propertyName);
+        } catch (MissingResourceException e) {
+            throw new RuntimeException(String.format("Property %s is not found", propertyName));
+        }
+    }
+
+    private static AuthService createInstance() {
+        Key secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(getProperty("jwt.secretKey")));
+        long tokenLifetime = Long.parseLong(getProperty("jwt.accessToken.lifeTime"));
+        int cookieMaxAge = (int) (TIMEZONE_GMT_PLUS_THREE + TimeUnit.MINUTES.toSeconds(tokenLifetime));
+        return new AuthService(secretKey, tokenLifetime, cookieMaxAge);
     }
 
     public static AuthService getInstance() {
@@ -101,26 +121,12 @@ public class AuthService {
     }
 
     public void signup(String login, String email, String password) throws ServiceException {
-        StringBuilder sb = new StringBuilder();
-        if (!validator.isValidLogin(login)) {
-            sb.append("Invalid login");
-        }
-        if (!validator.isValidEmail(email)) {
-            String s = sb.length() == 0 ?
-                    "Invalid email" :
-                    ", invalid email";
-            sb.append(s);
-        }
-        if (!validator.isValidPassword(password)) {
-            String s = sb.length() == 0 ?
-                    "Invalid password" :
-                    ", invalid password";
-            sb.append(s);
-        }
-        if (sb.length() != 0) {
-            String msg = sb.toString();
-            throw new ServiceException(msg);
-        }
+        if (!validator.isValidLogin(login))
+            throw new ServiceException("Invalid login");
+        if (!validator.isValidEmail(email))
+            throw new ServiceException("Invalid email");
+        if (!validator.isValidPassword(password))
+            throw new ServiceException("Invalid password");
 
         Optional<User> optionalUser = userService.findByLogin(login);
         if (optionalUser.isPresent())
@@ -138,20 +144,10 @@ public class AuthService {
     }
 
     public User login(String login, String password) throws ServiceException {
-        StringBuilder sb = new StringBuilder();
-        if (!validator.isValidLogin(login)) {
-            sb.append("Invalid login");
-        }
-        if (!validator.isValidPassword(password)) {
-            String s = sb.length() == 0 ?
-                    "Invalid password" :
-                    ", invalid password";
-            sb.append(s);
-        }
-        if (sb.length() != 0) {
-            String msg = sb.toString();
-            throw new ServiceException(msg);
-        }
+        if (!validator.isValidLogin(login))
+            throw new ServiceException("Invalid login");
+        if (!validator.isValidPassword(password))
+            throw new ServiceException("Invalid password");
 
         Optional<User> optionalUser = userService.findByLogin(login);
         if (optionalUser.isEmpty())
@@ -166,10 +162,10 @@ public class AuthService {
         return user;
     }
 
-    public void changePassword(long userId, String currentPassword, String newPassword) throws ServiceException {
-        if (validator.isValidPassword(currentPassword))
-            throw new ServiceException("Invalid current password");
-        if (validator.isValidPassword(newPassword))
+    public void changePassword(long userId, String oldPassword, String newPassword) throws ServiceException {
+        if (!validator.isValidPassword(oldPassword))
+            throw new ServiceException("Invalid old password");
+        if (!validator.isValidPassword(newPassword))
             throw new ServiceException("Invalid new password");
 
         Optional<User> optionalUser = userService.findById(userId);
@@ -177,9 +173,10 @@ public class AuthService {
             throw new ServiceException("User not exist");
         User user = optionalUser.get();
 
-        if (!passwordHasher.checkPassword(currentPassword, user.getPassword()))
+        if (!passwordHasher.checkPassword(oldPassword, user.getPassword()))
             throw new ServiceException("Invalid current password");
-        user.setPassword(newPassword);
+        String hash = passwordHasher.hash(newPassword);
+        user.setPassword(hash);
         userService.save(user);
     }
 }

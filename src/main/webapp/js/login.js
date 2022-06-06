@@ -1,12 +1,12 @@
 const passwordInput = document.getElementById('passwordInput');
 
-function togglePasswordCheckbox() {
-    toggleCheckBox(passwordInput);
-}
-
-function toggleCheckBox(input) {
-    input.type =
-        input.type === "password" ?
+function toggle(checkbox) {
+    checkbox.type =
+        checkbox.type === "password" ?
             "text" :
             "password";
+}
+
+function togglePasswordCheckbox() {
+    toggle(passwordInput);
 }

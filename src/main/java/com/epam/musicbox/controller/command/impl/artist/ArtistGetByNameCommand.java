@@ -1,6 +1,7 @@
 package com.epam.musicbox.controller.command.impl.artist;
 
 import com.epam.musicbox.constant.PagePath;
+import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.impl.common.GetByNameCommand;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.exception.ServiceException;
@@ -14,7 +15,7 @@ public class ArtistGetByNameCommand extends GetByNameCommand<Artist> {
     private final ArtistService service = ArtistServiceImpl.getInstance();
 
     public ArtistGetByNameCommand() {
-        super(PagePath.ARTISTS);
+        super(Parameter.ARTIST_LIST, PagePath.ARTISTS);
     }
 
     @Override

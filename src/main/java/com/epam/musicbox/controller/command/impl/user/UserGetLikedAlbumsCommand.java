@@ -21,9 +21,9 @@ public class UserGetLikedAlbumsCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         long userId = Parameters.getLong(req, Parameter.USER_ID);
-        int page = Parameters.getInt(req, Parameter.PAGE);
+        int page = Parameters.getIntOrZero(req, Parameter.PAGE);
         List<Album> list = service.getLikedAlbums(userId, page);
-        req.setAttribute(Parameter.LIST, list);
+        req.setAttribute(Parameter.ALBUM_LIST, list);
         return CommandResult.forward(PagePath.ALBUMS);
     }
 }

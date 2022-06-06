@@ -23,7 +23,7 @@ public class ArtistGetTracksCommand implements Command {
         long artistId = Parameters.getLong(req, Parameter.ARTIST_ID);
         int page = Parameters.getInt(req, Parameter.PAGE);
         List<Track> list = service.getTracks(artistId, page);
-        req.setAttribute(Parameter.LIST, list);
+        req.setAttribute(Parameter.ARTIST_LIST, list);
         return CommandResult.forward(PagePath.TRACKS);
     }
 }

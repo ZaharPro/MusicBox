@@ -25,6 +25,11 @@
 
     <p>${track.name}</p>
     <p>${track.path}</p>
+
+    <audio controls>
+        <source src="${track.path}" type="audio/mpeg">
+    </audio>
+
     <c:choose>
         <c:when test="${liked == false}">
             <a href="${pageContext.request.contextPath}/controller?command=user-like-track"

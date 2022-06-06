@@ -22,7 +22,7 @@ public class UserGetByLoginCommand implements Command {
         String login = req.getParameter(Parameter.LOGIN);
         Optional<User> optionalUser = service.findByLogin(login);
         User user = optionalUser.orElse(null);
-        req.setAttribute(Parameter.OBJECT, user);
+        req.setAttribute(Parameter.USER, user);
         return CommandResult.forward(PagePath.USER);
     }
 }

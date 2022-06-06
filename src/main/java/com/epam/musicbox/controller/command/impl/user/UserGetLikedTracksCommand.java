@@ -21,9 +21,9 @@ public class UserGetLikedTracksCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         long userId = Parameters.getLong(req, Parameter.USER_ID);
-        int page = Parameters.getInt(req, Parameter.PAGE);
+        int page = Parameters.getIntOrZero(req, Parameter.PAGE);
         List<Track> list = service.getLikedTracks(userId, page);
-        req.setAttribute(Parameter.LIST, list);
+        req.setAttribute(Parameter.TRACK_LIST, list);
         return CommandResult.forward(PagePath.TRACKS);
     }
 }

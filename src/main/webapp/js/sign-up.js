@@ -1,23 +1,23 @@
 const passwordInput = document.getElementById('passwordInput');
 const repeatPasswordInput = document.getElementById('repeatPasswordInput');
+
 const invalidRepPassLabel = document.getElementById('invalidRepPassLabel');
 const submitButton = document.getElementById('submit');
 
-function togglePasswordCheckbox() {
-    toggleCheckBox(passwordInput);
-}
-
-function toggleRepeatPasswordCheckbox() {
-    toggleCheckBox(repeatPasswordInput);
-}
-
-function toggleCheckBox(input) {
-    input.type =
-        input.type === "password" ?
+function toggle(checkbox) {
+    checkbox.type =
+        checkbox.type === "password" ?
             "text" :
             "password";
 }
 
+function togglePasswordCheckbox() {
+    toggle(passwordInput);
+}
+
+function toggleRepeatPasswordCheckbox() {
+    toggle(repeatPasswordInput);
+}
 
 function checkPassword(pass1, pass2) {
     if (pass1 === pass2) {

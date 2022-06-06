@@ -22,7 +22,7 @@ public class UserGetByEmailCommand implements Command {
         String email = req.getParameter(Parameter.EMAIL);
         Optional<User> optionalUser = service.findByEmail(email);
         User user = optionalUser.orElse(null);
-        req.setAttribute(Parameter.OBJECT, user);
+        req.setAttribute(Parameter.USER, user);
         return CommandResult.forward(PagePath.USER);
     }
 }

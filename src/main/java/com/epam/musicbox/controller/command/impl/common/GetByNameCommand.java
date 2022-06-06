@@ -12,18 +12,20 @@ import java.util.List;
 
 public abstract class GetByNameCommand<T> implements Command {
 
-    private final String pagePath;
+    protected final String listAttrName;
+    protected final String pagePath;
 
-    protected GetByNameCommand(String pagePath) {
+    protected GetByNameCommand(String listAttrName, String pagePath) {
+        this.listAttrName = listAttrName;
         this.pagePath = pagePath;
     }
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         String name = req.getParameter(Parameter.NAME);
-        int page = Parameters.getInt(req, Parameter.PAGE);
+        int page = Parameters.getIntOrZero(req, Parameter.PAGE);
         List<T> list = findByName(name, page);
-        req.setAttribute(Parameter.LIST, list);
+        req.setAttribute(listAttrName, list);
         return CommandResult.forward(pagePath);
     }
 

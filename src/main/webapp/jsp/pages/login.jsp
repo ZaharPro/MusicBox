@@ -15,7 +15,7 @@
 
 <section class="d-flex justify-content-center align-items-center" style="min-height: 100vh">
     <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
-        <form method="POST" action="${pageContext.request.contextPath}/controller?command=login">
+        <form method="POST" name="loginForm" action="${pageContext.request.contextPath}/controller?command=login">
             <h2 class="lead font-weight-normal mb-4 me-3">
                 <fmt:message key="login.title"/>
             </h2>
@@ -69,6 +69,6 @@
     </div>
 </section>
 
-<script src="${pageContext.request.contextPath}/js/login.js"></script>
+<script src="../../js/login.js"></script>
 </body>
 </html>

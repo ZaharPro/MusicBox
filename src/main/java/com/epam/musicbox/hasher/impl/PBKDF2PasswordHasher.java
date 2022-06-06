@@ -31,7 +31,7 @@ public class PBKDF2PasswordHasher implements PasswordHasher {
         byte[] salt = new byte[SALT_LENGTH];
         random.nextBytes(salt);
         byte[] dk = pbkdf2(password, salt);
-        byte[] hash = new byte[salt.length + dk.length];
+        byte[] hash = new byte[salt.length + dk.length]; //salt + hash
         System.arraycopy(salt, 0, hash, 0, salt.length);
         System.arraycopy(dk, 0, hash, salt.length, dk.length);
         Base64.Encoder encoder = Base64.getUrlEncoder().withoutPadding();

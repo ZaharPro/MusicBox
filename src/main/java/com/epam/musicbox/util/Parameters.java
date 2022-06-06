@@ -5,7 +5,6 @@ import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.function.Function;
 
@@ -21,11 +20,11 @@ public final class Parameters {
     public static <T> T getNullable(Claims body,
                                     String paramName,
                                     Function<String, T> function) {
-        String parameter = String.valueOf(body.get(paramName));
-        if ("null".equals(parameter))
+        Object value = body.get(paramName);
+        if (value == null)
             return null;
         try {
-            return function.apply(parameter);
+            return function.apply(value.toString());
         } catch (Throwable e) {
             return null;
         }
@@ -52,11 +51,11 @@ public final class Parameters {
     public static <T> T getNullable(HttpServletRequest req,
                                     String paramName,
                                     Function<String, T> function) throws ServiceException {
-        String parameter = req.getParameter(paramName);
-        if (parameter == null || "null".equals(parameter))
+        String value = req.getParameter(paramName);
+        if (value == null || "null".equals(value))
             return null;
         try {
-            return function.apply(parameter);
+            return function.apply(value);
         } catch (Throwable e) {
             throw new ServiceException("Invalid parameter: " + paramName);
         }
@@ -97,5 +96,10 @@ public final class Parameters {
 
     public static Role getRole(HttpServletRequest req) throws ServiceException {
         return Parameters.get(req, Parameter.ROLE, ROLE_MAPPER);
+    }
+
+    public static int getIntOrZero(HttpServletRequest req, String paramName) throws ServiceException {
+        Integer nullableInt = Parameters.getNullableInt(req, paramName);
+        return nullableInt == null ? 0 : nullableInt;
     }
 }

@@ -3,8 +3,6 @@ package com.epam.musicbox.database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -14,26 +12,41 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static java.lang.String.format;
-
 public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
+    private static final ResourceBundle resourceBundle;
     private static final ReentrantLock instanceLock = new ReentrantLock();
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static ConnectionPool instance;
     private final ReentrantLock lock;
     private final Semaphore semaphore;
     private final Deque<Connection> connections;
-    private static final ResourceBundle RESOURCE_BUNDLE;
-
-    static {
-        RESOURCE_BUNDLE = System.getenv("Env") == null ? ResourceBundle.getBundle("prop/database") : null;
-    }
 
     private ConnectionPool(Deque<Connection> connections) {
         this.connections = connections;
         this.lock = new ReentrantLock();
         this.semaphore = new Semaphore(connections.size());
+    }
+
+    static {
+        if (System.getenv("Env") == null) {
+            resourceBundle = ResourceBundle.getBundle("prop/database");
+        } else {
+            throw new RuntimeException("Database properties not found");
+        }
+    }
+
+    private static String getProperty(String propertyName) {
+        String valueFromEnv = System.getenv(propertyName);
+        if (valueFromEnv != null) {
+            return valueFromEnv;
+        }
+
+        try {
+            return resourceBundle.getString(propertyName);
+        } catch (MissingResourceException e) {
+            throw new RuntimeException(String.format("Property %s is not found", propertyName));
+        }
     }
 
     private static ConnectionPool createInstance() {
@@ -55,20 +68,7 @@ public class ConnectionPool {
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(format("Driver is not found %s %s", e.getMessage(), e));
-        }
-    }
-
-    private static String getProperty(String propertyName) {
-        String valueFromEnv = System.getenv(propertyName);
-        if (valueFromEnv != null) {
-            return valueFromEnv;
-        }
-
-        try {
-            return RESOURCE_BUNDLE.getString(propertyName);
-        } catch (MissingResourceException e) {
-            throw new RuntimeException(format("Property %s is not found", propertyName));
+            throw new RuntimeException(String.format("Driver is not found %s %s", e.getMessage(), e));
         }
     }
 
@@ -79,10 +79,9 @@ public class ConnectionPool {
                 if (instanceCreated.compareAndSet(false, true)) {
                     instance = createInstance();
                 }
-            } catch (Throwable t) {
-                logger.error("Connection pool cannot be created %s", t);
+            } catch (Exception e) {
                 instanceCreated.set(false);
-                throw t;
+                throw e;
             } finally {
                 instanceLock.unlock();
             }

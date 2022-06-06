@@ -4,6 +4,7 @@ public final class PagePath {
     public static final String ERROR = "/jsp/pages/error.jsp";
     public static final String SIGN_UP = "/jsp/pages/sign-up.jsp";
     public static final String LOGIN = "/jsp/pages/login.jsp";
+    public static final String CHANGE_PASSWORD = "/jsp/pages/change-password.jsp";
     public static final String HOME = "/jsp/pages/home.jsp";
 
     public static final String USER = "/jsp/pages/user.jsp";

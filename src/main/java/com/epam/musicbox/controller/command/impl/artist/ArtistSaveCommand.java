@@ -20,8 +20,8 @@ public class ArtistSaveCommand implements Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         Long artistId = Parameters.getNullableLong(req, Parameter.ARTIST_ID);
         String name = req.getParameter(Parameter.NAME);
-        String picture = req.getParameter(Parameter.PICTURE);
-        Artist artist = new Artist(artistId, name, picture);
+        String avatar = req.getParameter(Parameter.AVATAR);
+        Artist artist = new Artist(artistId, name, avatar);
         service.save(artist);
         return CommandResult.forward(PagePath.EDIT_ARTIST);
     }

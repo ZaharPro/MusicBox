@@ -10,9 +10,9 @@ public class ValidatorImpl implements Validator {
     private static final String EMAIL_REGEX =
             "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
 
-    private static final Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_REGEX);
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+    private static final Pattern loginPattern = Pattern.compile(LOGIN_REGEX);
+    private static final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
+    private static final Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
 
     private static final ValidatorImpl instance = new ValidatorImpl();
 
@@ -25,16 +25,16 @@ public class ValidatorImpl implements Validator {
 
     public boolean isValidLogin(String login) {
         return login != null &&
-                LOGIN_PATTERN.matcher(login).matches();
+               loginPattern.matcher(login).matches();
     }
 
     public boolean isValidPassword(String password) {
         return password != null &&
-                PASSWORD_PATTERN.matcher(password).matches();
+               passwordPattern.matcher(password).matches();
     }
 
     public boolean isValidEmail(String email) {
         return email != null &&
-                EMAIL_PATTERN.matcher(email).matches();
+               emailPattern.matcher(email).matches();
     }
 }

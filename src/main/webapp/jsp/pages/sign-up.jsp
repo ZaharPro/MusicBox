@@ -15,7 +15,7 @@
 
 <section class="d-flex justify-content-center align-items-center" style="min-height: 100vh">
     <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
-        <form method="POST" action="${pageContext.request.contextPath}/controller?command=sign-up">
+        <form method="POST" name=signUpForm" action="${pageContext.request.contextPath}/controller?command=sign-up">
             <h2 class="lead font-weight-normal mb-4 me-3">
                 <fmt:message key="signup.title"/>
             </h2>
@@ -30,7 +30,7 @@
 
             <div class="form-outline mb-3">
                 <label class="form-label" for="passwordInput">
-                    <fmt:message key="signup.input.password"/>
+                    <fmt:message key="signup.input.pass"/>
                 </label>
                 <input type="password" id="passwordInput" placeholder="Enter password" name="password"
                        class="form-control form-control-lg"/>
@@ -39,23 +39,23 @@
                 <input class="form-check-input me-2" type="checkbox" id="passwordCheckbox" value=""
                        minlength="8" maxlength="32" onclick="togglePasswordCheckbox()"/>
                 <label class="form-check-label" for="passwordCheckbox">
-                    <fmt:message key="signup.checkbox.password"/>
+                    <fmt:message key="signup.checkbox.pass"/>
                 </label>
             </div>
 
             <div class="form-outline mb-3">
                 <label class="form-label" for="repeatPasswordInput">
-                    <fmt:message key="signup.input.repeatPassword"/>
+                    <fmt:message key="signup.input.pass.repeat"/>
                 </label>
                 <input type="password" id="repeatPasswordInput" placeholder="Enter password"
                        class="form-control form-control-lg"/>
-                <span class="email-error d-none text-danger"><fmt:message key="signup.error.pass"/></span>
+                <span class="email-error d-none text-danger"><fmt:message key="signup.error.pass.repeat"/></span>
             </div>
             <div class="form-check mb-4">
                 <input class="form-check-input me-2" type="checkbox" id="repeatPasswordCheckbox" value=""
                        minlength="8" maxlength="32" onclick="toggleRepeatPasswordCheckbox()"/>
                 <label class="form-check-label" for="repeatPasswordCheckbox">
-                    <fmt:message key="signup.checkbox.repeatPassword"/>
+                    <fmt:message key="signup.checkbox.pass.repeat"/>
                 </label>
             </div>
 
@@ -81,6 +81,6 @@
     </div>
 </section>
 
-<script src="../../js/signup.js"></script>
+<script src="../../js/sign-up.js"></script>
 </body>
 </html>

@@ -9,6 +9,6 @@ import com.epam.musicbox.service.impl.TrackServiceImpl;
 public class TrackGetByIdCommand extends GetByIdCommand<Track> {
 
     public TrackGetByIdCommand() {
-        super(TrackServiceImpl.getInstance(), Parameter.TRACK_ID, PagePath.TRACK);
+        super(TrackServiceImpl.getInstance(), Parameter.TRACK_ID, Parameter.TRACK, PagePath.TRACK);
     }
 }

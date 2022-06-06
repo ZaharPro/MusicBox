@@ -25,7 +25,7 @@
         </c:if>>
 
         <label for="albumPicture"></label>
-        <input type="text" id="albumPicture" name="path" required
+        <input type="text" id="albumPicture" name="picture" required
         <c:if test="${album != null}">
                value="${album.picture}"
         </c:if>>
