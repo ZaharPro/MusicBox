@@ -57,7 +57,8 @@ public class UserRepositoryImpl implements UserRepository {
                                                      "FROM playlists " +
                                                      "JOIN user_playlists " +
                                                      "ON user_playlists.playlist_id = playlist.playlist_id " +
-                                                     "WHERE user_playlists.user_id=?";
+                                                     "WHERE user_playlists.user_id=?" +
+                                                     "LIMIT ?,?";
 
     private static final String SQL_ADD_PLAYLIST = "INSERT INTO user_playlists (user_id, playlist_id) " +
                                                    "VALUES (?,?)";
@@ -69,7 +70,8 @@ public class UserRepositoryImpl implements UserRepository {
                                                          "FROM tracks " +
                                                          "JOIN user_liked_artists " +
                                                          "ON user_liked_artists.track_id = tracks.track_id " +
-                                                         "WHERE user_liked_artists.user_id=?";
+                                                         "WHERE user_liked_artists.user_id=?" +
+                                                         "LIMIT ?,?";
 
     private static final String SQL_LIKE_ARTIST = "INSERT INTO user_liked_artists (user_id, track_id) " +
                                                   "VALUES (?,?)";
@@ -81,7 +83,8 @@ public class UserRepositoryImpl implements UserRepository {
                                                         "FROM tracks " +
                                                         "JOIN user_liked_albums " +
                                                         "ON user_liked_albums.track_id = tracks.track_id " +
-                                                        "WHERE user_liked_albums.user_id=?";
+                                                        "WHERE user_liked_albums.user_id=?" +
+                                                        "LIMIT ?,?";
 
     private static final String SQL_LIKE_ALBUM = "INSERT INTO user_liked_albums (user_id, track_id) " +
                                                  "VALUES (?,?)";
@@ -93,7 +96,8 @@ public class UserRepositoryImpl implements UserRepository {
                                                         "FROM tracks " +
                                                         "JOIN user_liked_tracks " +
                                                         "ON user_liked_tracks.track_id = tracks.track_id " +
-                                                        "WHERE user_liked_tracks.user_id=?";
+                                                        "WHERE user_liked_tracks.user_id=?" +
+                                                        "LIMIT ?,?";
 
     private static final String SQL_LIKE_TRACK = "INSERT INTO user_liked_tracks (user_id, track_id) " +
                                                  "VALUES (?,?)";

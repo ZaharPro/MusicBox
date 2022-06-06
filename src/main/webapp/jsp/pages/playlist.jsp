@@ -18,18 +18,18 @@
     <img src="/img/playlist${playlist.picture}" alt="Playlist picture"/>
     <p>${playlist.name}</p>
     <c:choose>
-        <c:when test="${liked == false}">
-            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-like-playlist">
+        <c:when test="${add == false}">
+            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-add-playlist">
                 <input type="hidden" name="playlistid" value="${playlist.id}"/>
                 <input type="hidden" name="trackpage" value="${trackpage}"/>
-                <input type="submit" value="Like">
+                <input type="submit" value="Add">
             </form>
         </c:when>
         <c:otherwise>
-            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-cancel-like-playlist">
+            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-remove-playlist">
                 <input type="hidden" name="playlistid" value="${playlist.id}"/>
                 <input type="hidden" name="trackpage" value="${trackpage}"/>
-                <input type="submit" value="Cancel like">
+                <input type="submit" value="Remove">
             </form>
         </c:otherwise>
     </c:choose>

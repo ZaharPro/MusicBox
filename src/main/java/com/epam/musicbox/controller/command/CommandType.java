@@ -6,6 +6,7 @@ public enum CommandType {
     GO_TO_LOGIN_PAGE("login-page"),
     GO_TO_CHANGE_PASSWORD_PAGE("change-password-page"),
     GO_TO_HOME_PAGE("home-page"),
+    GO_TO_USER_PAGE("user-page"),
     GO_TO_EDIT_ARTIST_PAGE("edit-artist-page"),
     GO_TO_EDIT_ALBUM_PAGE("edit-album-page"),
     GO_TO_EDIT_TRACK_PAGE("edit-track-page"),

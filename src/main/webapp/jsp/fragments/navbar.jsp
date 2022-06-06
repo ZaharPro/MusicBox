@@ -26,6 +26,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=user-page">
+                        <fmt:message key="navbar.profile"/>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=logout">
                         <fmt:message key="navbar.logout"/>
                     </a>

@@ -27,6 +27,7 @@ public class CommandProvider {
         commands.put(CommandType.GO_TO_LOGIN_PAGE, new GoToLoginPageCommand());
         commands.put(CommandType.GO_TO_CHANGE_PASSWORD_PAGE, new GoToChangePasswordPage());
         commands.put(CommandType.GO_TO_HOME_PAGE, new GoToHomePageCommand());
+        commands.put(CommandType.GO_TO_USER_PAGE, new GoToUserPage());
         commands.put(CommandType.GO_TO_EDIT_ARTIST_PAGE, new GoToEditArtistPage());
         commands.put(CommandType.GO_TO_EDIT_ALBUM_PAGE, new GoToEditAlbumPage());
         commands.put(CommandType.GO_TO_EDIT_TRACK_PAGE, new GoToEditTrackPage());

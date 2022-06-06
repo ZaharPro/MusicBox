@@ -8,6 +8,7 @@ public final class Parameter {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String ROLE = "role";
+    public static final String ADMIN = "admin";
     public static final String NAME = "name";
     public static final String BANNED = "banned";
     public static final String PICTURE = "picture";

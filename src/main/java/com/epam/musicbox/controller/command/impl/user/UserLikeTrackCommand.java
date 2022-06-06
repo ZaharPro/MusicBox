@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserLikeTrackCommand implements Command {
 
@@ -33,8 +34,16 @@ public class UserLikeTrackCommand implements Command {
         long trackId = Parameters.getLong(req, Parameter.TRACK_ID);
         userService.likeTrack(userId, trackId);
 
-        int page = Parameters.getIntOrZero(req, Parameter.TRACK_PAGE);
-        List<Track> list = trackService.findPage(page);
+        Optional<Track> optionalTrack = trackService.findById(trackId);
+        if (optionalTrack.isEmpty()) {
+            throw new ServiceException("Artist not found");
+        }
+        Track track = optionalTrack.get();
+        req.setAttribute(Parameter.TRACK, track);
+
+        int trackPage = Parameters.getIntOrZero(req, Parameter.TRACK_PAGE);
+        List<Track> list = trackService.findPage(trackPage);
+        req.setAttribute(Parameter.TRACK_PAGE, trackPage);
         req.setAttribute(Parameter.TRACK_LIST, list);
 
         return CommandResult.forward(PagePath.TRACK);

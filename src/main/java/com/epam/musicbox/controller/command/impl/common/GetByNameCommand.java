@@ -25,6 +25,7 @@ public abstract class GetByNameCommand<T> implements Command {
         String name = req.getParameter(Parameter.NAME);
         int page = Parameters.getIntOrZero(req, Parameter.PAGE);
         List<T> list = findByName(name, page);
+        req.setAttribute(Parameter.PAGE, page);
         req.setAttribute(listAttrName, list);
         return CommandResult.forward(pagePath);
     }

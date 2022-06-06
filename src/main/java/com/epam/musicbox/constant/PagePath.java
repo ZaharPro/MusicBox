@@ -13,7 +13,6 @@ public final class PagePath {
     public static final String ARTIST = "/jsp/pages/artist.jsp";
     public static final String PLAYLIST = "/jsp/pages/playlist.jsp";
 
-    public static final String EDIT_USER = "/jsp/pages/edit-user.jsp";
     public static final String EDIT_TRACK = "/jsp/pages/edit-track.jsp";
     public static final String EDIT_ALBUM = "/jsp/pages/edit-album.jsp";
     public static final String EDIT_ARTIST = "/jsp/pages/edit-artist.jsp";

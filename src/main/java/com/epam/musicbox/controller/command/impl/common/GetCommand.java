@@ -27,6 +27,7 @@ public class GetCommand<T> implements Command {
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         int page = Parameters.getIntOrZero(req, Parameter.PAGE);
         List<T> list = service.findPage(page);
+        req.setAttribute(Parameter.PAGE, page);
         req.setAttribute(listAttrName, list);
         return CommandResult.forward(pagePath);
     }
