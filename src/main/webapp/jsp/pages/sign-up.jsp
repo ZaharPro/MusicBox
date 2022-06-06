@@ -49,7 +49,9 @@
                 </label>
                 <input type="password" id="repeatPasswordInput" placeholder="Enter password"
                        class="form-control form-control-lg"/>
-                <span class="email-error d-none text-danger"><fmt:message key="signup.error.pass.repeat"/></span>
+                <div id="invalidRepPassLabel" class="email-error d-none text-danger">
+                    <fmt:message key="signup.error.pass.repeat"/>
+                </div>
             </div>
             <div class="form-check mb-4">
                 <input class="form-check-input me-2" type="checkbox" id="repeatPasswordCheckbox" value=""

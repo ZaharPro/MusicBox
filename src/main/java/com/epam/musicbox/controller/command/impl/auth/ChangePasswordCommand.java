@@ -17,14 +17,19 @@ public class ChangePasswordCommand implements Command {
     private final AuthService authService = AuthService.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         String oldPassword = req.getParameter(Parameter.OLD_PASSWORD);
         String newPassword = req.getParameter(Parameter.NEW_PASSWORD);
 
-        Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
-        Claims body = jws.getBody();
-        long userId = Parameters.getLong(body, Parameter.USER_ID);
-        authService.changePassword(userId, oldPassword, newPassword);
+        try {
+            Jws<Claims> jws = authService.getClaimsJws(req);
+            Claims body = jws.getBody();
+            long userId = Parameters.getLong(body, Parameter.USER_ID);
+            authService.changePassword(userId, oldPassword, newPassword);
+        } catch (ServiceException e) {
+            req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
+            return CommandResult.forward(PagePath.CHANGE_PASSWORD);
+        }
         return CommandResult.forward(PagePath.HOME);
     }
 }

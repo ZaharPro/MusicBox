@@ -29,7 +29,13 @@ public class LoginCommand implements Command {
         String login = req.getParameter(Parameter.LOGIN);
         String password = req.getParameter(Parameter.PASSWORD);
 
-        User user = authService.login(login, password);
+        User user;
+        try {
+            user = authService.login(login, password);
+        } catch (ServiceException e) {
+            req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
+            return CommandResult.forward(PagePath.LOGIN);
+        }
         Optional<Role> optionalRole = userService.getRole(user.getId());
         if (optionalRole.isEmpty())
             throw new ServiceException("User has no role");

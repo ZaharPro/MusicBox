@@ -21,11 +21,11 @@ function toggleRepeatPasswordCheckbox() {
 
 function checkPassword(pass1, pass2) {
     if (pass1 === pass2) {
-        invalidRepPassLabel.classList.remove("active");
-        submitButton.classList.add("active");
+        invalidRepPassLabel.classList.add("d-none");
+        submitButton.classList.remove("border-danger");
     } else {
-        invalidRepPassLabel.classList.add("active");
-        submitButton.classList.remove("active");
+        invalidRepPassLabel.classList.remove("d-none");
+        submitButton.classList.add("border-danger");
     }
 }
 

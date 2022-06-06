@@ -49,6 +49,12 @@ public class Controller extends HttpServlet {
             if (commandName == null)
                 return;
             CommandType commandType = CommandType.of(commandName);
+            if (commandType == null) {
+                req.setAttribute(Parameter.ERROR_MESSAGE, "Command doesn't exist");
+                RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
+                dispatcher.forward(req, resp);
+                return;
+            }
             Command command = commandProvider.get(commandType);
             CommandResult commandResult = command.execute(req, resp);
             String page = commandResult.getPage();

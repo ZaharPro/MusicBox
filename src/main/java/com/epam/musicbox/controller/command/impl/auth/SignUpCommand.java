@@ -14,12 +14,17 @@ public class SignUpCommand implements Command {
     private final AuthService authService = AuthService.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         String login = req.getParameter(Parameter.LOGIN);
         String email = req.getParameter(Parameter.EMAIL);
         String password = req.getParameter(Parameter.PASSWORD);
 
-        authService.signup(login, email, password);
+        try {
+            authService.signup(login, email, password);
+        } catch (ServiceException e) {
+            req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
+            return CommandResult.forward(PagePath.LOGIN);
+        }
         req.setAttribute(Parameter.LOGIN, login);
         return CommandResult.forward(PagePath.LOGIN);
     }

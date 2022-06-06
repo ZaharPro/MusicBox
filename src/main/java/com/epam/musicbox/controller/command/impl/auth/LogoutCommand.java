@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 public class LogoutCommand implements Command {
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
+    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) {
         Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, null);
         cookie.setMaxAge(0);
         resp.addCookie(cookie);

@@ -56,9 +56,9 @@
                 </label>
                 <input type="password" id="repeatPasswordInput" placeholder="Enter password"
                        class="form-control form-control-lg"/>
-                <span class="email-error d-none text-danger">
+                <div id="invalidRepPassLabel" class="email-error d-none text-danger">
                     <fmt:message key="change.password.error.pass.repeat"/>
-                </span>
+                </div>
             </div>
             <div class="form-check mb-4">
                 <input class="form-check-input me-2" type="checkbox" id="repeatPasswordCheckbox" value=""
@@ -75,7 +75,9 @@
             </div>
 
             <c:if test="${errorMessage != null}">
-                <div><fmt:message key="change.password.error.${errorMessage}"/></div>
+                <div>
+                    <fmt:message key="change.password.error.${errorMessage}"/>
+                </div>
             </c:if>
         </form>
     </div>
