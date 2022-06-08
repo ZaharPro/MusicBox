@@ -3,9 +3,13 @@ package com.epam.musicbox.util;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.service.AuthService;
+import com.epam.musicbox.service.Service;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
 import java.util.function.Function;
 
 public final class Parameters {

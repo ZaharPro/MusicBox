@@ -11,33 +11,44 @@ public interface UserService extends Service<User> {
 
     Optional<User> findByEmail(String email);
 
-    List<User> findByRole(Integer roleId, int page) throws ServiceException;
+    List<User> findByRole(int roleId, int page) throws ServiceException;
 
-    void setRole(Long userId, Integer roleId) throws ServiceException;
+    void setRole(long userId, int roleId) throws ServiceException;
 
-    Optional<Role> getRole(Long userId);
+    Optional<Role> getRole(long userId);
 
-    List<Playlist> getPlaylists(Long userId, int page) throws ServiceException;
+    List<Playlist> getPlaylists(long userId, int page) throws ServiceException;
 
-    void addPlaylist(Long userId, Long playlistId) throws ServiceException;
+    void addPlaylist(long userId, long playlistId) throws ServiceException;
 
-    void removePlayList(Long userId, Long playlistId) throws ServiceException;
+    boolean hasPlaylist(long userId, long playlistId) throws ServiceException;
 
-    List<Artist> getLikedArtists(Long userId, int page) throws ServiceException;
+    void removePlayList(long userId, long playlistId) throws ServiceException;
 
-    void likeArtist(Long userId, Long artistId) throws ServiceException;
 
-    void cancelLikeArtist(Long userId, Long artistId) throws ServiceException;
+    List<Artist> getLikedArtists(long userId, int page) throws ServiceException;
 
-    List<Album> getLikedAlbums(Long userId, int page) throws ServiceException;
+    void likeArtist(long userId, long artistId) throws ServiceException;
 
-    void likeAlbum(Long userId, Long albumId) throws ServiceException;
+    boolean isLikeArtist(long userId, long artistId) throws ServiceException;
 
-    void cancelLikeAlbum(Long userId, Long albumId) throws ServiceException;
+    void cancelLikeArtist(long userId, long artistId) throws ServiceException;
 
-    List<Track> getLikedTracks(Long userId, int page) throws ServiceException;
 
-    void likeTrack(Long userId, Long trackId) throws ServiceException;
+    List<Album> getLikedAlbums(long userId, int page) throws ServiceException;
 
-    void cancelLikeTrack(Long userId, Long trackId) throws ServiceException;
+    void likeAlbum(long userId, long albumId) throws ServiceException;
+
+    boolean isLikeAlbum(long userId, long albumId) throws ServiceException;
+
+    void cancelLikeAlbum(long userId, long albumId) throws ServiceException;
+
+
+    List<Track> getLikedTracks(long userId, int page) throws ServiceException;
+
+    void likeTrack(long userId, long trackId) throws ServiceException;
+
+    boolean isLikeTrack(long userId, long trackId) throws ServiceException;
+
+    void cancelLikeTrack(long userId, long trackId) throws ServiceException;
 }

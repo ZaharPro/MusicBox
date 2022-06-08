@@ -25,6 +25,8 @@ public class UserAddPlaylistCommand implements Command {
         long userId = Parameters.getLong(body, Parameter.USER_ID);
         long playlistId = Parameters.getLong(req, Parameter.PLAYLIST_ID);
         service.addPlaylist(userId, playlistId);
+        req.setAttribute(Parameter.LIKE, true);
+
         return CommandResult.forward(PagePath.PLAYLIST);
     }
 }

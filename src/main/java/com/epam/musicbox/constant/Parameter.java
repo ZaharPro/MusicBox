@@ -1,9 +1,6 @@
 package com.epam.musicbox.constant;
 
 public final class Parameter {
-    public static final String ERROR_MESSAGE = "errorMessage";
-    public static final String COMMAND = "command";
-
     public static final String LOGIN = "login";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
@@ -33,14 +30,19 @@ public final class Parameter {
     public static final String ARTIST_LIST = "artists";
     public static final String PLAYLIST_LIST = "artists";
 
+    public static final String USER_PAGE = "userpage";
+    public static final String TRACK_PAGE = "trackpage";
+    public static final String ALBUM_PAGE = "albumpage";
+    public static final String ARTIST_PAGE = "artistpage";
+    public static final String PLAYLIST_PAGE = "playlistpage";
+
+    public static final String COMMAND = "command";
+    public static final String ERROR_MESSAGE = "errorMessage";
     public static final String ACCESS_TOKEN = "accesstoken";
     public static final String OLD_PASSWORD = "oldpass";
     public static final String NEW_PASSWORD = "newpass";
     public static final String INVALIDATE = "invalidate";
-
-    public static final String PAGE = "page";
-    public static final String TRACK_PAGE = "trackpage";
-    public static final String ALBUM_PAGE = "albumpage";
+    public static final String LIKE = "like";
 
     private Parameter() {
     }

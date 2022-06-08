@@ -9,6 +9,6 @@ import com.epam.musicbox.service.impl.ArtistServiceImpl;
 public class ArtistGetCommand extends GetCommand<Artist> {
 
     public ArtistGetCommand() {
-        super(ArtistServiceImpl.getInstance(), Parameter.ARTIST_LIST, PagePath.ARTISTS);
+        super(ArtistServiceImpl.getInstance(), Parameter.ARTIST_PAGE, Parameter.ARTIST_LIST, PagePath.ARTISTS);
     }
 }

@@ -15,19 +15,19 @@
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
 <div>
-    <img src="/img/playlist${playlist.picture}" alt="Playlist picture"/>
-    <p>${playlist.name}</p>
+    <img src="/img/playlist${playlist.getPicture()}" alt="Playlist picture"/>
+    <p>${playlist.getName()}</p>
     <c:choose>
-        <c:when test="${add == false}">
+        <c:when test="${like == false}">
             <form method="post" action="${pageContext.request.contextPath}/controller?command=user-add-playlist">
-                <input type="hidden" name="playlistid" value="${playlist.id}"/>
+                <input type="hidden" name="playlistid" value="${playlist.getId()}"/>
                 <input type="hidden" name="trackpage" value="${trackpage}"/>
                 <input type="submit" value="Add">
             </form>
         </c:when>
         <c:otherwise>
             <form method="post" action="${pageContext.request.contextPath}/controller?command=user-remove-playlist">
-                <input type="hidden" name="playlistid" value="${playlist.id}"/>
+                <input type="hidden" name="playlistid" value="${playlist.getId()}"/>
                 <input type="hidden" name="trackpage" value="${trackpage}"/>
                 <input type="submit" value="Remove">
             </form>
@@ -39,8 +39,8 @@
             <c:forEach items="${tracks}" var="track">
                 <li>
                     <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
-                        <input type="hidden" name="trackid" value="${track.id}"/>
-                        <input type="submit" value="${track.name}">
+                        <input type="hidden" name="trackid" value="${track.getId()}"/>
+                        <input type="submit" value="${track.getName()}">
                     </form>
                 </li>
             </c:forEach>

@@ -12,16 +12,16 @@ import jakarta.servlet.http.HttpServletResponse;
 public class DeleteCommand<T> implements Command {
 
     private final Service<T> service;
-    private final String idName;
+    private final String id;
 
-    public DeleteCommand(Service<T> service, String idName) {
+    public DeleteCommand(Service<T> service, String id) {
         this.service = service;
-        this.idName = idName;
+        this.id = id;
     }
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        long id = Parameters.getLong(req, idName);
+        long id = Parameters.getLong(req, this.id);
         service.deleteById(id);
         return CommandResult.forward(PagePath.HOME);
     }

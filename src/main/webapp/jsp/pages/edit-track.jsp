@@ -19,39 +19,41 @@
         <label for="trackName"></label>
         <input type="text" id="trackName" name="name" required
         <c:if test="${track != null}">
-               value="${track.name}"
+               value="${track.getName()}"
         </c:if>>
 
         <label for="trackPath"></label>
         <input type="text" id="trackPath" name="path" required
         <c:if test="${track != null}">
-               value="${track.path}"
+               value="${track.getPath()}"
         </c:if>>
 
+        <c:if test="${track != null}">
+            <audio controls>
+                <source src="${track.getPath()}" type="audio/mpeg">
+            </audio>
+        </c:if>
+
         <c:if test="${album != null}">
-            <c:set var="albumid" value="${album.id}" scope="request"/>
+            <c:set var="albumid" value="${album.getId()}" scope="request"/>
             <div>
-                <p>${album.name}</p>
-                <img src="/img/album${album.picture}" alt="Album picture"/>
+                <p>${album.getName()}</p>
+                <img src="/img/album${album.getPicture()}" alt="Album picture"/>
             </div>
         </c:if>
 
-        <c:choose>
-            <c:when test="${album != null}">
-                <input type="hidden" name="albumid" value="${album.id}"/>
-                <input type="submit">
-            </c:when>
-            <c:otherwise>
-                <p>Choose album</p>
-            </c:otherwise>
-        </c:choose>
+        <c:if test="${album != null}">
+            <input type="hidden" name="albumid" value="${album.getId()}"/>
+            <input type="submit">
+        </c:if>
     </form>
     <c:if test="${track != null}">
         <form method="post" action="${pageContext.request.contextPath}/controller?command=track-delete">
-            <input type="hidden" name="trackid" value="${track.id}"/>
+            <input type="hidden" name="trackid" value="${track.getId()}"/>
             <input type="submit" form="editTrackForm" value="Delete">
         </form>
     </c:if>
+    <p>Choose album</p>
     <c:if test="${albums != null}">
         <ul>
             <c:forEach items="${albums}" var="album">
@@ -59,10 +61,11 @@
                     <form method="post" action="${pageContext.request.contextPath}/controller?command=edit-track-page">
                         <input type="hidden" name="trackid"
                                 <c:if test="${track != null}">
-                                    value="${track.id}"
+                                    value="${track.getId()}"
                                 </c:if>/>
-                        <input type="hidden" name="albumid" value="${album.id}"/>
-                        <input type="submit" value="${album.name}">
+                        <input type="hidden" name="albumid" value="${album.getId()}"/>
+                        <input type="hidden" name="albumpage" value="${albumpage}"/>
+                        <input type="submit" value="${album.getName()}">
                     </form>
                 </li>
             </c:forEach>

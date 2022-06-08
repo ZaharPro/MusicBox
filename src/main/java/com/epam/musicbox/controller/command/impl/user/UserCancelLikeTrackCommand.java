@@ -4,21 +4,20 @@ import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
-import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.TrackService;
-import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.service.*;
+import com.epam.musicbox.service.impl.AlbumServiceImpl;
+import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.util.Parameters;
+import com.epam.musicbox.util.Services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.List;
 import java.util.Optional;
 
 public class UserCancelLikeTrackCommand implements Command {
@@ -29,24 +28,22 @@ public class UserCancelLikeTrackCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
-        Claims body = jws.getBody();
-        long userId = Parameters.getLong(body, Parameter.USER_ID);
         long trackId = Parameters.getLong(req, Parameter.TRACK_ID);
-        userService.cancelLikeTrack(userId, trackId);
+        Optional<Track> optional = trackService.findById(trackId);
+        if (optional.isPresent()) {
+            Track track = optional.get();
+            req.setAttribute(Parameter.TRACK, track);
 
-        Optional<Track> optionalTrack = trackService.findById(trackId);
-        if (optionalTrack.isEmpty()) {
-            throw new ServiceException("Artist not found");
+            Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
+            Claims body = jws.getBody();
+            long userId = Parameters.getLong(body, Parameter.USER_ID);
+
+            userService.cancelLikeTrack(userId, trackId);
+            req.setAttribute(Parameter.LIKE, false);
+        } else {
+            req.setAttribute(Parameter.TRACK, null);
+            req.setAttribute(Parameter.LIKE, null);
         }
-        Track track = optionalTrack.get();
-        req.setAttribute(Parameter.TRACK, track);
-
-        int trackPage = Parameters.getIntOrZero(req, Parameter.TRACK_PAGE);
-        List<Track> list = trackService.findPage(trackPage);
-        req.setAttribute(Parameter.TRACK_PAGE, trackPage);
-        req.setAttribute(Parameter.TRACK_LIST, list);
-
         return CommandResult.forward(PagePath.TRACK);
     }
 }

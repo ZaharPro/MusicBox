@@ -19,23 +19,43 @@
         <label for="artistName"></label>
         <input type="text" id="artistName" name="name" required
         <c:if test="${artist != null}">
-               value="${artist.name}"
+               value="${artist.getName()}"
         </c:if>>
 
         <label for="artistAvatar"></label>
         <input type="text" id="artistAvatar" name="avatar" required
         <c:if test="${artist != null}">
-               value="${artist.avatar}"
+               value="${artist.getAvatar()}"
         </c:if>>
 
         <input type="submit">
-        <c:if test="${artist != null}">
-            <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-delete">
-                <input type="hidden" name="artistid" value="${artist.id}"/>
-                <input type="submit" value="Delete">
-            </form>
-        </c:if>
     </form>
+    <c:if test="${artist != null}">
+        <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-delete">
+            <input type="hidden" name="artistid" value="${artist.getId()}"/>
+            <input type="submit" value="Delete">
+        </form>
+    </c:if>
+
+    <c:if test="${tracks != null}">
+        <p>Choose track</p>
+        <ul>
+            <c:forEach items="${tracks}" var="track">
+                <li>
+                    <form method="post"
+                          action="${pageContext.request.contextPath}/controller?command=edit-artist-page">
+                        <input type="hidden" name="playlistid"
+                                <c:if test="${playlist != null}">
+                                    value="${playlist.getId()}"
+                                </c:if>/>
+                        <input type="hidden" name="trackid" value="${track.getId()}"/>
+                        <input type="hidden" name="trackpage" value="${trackpage}"/>
+                        <input type="submit" value="${track.getName()}">
+                    </form>
+                </li>
+            </c:forEach>
+        </ul>
+    </c:if>
 </div>
 
 </body>

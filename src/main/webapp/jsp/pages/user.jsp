@@ -14,17 +14,17 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 <div>
-    <p>${user.login}</p>
-    <p>${user.email}</p>
-    <c:if test="${user.banned == true}">
+    <p>${user.getLogin()}</p>
+    <p>${user.getEmail()}</p>
+    <c:if test="${user.getBanned() == true}">
         <p>User banned</p>
     </c:if>
     <c:if test="${admin != null}">
-        <p>${user.registration}</p>
+        <p>${user.getRegistration()}</p>
         <p>${role}</p>
 
         <form method="post" action="${pageContext.request.contextPath}/controller?command=user-set-ban">
-            <input type="hidden" name="userid" value="${user.id}"/>
+            <input type="hidden" name="userid" value="${user.getId()}"/>
 
             <input type="checkbox" value="false" id="banCheckbox"/>
             <label for="banCheckbox">
@@ -36,19 +36,19 @@
     </c:if>
 
     <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks">
-        <input type="hidden" name="userid" value="${user.id}"/>
+        <input type="hidden" name="userid" value="${user.getId()}"/>
         <input type="submit" value="Show liked tracks">
     </form>
     <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-liked-albums">
-        <input type="hidden" name="userid" value="${user.id}"/>
+        <input type="hidden" name="userid" value="${user.getId()}"/>
         <input type="submit" value="Show liked albums">
     </form>
     <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-liked-artists">
-        <input type="hidden" name="userid" value="${user.id}"/>
+        <input type="hidden" name="userid" value="${user.getId()}"/>
         <input type="submit" value="Show liked artists">
     </form>
     <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-playlists">
-        <input type="hidden" name="userid" value="${user.id}"/>
+        <input type="hidden" name="userid" value="${user.getId()}"/>
         <input type="submit" value="Show playlists">
     </form>
 

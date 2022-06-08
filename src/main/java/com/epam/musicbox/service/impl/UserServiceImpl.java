@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(long id) {
         return userRepository.findById(id);
     }
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(Long id) throws ServiceException {
+    public void deleteById(long id) throws ServiceException {
         try {
             userRepository.deleteById(id);
         } catch (RepositoryException e) {
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByRole(Integer roleId, int page) throws ServiceException {
+    public List<User> findByRole(int roleId, int page) throws ServiceException {
         try {
             return userRepository.findByRole(roleId,
                     Services.getOffset(page),
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Playlist> getPlaylists(Long userId, int page) throws ServiceException {
+    public List<Playlist> getPlaylists(long userId, int page) throws ServiceException {
         try {
             return userRepository.getPlaylists(userId,
                     Services.getOffset(page),
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Artist> getLikedArtists(Long userId, int page) throws ServiceException {
+    public List<Artist> getLikedArtists(long userId, int page) throws ServiceException {
         try {
             return userRepository.getLikedArtists(userId,
                     Services.getOffset(page),
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Album> getLikedAlbums(Long userId, int page) throws ServiceException {
+    public List<Album> getLikedAlbums(long userId, int page) throws ServiceException {
         try {
             return userRepository.getLikedAlbums(userId,
                     Services.getOffset(page),
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Track> getLikedTracks(Long userId, int page) throws ServiceException {
+    public List<Track> getLikedTracks(long userId, int page) throws ServiceException {
         try {
             return userRepository.getLikedTracks(userId,
                     Services.getOffset(page),
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setRole(Long userId, Integer roleId) throws ServiceException {
+    public void setRole(long userId, int roleId) throws ServiceException {
         try {
             userRepository.setRole(userId, roleId);
         } catch (RepositoryException e) {
@@ -127,12 +127,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<Role> getRole(Long userId) {
+    public Optional<Role> getRole(long userId) {
         return userRepository.getRole(userId);
     }
 
     @Override
-    public void addPlaylist(Long userId, Long playlistId) throws ServiceException {
+    public void addPlaylist(long userId, long playlistId) throws ServiceException {
         try {
             userRepository.addPlaylist(userId, playlistId);
         } catch (RepositoryException e) {
@@ -141,7 +141,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removePlayList(Long userId, Long playlistId) throws ServiceException {
+    public boolean hasPlaylist(long userId, long playlistId) throws ServiceException {
+        try {
+            return userRepository.hasPlaylist(userId, playlistId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void removePlayList(long userId, long playlistId) throws ServiceException {
         try {
             userRepository.removePlayList(userId, playlistId);
         } catch (RepositoryException e) {
@@ -150,7 +159,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void likeArtist(Long userId, Long artistId) throws ServiceException {
+    public void likeArtist(long userId, long artistId) throws ServiceException {
         try {
             userRepository.likeArtist(userId, artistId);
         } catch (RepositoryException e) {
@@ -159,7 +168,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void cancelLikeArtist(Long userId, Long artistId) throws ServiceException {
+    public boolean isLikeArtist(long userId, long artistId) throws ServiceException {
+        try {
+            return userRepository.isLikeArtist(userId, artistId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void cancelLikeArtist(long userId, long artistId) throws ServiceException {
         try {
             userRepository.cancelLikeArtist(userId, artistId);
         } catch (RepositoryException e) {
@@ -168,7 +186,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void likeAlbum(Long userId, Long albumId) throws ServiceException {
+    public void likeAlbum(long userId, long albumId) throws ServiceException {
         try {
             userRepository.likeAlbum(userId, albumId);
         } catch (RepositoryException e) {
@@ -177,7 +195,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void cancelLikeAlbum(Long userId, Long albumId) throws ServiceException {
+    public boolean isLikeAlbum(long userId, long albumId) throws ServiceException {
+        try {
+            return userRepository.isLikeAlbum(userId, albumId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void cancelLikeAlbum(long userId, long albumId) throws ServiceException {
         try {
             userRepository.cancelLikeAlbum(userId, albumId);
         } catch (RepositoryException e) {
@@ -186,7 +213,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void likeTrack(Long userId, Long trackId) throws ServiceException {
+    public void likeTrack(long userId, long trackId) throws ServiceException {
         try {
             userRepository.likeTrack(userId, trackId);
         } catch (RepositoryException e) {
@@ -195,7 +222,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void cancelLikeTrack(Long userId, Long trackId) throws ServiceException {
+    public boolean isLikeTrack(long userId, long trackId) throws ServiceException {
+        try {
+            return userRepository.isLikeTrack(userId, trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void cancelLikeTrack(long userId, long trackId) throws ServiceException {
         try {
             userRepository.cancelLikeTrack(userId, trackId);
         } catch (RepositoryException e) {

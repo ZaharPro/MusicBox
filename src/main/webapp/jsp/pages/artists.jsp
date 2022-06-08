@@ -14,17 +14,14 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${users != null}">
+<c:if test="${artists != null}">
     <ul>
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${artists}" var="artist">
             <li>
-                <p>${user.getLogin()}</p>
-                <p>${user.getEmail()}</p>
-                <p>${user.getBanned()}</p>
-                <p>${user.getRegistration()}</p>
-                <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-by-id">
-                    <input type="hidden" name="userid" value="${user.getId()}"/>
-                    <input type="submit" value="Show user">
+                <img src="/img/artist${artist.getAvatar()}" alt="Artist picture"/>
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-get-by-id">
+                    <input type="hidden" name="artistid" value="${artist.getId()}"/>
+                    <input type="submit" value="${artist.getName()}">
                 </form>
             </li>
         </c:forEach>

@@ -1,5 +1,6 @@
 package com.epam.musicbox.service.impl;
 
+import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.RepositoryException;
@@ -34,7 +35,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public Optional<Artist> findById(Long id) {
+    public Optional<Artist> findById(long id) {
         return artistRepository.findById(id);
     }
 
@@ -48,7 +49,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public void deleteById(Long id) throws ServiceException {
+    public void deleteById(long id) throws ServiceException {
         try {
             artistRepository.deleteById(id);
         } catch (RepositoryException e) {
@@ -70,7 +71,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<Track> getTracks(Long artistId, int page) throws ServiceException {
+    public List<Track> getTracks(long artistId, int page) throws ServiceException {
         try {
             return artistRepository.getTracks(artistId,
                     Services.getOffset(page),
@@ -81,7 +82,7 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public void addTrack(Long artistId, Long trackId) throws ServiceException {
+    public void addTrack(long artistId, long trackId) throws ServiceException {
         try {
             artistRepository.addTrack(artistId, trackId);
         } catch (RepositoryException e) {
@@ -90,9 +91,20 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public void removeTrack(Long artistId, Long trackId) throws ServiceException {
+    public void removeTrack(long artistId, long trackId) throws ServiceException {
         try {
             artistRepository.removeTrack(artistId, trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Album> getAlbums(long artistId, int page) throws ServiceException {
+        try {
+            return artistRepository.getAlbums(artistId,
+                    Services.getOffset(page),
+                    Services.PAGE_SIZE);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

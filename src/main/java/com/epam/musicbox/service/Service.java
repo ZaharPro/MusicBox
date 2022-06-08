@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface Service<T> {
     List<T> findPage(int page) throws ServiceException;
 
-    Optional<T> findById(Long id);
+    Optional<T> findById(long id);
 
     long save(T t) throws ServiceException;
 
-    void deleteById(Long id) throws ServiceException;
+    void deleteById(long id) throws ServiceException;
 }

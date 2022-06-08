@@ -9,6 +9,6 @@ import com.epam.musicbox.service.impl.AlbumServiceImpl;
 public class AlbumGetCommand extends GetCommand<Album> {
 
     public AlbumGetCommand() {
-        super(AlbumServiceImpl.getInstance(), Parameter.ALBUM_LIST, PagePath.ALBUMS);
+        super(AlbumServiceImpl.getInstance(), Parameter.ALBUM_PAGE, Parameter.ALBUM_LIST, PagePath.ALBUMS);
     }
 }

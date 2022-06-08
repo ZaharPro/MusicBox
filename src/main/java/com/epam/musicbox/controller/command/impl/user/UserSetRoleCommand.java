@@ -26,6 +26,8 @@ public class UserSetRoleCommand implements Command {
         long userId = Parameters.getLong(body, Parameter.USER_ID);
         Role role = Parameters.getRole(req);
         service.setRole(userId, role.getId());
+        req.setAttribute(Parameter.ROLE, role.getName());
+
         return CommandResult.forward(PagePath.USER);
     }
 }

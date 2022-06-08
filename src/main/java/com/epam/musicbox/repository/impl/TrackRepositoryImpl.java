@@ -23,7 +23,7 @@ public class TrackRepositoryImpl implements TrackRepository {
                                                  "VALUES (?,?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE tracks (name, path) " +
-                                                 "SET name=? path=? album_id=?" +
+                                                 "SET name=? path=? album_id=? " +
                                                  "WHERE track_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM tracks " +
@@ -49,7 +49,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public Optional<Track> findById(Long id) {
+    public Optional<Track> findById(long id) {
         return QueryHelper.queryOne(SQL_FIND_BY_ID, trackRowMapper, id);
     }
 
@@ -72,7 +72,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public void deleteById(Long id) throws RepositoryException {
+    public void deleteById(long id) throws RepositoryException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 

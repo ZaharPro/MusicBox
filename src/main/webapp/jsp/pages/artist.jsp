@@ -15,12 +15,12 @@
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
 <div>
-    <img src="/img/artist${artist.avatar}" alt="Artist picture"/>
-    <p>${artist.name}</p>
+    <img src="/img/artist${artist.getAvatar()}" alt="Artist picture"/>
+    <p>${artist.getName()}</p>
     <c:choose>
-        <c:when test="${liked == false}">
+        <c:when test="${like == false}">
             <form method="post" action="${pageContext.request.contextPath}/controller?command=user-like-artist">
-                <input type="hidden" name="artistid" value="${artist.id}"/>
+                <input type="hidden" name="artistid" value="${artist.getId()}"/>
                 <input type="hidden" name="trackpage" value="${trackpage}"/>
                 <input type="hidden" name="albumpage" value="${albumpage}"/>
                 <input type="submit" value="Like">
@@ -28,7 +28,7 @@
         </c:when>
         <c:otherwise>
             <form method="post" action="${pageContext.request.contextPath}/controller?command=user-cancel-like-artist">
-                <input type="hidden" name="artistid" value="${artist.id}"/>
+                <input type="hidden" name="artistid" value="${artist.getId()}"/>
                 <input type="hidden" name="trackpage" value="${trackpage}"/>
                 <input type="hidden" name="albumpage" value="${albumpage}"/>
                 <input type="submit" value="Cancel like">
@@ -41,8 +41,8 @@
             <c:forEach items="${tracks}" var="track">
                 <li>
                     <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
-                        <input type="hidden" name="trackid" value="${track.id}"/>
-                        <input type="submit" value="${track.name}">
+                        <input type="hidden" name="trackid" value="${track.getId()}"/>
+                        <input type="submit" value="${track.getName()}">
                     </form>
                 </li>
             </c:forEach>
@@ -53,10 +53,10 @@
             <c:forEach items="${albums}" var="album">
                 <li>
                     <form method="post" action="${pageContext.request.contextPath}/controller?command=album-get-by-id">
-                        <input type="hidden" name="albumid" value="${album.id}"/>
-                        <input type="submit" value="${album.name}">
+                        <input type="hidden" name="albumid" value="${album.getId()}"/>
+                        <input type="submit" value="${album.getName()}">
                     </form>
-                    <img src="/img/album${album.picture}" alt="Album picture"/>
+                    <img src="/img/album${album.getPicture()}" alt="Album picture"/>
                 </li>
             </c:forEach>
         </ul>

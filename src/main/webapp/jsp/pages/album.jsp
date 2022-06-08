@@ -15,19 +15,19 @@
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
 <div>
-    <img src="/img/album${album.picture}" alt="Album picture"/>
-    <p>${album.name}</p>
+    <img src="/img/album${album.getPicture()}" alt="Album picture"/>
+    <p>${album.getName()}</p>
     <c:choose>
-        <c:when test="${liked == false}">
+        <c:when test="${like == false}">
             <form method="post" action="${pageContext.request.contextPath}/controller?command=user-like-album">
-                <input type="hidden" name="albumid" value="${album.id}"/>
+                <input type="hidden" name="albumid" value="${album.getId()}"/>
                 <input type="hidden" name="trackpage" value="${trackpage}"/>
                 <input type="submit" value="Like">
             </form>
         </c:when>
         <c:otherwise>
             <form method="post" action="${pageContext.request.contextPath}/controller?command=user-cancel-like-album">
-                <input type="hidden" name="albumid" value="${album.id}"/>
+                <input type="hidden" name="albumid" value="${album.getId()}"/>
                 <input type="hidden" name="trackpage" value="${trackpage}"/>
                 <input type="submit" value="Cancel like">
             </form>
@@ -39,8 +39,8 @@
             <c:forEach items="${tracks}" var="track">
                 <li>
                     <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
-                        <input type="hidden" name="trackid" value="${track.id}"/>
-                        <input type="submit" value="${track.name}">
+                        <input type="hidden" name="trackid" value="${track.getId()}"/>
+                        <input type="submit" value="${track.getName()}">
                     </form>
                 </li>
             </c:forEach>

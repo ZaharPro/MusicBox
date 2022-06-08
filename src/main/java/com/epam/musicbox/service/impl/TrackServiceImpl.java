@@ -33,7 +33,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Optional<Track> findById(Long id) {
+    public Optional<Track> findById(long id) {
         return trackRepository.findById(id);
     }
 
@@ -47,7 +47,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public void deleteById(Long id) throws ServiceException {
+    public void deleteById(long id) throws ServiceException {
         try {
             trackRepository.deleteById(id);
         } catch (RepositoryException e) {

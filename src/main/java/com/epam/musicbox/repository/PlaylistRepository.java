@@ -9,9 +9,9 @@ import java.util.List;
 public interface PlaylistRepository extends Repository<Playlist> {
     List<Playlist> findByName(String regex, int offset, int limit) throws RepositoryException;
 
-    List<Track> getTracks(Long playListId, int offset, int limit) throws RepositoryException;
+    List<Track> getTracks(long playListId, int offset, int limit) throws RepositoryException;
 
-    void addTrack(Long playlistId, Long trackId) throws RepositoryException;
+    void addTrack(long playlistId, long trackId) throws RepositoryException;
 
-    void removeTrack(Long playlistId, Long trackId) throws RepositoryException;
+    void removeTrack(long playlistId, long trackId) throws RepositoryException;
 }

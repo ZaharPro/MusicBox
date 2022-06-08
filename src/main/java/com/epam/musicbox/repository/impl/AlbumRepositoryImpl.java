@@ -49,7 +49,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     }
 
     @Override
-    public Optional<Album> findById(Long id) {
+    public Optional<Album> findById(long id) {
         return QueryHelper.queryOne(SQL_FIND_BY_ID, albumRowMapper, id);
     }
 
@@ -70,7 +70,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     }
 
     @Override
-    public void deleteById(Long id) throws RepositoryException {
+    public void deleteById(long id) throws RepositoryException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 

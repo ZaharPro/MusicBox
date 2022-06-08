@@ -34,7 +34,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public Optional<Playlist> findById(Long id) {
+    public Optional<Playlist> findById(long id) {
         return playlistRepository.findById(id);
     }
 
@@ -48,7 +48,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public void deleteById(Long id) throws ServiceException {
+    public void deleteById(long id) throws ServiceException {
         try {
             playlistRepository.deleteById(id);
         } catch (RepositoryException e) {
@@ -70,7 +70,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public List<Track> getTracks(Long playlistId, int page) throws ServiceException {
+    public List<Track> getTracks(long playlistId, int page) throws ServiceException {
         try {
             return playlistRepository.getTracks(playlistId,
                     Services.getOffset(page),
@@ -81,7 +81,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public void addTrack(Long playlistId, Long trackId) throws ServiceException {
+    public void addTrack(long playlistId, long trackId) throws ServiceException {
         try {
             playlistRepository.addTrack(playlistId, trackId);
         } catch (RepositoryException e) {
@@ -90,7 +90,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public void removeTrack(Long playlistId, Long trackId) throws ServiceException {
+    public void removeTrack(long playlistId, long trackId) throws ServiceException {
         try {
             playlistRepository.removeTrack(playlistId, trackId);
         } catch (RepositoryException e) {

@@ -15,7 +15,7 @@ public class PlaylistGetByNameCommand extends GetByNameCommand<Playlist> {
     private final PlaylistService service = PlaylistServiceImpl.getInstance();
 
     public PlaylistGetByNameCommand() {
-        super(Parameter.PLAYLIST_LIST, PagePath.PLAYLISTS);
+        super(Parameter.NAME, Parameter.PLAYLIST_PAGE, Parameter.PLAYLIST_LIST, PagePath.PLAYLISTS);
     }
 
     @Override

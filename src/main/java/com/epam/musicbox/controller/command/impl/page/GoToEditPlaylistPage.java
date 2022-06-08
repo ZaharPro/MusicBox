@@ -3,18 +3,18 @@ package com.epam.musicbox.controller.command.impl.page;
 import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.CommandResult;
-import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.entity.Playlist;
+import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.PlaylistService;
-import com.epam.musicbox.service.impl.TrackServiceImpl;
+import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
+import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.util.Parameters;
+import com.epam.musicbox.util.Services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.List;
 import java.util.Optional;
 
 public class GoToEditPlaylistPage extends GoToPageCommand {
@@ -29,27 +29,21 @@ public class GoToEditPlaylistPage extends GoToPageCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        Long nullablePlaylistId = Parameters.getNullableLong(req, Parameter.PLAYLIST_ID);
-        if (nullablePlaylistId != null) {
-            Optional<Playlist> optionalPlaylist = playlistService.findById(nullablePlaylistId);
-            if (optionalPlaylist.isPresent()) {
-                Playlist playlist = optionalPlaylist.get();
-                req.setAttribute(Parameter.PLAYLIST, playlist);
-            }
+        Long playlistId = Parameters.getNullableLong(req, Parameter.PLAYLIST_ID);
+        if (playlistId != null) {
+            Optional<Playlist> optional = playlistService.findById(playlistId);
+            Playlist playlist = optional.orElse(null);
+            req.setAttribute(Parameter.PLAYLIST, playlist);
         }
 
-        Long nullableTrackId = Parameters.getNullableLong(req, Parameter.ALBUM_ID);
-        if (nullableTrackId != null) {
-            Optional<Track> optionalTrack = trackService.findById(nullableTrackId);
-            if (optionalTrack.isPresent()) {
-                Track track = optionalTrack.get();
-                req.setAttribute(Parameter.ALBUM, track);
-            }
+        Long trackId = Parameters.getNullableLong(req, Parameter.TRACK_ID);
+        if (trackId != null) {
+            Optional<Track> optionalTrack = trackService.findById(trackId);
+            Track track = optionalTrack.orElse(null);
+            req.setAttribute(Parameter.TRACK, track);
         }
 
-        int page = Parameters.getIntOrZero(req, Parameter.PAGE);
-        List<Track> list = trackService.findPage(page);
-        req.setAttribute(Parameter.ALBUM_LIST, list);
+        Services.handlePage(req, trackService, Parameter.TRACK_PAGE, Parameter.TRACK_LIST);
         return super.execute(req, resp);
     }
 }

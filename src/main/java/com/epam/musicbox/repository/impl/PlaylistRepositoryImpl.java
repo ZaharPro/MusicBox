@@ -21,11 +21,11 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                                                  "FROM playlists " +
                                                  "WHERE playlist_id=?";
 
-    private static final String SQL_INSERT_ONE = "INSERT INTO playlists (name) " +
-                                                 "VALUES (?)";
+    private static final String SQL_INSERT_ONE = "INSERT INTO playlists (name, picture) " +
+                                                 "VALUES (?,?)";
 
-    private static final String SQL_UPDATE_ONE = "UPDATE playlists (name) " +
-                                                 "SET name=? " +
+    private static final String SQL_UPDATE_ONE = "UPDATE playlists (name, picture) " +
+                                                 "SET name=? picture=? " +
                                                  "WHERE playlist_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM playlists " +
@@ -65,7 +65,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     }
 
     @Override
-    public Optional<Playlist> findById(Long id) {
+    public Optional<Playlist> findById(long id) {
         return QueryHelper.queryOne(SQL_FIND_BY_ID, playlistRowMapper, id);
     }
 
@@ -74,17 +74,19 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
         Long playlistId = playlist.getId();
         if (playlistId == null) {
             return QueryHelper.insert(SQL_INSERT_ONE,
-                    playlist.getName());
+                    playlist.getName(),
+                    playlist.getPicture());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
                     playlist.getName(),
+                    playlist.getPicture(),
                     playlistId);
             return playlistId;
         }
     }
 
     @Override
-    public void deleteById(Long id) throws RepositoryException {
+    public void deleteById(long id) throws RepositoryException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 
@@ -94,17 +96,17 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     }
 
     @Override
-    public List<Track> getTracks(Long playlistId, int offset, int limit) throws RepositoryException {
+    public List<Track> getTracks(long playlistId, int offset, int limit) throws RepositoryException {
         return QueryHelper.queryAll(SQL_FIND_TRACKS, trackRowMapper, playlistId, offset, limit);
     }
 
     @Override
-    public void addTrack(Long playlistId, Long trackId) throws RepositoryException {
+    public void addTrack(long playlistId, long trackId) throws RepositoryException {
         QueryHelper.update(SQL_ADD_TRACK, playlistId, trackId);
     }
 
     @Override
-    public void removeTrack(Long playlistId, Long trackId) throws RepositoryException {
+    public void removeTrack(long playlistId, long trackId) throws RepositoryException {
         QueryHelper.update(SQL_REMOVE_TRACK, playlistId, trackId);
     }
 }

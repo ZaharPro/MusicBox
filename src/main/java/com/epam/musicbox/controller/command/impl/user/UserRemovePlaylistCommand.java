@@ -25,6 +25,8 @@ public class UserRemovePlaylistCommand implements Command {
         long userId = Parameters.getLong(body, Parameter.USER_ID);
         long playlistId = Parameters.getLong(req, Parameter.PLAYLIST_ID);
         service.removePlayList(userId, playlistId);
+        req.setAttribute(Parameter.LIKE, false);
+
         return CommandResult.forward(PagePath.PLAYLIST);
     }
 }

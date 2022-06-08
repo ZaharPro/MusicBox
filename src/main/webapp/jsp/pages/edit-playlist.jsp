@@ -19,39 +19,37 @@
         <label for="playlistName"></label>
         <input type="text" id="playlistName" name="name" required
         <c:if test="${playlist != null}">
-               value="${playlist.name}"
+               value="${playlist.getName()}"
         </c:if>>
 
         <label for="playlistPath"></label>
         <input type="text" id="playlistPath" name="path" required
         <c:if test="${playlist != null}">
-               value="${playlist.path}"
+               value="${playlist.getPath()}"
         </c:if>>
 
         <c:if test="${track != null}">
-            <c:set var="trackid" value="${track.id}" scope="request"/>
+            <c:set var="trackid" value="${track.getId()}" scope="request"/>
             <div>
-                <p>${track.name}</p>
-                <img src="/img/track${track.picture}" alt="track picture"/>
+                <p>${track.getName()}</p>
+                <audio controls>
+                    <source src="${track.getPath()}" type="audio/mpeg">
+                </audio>
             </div>
         </c:if>
 
-        <c:choose>
-            <c:when test="${track != null}">
-                <input type="hidden" name="trackid" value="${track.id}"/>
-                <input type="submit" value="Submit">
-            </c:when>
-            <c:otherwise>
-                <p>Choose track</p>
-            </c:otherwise>
-        </c:choose>
+        <c:if test="${track != null}">
+            <input type="hidden" name="trackid" value="${track.getId()}"/>
+            <input type="submit" value="Submit">
+        </c:if>
     </form>
     <c:if test="${playlist != null}">
         <form method="post" action="${pageContext.request.contextPath}/controller?command=playlist-delete">
-            <input type="hidden" name="playlistid" value="${playlist.id}"/>
+            <input type="hidden" name="playlistid" value="${playlist.getId()}"/>
             <input type="submit" value="Delete">
         </form>
     </c:if>
+    <p>Choose track</p>
     <c:if test="${tracks != null}">
         <ul>
             <c:forEach items="${tracks}" var="track">
@@ -60,10 +58,11 @@
                           action="${pageContext.request.contextPath}/controller?command=edit-playlist-page">
                         <input type="hidden" name="playlistid"
                                 <c:if test="${playlist != null}">
-                                    value="${playlist.id}"
+                                    value="${playlist.getId()}"
                                 </c:if>/>
-                        <input type="hidden" name="trackid" value="${track.id}"/>
-                        <input type="submit" value="${track.name}">
+                        <input type="hidden" name="trackid" value="${track.getId()}"/>
+                        <input type="hidden" name="trackpage" value="${trackpage}"/>
+                        <input type="submit" value="${track.getName()}">
                     </form>
                 </li>
             </c:forEach>

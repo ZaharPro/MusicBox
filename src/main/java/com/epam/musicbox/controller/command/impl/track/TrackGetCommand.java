@@ -9,6 +9,6 @@ import com.epam.musicbox.service.impl.TrackServiceImpl;
 public class TrackGetCommand extends GetCommand<Track> {
 
     public TrackGetCommand() {
-        super(TrackServiceImpl.getInstance(), Parameter.TRACK_LIST, PagePath.TRACKS);
+        super(TrackServiceImpl.getInstance(), Parameter.TRACK_PAGE, Parameter.TRACK_LIST, PagePath.TRACKS);
     }
 }

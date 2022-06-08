@@ -19,8 +19,8 @@
         <c:forEach items="${tracks}" var="track">
             <li>
                 <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
-                    <input type="hidden" name="trackid" value="${track.id}"/>
-                    <input type="submit" value="${track.name}">
+                    <input type="hidden" name="trackid" value="${track.getId()}"/>
+                    <input type="submit" value="${track.getName()}">
                 </form>
             </li>
         </c:forEach>

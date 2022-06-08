@@ -35,6 +35,7 @@ public class UserSetBanCommand implements Command {
             user.setBanned(banned);
             service.save(user);
         }
+        req.setAttribute(Parameter.BANNED, banned);
         return CommandResult.forward(PagePath.USER);
     }
 }

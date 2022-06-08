@@ -1,5 +1,6 @@
 package com.epam.musicbox.repository.impl;
 
+import com.epam.musicbox.entity.rowmapper.AlbumRowMapper;
 import com.epam.musicbox.entity.rowmapper.ArtistRowMapper;
 import com.epam.musicbox.entity.rowmapper.TrackRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
@@ -40,7 +41,8 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                   "FROM tracks " +
                                                   "JOIN artist_tracks " +
                                                   "ON artist_tracks.track_id = tracks.track_id " +
-                                                  "WHERE artist_tracks.artist_id=?";
+                                                  "WHERE artist_tracks.artist_id=?" +
+                                                  "LIMIT ?,?";
 
     private static final String SQL_ADD_TRACK = "INSERT INTO artist_tracks (artist_id, track_id) " +
                                                 "VALUES (?,?)";
@@ -48,11 +50,22 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_REMOVE_TRACK = "DELETE FROM artist_tracks " +
                                                    "WHERE artist_id=? AND artist_id=?";
 
+    private static final String SQL_FIND_ALBUMS = "SELECT * " +
+                                                  "FROM albums " +
+                                                  "JOIN tracks " +
+                                                  "ON albums.album_id = tracks.album_id " +
+                                                  "JOIN artist_tracks " +
+                                                  "ON tracks.track_id = artist_tracks.track_id " +
+                                                  "WHERE artist_tracks.artist_id=? " +
+                                                  "LIMIT ?,?";
+
     public static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();
 
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
 
     private final ArtistRowMapper artistRowMapper = ArtistRowMapper.getInstance();
+
+    private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
 
     public static ArtistRepositoryImpl getInstance() {
         return instance;
@@ -64,7 +77,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public Optional<Artist> findById(Long id) {
+    public Optional<Artist> findById(long id) {
         return QueryHelper.queryOne(SQL_FIND_BY_ID, artistRowMapper, id);
     }
 
@@ -85,7 +98,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public void deleteById(Long id) throws RepositoryException {
+    public void deleteById(long id) throws RepositoryException {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 
@@ -95,17 +108,22 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public List<Track> getTracks(Long artistId, int offset, int limit) throws RepositoryException {
+    public List<Track> getTracks(long artistId, int offset, int limit) throws RepositoryException {
         return QueryHelper.queryAll(SQL_FIND_TRACKS, trackRowMapper, artistId, offset, limit);
     }
 
     @Override
-    public void addTrack(Long artistId, Long trackId) throws RepositoryException {
+    public void addTrack(long artistId, long trackId) throws RepositoryException {
         QueryHelper.update(SQL_ADD_TRACK, artistId, trackId);
     }
 
     @Override
-    public void removeTrack(Long artistId, Long trackId) throws RepositoryException {
+    public void removeTrack(long artistId, long trackId) throws RepositoryException {
         QueryHelper.update(SQL_REMOVE_TRACK, artistId, trackId);
+    }
+
+    @Override
+    public List<Album> getAlbums(long artistId, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_ALBUMS, albumRowMapper, artistId, offset, limit);
     }
 }

@@ -21,8 +21,9 @@ public class PlaylistGetTracksCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         long playlistId = Parameters.getLong(req, Parameter.PLAYLIST_ID);
-        int page = Parameters.getIntOrZero(req, Parameter.PAGE);
+        int page = Parameters.getIntOrZero(req, Parameter.PLAYLIST_PAGE);
         List<Track> list = service.getTracks(playlistId, page);
+        req.setAttribute(Parameter.PLAYLIST_PAGE, page);
         req.setAttribute(Parameter.PLAYLIST_LIST, list);
         return CommandResult.forward(PagePath.TRACKS);
     }

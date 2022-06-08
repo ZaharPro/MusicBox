@@ -21,9 +21,10 @@ public class ArtistGetTracksCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         long artistId = Parameters.getLong(req, Parameter.ARTIST_ID);
-        int page = Parameters.getInt(req, Parameter.PAGE);
+        int page = Parameters.getInt(req, Parameter.TRACK_PAGE);
         List<Track> list = service.getTracks(artistId, page);
-        req.setAttribute(Parameter.ARTIST_LIST, list);
+        req.setAttribute(Parameter.TRACK_PAGE, list);
+        req.setAttribute(Parameter.TRACK_LIST, list);
         return CommandResult.forward(PagePath.TRACKS);
     }
 }

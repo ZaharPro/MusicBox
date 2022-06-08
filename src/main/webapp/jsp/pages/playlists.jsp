@@ -18,10 +18,10 @@
     <ul>
         <c:forEach items="${playlists}" var="playlist">
             <li>
-                <img src="/img/playlist${playlist.picture}" alt="Playlist picture"/>
+                <img src="/img/playlist${playlist.getPicture()}" alt="Playlist picture"/>
                 <form method="post" action="${pageContext.request.contextPath}/controller?command=playlist-get-by-id">
-                    <input type="hidden" name="playlistid" value="${playlist.id}"/>
-                    <input type="submit" value="${playlist.name}">
+                    <input type="hidden" name="playlistid" value="${playlist.getId()}"/>
+                    <input type="submit" value="${playlist.getName()}">
                 </form>
             </li>
         </c:forEach>

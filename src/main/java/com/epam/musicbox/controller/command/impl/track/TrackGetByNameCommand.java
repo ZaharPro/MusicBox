@@ -15,7 +15,7 @@ public class TrackGetByNameCommand extends GetByNameCommand<Track> {
     private final TrackService service = TrackServiceImpl.getInstance();
 
     public TrackGetByNameCommand() {
-        super(Parameter.TRACK_LIST, PagePath.TRACKS);
+        super(Parameter.NAME, Parameter.TRACK_PAGE, Parameter.TRACK_LIST, PagePath.TRACKS);
     }
 
     @Override

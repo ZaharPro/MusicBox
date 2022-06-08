@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface Repository<T> {
     List<T> findAll(int offset, int limit) throws RepositoryException;
 
-    Optional<T> findById(Long id);
+    Optional<T> findById(long id);
 
     long save(T t) throws RepositoryException;
 
-    void deleteById(Long id) throws RepositoryException;
+    void deleteById(long id) throws RepositoryException;
 }

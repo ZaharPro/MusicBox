@@ -20,8 +20,8 @@ public class UserGetByEmailCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         String email = req.getParameter(Parameter.EMAIL);
-        Optional<User> optionalUser = service.findByEmail(email);
-        User user = optionalUser.orElse(null);
+        Optional<User> optional = service.findByEmail(email);
+        User user = optional.orElse(null);
         req.setAttribute(Parameter.USER, user);
         return CommandResult.forward(PagePath.USER);
     }
