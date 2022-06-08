@@ -37,6 +37,7 @@ public class SearchCommand implements Command {
         req.setAttribute(Parameter.ARTIST_LIST, artistList);
         req.setAttribute(Parameter.ALBUM_LIST, albumList);
         req.setAttribute(Parameter.TRACK_LIST, trackList);
+        req.setAttribute(Parameter.NAME, name);
 
         return CommandResult.forward(PagePath.SEARCH);
     }

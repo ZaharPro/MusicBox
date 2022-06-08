@@ -50,7 +50,7 @@
         </form>
     </c:if>
     <p>Choose track</p>
-    <c:if test="${tracks != null}">
+    <c:if test="${not empty tracks}">
         <ul>
             <c:forEach items="${tracks}" var="track">
                 <li>

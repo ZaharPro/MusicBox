@@ -54,7 +54,7 @@
         </form>
     </c:if>
     <p>Choose album</p>
-    <c:if test="${albums != null}">
+    <c:if test="${not empty albums}">
         <ul>
             <c:forEach items="${albums}" var="album">
                 <li>

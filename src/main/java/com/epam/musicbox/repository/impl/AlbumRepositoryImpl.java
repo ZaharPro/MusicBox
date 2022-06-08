@@ -22,7 +22,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     private static final String SQL_INSERT_ONE = "INSERT INTO albums (name, picture) " +
                                                  "VALUES (?,?)";
 
-    private static final String SQL_UPDATE_ONE = "UPDATE albums (name, picture) " +
+    private static final String SQL_UPDATE_ONE = "UPDATE albums " +
                                                  "SET name=? picture=? " +
                                                  "WHERE album_id=?";
 

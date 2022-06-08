@@ -14,12 +14,17 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${tracks != null}">
+<c:if test="${command == null}">
+    <c:set var="command" value="track-get-by-id" scope="request"/>
+</c:if>
+
+<c:if test="${not empty tracks}">
     <ul>
         <c:forEach items="${tracks}" var="track">
             <li>
-                <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=${command}">
                     <input type="hidden" name="trackid" value="${track.getId()}"/>
+                    <input type="hidden" name="trackpage" value="${trackpage}"/>
                     <input type="submit" value="${track.getName()}">
                 </form>
             </li>

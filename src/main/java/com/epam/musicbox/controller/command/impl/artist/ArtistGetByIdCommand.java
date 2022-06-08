@@ -6,6 +6,7 @@ import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Artist;
+import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.*;
@@ -30,15 +31,15 @@ public class ArtistGetByIdCommand implements Command {
 
     private final UserService userService = UserServiceImpl.getInstance();
 
-    private final TrackService trackService = TrackServiceImpl.getInstance();
-
-    private final AlbumService albumService = AlbumServiceImpl.getInstance();
-
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
         Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
+        Role role = Parameters.getRole(body);
+        if (role == Role.ADMIN) {
+            req.setAttribute(Parameter.ADMIN, userId);
+        }
         long artistId = Parameters.getLong(req, Parameter.ARTIST_ID);
         Optional<Artist> optional = artistService.findById(artistId);
         if (optional.isPresent()) {

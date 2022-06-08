@@ -24,7 +24,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     private static final String SQL_INSERT_ONE = "INSERT INTO playlists (name, picture) " +
                                                  "VALUES (?,?)";
 
-    private static final String SQL_UPDATE_ONE = "UPDATE playlists (name, picture) " +
+    private static final String SQL_UPDATE_ONE = "UPDATE playlists " +
                                                  "SET name=? picture=? " +
                                                  "WHERE playlist_id=?";
 

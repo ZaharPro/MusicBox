@@ -14,7 +14,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${playlists != null}">
+<c:if test="${not empty playlists}">
     <ul>
         <c:forEach items="${playlists}" var="playlist">
             <li>

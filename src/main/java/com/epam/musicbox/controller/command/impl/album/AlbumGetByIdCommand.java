@@ -5,6 +5,7 @@ import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Album;
+import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.*;
@@ -34,6 +35,11 @@ public class AlbumGetByIdCommand implements Command {
         Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
+        Role role = Parameters.getRole(body);
+        if (role == Role.ADMIN) {
+            req.setAttribute(Parameter.ADMIN, userId);
+        }
+
         long albumId = Parameters.getLong(req, Parameter.ALBUM_ID);
         Optional<Album> optional = albumService.findById(albumId);
         if (optional.isPresent()) {

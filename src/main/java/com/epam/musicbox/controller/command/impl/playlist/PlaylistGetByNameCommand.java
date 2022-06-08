@@ -2,6 +2,7 @@ package com.epam.musicbox.controller.command.impl.playlist;
 
 import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.controller.command.impl.common.GetByNameCommand;
 import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.exception.ServiceException;
@@ -15,7 +16,11 @@ public class PlaylistGetByNameCommand extends GetByNameCommand<Playlist> {
     private final PlaylistService service = PlaylistServiceImpl.getInstance();
 
     public PlaylistGetByNameCommand() {
-        super(Parameter.NAME, Parameter.PLAYLIST_PAGE, Parameter.PLAYLIST_LIST, PagePath.PLAYLISTS);
+        super(Parameter.NAME,
+                Parameter.PLAYLIST_PAGE,
+                Parameter.PLAYLIST_LIST,
+                PagePath.PLAYLISTS,
+                CommandType.PLAYLIST_GET.getName());
     }
 
     @Override

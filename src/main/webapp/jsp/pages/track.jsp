@@ -41,6 +41,14 @@
             </form>
         </c:otherwise>
     </c:choose>
+
+    <c:if test="${admin != null}">
+        <form method="post" action="${pageContext.request.contextPath}/controller?command=edit-track-page">
+            <input type="hidden" name="trackid" value="${track.getId()}"/>
+            <input type="submit" value="Edit">
+        </form>
+    </c:if>
+
 </div>
 </body>
 </html>

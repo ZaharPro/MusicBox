@@ -24,7 +24,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_INSERT_ONE = "INSERT INTO artists (name, avatar) " +
                                                  "VALUES (?,?)";
 
-    private static final String SQL_UPDATE_ONE = "UPDATE artists (name, avatar) " +
+    private static final String SQL_UPDATE_ONE = "UPDATE artists " +
                                                  "SET name=? avatar=? " +
                                                  "WHERE artist_id=?";
 

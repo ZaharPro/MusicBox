@@ -14,7 +14,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${users != null}">
+<c:if test="${not empty users}">
     <ul>
         <c:forEach items="${users}" var="user">
             <li>

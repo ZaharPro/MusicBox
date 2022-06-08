@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.command.impl.common;
 
+import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.exception.ServiceException;
@@ -15,12 +16,14 @@ public abstract class GetByNameCommand<T> implements Command {
     private final String page;
     private final String list;
     private final String pagePath;
+    private final String command;
 
-    protected GetByNameCommand(String name, String page, String list, String pagePath) {
+    protected GetByNameCommand(String name, String page, String list, String pagePath, String command) {
         this.name = name;
         this.page = page;
         this.list = list;
         this.pagePath = pagePath;
+        this.command = command;
     }
 
     @Override
@@ -30,6 +33,7 @@ public abstract class GetByNameCommand<T> implements Command {
         List<T> list = findByName(name, page);
         req.setAttribute(this.page, page);
         req.setAttribute(this.list, list);
+        req.setAttribute(Parameter.COMMAND, this.command);
         return CommandResult.forward(this.pagePath);
     }
 

@@ -14,22 +14,56 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<section class="container">
-    <c:if test="${not empty artistlist}">
-        <ul class="list-group col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
-            <c:forEach items="${artistlist}" var="artist" varStatus="counter">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="${pageContext.request.contextPath}/controller?command=artist-get-by-id"
-                       onsubmit="<c:set var="artistid" value="${artist.getId()}" scope="request"/>">
-                            ${artist.getName()}
-                    </a>
-                    <div class="image-parent">
-                        <img src="${artist.getAvatar()}" class="img-fluid" alt="quixote">
-                    </div>
-                </li>
-            </c:forEach>
-        </ul>
-    </c:if>
-</section>
+<c:if test="${not empty artists}">
+    <ul>
+        <c:forEach items="${artists}" var="artist">
+            <li>
+                <img src="/img/artist${artist.getAvatar()}" alt="Artist picture"/>
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-get-by-id">
+                    <input type="hidden" name="artistid" value="${artist.getId()}"/>
+                    <input type="submit" value="${artist.getName()}">
+                </form>
+            </li>
+        </c:forEach>
+    </ul>
+    <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-get-by-name">
+        <input type="hidden" name="name" value="${name}"/>
+        <input type="submit" value="Show all">
+    </form>
+</c:if>
+<c:if test="${not empty tracks}">
+    <ul>
+        <c:forEach items="${tracks}" var="track">
+            <li>
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
+                    <input type="hidden" name="trackid" value="${track.getId()}"/>
+                    <input type="submit" value="${track.getName()}">
+                </form>
+            </li>
+        </c:forEach>
+    </ul>
+    <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-name">
+        <input type="hidden" name="name" value="${name}"/>
+        <input type="submit" value="Show all">
+    </form>
+</c:if>
+<c:if test="${not empty albums}">
+    <ul>
+        <c:forEach items="${albums}" var="album">
+            <li>
+                <img src="/img/album${album.getPicture()}" alt="Album picture"/>
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=album-get-by-id">
+                    <input type="hidden" name="albumid" value="${album.getId()}"/>
+                    <input type="submit" value="${album.getName()}">
+                </form>
+            </li>
+        </c:forEach>
+    </ul>
+    <form method="post" action="${pageContext.request.contextPath}/controller?command=album-get-by-name">
+        <input type="hidden" name="name" value="${name}"/>
+        <input type="submit" value="Show all">
+    </form>
+</c:if>
+
 </body>
 </html>

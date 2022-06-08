@@ -4,6 +4,7 @@ import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.TrackService;
@@ -31,6 +32,10 @@ public class TrackGetByIdCommand implements Command {
         Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
+        Role role = Parameters.getRole(body);
+        if (role == Role.ADMIN) {
+            req.setAttribute(Parameter.ADMIN, userId);
+        }
         long trackId = Parameters.getLong(req, Parameter.TRACK_ID);
         Optional<Track> optional = trackService.findById(trackId);
         if (optional.isPresent()) {

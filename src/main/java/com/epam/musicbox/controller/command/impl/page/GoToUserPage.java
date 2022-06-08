@@ -40,7 +40,7 @@ public class GoToUserPage extends GoToPageCommand {
 
         Role role = Parameters.getRole(body);
         if (role == Role.ADMIN) {
-            req.setAttribute(Parameter.ADMIN, "admin");
+            req.setAttribute(Parameter.ADMIN, userId);
         }
 
         return super.execute(req, resp);

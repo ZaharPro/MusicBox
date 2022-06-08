@@ -14,12 +14,16 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${albums != null}">
+<c:if test="${command == null}">
+    <c:set var="command" value="album-get-by-id" scope="request"/>
+</c:if>
+
+<c:if test="${not empty albums}">
     <ul>
         <c:forEach items="${albums}" var="album">
             <li>
                 <img src="/img/album${album.getPicture()}" alt="Album picture"/>
-                <form method="post" action="${pageContext.request.contextPath}/controller?command=album-get-by-id">
+                <form method="post" action="${pageContext.request.contextPath}/controller?command=${command}">
                     <input type="hidden" name="albumid" value="${album.getId()}"/>
                     <input type="hidden" name="albumpage" value="${albumpage}"/>
                     <input type="submit" value="${album.getName()}">

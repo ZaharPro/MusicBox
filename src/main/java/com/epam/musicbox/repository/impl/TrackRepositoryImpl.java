@@ -22,7 +22,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     private static final String SQL_INSERT_ONE = "INSERT INTO tracks (name, path, album_id) " +
                                                  "VALUES (?,?,?)";
 
-    private static final String SQL_UPDATE_ONE = "UPDATE tracks (name, path) " +
+    private static final String SQL_UPDATE_ONE = "UPDATE tracks " +
                                                  "SET name=? path=? album_id=? " +
                                                  "WHERE track_id=?";
 

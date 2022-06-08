@@ -25,13 +25,9 @@
 
         <form method="post" action="${pageContext.request.contextPath}/controller?command=user-set-ban">
             <input type="hidden" name="userid" value="${user.getId()}"/>
-
+            <input type="submit" value="Ban user">
+            <label for="banCheckbox"></label>
             <input type="checkbox" value="false" id="banCheckbox"/>
-            <label for="banCheckbox">
-                Ban user
-            </label>
-
-            <input type="submit" value="Show user">
         </form>
     </c:if>
 

@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_INSERT_ONE = "INSERT INTO users (login, email, password, banned) " +
                                                  "VALUES (?,?,?,?)";
 
-    private static final String SQL_UPDATE_ONE = "UPDATE users (login, email, password, banned) " +
+    private static final String SQL_UPDATE_ONE = "UPDATE users " +
                                                  "SET login=? email=? password=? banned=? " +
                                                  "WHERE user_id=?";
 
@@ -45,8 +45,15 @@ public class UserRepositoryImpl implements UserRepository {
                                                    "WHERE user_roles.user_id=? " +
                                                    "LIMIT ?,?";
 
-    private static final String SQL_SET_ROLE = "INSERT INTO user_roles (user_id, role_id) " +
-                                               "VALUES (?,?)";
+    private static final String SQL_INSERT_ROLE = "INSERT INTO user_roles (user_id, role_id) " +
+                                                  "VALUES (?,?)";
+
+    private static final String SQL_UPDATE_ROLE = "UPDATE users " +
+                                                  "SET user_id, role_id=? ";
+
+    private static final String SQL_EXIST_USER_ROLE = "SELECT 1 " +
+                                                      "FROM user_role " +
+                                                      "WHERE user_id=? AND role_id=?";
 
     private static final String SQL_GET_ROLE = "SELECT * " +
                                                "FROM roles " +
@@ -64,7 +71,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_ADD_PLAYLIST = "INSERT INTO user_playlists (user_id, playlist_id) " +
                                                    "VALUES (?,?)";
 
-    private static final String SQL_EXIST_PLAYLIST = "SELECT * " +
+    private static final String SQL_EXIST_PLAYLIST = "SELECT 1 " +
                                                      "FROM user_playlists " +
                                                      "WHERE user_id=? AND playlist_id=?";
 
@@ -81,9 +88,9 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_LIKE_ARTIST = "INSERT INTO user_liked_artists (user_id, artist_id) " +
                                                   "VALUES (?,?)";
 
-    private static final String SQL_EXIST_LIKE_ARTIST = "SELECT * " +
-                                                       "FROM user_liked_artists " +
-                                                       "WHERE user_id=? AND artist_id=?";
+    private static final String SQL_EXIST_LIKE_ARTIST = "SELECT 1 " +
+                                                        "FROM user_liked_artists " +
+                                                        "WHERE user_id=? AND artist_id=?";
 
     private static final String SQL_CANCEL_LIKE_ARTIST = "DELETE FROM user_liked_artists " +
                                                          "WHERE user_id=? AND artist_id=?";
@@ -98,7 +105,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_LIKE_ALBUM = "INSERT INTO user_liked_albums (user_id, album_id) " +
                                                  "VALUES (?,?)";
 
-    private static final String SQL_EXIST_LIKE_ALBUM = "SELECT * " +
+    private static final String SQL_EXIST_LIKE_ALBUM = "SELECT 1 " +
                                                        "FROM user_liked_albums " +
                                                        "WHERE user_id=? AND album_id=?";
 
@@ -115,9 +122,9 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_LIKE_TRACK = "INSERT INTO user_liked_tracks (user_id, track_id) " +
                                                  "VALUES (?,?)";
 
-    private static final String SQL_EXIST_LIKE_TRACK = "SELECT * " +
-                                                      "FROM user_liked_tracks " +
-                                                      "WHERE user_id=? AND track_id=?";
+    private static final String SQL_EXIST_LIKE_TRACK = "SELECT 1 " +
+                                                       "FROM user_liked_tracks " +
+                                                       "WHERE user_id=? AND track_id=?";
 
     private static final String SQL_CANCEL_LIKE_TRACK = "DELETE FROM user_liked_tracks " +
                                                         "WHERE user_id=? AND track_id=?";
@@ -215,7 +222,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void setRole(long userId, int roleId) throws RepositoryException {
-        QueryHelper.update(SQL_SET_ROLE, userId, roleId);
+        Optional<?> optional = QueryHelper.queryOne(SQL_EXIST_USER_ROLE, NULL_MAPPER, userId, roleId);
+        String sql = optional.isPresent() ? SQL_UPDATE_ROLE : SQL_INSERT_ROLE;
+        QueryHelper.update(sql, userId, roleId);
     }
 
     @Override

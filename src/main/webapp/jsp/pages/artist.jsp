@@ -35,8 +35,14 @@
             </form>
         </c:otherwise>
     </c:choose>
+    <c:if test="${admin != null}">
+        <form method="post" action="${pageContext.request.contextPath}/controller?command=edit-artist-page">
+            <input type="hidden" name="artistid" value="${artist.getId()}"/>
+            <input type="submit" value="Edit">
+        </form>
+    </c:if>
 
-    <c:if test="${tracks != null}">
+    <c:if test="${not empty tracks}">
         <ul>
             <c:forEach items="${tracks}" var="track">
                 <li>
@@ -48,7 +54,7 @@
             </c:forEach>
         </ul>
     </c:if>
-    <c:if test="${albums != null}">
+    <c:if test="${not empty albums}">
         <ul>
             <c:forEach items="${albums}" var="album">
                 <li>
