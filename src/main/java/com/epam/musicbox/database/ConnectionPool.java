@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
@@ -17,7 +18,7 @@ public class ConnectionPool {
     private static final ResourceBundle resourceBundle;
     private static final ReentrantLock instanceLock = new ReentrantLock();
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
-    private static ConnectionPool instance;
+    private static AtomicReference<ConnectionPool> instance = new AtomicReference<>();
     private final ReentrantLock lock;
     private final Semaphore semaphore;
     private final Deque<Connection> connections;
@@ -73,7 +74,7 @@ public class ConnectionPool {
             try {
                 instanceLock.lock();
                 if (instanceCreated.compareAndSet(false, true)) {
-                    instance = createInstance();
+                    instance.set(createInstance());
                 }
             } catch (Exception e) {
                 instanceCreated.set(false);
@@ -82,7 +83,7 @@ public class ConnectionPool {
                 instanceLock.unlock();
             }
         }
-        return instance;
+        return instance.get();
     }
 
     Connection take() {
