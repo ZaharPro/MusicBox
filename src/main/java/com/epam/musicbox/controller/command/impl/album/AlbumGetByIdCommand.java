@@ -1,12 +1,11 @@
 package com.epam.musicbox.controller.command.impl.album;
 
-import com.epam.musicbox.constant.PagePath;
-import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.util.constant.PagePath;
+import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Role;
-import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.*;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
@@ -19,7 +18,6 @@ import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.List;
 import java.util.Optional;
 
 public class AlbumGetByIdCommand implements Command {

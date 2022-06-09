@@ -4,7 +4,7 @@ import com.epam.musicbox.util.ObjectUtils;
 
 import java.sql.Timestamp;
 
-public class User {
+public class User implements Entity<Long> {
     private Long id;
     private String login;
     private String email;
@@ -82,11 +82,11 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return ObjectUtils.equals(id, user.id)
-                && ObjectUtils.equals(login, user.login)
-                && ObjectUtils.equals(email, user.email)
-                && ObjectUtils.equals(password, user.password)
-                && ObjectUtils.equals(banned, user.banned)
-                && ObjectUtils.equals(registration, user.registration);
+               && ObjectUtils.equals(login, user.login)
+               && ObjectUtils.equals(email, user.email)
+               && ObjectUtils.equals(password, user.password)
+               && ObjectUtils.equals(banned, user.banned)
+               && ObjectUtils.equals(registration, user.registration);
     }
 
     @Override

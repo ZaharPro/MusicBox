@@ -1,6 +1,6 @@
 package com.epam.musicbox.util;
 
-import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.ServiceException;
 import io.jsonwebtoken.Claims;

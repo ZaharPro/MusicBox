@@ -1,9 +1,8 @@
 package com.epam.musicbox.controller;
 
-import com.epam.musicbox.constant.PagePath;
-import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.util.constant.PagePath;
+import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.*;
-import com.epam.musicbox.database.ConnectionPool;
 import com.epam.musicbox.exception.ServiceException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -18,6 +17,9 @@ import java.io.IOException;
 
 @WebServlet(name = "controller", urlPatterns = "/controller")
 public class Controller extends HttpServlet {
+
+    public static final String COMMAND_NOT_FOUND_MSG = "Command not found";
+
     public static final Logger logger = LogManager.getLogger();
 
     private final CommandProvider commandProvider = CommandProvider.getInstance();
@@ -39,7 +41,7 @@ public class Controller extends HttpServlet {
                 return;
             CommandType commandType = CommandType.of(commandName);
             if (commandType == null) {
-                req.setAttribute(Parameter.ERROR_MESSAGE, "Command doesn't exist");
+                req.setAttribute(Parameter.ERROR_MESSAGE, COMMAND_NOT_FOUND_MSG);
                 RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
                 dispatcher.forward(req, resp);
                 return;

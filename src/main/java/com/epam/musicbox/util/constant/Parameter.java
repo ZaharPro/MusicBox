@@ -1,4 +1,4 @@
-package com.epam.musicbox.constant;
+package com.epam.musicbox.util.constant;
 
 public final class Parameter {
     public static final String LOGIN = "login";

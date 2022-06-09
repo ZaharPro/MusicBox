@@ -1,14 +1,14 @@
 package com.epam.musicbox.service;
 
-import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.hasher.PasswordHasher;
-import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
+import com.epam.musicbox.util.hasher.PasswordHasher;
+import com.epam.musicbox.util.hasher.impl.PBKDF2PasswordHasher;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.validator.Validator;
-import com.epam.musicbox.validator.impl.ValidatorImpl;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +17,6 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
-import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Key;
@@ -30,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 public class AuthService {
 
     private static final String PROP_PATH = "prop/application.properties";
-    private static final String JWT_SECRET_KEY = "jwt.secretKey";
-    private static final String JWT_TOKEN_LIFE_TIME = "jwt.accessToken.lifeTime";
+    private static final String JWT_SECRET_KEY = "JWT_SECRET_KEY";
+    private static final String JWT_TOKEN_LIFE_TIME = "JWT_LIFETIME";
     private static final String INVALID_LOGIN_MSG = "Invalid login";
     private static final String INVALID_EMAIL_MSG = "Invalid email";
     private static final String INVALID_PASSWORD_MSG = "Invalid password";

@@ -1,4 +1,4 @@
-package com.epam.musicbox.entity.rowmapper;
+package com.epam.musicbox.repository.rowmapper;
 
 import com.epam.musicbox.exception.RepositoryException;
 

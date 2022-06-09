@@ -1,6 +1,6 @@
 package com.epam.musicbox.controller.listener;
 
-import com.epam.musicbox.database.ConnectionPool;
+import com.epam.musicbox.repository.pool.ConnectionPool;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;

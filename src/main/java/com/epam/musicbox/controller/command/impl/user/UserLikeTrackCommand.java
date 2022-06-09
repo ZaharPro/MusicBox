@@ -1,18 +1,15 @@
 package com.epam.musicbox.controller.command.impl.user;
 
-import com.epam.musicbox.constant.PagePath;
-import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.util.constant.PagePath;
+import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.*;
-import com.epam.musicbox.service.impl.AlbumServiceImpl;
-import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.Parameters;
-import com.epam.musicbox.util.Services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.epam.musicbox.hasher;
+package com.epam.musicbox.util.hasher;
 
 public interface PasswordHasher {
     String hash(String password);

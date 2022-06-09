@@ -1,4 +1,4 @@
-package com.epam.musicbox.database;
+package com.epam.musicbox.repository.pool;
 
 import java.sql.*;
 import java.util.Map;

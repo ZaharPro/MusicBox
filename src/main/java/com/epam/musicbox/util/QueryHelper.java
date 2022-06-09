@@ -1,7 +1,7 @@
 package com.epam.musicbox.util;
 
-import com.epam.musicbox.database.ConnectionPool;
-import com.epam.musicbox.entity.rowmapper.RowMapper;
+import com.epam.musicbox.repository.pool.ConnectionPool;
+import com.epam.musicbox.repository.rowmapper.RowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

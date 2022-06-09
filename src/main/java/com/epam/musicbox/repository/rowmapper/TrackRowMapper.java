@@ -1,4 +1,4 @@
-package com.epam.musicbox.entity.rowmapper;
+package com.epam.musicbox.repository.rowmapper;
 
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.RepositoryException;
@@ -7,6 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TrackRowMapper implements RowMapper<Track> {
+
+    public static final String ROW_TRACK_ID = "track_id";
+    public static final String ROW_NAME = "name";
+    public static final String ROW_PATH = "path";
+    public static final String ROW_ALBUM_ID = "album_id";
+
     private static final TrackRowMapper instance = new TrackRowMapper();
 
     private TrackRowMapper() {
@@ -19,10 +25,10 @@ public class TrackRowMapper implements RowMapper<Track> {
     @Override
     public Track map(ResultSet resultSet) throws RepositoryException {
         try {
-            return new Track(resultSet.getLong("track_id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("path"),
-                    resultSet.getLong("album_id"));
+            return new Track(resultSet.getLong(ROW_TRACK_ID),
+                    resultSet.getString(ROW_NAME),
+                    resultSet.getString(ROW_PATH),
+                    resultSet.getLong(ROW_ALBUM_ID));
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }

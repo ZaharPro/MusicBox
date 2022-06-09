@@ -1,10 +1,9 @@
 package com.epam.musicbox.controller.command.impl.auth;
 
-import com.epam.musicbox.constant.PagePath;
-import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.util.constant.PagePath;
+import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
-import com.epam.musicbox.exception.ServiceException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

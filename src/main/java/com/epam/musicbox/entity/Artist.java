@@ -2,7 +2,7 @@ package com.epam.musicbox.entity;
 
 import com.epam.musicbox.util.ObjectUtils;
 
-public class Artist {
+public class Artist implements Entity<Long> {
     private Long id;
     private String name;
     private String avatar;
@@ -46,8 +46,8 @@ public class Artist {
         if (o == null || getClass() != o.getClass()) return false;
         Artist artist = (Artist) o;
         return ObjectUtils.equals(id, artist.id)
-                && ObjectUtils.equals(name, artist.name)
-                && ObjectUtils.equals(avatar, artist.avatar);
+               && ObjectUtils.equals(name, artist.name)
+               && ObjectUtils.equals(avatar, artist.avatar);
     }
 
     @Override

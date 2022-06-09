@@ -1,4 +1,4 @@
-package com.epam.musicbox.database;
+package com.epam.musicbox.repository.pool;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,11 +14,25 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
+
+    private static final String DB_URL = "URL";
+    private static final String DB_USER = "USER";
+    private static final String DB_PASSWORD = "PASSWORD";
+    private static final String DB_DRIVER = "DRIVER";
+    private static final String DB_POOL_SIZE = "POOL_SIZE";
+
+    private static final String PROPERTY_NOT_FOUND_FORMAT = "Property %s is not found";
+    private static final String DRIVER_NOT_FOUND_FORMAT = "Driver is not found %s %s";
+    private static final String POOL_DESTROYED_MSG = "Pool destroyed";
+
     private static final Logger logger = LogManager.getLogger();
+
     private static final ResourceBundle resourceBundle;
-    private static final ReentrantLock instanceLock = new ReentrantLock();
+
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
-    private static AtomicReference<ConnectionPool> instance = new AtomicReference<>();
+    private static final ReentrantLock instanceLock = new ReentrantLock();
+    private static final AtomicReference<ConnectionPool> instance = new AtomicReference<>();
+
     private final ReentrantLock lock;
     private final Semaphore semaphore;
     private final Deque<Connection> connections;
@@ -42,30 +56,30 @@ public class ConnectionPool {
         try {
             return resourceBundle.getString(propertyName);
         } catch (MissingResourceException e) {
-            throw new RuntimeException(String.format("Property %s is not found", propertyName));
+            throw new RuntimeException(String.format(PROPERTY_NOT_FOUND_FORMAT, propertyName));
         }
     }
 
     private static ConnectionPool createInstance() {
         try {
-            String url = getProperty("URL_DB");
-            String name = getProperty("NAME");
-            String password = getProperty("PASS");
-            String driver = getProperty("DRIVER");
+            String url = getProperty(DB_URL);
+            String user = getProperty(DB_USER);
+            String password = getProperty(DB_PASSWORD);
+            String driver = getProperty(DB_DRIVER);
             Class.forName(driver);
 
-            int connectionSize = Integer.parseInt(getProperty("POOL_SIZE"));
+            int connectionSize = Integer.parseInt(getProperty(DB_POOL_SIZE));
             Deque<Connection> connections = new ArrayDeque<>(connectionSize);
 
             for (int i = 0; i < connectionSize; i++) {
-                Connection connection = DriverManager.getConnection(url, name, password);
+                Connection connection = DriverManager.getConnection(url, user, password);
                 connections.push(connection);
             }
             return new ConnectionPool(connections);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(String.format("Driver is not found %s %s", e.getMessage(), e));
+            throw new RuntimeException(String.format(DRIVER_NOT_FOUND_FORMAT, e.getMessage(), e));
         }
     }
 
@@ -133,7 +147,7 @@ public class ConnectionPool {
                     logger.error(e.getMessage(), e);
                 }
             }
-            logger.info("Pool destroyed");
+            logger.info(POOL_DESTROYED_MSG);
         } finally {
             lock.unlock();
         }

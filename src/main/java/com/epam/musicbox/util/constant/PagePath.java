@@ -1,4 +1,4 @@
-package com.epam.musicbox.constant;
+package com.epam.musicbox.util.constant;
 
 public final class PagePath {
     public static final String ERROR = "/jsp/pages/error.jsp";

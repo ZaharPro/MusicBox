@@ -1,6 +1,6 @@
 package com.epam.musicbox.repository.impl;
 
-import com.epam.musicbox.entity.rowmapper.*;
+import com.epam.musicbox.repository.rowmapper.*;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.repository.UserRepository;

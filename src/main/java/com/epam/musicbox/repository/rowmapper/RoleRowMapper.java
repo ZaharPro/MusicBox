@@ -1,4 +1,4 @@
-package com.epam.musicbox.entity.rowmapper;
+package com.epam.musicbox.repository.rowmapper;
 
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.RepositoryException;
@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RoleRowMapper implements RowMapper<Role> {
+
+    public static final String ROW_ROLE_ID = "role_id";
+
     private static final RoleRowMapper instance = new RoleRowMapper();
 
     private RoleRowMapper() {
@@ -19,7 +22,7 @@ public class RoleRowMapper implements RowMapper<Role> {
     @Override
     public Role map(ResultSet resultSet) throws RepositoryException {
         try {
-            int roleId = resultSet.getInt("role_id");
+            int roleId = resultSet.getInt(ROW_ROLE_ID);
             return Role.findById(roleId);
         } catch (SQLException e) {
             throw new RepositoryException(e);

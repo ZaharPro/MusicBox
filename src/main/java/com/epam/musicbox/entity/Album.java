@@ -2,7 +2,7 @@ package com.epam.musicbox.entity;
 
 import com.epam.musicbox.util.ObjectUtils;
 
-public class Album {
+public class Album implements Entity<Long> {
     private Long id;
     private String name;
     private String picture;

@@ -1,7 +1,7 @@
 package com.epam.musicbox.controller.command.impl.album;
 
-import com.epam.musicbox.constant.PagePath;
-import com.epam.musicbox.constant.Parameter;
+import com.epam.musicbox.util.constant.PagePath;
+import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.controller.command.impl.common.GetByNameCommand;
 import com.epam.musicbox.entity.Album;
