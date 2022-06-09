@@ -1,4 +1,4 @@
-package com.epam.musicbox.controller.filter;
+package com.epam.musicbox.controller.filter.access;
 
 import com.epam.musicbox.constant.PagePath;
 import com.epam.musicbox.constant.Parameter;
@@ -22,12 +22,15 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class AccessFilter implements Filter {
+
     private static final String UNAUTHORIZED_MSG = "Unauthorized";
     private static final String SESSION_TIMEOUT_MSG = "Session timeout";
     private static final String PERMISSION_DENIED_MSG = "Permission denied";
     private static final String USER_BANNED_MSG = "User banned";
 
     private final AuthService authService = AuthService.getInstance();
+
+    private final RoleRights roleRights = RoleRights.getInstance();
 
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -102,7 +105,7 @@ public class AccessFilter implements Filter {
         if (commandName == null)
             return AccessCode.OK;
         CommandType commandType = CommandType.of(commandName);
-        return role.isExistCommandType(commandType) ?
+        return roleRights.isExistCommandType(role, commandType) ?
                 AccessCode.OK :
                 AccessCode.PERMISSION_DENIED;
     }

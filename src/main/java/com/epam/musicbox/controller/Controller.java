@@ -23,17 +23,6 @@ public class Controller extends HttpServlet {
     private final CommandProvider commandProvider = CommandProvider.getInstance();
 
     @Override
-    public void init() {
-    }
-
-    @Override
-    public void destroy() {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        connectionPool.destroyPool();
-    }
-
-
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         doProcess(req, resp);
     }

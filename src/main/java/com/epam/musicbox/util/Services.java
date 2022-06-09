@@ -34,9 +34,9 @@ public final class Services {
         return userId;
     }
 
-    public static void savePageIndex(HttpServletRequest req, String trackPage) throws ServiceException {
-        int i = Parameters.getIntOrZero(req, trackPage);
-        req.setAttribute(trackPage, i);
+    public static void savePageIndex(HttpServletRequest req, String page) throws ServiceException {
+        int i = Parameters.getIntOrZero(req, page);
+        req.setAttribute(page, i);
     }
 
     public static <T> void handlePage(HttpServletRequest req,

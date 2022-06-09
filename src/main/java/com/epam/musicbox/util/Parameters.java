@@ -3,16 +3,16 @@ package com.epam.musicbox.util;
 import com.epam.musicbox.constant.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.AuthService;
-import com.epam.musicbox.service.Service;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.List;
 import java.util.function.Function;
 
 public final class Parameters {
+
+    public static final String JWT_VALUE_NOT_FOUND = "Jwt value not found: ";
+    public static final String REQ_INVALID_PARAMETER = "Invalid parameter: ";
+
     private static final Function<String, Integer> INT_MAPPER = Integer::parseInt;
     private static final Function<String, Long> LONG_MAPPER = Long::parseLong;
     private static final Function<String, Boolean> BOOLEAN_MAPPER = Boolean::parseBoolean;
@@ -39,7 +39,7 @@ public final class Parameters {
                             Function<String, T> function) throws ServiceException {
         T value = Parameters.getNullable(body, paramName, function);
         if (value == null)
-            throw new ServiceException(String.format("Jwt token value: '%s', not found", paramName));
+            throw new ServiceException(JWT_VALUE_NOT_FOUND + paramName);
         return value;
     }
 
@@ -61,7 +61,7 @@ public final class Parameters {
         try {
             return function.apply(value);
         } catch (Throwable e) {
-            throw new ServiceException(String.format("Invalid parameter: '%s' = '%s'", paramName, value));
+            throw new ServiceException(REQ_INVALID_PARAMETER + paramName);
         }
     }
 
@@ -70,7 +70,7 @@ public final class Parameters {
                             Function<String, T> function) throws ServiceException {
         T value = Parameters.getNullable(req, paramName, function);
         if (value == null)
-            throw new ServiceException("Parameter not found: " + paramName);
+            throw new ServiceException(REQ_INVALID_PARAMETER + paramName);
         return value;
     }
 

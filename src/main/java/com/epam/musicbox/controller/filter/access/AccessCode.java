@@ -1,4 +1,4 @@
-package com.epam.musicbox.controller.filter;
+package com.epam.musicbox.controller.filter.access;
 
 enum AccessCode {
     OK,
