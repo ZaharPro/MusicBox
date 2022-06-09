@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.filter.access;
 
+import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.util.constant.PagePath;
 import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.CommandType;
@@ -8,7 +9,7 @@ import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.service.AuthService;
+import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.util.Parameters;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -28,7 +29,7 @@ public class AccessFilter implements Filter {
     private static final String PERMISSION_DENIED_MSG = "Permission denied";
     private static final String USER_BANNED_MSG = "User banned";
 
-    private final AuthService authService = AuthService.getInstance();
+    private final AuthService authService = AuthServiceImpl.getInstance();
 
     private final RoleRights roleRights = RoleRights.getInstance();
 
@@ -71,7 +72,7 @@ public class AccessFilter implements Filter {
             String commandName = req.getParameter(Parameter.COMMAND);
             return checkCommand(role, commandName);
         }
-        Optional<Cookie> optionalCookie = authService.getTokenFromCookies(req.getCookies());
+        Optional<Cookie> optionalCookie = authService.getToken(req.getCookies());
         if (optionalCookie.isEmpty()) {
             Role role = Role.GUEST;
             String commandName = req.getParameter(Parameter.COMMAND);
@@ -79,7 +80,7 @@ public class AccessFilter implements Filter {
         }
         try {
             String token = optionalCookie.get().getValue();
-            Jws<Claims> claims = authService.getClaimsFromToken(token);
+            Jws<Claims> claims = authService.getJws(token);
             Claims body = claims.getBody();
 
             long userId = Parameters.getLong(body, Parameter.USER_ID);

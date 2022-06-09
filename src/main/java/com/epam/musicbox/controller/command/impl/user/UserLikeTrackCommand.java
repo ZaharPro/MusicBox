@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.command.impl.user;
 
+import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.util.constant.PagePath;
 import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
@@ -31,7 +32,7 @@ public class UserLikeTrackCommand implements Command {
             Track track = optional.get();
             req.setAttribute(Parameter.TRACK, track);
 
-            Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
+            Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
             Claims body = jws.getBody();
             long userId = Parameters.getLong(body, Parameter.USER_ID);
 

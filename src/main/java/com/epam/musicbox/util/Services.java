@@ -2,7 +2,7 @@ package com.epam.musicbox.util;
 
 import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.AuthService;
+import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.Service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -27,7 +27,7 @@ public final class Services {
     public static long getUserIdFromReqOrJws(HttpServletRequest req) throws ServiceException {
         Long userId = Parameters.getNullableLong(req, Parameter.USER_ID);
         if (userId == null) {
-            Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
+            Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
             Claims body = jws.getBody();
             userId = Parameters.getLong(body, Parameter.USER_ID);
         }

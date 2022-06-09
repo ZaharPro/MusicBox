@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.command.impl.user;
 
+import com.epam.musicbox.service.impl.*;
 import com.epam.musicbox.util.constant.PagePath;
 import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
@@ -7,10 +8,6 @@ import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.*;
-import com.epam.musicbox.service.impl.AlbumServiceImpl;
-import com.epam.musicbox.service.impl.ArtistServiceImpl;
-import com.epam.musicbox.service.impl.TrackServiceImpl;
-import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.Parameters;
 import com.epam.musicbox.util.Services;
 import io.jsonwebtoken.Claims;
@@ -38,7 +35,7 @@ public class UserLikeArtistCommand implements Command {
             Artist artist = optionalArtist.get();
             req.setAttribute(Parameter.ARTIST, artist);
 
-            Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
+            Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
             Claims body = jws.getBody();
             long userId = Parameters.getLong(body, Parameter.USER_ID);
 

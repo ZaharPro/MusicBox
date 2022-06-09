@@ -9,7 +9,7 @@ import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.PlaylistService;
-import com.epam.musicbox.service.AuthService;
+import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
@@ -34,7 +34,7 @@ public class PlaylistGetByIdCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
+        Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
         Role role = Parameters.getRole(body);

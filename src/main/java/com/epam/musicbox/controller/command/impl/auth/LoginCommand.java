@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.command.impl.auth;
 
+import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.util.constant.PagePath;
 import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
@@ -9,7 +10,7 @@ import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.service.AuthService;
+import com.epam.musicbox.service.impl.AuthServiceImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +23,7 @@ public class LoginCommand implements Command {
 
     private final UserService userService = UserServiceImpl.getInstance();
 
-    private final AuthService authService = AuthService.getInstance();
+    private final AuthService authService = AuthServiceImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {

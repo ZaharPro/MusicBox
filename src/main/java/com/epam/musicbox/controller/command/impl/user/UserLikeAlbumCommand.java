@@ -7,7 +7,7 @@ import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AlbumService;
-import com.epam.musicbox.service.AuthService;
+import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
@@ -38,7 +38,7 @@ public class UserLikeAlbumCommand implements Command {
             Album album = optional.get();
             req.setAttribute(Parameter.ALBUM, album);
 
-            Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
+            Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
             Claims body = jws.getBody();
             long userId = Parameters.getLong(body, Parameter.USER_ID);
 

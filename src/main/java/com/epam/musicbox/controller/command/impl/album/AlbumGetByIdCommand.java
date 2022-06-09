@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.command.impl.album;
 
+import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.util.constant.PagePath;
 import com.epam.musicbox.util.constant.Parameter;
 import com.epam.musicbox.controller.command.Command;
@@ -30,7 +31,7 @@ public class AlbumGetByIdCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        Jws<Claims> jws = AuthService.getInstance().getClaimsJws(req);
+        Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
         Role role = Parameters.getRole(body);
