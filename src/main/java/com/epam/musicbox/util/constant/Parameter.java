@@ -43,6 +43,8 @@ public final class Parameter {
     public static final String NEW_PASSWORD = "newpass";
     public static final String INVALIDATE = "invalidate";
     public static final String LIKE = "like";
+    public static final String LOCALE = "locale";
+    public static final String DEFAULT_LOCALE = "en_EN";
 
     private Parameter() {
     }

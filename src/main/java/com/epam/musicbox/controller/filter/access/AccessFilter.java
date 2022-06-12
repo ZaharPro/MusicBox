@@ -28,6 +28,7 @@ public class AccessFilter implements Filter {
     private static final String SESSION_TIMEOUT_MSG = "Session timeout";
     private static final String PERMISSION_DENIED_MSG = "Permission denied";
     private static final String USER_BANNED_MSG = "User banned";
+    private static final String COMMAND_NOT_FOUND_MSG = "Command not found";
 
     private final AuthService authService = AuthServiceImpl.getInstance();
 
@@ -46,19 +47,27 @@ public class AccessFilter implements Filter {
                 filterChain.doFilter(req, resp);
                 break;
             case UNAUTHORIZED:
-                sendError(req, resp, PagePath.LOGIN, UNAUTHORIZED_MSG);
+                req.setAttribute(Parameter.ERROR_MESSAGE, UNAUTHORIZED_MSG);
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 break;
             case SESSION_TIMEOUT:
                 Cookie deleteBlackToken = new Cookie(Parameter.ACCESS_TOKEN, null);
                 deleteBlackToken.setMaxAge(0);
                 resp.addCookie(deleteBlackToken);
-                sendError(req, resp, PagePath.LOGIN, SESSION_TIMEOUT_MSG);
+                req.setAttribute(Parameter.ERROR_MESSAGE, SESSION_TIMEOUT_MSG);
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 break;
             case PERMISSION_DENIED:
-                sendError(req, resp, PagePath.ERROR, PERMISSION_DENIED_MSG);
+                req.setAttribute(Parameter.ERROR_MESSAGE, PERMISSION_DENIED_MSG);
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN);
                 break;
             case USER_BANNED:
-                sendError(req, resp, PagePath.ERROR, USER_BANNED_MSG);
+                req.setAttribute(Parameter.ERROR_MESSAGE, USER_BANNED_MSG);
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+                break;
+            case NOT_FOUND:
+                req.setAttribute(Parameter.ERROR_MESSAGE, COMMAND_NOT_FOUND_MSG);
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
         }
     }
@@ -68,15 +77,13 @@ public class AccessFilter implements Filter {
         Object invalidate = session.getAttribute(Parameter.INVALIDATE);
         if (invalidate != null) {
             session.invalidate();
-            Role role = Role.GUEST;
             String commandName = req.getParameter(Parameter.COMMAND);
-            return checkCommand(role, commandName);
+            return checkCommand(Role.GUEST, commandName, AccessCode.UNAUTHORIZED);
         }
         Optional<Cookie> optionalCookie = authService.getToken(req.getCookies());
         if (optionalCookie.isEmpty()) {
-            Role role = Role.GUEST;
             String commandName = req.getParameter(Parameter.COMMAND);
-            return checkCommand(role, commandName);
+            return checkCommand(Role.GUEST, commandName, AccessCode.UNAUTHORIZED);
         }
         try {
             String token = optionalCookie.get().getValue();
@@ -96,28 +103,21 @@ public class AccessFilter implements Filter {
                 return AccessCode.USER_BANNED;
             }
             String commandName = req.getParameter(Parameter.COMMAND);
-            return checkCommand(role, commandName);
+            return checkCommand(role, commandName, AccessCode.PERMISSION_DENIED);
         } catch (ServiceException e) {
             return AccessCode.SESSION_TIMEOUT;
         }
     }
 
-    private AccessCode checkCommand(Role role, String commandName) {
+    private AccessCode checkCommand(Role role, String commandName, AccessCode failCode) {
         if (commandName == null)
             return AccessCode.OK;
         CommandType commandType = CommandType.of(commandName);
+        if (commandType == null) {
+            return AccessCode.NOT_FOUND;
+        }
         return roleRights.isExistCommandType(role, commandType) ?
                 AccessCode.OK :
-                AccessCode.PERMISSION_DENIED;
-    }
-
-
-    private void sendError(HttpServletRequest req,
-                           HttpServletResponse resp,
-                           String page,
-                           String message) throws ServletException, IOException {
-        req.setAttribute(Parameter.ERROR_MESSAGE, message);
-        RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-        dispatcher.forward(req, resp);
+                failCode;
     }
 }

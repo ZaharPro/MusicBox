@@ -24,7 +24,7 @@ public class SignUpCommand implements Command {
             authService.signUp(login, email, password);
         } catch (ServiceException e) {
             req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
-            return CommandResult.forward(PagePath.LOGIN);
+            return CommandResult.forward(PagePath.SIGN_UP);
         }
         req.setAttribute(Parameter.LOGIN, login);
         return CommandResult.forward(PagePath.LOGIN);

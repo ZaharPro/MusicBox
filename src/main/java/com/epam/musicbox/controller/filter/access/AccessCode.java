@@ -5,5 +5,6 @@ enum AccessCode {
     UNAUTHORIZED,
     SESSION_TIMEOUT,
     PERMISSION_DENIED,
-    USER_BANNED
+    USER_BANNED,
+    NOT_FOUND
 }

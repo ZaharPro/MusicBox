@@ -18,8 +18,6 @@ import java.io.IOException;
 @WebServlet(name = "controller", urlPatterns = "/controller")
 public class Controller extends HttpServlet {
 
-    public static final String COMMAND_NOT_FOUND_MSG = "Command not found";
-
     public static final Logger logger = LogManager.getLogger();
 
     private final CommandProvider commandProvider = CommandProvider.getInstance();
@@ -40,12 +38,6 @@ public class Controller extends HttpServlet {
             if (commandName == null)
                 return;
             CommandType commandType = CommandType.of(commandName);
-            if (commandType == null) {
-                req.setAttribute(Parameter.ERROR_MESSAGE, COMMAND_NOT_FOUND_MSG);
-                RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
-                dispatcher.forward(req, resp);
-                return;
-            }
             Command command = commandProvider.get(commandType);
             CommandResult commandResult = command.execute(req, resp);
             String page = commandResult.getPage();
@@ -58,8 +50,7 @@ public class Controller extends HttpServlet {
         } catch (ServiceException e) {
             logger.error(e.getMessage(), e);
             req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
-            RequestDispatcher dispatcher = req.getRequestDispatcher(PagePath.ERROR);
-            dispatcher.forward(req, resp);
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }

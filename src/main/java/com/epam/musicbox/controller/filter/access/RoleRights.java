@@ -17,13 +17,16 @@ public class RoleRights {
                 CommandType.GO_TO_LOGIN_PAGE,
                 CommandType.GO_TO_SIGN_UP_PAGE,
                 CommandType.GO_TO_HOME_PAGE,
+                CommandType.CHANGE_LOCALE,
 
                 CommandType.SIGN_UP,
-                CommandType.LOGIN));
+                CommandType.LOGIN,
+                CommandType.LOGOUT));
 
         map.put(Role.USER, setOf(
                 CommandType.LOGOUT,
                 CommandType.CHANGE_PASSWORD,
+                CommandType.CHANGE_LOCALE,
                 CommandType.SEARCH,
                 CommandType.GO_TO_HOME_PAGE,
                 CommandType.GO_TO_CHANGE_PASSWORD_PAGE,

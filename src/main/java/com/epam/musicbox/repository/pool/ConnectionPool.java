@@ -23,6 +23,7 @@ public class ConnectionPool {
 
     private static final String PROPERTY_NOT_FOUND_FORMAT = "Property %s is not found";
     private static final String DRIVER_NOT_FOUND_FORMAT = "Driver is not found %s %s";
+    private static final String POOL_CREATED_MSG = "Pool created";
     private static final String POOL_DESTROYED_MSG = "Pool destroyed";
 
     private static final Logger logger = LogManager.getLogger();
@@ -88,7 +89,9 @@ public class ConnectionPool {
             try {
                 instanceLock.lock();
                 if (instanceCreated.compareAndSet(false, true)) {
-                    instance.set(createInstance());
+                    ConnectionPool pool = createInstance();
+                    logger.info(POOL_CREATED_MSG);
+                    ConnectionPool.instance.set(pool);
                 }
             } catch (Exception e) {
                 instanceCreated.set(false);

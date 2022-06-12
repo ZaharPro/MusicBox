@@ -12,6 +12,7 @@ public enum CommandType {
     GO_TO_EDIT_TRACK_PAGE("edit-track-page"),
     GO_TO_EDIT_PLAYLIST_PAGE("edit-playlist-page"),
     SEARCH("search"),
+    CHANGE_LOCALE("change-locale"),
 
     //auth
     LOGIN("login"),

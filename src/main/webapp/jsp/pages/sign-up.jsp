@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
-<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="locale"/>
 
 <html lang="<fmt:message key="html.lang"/>">
@@ -77,7 +77,7 @@
             </div>
 
             <c:if test="${errorMessage != null}">
-                <div><fmt:message key="signup.error.${errorMessage}"/></div>
+                <p class="text-center text-danger mt-1">${errorMessage}</p>
             </c:if>
         </form>
     </div>

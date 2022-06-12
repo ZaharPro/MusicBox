@@ -6,6 +6,7 @@ import com.epam.musicbox.controller.command.impl.auth.ChangePasswordCommand;
 import com.epam.musicbox.controller.command.impl.auth.LoginCommand;
 import com.epam.musicbox.controller.command.impl.auth.LogoutCommand;
 import com.epam.musicbox.controller.command.impl.auth.SignUpCommand;
+import com.epam.musicbox.controller.command.impl.common.ChangeLocaleCommand;
 import com.epam.musicbox.controller.command.impl.common.SearchCommand;
 import com.epam.musicbox.controller.command.impl.page.*;
 import com.epam.musicbox.controller.command.impl.playlist.*;
@@ -34,6 +35,7 @@ public class CommandProvider {
         commands.put(CommandType.GO_TO_EDIT_PLAYLIST_PAGE, new GoToEditPlaylistPage());
 
         commands.put(CommandType.SEARCH, new SearchCommand());
+        commands.put(CommandType.CHANGE_LOCALE, new ChangeLocaleCommand());
 
         commands.put(CommandType.LOGIN, new LoginCommand());
         commands.put(CommandType.LOGOUT, new LogoutCommand());
