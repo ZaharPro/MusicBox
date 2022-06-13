@@ -1,6 +1,5 @@
 package com.epam.musicbox.controller.filter.xss;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 

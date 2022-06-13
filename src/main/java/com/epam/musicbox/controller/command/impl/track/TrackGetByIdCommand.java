@@ -32,10 +32,7 @@ public class TrackGetByIdCommand implements Command {
         Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
-        Role role = Parameters.getRole(body);
-        if (role == Role.ADMIN) {
-            req.setAttribute(Parameter.ADMIN, userId);
-        }
+
         long trackId = Parameters.getLong(req, Parameter.TRACK_ID);
         Optional<Track> optional = trackService.findById(trackId);
         if (optional.isPresent()) {

@@ -5,6 +5,6 @@ import com.epam.musicbox.exception.ServiceException;
 
 import java.util.List;
 
-public interface TrackService extends Service<Track> {
+public interface TrackService extends EntityService<Track, Long> {
     List<Track> findByName(String name, int page) throws ServiceException;
 }

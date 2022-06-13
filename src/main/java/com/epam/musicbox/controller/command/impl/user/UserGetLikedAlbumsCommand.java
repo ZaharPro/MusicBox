@@ -9,7 +9,7 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.Parameters;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.Commands;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -21,7 +21,7 @@ public class UserGetLikedAlbumsCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        long userId = Services.getUserIdFromReqOrJws(req);
+        long userId = Commands.getUserIdFromReqOrJws(req);
         int page = Parameters.getIntOrZero(req, Parameter.ALBUM_PAGE);
         List<Album> list = service.getLikedAlbums(userId, page);
         req.setAttribute(Parameter.ALBUM_PAGE, page);

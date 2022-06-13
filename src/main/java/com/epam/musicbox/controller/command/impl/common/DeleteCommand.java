@@ -1,20 +1,21 @@
 package com.epam.musicbox.controller.command.impl.common;
 
+import com.epam.musicbox.entity.Entity;
 import com.epam.musicbox.util.constant.PagePath;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.Service;
+import com.epam.musicbox.service.EntityService;
 import com.epam.musicbox.util.Parameters;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class DeleteCommand<T> implements Command {
+public class DeleteCommand<T extends Entity<K>, K> implements Command {
 
-    private final Service<T> service;
+    private final EntityService<T, K> service;
     private final String id;
 
-    public DeleteCommand(Service<T> service, String id) {
+    public DeleteCommand(EntityService<T, K> service, String id) {
         this.service = service;
         this.id = id;
     }

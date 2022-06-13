@@ -1,38 +1,38 @@
 package com.epam.musicbox.entity;
 
 public enum Role implements Entity<Integer> {
-    GUEST(-1, "guest"),
-    USER(1, "user"),
-    ADMIN(2, "admin");
+    GUEST("guest", -1),
+    USER("user", 1),
+    ADMIN("admin", 2);
 
+    private final String value;
     private final int id;
-    private final String name;
 
-    Role(int id, String name) {
+    Role(String value, int id) {
         this.id = id;
-        this.name = name;
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public static Role findById(int id) {
         for (Role role : Role.values()) {
-            if (role.getId() == id) {
+            if (role.id == id) {
                 return role;
             }
         }
         return null;
     }
 
-    public static Role findByName(String name) {
+    public static Role findByValue(String value) {
         for (Role role : Role.values()) {
-            if (role.getName().equals(name)) {
+            if (role.getValue().equals(value)) {
                 return role;
             }
         }

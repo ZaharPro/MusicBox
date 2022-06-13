@@ -10,27 +10,27 @@ import java.util.function.Function;
 
 public final class Parameters {
 
-    public static final String JWT_VALUE_NOT_FOUND = "Jwt value not found: ";
-    public static final String REQ_INVALID_PARAMETER = "Invalid parameter: ";
+    public static final String JWT_VALUE_NOT_FOUND_MSG = "Jwt value not found: ";
+    public static final String REQ_INVALID_PARAMETER_MSG = "Invalid parameter: ";
 
     private static final Function<String, Integer> INT_MAPPER = Integer::parseInt;
     private static final Function<String, Long> LONG_MAPPER = Long::parseLong;
     private static final Function<String, Boolean> BOOLEAN_MAPPER = Boolean::parseBoolean;
-    private static final Function<String, Role> ROLE_MAPPER = Role::findByName;
+    private static final Function<String, Role> ROLE_MAPPER = Role::findByValue;
 
     private Parameters() {
     }
 
     public static <T> T getNullable(Claims body,
                                     String paramName,
-                                    Function<String, T> function) {
+                                    Function<String, T> function) throws ServiceException {
         Object value = body.get(paramName);
         if (value == null)
             return null;
         try {
             return function.apply(value.toString());
         } catch (Throwable e) {
-            return null;
+            throw new ServiceException(JWT_VALUE_NOT_FOUND_MSG + paramName);
         }
     }
 
@@ -39,7 +39,7 @@ public final class Parameters {
                             Function<String, T> function) throws ServiceException {
         T value = Parameters.getNullable(body, paramName, function);
         if (value == null)
-            throw new ServiceException(JWT_VALUE_NOT_FOUND + paramName);
+            throw new ServiceException(JWT_VALUE_NOT_FOUND_MSG + paramName);
         return value;
     }
 
@@ -56,12 +56,12 @@ public final class Parameters {
                                     String paramName,
                                     Function<String, T> function) throws ServiceException {
         String value = req.getParameter(paramName);
-        if (value == null || value.isBlank())
+        if (value == null)
             return null;
         try {
             return function.apply(value);
         } catch (Throwable e) {
-            throw new ServiceException(REQ_INVALID_PARAMETER + paramName);
+            throw new ServiceException(REQ_INVALID_PARAMETER_MSG + paramName);
         }
     }
 
@@ -70,7 +70,7 @@ public final class Parameters {
                             Function<String, T> function) throws ServiceException {
         T value = Parameters.getNullable(req, paramName, function);
         if (value == null)
-            throw new ServiceException(REQ_INVALID_PARAMETER + paramName);
+            throw new ServiceException(REQ_INVALID_PARAMETER_MSG + paramName);
         return value;
     }
 

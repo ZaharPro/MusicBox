@@ -7,17 +7,28 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.repository.impl.PlaylistRepositoryImpl;
 import com.epam.musicbox.service.PlaylistService;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class PlaylistServiceImpl implements PlaylistService {
+public class PlaylistServiceImpl extends AbstractEntityService<Playlist, Long> implements PlaylistService {
 
     public static final PlaylistServiceImpl instance = new PlaylistServiceImpl();
 
+    private final Validator validator = ValidatorImpl.getInstance();
+
     private final PlaylistRepository playlistRepository = PlaylistRepositoryImpl.getInstance();
+
+    private PlaylistServiceImpl() {
+        this(DEFAULT_PAGE_SIZE);
+    }
+
+    private PlaylistServiceImpl(int pageSize) {
+        super(pageSize);
+    }
 
     public static PlaylistServiceImpl getInstance() {
         return instance;
@@ -26,8 +37,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     public List<Playlist> findPage(int page) throws ServiceException {
         try {
-            return playlistRepository.findAll(Services.getOffset(page),
-                    Services.PAGE_SIZE);
+            return playlistRepository.findAll(getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -58,12 +69,13 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     public List<Playlist> findByName(String name, int page) throws ServiceException {
+        if (!validator.isValidName(name)) {
+            return Collections.emptyList();
+        }
         try {
-            return name == null || name.length() < 2 ?
-                    Collections.emptyList() :
-                    playlistRepository.findByName(Services.buildRegex(name),
-                            Services.getOffset(page),
-                            Services.PAGE_SIZE);
+            return playlistRepository.findByName(buildRegex(name),
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -73,8 +85,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     public List<Track> getTracks(long playlistId, int page) throws ServiceException {
         try {
             return playlistRepository.getTracks(playlistId,
-                    Services.getOffset(page),
-                    Services.PAGE_SIZE);
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

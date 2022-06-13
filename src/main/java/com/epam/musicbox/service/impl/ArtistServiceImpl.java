@@ -8,27 +8,38 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.ArtistRepository;
 import com.epam.musicbox.repository.impl.ArtistRepositoryImpl;
 import com.epam.musicbox.service.ArtistService;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class ArtistServiceImpl implements ArtistService {
+public class ArtistServiceImpl extends AbstractEntityService<Artist, Long> implements ArtistService {
 
     public static final ArtistServiceImpl instance = new ArtistServiceImpl();
+
+    private final Validator validator = ValidatorImpl.getInstance();
+
+    private final ArtistRepository artistRepository = ArtistRepositoryImpl.getInstance();
+
+    private ArtistServiceImpl() {
+        this(DEFAULT_PAGE_SIZE);
+    }
+
+    private ArtistServiceImpl(int pageSize) {
+        super(pageSize);
+    }
 
     public static ArtistServiceImpl getInstance() {
         return instance;
     }
 
-    private final ArtistRepository artistRepository = ArtistRepositoryImpl.getInstance();
-
     @Override
     public List<Artist> findPage(int page) throws ServiceException {
         try {
-            return artistRepository.findAll(Services.getOffset(page),
-                    Services.PAGE_SIZE);
+            return artistRepository.findAll(getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -59,12 +70,13 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public List<Artist> findByName(String name, int page) throws ServiceException {
+        if (!validator.isValidName(name)) {
+            return Collections.emptyList();
+        }
         try {
-            return name == null || name.length() < 2 ?
-                    Collections.emptyList() :
-                    artistRepository.findByName(Services.buildRegex(name),
-                            Services.getOffset(page),
-                            Services.PAGE_SIZE);
+            return artistRepository.findByName(buildRegex(name),
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -74,8 +86,8 @@ public class ArtistServiceImpl implements ArtistService {
     public List<Track> getTracks(long artistId, int page) throws ServiceException {
         try {
             return artistRepository.getTracks(artistId,
-                    Services.getOffset(page),
-                    Services.PAGE_SIZE);
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -103,8 +115,8 @@ public class ArtistServiceImpl implements ArtistService {
     public List<Album> getAlbums(long artistId, int page) throws ServiceException {
         try {
             return artistRepository.getAlbums(artistId,
-                    Services.getOffset(page),
-                    Services.PAGE_SIZE);
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

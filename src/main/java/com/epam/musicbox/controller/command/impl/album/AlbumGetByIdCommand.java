@@ -13,7 +13,7 @@ import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.Parameters;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.Commands;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,10 +34,6 @@ public class AlbumGetByIdCommand implements Command {
         Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
-        Role role = Parameters.getRole(body);
-        if (role == Role.ADMIN) {
-            req.setAttribute(Parameter.ADMIN, userId);
-        }
 
         long albumId = Parameters.getLong(req, Parameter.ALBUM_ID);
         Optional<Album> optional = albumService.findById(albumId);
@@ -51,7 +47,7 @@ public class AlbumGetByIdCommand implements Command {
             req.setAttribute(Parameter.ALBUM, null);
             req.setAttribute(Parameter.LIKE, null);
         }
-        Services.handlePage(req, trackService, Parameter.TRACK_PAGE, Parameter.TRACK_LIST);
+        Commands.handlePage(req, trackService, Parameter.TRACK_PAGE, Parameter.TRACK_LIST);
 
         return CommandResult.forward(PagePath.ALBUM);
     }

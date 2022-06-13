@@ -6,7 +6,7 @@ import com.epam.musicbox.exception.ServiceException;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService extends Service<User> {
+public interface UserService extends EntityService<User, Long> {
     Optional<User> findByLogin(String login);
 
     Optional<User> findByEmail(String email);

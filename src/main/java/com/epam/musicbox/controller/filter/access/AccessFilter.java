@@ -54,6 +54,7 @@ public class AccessFilter implements Filter {
                 Cookie deleteBlackToken = new Cookie(Parameter.ACCESS_TOKEN, null);
                 deleteBlackToken.setMaxAge(0);
                 resp.addCookie(deleteBlackToken);
+
                 req.setAttribute(Parameter.ERROR_MESSAGE, SESSION_TIMEOUT_MSG);
                 resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 break;
@@ -77,13 +78,11 @@ public class AccessFilter implements Filter {
         Object invalidate = session.getAttribute(Parameter.INVALIDATE);
         if (invalidate != null) {
             session.invalidate();
-            String commandName = req.getParameter(Parameter.COMMAND);
-            return checkCommand(Role.GUEST, commandName, AccessCode.UNAUTHORIZED);
+            return checkCommand(req, Role.GUEST, AccessCode.UNAUTHORIZED);
         }
         Optional<Cookie> optionalCookie = authService.getToken(req.getCookies());
         if (optionalCookie.isEmpty()) {
-            String commandName = req.getParameter(Parameter.COMMAND);
-            return checkCommand(Role.GUEST, commandName, AccessCode.UNAUTHORIZED);
+            return checkCommand(req, Role.GUEST, AccessCode.UNAUTHORIZED);
         }
         try {
             String token = optionalCookie.get().getValue();
@@ -102,14 +101,14 @@ public class AccessFilter implements Filter {
             if (user.getBanned()) {
                 return AccessCode.USER_BANNED;
             }
-            String commandName = req.getParameter(Parameter.COMMAND);
-            return checkCommand(role, commandName, AccessCode.PERMISSION_DENIED);
+            return checkCommand(req, role, AccessCode.PERMISSION_DENIED);
         } catch (ServiceException e) {
             return AccessCode.SESSION_TIMEOUT;
         }
     }
 
-    private AccessCode checkCommand(Role role, String commandName, AccessCode failCode) {
+    private AccessCode checkCommand(HttpServletRequest req, Role role, AccessCode failCode) {
+        String commandName = req.getParameter(Parameter.COMMAND);
         if (commandName == null)
             return AccessCode.OK;
         CommandType commandType = CommandType.of(commandName);

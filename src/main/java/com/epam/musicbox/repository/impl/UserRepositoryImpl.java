@@ -52,7 +52,7 @@ public class UserRepositoryImpl implements UserRepository {
                                                   "SET user_id, role_id=? ";
 
     private static final String SQL_EXIST_USER_ROLE = "SELECT 1 " +
-                                                      "FROM user_role " +
+                                                      "FROM user_roles " +
                                                       "WHERE user_id=? AND role_id=?";
 
     private static final String SQL_GET_ROLE = "SELECT * " +

@@ -17,11 +17,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Optional;
 
-public class GoToUserPage extends GoToPageCommand {
+public class GoToUserPageCommand extends GoToPageCommand {
 
     private final UserService userService = UserServiceImpl.getInstance();
 
-    public GoToUserPage() {
+    public GoToUserPageCommand() {
         super(PagePath.USER);
     }
 

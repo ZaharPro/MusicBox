@@ -14,7 +14,7 @@ import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.Parameters;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.Commands;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,12 +45,12 @@ public class UserLikeAlbumCommand implements Command {
             userService.likeAlbum(userId, albumId);
             req.setAttribute(Parameter.LIKE, true);
 
-            Services.handlePage(req, trackService, Parameter.TRACK_PAGE, Parameter.TRACK_LIST);
+            Commands.handlePage(req, trackService, Parameter.TRACK_PAGE, Parameter.TRACK_LIST);
         } else {
             req.setAttribute(Parameter.ALBUM, null);
             req.setAttribute(Parameter.LIKE, null);
 
-            Services.savePageIndex(req, Parameter.TRACK_PAGE);
+            Commands.savePageIndex(req, Parameter.TRACK_PAGE);
         }
         return CommandResult.forward(PagePath.ALBUM);
     }

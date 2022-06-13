@@ -37,10 +37,7 @@ public class PlaylistGetByIdCommand implements Command {
         Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
-        Role role = Parameters.getRole(body);
-        if (role == Role.ADMIN) {
-            req.setAttribute(Parameter.ADMIN, userId);
-        }
+
         long playlistId = Parameters.getLong(req, Parameter.PLAYLIST_ID);
         Optional<Playlist> optional = playlistService.findById(playlistId);
         if (optional.isPresent()) {

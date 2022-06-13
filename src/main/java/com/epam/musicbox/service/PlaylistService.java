@@ -6,7 +6,7 @@ import com.epam.musicbox.exception.ServiceException;
 
 import java.util.List;
 
-public interface PlaylistService extends Service<Playlist> {
+public interface PlaylistService extends EntityService<Playlist, Long> {
     List<Playlist> findByName(String name, int page) throws ServiceException;
 
     List<Track> getTracks(long playlistId, int page) throws ServiceException;

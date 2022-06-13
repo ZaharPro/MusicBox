@@ -11,7 +11,7 @@ import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.Parameters;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.Commands;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class UserGetByIdCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        long userId = Services.getUserIdFromReqOrJws(req);
+        long userId = Commands.getUserIdFromReqOrJws(req);
         Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
         Claims body = jws.getBody();
         Role role = Parameters.getRole(body);

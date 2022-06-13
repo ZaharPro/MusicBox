@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ct" uri="custom-tags" %>
 
 <!DOCTYPE html>
 <fmt:setLocale value="${locale}" scope="session"/>
@@ -35,12 +36,12 @@
             </form>
         </c:otherwise>
     </c:choose>
-    <c:if test="${admin != null}">
+    <ct:access role="admin">
         <form method="post" action="${pageContext.request.contextPath}/controller?command=edit-artist-page">
             <input type="hidden" name="artistid" value="${artist.getId()}"/>
             <input type="submit" value="Edit">
         </form>
-    </c:if>
+    </ct:access>
 
     <c:if test="${not empty tracks}">
         <ul>

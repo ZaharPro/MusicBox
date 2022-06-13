@@ -12,6 +12,8 @@ import java.io.IOException;
 @WebFilter(urlPatterns = {"/*"})
 public class LocaleFilter implements Filter {
 
+    public static final String DEFAULT_LOCALE = "en_EN";
+
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
@@ -19,7 +21,7 @@ public class LocaleFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession();
         if (session.getAttribute(Parameter.LOCALE) == null) {
-            session.setAttribute(Parameter.LOCALE, Parameter.DEFAULT_LOCALE);
+            session.setAttribute(Parameter.LOCALE, DEFAULT_LOCALE);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

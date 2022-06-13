@@ -6,7 +6,7 @@ import com.epam.musicbox.controller.command.impl.common.GetCommand;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 
-public class ArtistGetCommand extends GetCommand<Artist> {
+public class ArtistGetCommand extends GetCommand<Artist, Long> {
 
     public ArtistGetCommand() {
         super(ArtistServiceImpl.getInstance(), Parameter.ARTIST_PAGE, Parameter.ARTIST_LIST, PagePath.ARTISTS);

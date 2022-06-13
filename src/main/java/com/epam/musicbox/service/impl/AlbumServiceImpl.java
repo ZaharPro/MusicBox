@@ -6,16 +6,28 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.repository.impl.AlbumRepositoryImpl;
 import com.epam.musicbox.service.AlbumService;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class AlbumServiceImpl implements AlbumService {
+public class AlbumServiceImpl extends AbstractEntityService<Album, Long> implements AlbumService {
+
     public static final AlbumServiceImpl instance = new AlbumServiceImpl();
 
+    private final Validator validator = ValidatorImpl.getInstance();
+
     private final AlbumRepository albumRepository = AlbumRepositoryImpl.getInstance();
+
+    private AlbumServiceImpl() {
+        this(DEFAULT_PAGE_SIZE);
+    }
+
+    private AlbumServiceImpl(int pageSize) {
+        super(pageSize);
+    }
 
     public static AlbumServiceImpl getInstance() {
         return instance;
@@ -24,8 +36,8 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public List<Album> findPage(int page) throws ServiceException {
         try {
-            return albumRepository.findAll(Services.getOffset(page),
-                    Services.PAGE_SIZE);
+            return albumRepository.findAll(getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -56,12 +68,13 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public List<Album> findByName(String name, int page) throws ServiceException {
+        if (!validator.isValidName(name)) {
+            return Collections.emptyList();
+        }
         try {
-            return name == null || name.length() < 2 ?
-                    Collections.emptyList() :
-                    albumRepository.findByName(Services.buildRegex(name),
-                            Services.getOffset(page),
-                            Services.PAGE_SIZE);
+            return albumRepository.findByName(buildRegex(name),
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

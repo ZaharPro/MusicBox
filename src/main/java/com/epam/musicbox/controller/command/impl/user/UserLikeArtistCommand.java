@@ -9,7 +9,7 @@ import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.*;
 import com.epam.musicbox.util.Parameters;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.Commands;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,14 +42,14 @@ public class UserLikeArtistCommand implements Command {
             userService.likeArtist(userId, artistId);
             req.setAttribute(Parameter.LIKE, true);
 
-            Services.handlePage(req, trackService, Parameter.TRACK_PAGE, Parameter.TRACK_LIST);
-            Services.handlePage(req, albumService, Parameter.ALBUM_PAGE, Parameter.ALBUM_LIST);
+            Commands.handlePage(req, trackService, Parameter.TRACK_PAGE, Parameter.TRACK_LIST);
+            Commands.handlePage(req, albumService, Parameter.ALBUM_PAGE, Parameter.ALBUM_LIST);
         } else {
             req.setAttribute(Parameter.ARTIST, null);
             req.setAttribute(Parameter.LIKE, null);
 
-            Services.savePageIndex(req, Parameter.TRACK_PAGE);
-            Services.savePageIndex(req, Parameter.ALBUM_PAGE);
+            Commands.savePageIndex(req, Parameter.TRACK_PAGE);
+            Commands.savePageIndex(req, Parameter.ALBUM_PAGE);
         }
         return CommandResult.forward(PagePath.ARTIST);
     }

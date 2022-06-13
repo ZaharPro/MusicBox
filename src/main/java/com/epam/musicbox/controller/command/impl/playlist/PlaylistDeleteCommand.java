@@ -5,7 +5,7 @@ import com.epam.musicbox.controller.command.impl.common.DeleteCommand;
 import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 
-public class PlaylistDeleteCommand extends DeleteCommand<Playlist> {
+public class PlaylistDeleteCommand extends DeleteCommand<Playlist, Long> {
 
     public PlaylistDeleteCommand() {
         super(PlaylistServiceImpl.getInstance(), Parameter.PLAYLIST_ID);

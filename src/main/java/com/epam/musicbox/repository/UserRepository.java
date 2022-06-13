@@ -6,7 +6,7 @@ import com.epam.musicbox.entity.*;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends Repository<User> {
+public interface UserRepository extends Repository<User, Long> {
     Optional<User> findByLogin(String login);
 
     Optional<User> findByEmail(String email);

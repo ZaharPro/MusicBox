@@ -11,19 +11,19 @@ import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.util.Parameters;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.Commands;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Optional;
 
-public class GoToEditTrackPage extends GoToPageCommand {
+public class GoToEditTrackPageCommand extends GoToPageCommand {
 
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
 
-    public GoToEditTrackPage() {
+    public GoToEditTrackPageCommand() {
         super(PagePath.EDIT_TRACK);
     }
 
@@ -43,7 +43,7 @@ public class GoToEditTrackPage extends GoToPageCommand {
             req.setAttribute(Parameter.ALBUM, album);
         }
 
-        Services.handlePage(req, albumService, Parameter.ALBUM_PAGE, Parameter.ALBUM_LIST);
+        Commands.handlePage(req, albumService, Parameter.ALBUM_PAGE, Parameter.ALBUM_LIST);
         return super.execute(req, resp);
     }
 }

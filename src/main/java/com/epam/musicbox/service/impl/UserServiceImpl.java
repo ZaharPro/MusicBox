@@ -5,15 +5,26 @@ import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.impl.UserRepositoryImpl;
 import com.epam.musicbox.service.UserService;
-import com.epam.musicbox.util.Services;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.List;
 import java.util.Optional;
 
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractEntityService<User, Long> implements UserService {
     public static final UserServiceImpl instance = new UserServiceImpl();
 
+    private final Validator validator = ValidatorImpl.getInstance();
+
     private final UserRepositoryImpl userRepository = UserRepositoryImpl.getInstance();
+
+    private UserServiceImpl() {
+        this(DEFAULT_PAGE_SIZE);
+    }
+
+    private UserServiceImpl(int pageSize) {
+        super(pageSize);
+    }
 
     public static UserServiceImpl getInstance() {
         return instance;
@@ -22,8 +33,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findPage(int page) throws ServiceException {
         try {
-            return userRepository.findAll(Services.getOffset(page),
-                    Services.PAGE_SIZE);
+            return userRepository.findAll(getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -54,11 +65,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByLogin(String login) {
+        if (!validator.isValidLogin(login)) {
+            return Optional.empty();
+        }
         return userRepository.findByLogin(login);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
+        if (!validator.isValidEmail(email)) {
+            return Optional.empty();
+        }
         return userRepository.findByEmail(email);
     }
 
@@ -66,8 +83,8 @@ public class UserServiceImpl implements UserService {
     public List<User> findByRole(int roleId, int page) throws ServiceException {
         try {
             return userRepository.findByRole(roleId,
-                    Services.getOffset(page),
-                    Services.PAGE_SIZE);
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -77,8 +94,8 @@ public class UserServiceImpl implements UserService {
     public List<Playlist> getPlaylists(long userId, int page) throws ServiceException {
         try {
             return userRepository.getPlaylists(userId,
-                    Services.getOffset(page),
-                    Services.PAGE_SIZE);
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -88,8 +105,8 @@ public class UserServiceImpl implements UserService {
     public List<Artist> getLikedArtists(long userId, int page) throws ServiceException {
         try {
             return userRepository.getLikedArtists(userId,
-                    Services.getOffset(page),
-                    Services.PAGE_SIZE);
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -99,8 +116,8 @@ public class UserServiceImpl implements UserService {
     public List<Album> getLikedAlbums(long userId, int page) throws ServiceException {
         try {
             return userRepository.getLikedAlbums(userId,
-                    Services.getOffset(page),
-                    Services.PAGE_SIZE);
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -110,8 +127,8 @@ public class UserServiceImpl implements UserService {
     public List<Track> getLikedTracks(long userId, int page) throws ServiceException {
         try {
             return userRepository.getLikedTracks(userId,
-                    Services.getOffset(page),
-                    Services.PAGE_SIZE);
+                    getOffset(page),
+                    getPageSize());
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

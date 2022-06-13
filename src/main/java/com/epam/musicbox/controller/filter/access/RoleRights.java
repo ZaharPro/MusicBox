@@ -17,6 +17,7 @@ public class RoleRights {
                 CommandType.GO_TO_LOGIN_PAGE,
                 CommandType.GO_TO_SIGN_UP_PAGE,
                 CommandType.GO_TO_HOME_PAGE,
+
                 CommandType.CHANGE_LOCALE,
 
                 CommandType.SIGN_UP,
@@ -24,13 +25,18 @@ public class RoleRights {
                 CommandType.LOGOUT));
 
         map.put(Role.USER, setOf(
+                CommandType.GO_TO_HOME_PAGE,
+                CommandType.GO_TO_USER_PAGE,
+
+                CommandType.GO_TO_CHANGE_PASSWORD_PAGE,
+
+                CommandType.GO_TO_EDIT_PLAYLIST_PAGE,
+
                 CommandType.LOGOUT,
                 CommandType.CHANGE_PASSWORD,
+
                 CommandType.CHANGE_LOCALE,
                 CommandType.SEARCH,
-                CommandType.GO_TO_HOME_PAGE,
-                CommandType.GO_TO_CHANGE_PASSWORD_PAGE,
-                CommandType.GO_TO_EDIT_PLAYLIST_PAGE,
 
                 CommandType.TRACK_GET,
                 CommandType.TRACK_GET_BY_ID,

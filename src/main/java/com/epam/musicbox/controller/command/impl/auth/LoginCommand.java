@@ -14,6 +14,7 @@ import com.epam.musicbox.service.impl.AuthServiceImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,17 +41,21 @@ public class LoginCommand implements Command {
         Optional<Role> optionalRole = userService.getRole(user.getId());
         if (optionalRole.isEmpty())
             throw new ServiceException("User has no role");
+        Role role = optionalRole.get();
 
         Map<String, String> claims = new HashMap<>();
         claims.put(Parameter.USER_ID, String.valueOf(user.getId()));
         claims.put(Parameter.LOGIN, String.valueOf(user.getLogin()));
-        claims.put(Parameter.ROLE, optionalRole.get().getName());
+        claims.put(Parameter.ROLE, role.getValue());
 
         String token = authService.generateToken(claims);
         Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, token);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(authService.getCookieMaxAge());
         resp.addCookie(cookie);
+
+        HttpSession session = req.getSession();
+        session.setAttribute(Parameter.ROLE, role.getValue());
 
         return CommandResult.forward(PagePath.HOME);
     }

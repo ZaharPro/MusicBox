@@ -7,7 +7,7 @@ import com.epam.musicbox.entity.Track;
 
 import java.util.List;
 
-public interface ArtistRepository extends Repository<Artist> {
+public interface ArtistRepository extends Repository<Artist, Long> {
     List<Artist> findByName(String regex, int offset, int limit) throws RepositoryException;
 
     List<Track> getTracks(long artistId, int offset, int limit) throws RepositoryException;

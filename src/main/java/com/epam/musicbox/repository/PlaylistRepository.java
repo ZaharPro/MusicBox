@@ -6,7 +6,7 @@ import com.epam.musicbox.exception.RepositoryException;
 
 import java.util.List;
 
-public interface PlaylistRepository extends Repository<Playlist> {
+public interface PlaylistRepository extends Repository<Playlist, Long> {
     List<Playlist> findByName(String regex, int offset, int limit) throws RepositoryException;
 
     List<Track> getTracks(long playListId, int offset, int limit) throws RepositoryException;

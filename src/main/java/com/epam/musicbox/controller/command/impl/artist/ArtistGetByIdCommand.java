@@ -33,10 +33,7 @@ public class ArtistGetByIdCommand implements Command {
         Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
         Claims body = jws.getBody();
         long userId = Parameters.getLong(body, Parameter.USER_ID);
-        Role role = Parameters.getRole(body);
-        if (role == Role.ADMIN) {
-            req.setAttribute(Parameter.ADMIN, userId);
-        }
+
         long artistId = Parameters.getLong(req, Parameter.ARTIST_ID);
         Optional<Artist> optional = artistService.findById(artistId);
         if (optional.isPresent()) {

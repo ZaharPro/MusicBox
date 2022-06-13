@@ -15,35 +15,6 @@
 
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<li class="nav-item dropdown btn btn-sm" id="localeChooser">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-       aria-haspopup="true" aria-expanded="false">
-        Change language
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <form class="dropdown-item" method="POST"
-              action="${pageContext.request.contextPath}/controller?command=change-locale">
-            <input type="hidden" name="locale" value="en_EN">
-            <button class="btn btn-sm" type="submit">
-                <fmt:message key="navbar.locale.en"/>
-            </button>
-        </form>
-        <form class="dropdown-item" method="POST"
-              action="${pageContext.request.contextPath}/controller?command=change-locale">
-            <input type="hidden" name="locale" value="ru_RU">
-            <button class="btn btn-sm" type="submit">
-                <fmt:message key="navbar.locale.ru"/>
-            </button>
-        </form>
-    </div>
-</li>
-
-<script>
-    const navbarToggle = document.getElementById('navbarToggle');
-    const localeChooser = document.getElementById('localeChooser');
-    navbarToggle.appendChild(localeChooser);
-</script>
-
 </body>
 
 </html>

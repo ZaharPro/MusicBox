@@ -37,4 +37,8 @@ public class ValidatorImpl implements Validator {
         return email != null &&
                emailPattern.matcher(email).matches();
     }
+
+    public boolean isValidName(String name) {
+        return name != null && name.length() > 1;
+    }
 }
