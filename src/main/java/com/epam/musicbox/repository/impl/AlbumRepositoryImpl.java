@@ -1,19 +1,19 @@
 package com.epam.musicbox.repository.impl;
 
 import com.epam.musicbox.entity.Album;
-import com.epam.musicbox.entity.Track;
-import com.epam.musicbox.repository.rowmapper.ArtistRowMapper;
-import com.epam.musicbox.repository.rowmapper.CountRowMapper;
-import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
-import com.epam.musicbox.util.QueryHelper;
-import com.epam.musicbox.repository.rowmapper.AlbumRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.AlbumRepository;
+import com.epam.musicbox.repository.rowmapper.AlbumRowMapper;
+import com.epam.musicbox.repository.rowmapper.CountRowMapper;
+import com.epam.musicbox.util.QueryHelper;
 
 import java.util.List;
 import java.util.Optional;
 
 public class AlbumRepositoryImpl implements AlbumRepository {
+
+    private static final String SQL_COUNT = "SELECT COUNT(*) " +
+                                            "FROM albums";
 
     private static final String SQL_FIND_ALL = "SELECT * " +
                                                "FROM albums " +
@@ -44,8 +44,6 @@ public class AlbumRepositoryImpl implements AlbumRepository {
                                                    "ORDER BY name " +
                                                    "LIMIT ?,?";
 
-    private static final String ALBUM_TABLE = "albums";
-
     public static final AlbumRepositoryImpl instance = new AlbumRepositoryImpl();
 
     private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
@@ -61,7 +59,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.count(ALBUM_TABLE);
+        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override

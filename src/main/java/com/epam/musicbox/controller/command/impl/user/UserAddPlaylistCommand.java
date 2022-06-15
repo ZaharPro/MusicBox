@@ -13,7 +13,6 @@ import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class UserAddPlaylistCommand implements Command {
 
@@ -21,27 +20,31 @@ public class UserAddPlaylistCommand implements Command {
             String.format("controller?command=%s&%s=%%s&%s=%%s&%s=%%s",
                     CommandType.PLAYLIST_GET_BY_ID.getName(),
                     Parameter.PLAYLIST_ID,
-                    Parameter.TRACK_PAGE,
+                    Parameter.TRACK_PAGE_INDEX,
                     Parameter.TRACK_PAGE_SIZE);
 
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
-        Claims body = jws.getBody();
-        long userId = ParamTaker.getLong(body, Parameter.USER_ID);
-        long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
+        try {
+            Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
+            Claims body = token.getBody();
+            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+            long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
 
-        userService.addPlaylist(userId, playlistId);
+            userService.addPlaylist(userId, playlistId);
 
-        int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE);
-        int trackPageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
+            int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
+            int trackPageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
 
-        String url = String.format(REDIRECT_URL_FORMAT,
-                playlistId,
-                trackPage,
-                trackPageSize);
-        return CommandResult.redirect(url);
+            String url = String.format(REDIRECT_URL_FORMAT,
+                    playlistId,
+                    trackPage,
+                    trackPageSize);
+            return CommandResult.redirect(url);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

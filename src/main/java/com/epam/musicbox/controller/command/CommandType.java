@@ -6,7 +6,7 @@ public enum CommandType {
     GO_TO_LOGIN_PAGE("login-page"),
     GO_TO_CHANGE_PASSWORD_PAGE("change-password-page"),
     GO_TO_HOME_PAGE("home-page"),
-    GO_TO_USER_PAGE("user-page"),
+    GO_TO_PROFILE_PAGE("profile-page"),
     GO_TO_EDIT_ARTIST_PAGE("edit-artist-page"),
     GO_TO_EDIT_ALBUM_PAGE("edit-album-page"),
     GO_TO_EDIT_TRACK_PAGE("edit-track-page"),
@@ -66,16 +66,16 @@ public enum CommandType {
     USER_GET_BY_ROLE("user-get-by-role"),
 
     USER_GET_LIKED_ALBUMS("user-get-liked-albums"),
-    USER_LIKE_ALBUM("user-like-album"),
-    USER_CANCEL_LIKE_ALBUM("user-cancel-like-album"),
+    USER_MARK_LIKED_ALBUM("user-mark-liked-album"),
+    USER_UNMARK_LIKED_ALBUM("user-unmark-liked-album"),
 
     USER_GET_LIKED_ARTISTS("user-get-liked-artists"),
-    USER_LIKE_ARTIST("user-like-artist"),
-    USER_CANCEL_LIKE_ARTIST("user-cancel-like-artist"),
+    USER_MARK_LIKED_ARTIST("user-mark-liked-artist"),
+    USER_UNMARK_LIKED_ARTIST("user-unmark-liked-artist"),
 
     USER_GET_LIKED_TRACKS("user-get-liked-tracks"),
-    USER_LIKE_TRACK("user-like-track"),
-    USER_CANCEL_LIKE_TRACK("user-cancel-like-track"),
+    USER_MARK_LIKED_TRACK("user-mark-liked-track"),
+    USER_UNMARK_LIKED_TRACK("user-unmark-liked-track"),
 
     USER_GET_PLAYLISTS("user-get-playlists"),
     USER_ADD_PLAYLIST("user-add-playlist"),

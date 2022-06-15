@@ -11,7 +11,6 @@ import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class UserSetRoleCommand implements Command {
 
@@ -24,13 +23,17 @@ public class UserSetRoleCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        long userId = ParamTaker.getLong(req, Parameter.USER_ID);
-        Role role = ParamTaker.getRole(req);
+        try {
+            long userId = ParamTaker.getLong(req, Parameter.USER_ID);
+            Role role = ParamTaker.getRole(req);
 
-        userService.setRole(userId, role.getId());
-        req.setAttribute(Parameter.ROLE, role.getValue());
+            userService.setRole(userId, role.getId());
+            req.setAttribute(Parameter.ROLE, role.getValue());
 
-        String url = String.format(REDIRECT_URL_FORMAT, userId);
-        return CommandResult.redirect(url);
+            String url = String.format(REDIRECT_URL_FORMAT, userId);
+            return CommandResult.redirect(url);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

@@ -8,12 +8,10 @@ import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.ArtistService;
+import com.epam.musicbox.service.PageSearchResult;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.List;
 
 public class ArtistGetByNameCommand implements Command {
 
@@ -21,12 +19,15 @@ public class ArtistGetByNameCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        String name = req.getParameter(Parameter.NAME);
-        int page = ParamTaker.getPage(req, Parameter.ARTIST_PAGE);
-        int pageSize = ParamTaker.getInt(req, Parameter.ARTIST_PAGE_SIZE);
-        List<Artist> artists = artistService.findByName(name, page, pageSize);
-        req.setAttribute(Parameter.ARTIST_PAGE, page);
-        req.setAttribute(Parameter.ARTIST_LIST, artists);
-        return CommandResult.forward(PagePath.ARTISTS_BY_NAME);
+        try {
+            String name = req.getParameter(Parameter.NAME);
+            int page = ParamTaker.getPage(req, Parameter.ARTIST_PAGE_INDEX);
+            int pageSize = ParamTaker.getInt(req, Parameter.ARTIST_PAGE_SIZE);
+            PageSearchResult<Artist> pageSearchResult = artistService.findByName(name, page, pageSize);
+            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            return CommandResult.forward(PagePath.ARTISTS_BY_NAME);
+        }  catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

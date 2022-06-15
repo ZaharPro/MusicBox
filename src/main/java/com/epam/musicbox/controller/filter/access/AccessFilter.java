@@ -46,7 +46,7 @@ public class AccessFilter implements Filter {
                 filterChain.doFilter(req, resp);
                 break;
             case UNAUTHORIZED:
-                req.setAttribute(Parameter.ERROR_MESSAGE, UNAUTHORIZED_MSG);
+                req.setAttribute(Parameter.MESSAGE, UNAUTHORIZED_MSG);
                 resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 break;
             case SESSION_TIMEOUT:
@@ -54,19 +54,19 @@ public class AccessFilter implements Filter {
                 deleteBlackToken.setMaxAge(0);
                 resp.addCookie(deleteBlackToken);
 
-                req.setAttribute(Parameter.ERROR_MESSAGE, SESSION_TIMEOUT_MSG);
+                req.setAttribute(Parameter.MESSAGE, SESSION_TIMEOUT_MSG);
                 resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 break;
             case PERMISSION_DENIED:
-                req.setAttribute(Parameter.ERROR_MESSAGE, PERMISSION_DENIED_MSG);
+                req.setAttribute(Parameter.MESSAGE, PERMISSION_DENIED_MSG);
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN);
                 break;
             case USER_BANNED:
-                req.setAttribute(Parameter.ERROR_MESSAGE, USER_BANNED_MSG);
+                req.setAttribute(Parameter.MESSAGE, USER_BANNED_MSG);
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN);
                 break;
             case NOT_FOUND:
-                req.setAttribute(Parameter.ERROR_MESSAGE, COMMAND_NOT_FOUND_MSG);
+                req.setAttribute(Parameter.MESSAGE, COMMAND_NOT_FOUND_MSG);
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
         }
@@ -79,15 +79,14 @@ public class AccessFilter implements Filter {
             session.invalidate();
             return checkCommand(req, Role.GUEST, AccessCode.UNAUTHORIZED);
         }
-        Optional<Cookie> optionalCookie = authService.getToken(req.getCookies());
-        if (optionalCookie.isEmpty()) {
+        Jws<Claims> token;
+        try {
+            token = authService.getToken(req);
+        } catch (ServiceException e) {
             return checkCommand(req, Role.GUEST, AccessCode.UNAUTHORIZED);
         }
         try {
-            String token = optionalCookie.get().getValue();
-            Jws<Claims> claims = authService.getJws(token);
-            Claims body = claims.getBody();
-
+            Claims body = token.getBody();
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
             Role role = ParamTaker.getRole(body);
 

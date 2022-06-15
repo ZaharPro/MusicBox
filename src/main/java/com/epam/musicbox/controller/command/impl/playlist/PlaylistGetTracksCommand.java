@@ -7,13 +7,11 @@ import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.service.PageSearchResult;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.List;
 
 public class PlaylistGetTracksCommand implements Command {
 
@@ -21,12 +19,15 @@ public class PlaylistGetTracksCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
-        int page = ParamTaker.getPage(req, Parameter.PLAYLIST_PAGE);
-        int pageSize = ParamTaker.getPage(req, Parameter.PLAYLIST_PAGE_SIZE);
-        List<Track> list = service.getTracks(playlistId, page, pageSize);
-        req.setAttribute(Parameter.PLAYLIST_PAGE, page);
-        req.setAttribute(Parameter.PLAYLIST_LIST, list);
-        return CommandResult.forward(PagePath.TRACKS);
+        try {
+            long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
+            int page = ParamTaker.getPage(req, Parameter.PLAYLIST_PAGE_INDEX);
+            int pageSize = ParamTaker.getPage(req, Parameter.PLAYLIST_PAGE_SIZE);
+            PageSearchResult<Track> pageSearchResult = service.getTracks(playlistId, page, pageSize);
+            req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            return CommandResult.forward(PagePath.TRACKS);
+        }  catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

@@ -28,8 +28,10 @@ public class CommandProvider {
         commands.put(CommandType.GO_TO_SIGN_UP_PAGE, new GoToSingUpPageCommand());
         commands.put(CommandType.GO_TO_LOGIN_PAGE, new GoToLoginPageCommand());
         commands.put(CommandType.GO_TO_CHANGE_PASSWORD_PAGE, new GoToChangePasswordPageCommand());
+
         commands.put(CommandType.GO_TO_HOME_PAGE, new GoToHomePageCommand());
-        commands.put(CommandType.GO_TO_USER_PAGE, new GoToUserPageCommand());
+        commands.put(CommandType.GO_TO_PROFILE_PAGE, new GoToProfilePageCommand());
+
         commands.put(CommandType.GO_TO_EDIT_ARTIST_PAGE, new GoToEditArtistPageCommand());
         commands.put(CommandType.GO_TO_EDIT_ALBUM_PAGE, new GoToEditAlbumPageCommand());
         commands.put(CommandType.GO_TO_EDIT_TRACK_PAGE, new GoToEditTrackPageCommand());
@@ -80,14 +82,14 @@ public class CommandProvider {
         commands.put(CommandType.USER_GET_BY_EMAIL, new UserGetByEmailCommand());
         commands.put(CommandType.USER_GET_BY_ROLE, new UserGetByRoleCommand());
         commands.put(CommandType.USER_GET_LIKED_ALBUMS, new UserGetLikedAlbumsCommand());
-        commands.put(CommandType.USER_LIKE_ALBUM, new UserLikeAlbumCommand());
-        commands.put(CommandType.USER_CANCEL_LIKE_ALBUM, new UserCancelLikeAlbumCommand());
+        commands.put(CommandType.USER_MARK_LIKED_ALBUM, new UserMarkLikedAlbumCommand());
+        commands.put(CommandType.USER_UNMARK_LIKED_ALBUM, new UserUnmarkLikedAlbumCommand());
         commands.put(CommandType.USER_GET_LIKED_ARTISTS, new UserGetLikedArtistsCommand());
-        commands.put(CommandType.USER_LIKE_ARTIST, new UserLikeArtistCommand());
-        commands.put(CommandType.USER_CANCEL_LIKE_ARTIST, new UserCancelLikeArtistCommand());
+        commands.put(CommandType.USER_MARK_LIKED_ARTIST, new UserMarkLikedArtistCommand());
+        commands.put(CommandType.USER_UNMARK_LIKED_ARTIST, new UserUnmarkLikedArtistCommand());
         commands.put(CommandType.USER_GET_LIKED_TRACKS, new UserGetLikedTracksCommand());
-        commands.put(CommandType.USER_LIKE_TRACK, new UserLikeTrackCommand());
-        commands.put(CommandType.USER_CANCEL_LIKE_TRACK, new UserCancelLikeTrackCommand());
+        commands.put(CommandType.USER_MARK_LIKED_TRACK, new UserMarkLikedTrackCommand());
+        commands.put(CommandType.USER_UNMARK_LIKED_TRACK, new UserUnmarkLikedTrackCommand());
         commands.put(CommandType.USER_GET_PLAYLISTS, new UserGetPlaylistsCommand());
         commands.put(CommandType.USER_ADD_PLAYLIST, new UserAddPlaylistCommand());
         commands.put(CommandType.USER_REMOVE_PLAYLIST, new UserRemovePlaylistCommand());

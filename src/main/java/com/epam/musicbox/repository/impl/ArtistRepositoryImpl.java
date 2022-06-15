@@ -14,6 +14,9 @@ import java.util.Optional;
 
 public class ArtistRepositoryImpl implements ArtistRepository {
 
+    private static final String SQL_COUNT = "SELECT COUNT(*) " +
+                                            "FROM artists";
+
     private static final String SQL_FIND_ALL = "SELECT * " +
                                                "FROM artists " +
                                                "ORDER BY name " +
@@ -66,6 +69,14 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_REMOVE_TRACK = "DELETE FROM artist_tracks " +
                                                    "WHERE artist_id=? AND track_id=?";
 
+    private static final String SQL_COUNT_ALBUMS = "SELECT COUNT(*) " +
+                                                   "FROM albums " +
+                                                   "JOIN tracks " +
+                                                   "ON albums.album_id = tracks.album_id " +
+                                                   "JOIN artist_tracks " +
+                                                   "ON tracks.track_id = artist_tracks.track_id " +
+                                                   "WHERE artist_tracks.artist_id=? ";
+
     private static final String SQL_FIND_ALBUMS = "SELECT * " +
                                                   "FROM albums " +
                                                   "JOIN tracks " +
@@ -74,8 +85,6 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                   "ON tracks.track_id = artist_tracks.track_id " +
                                                   "WHERE artist_tracks.artist_id=? " +
                                                   "LIMIT ?,?";
-
-    private static final String ARTIST_TABLE = "artists";
 
     private static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();
 
@@ -96,7 +105,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.count(ARTIST_TABLE);
+        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override
@@ -165,5 +174,11 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     @Override
     public List<Album> getAlbums(long artistId, int offset, int limit) throws RepositoryException {
         return QueryHelper.queryAll(SQL_FIND_ALBUMS, albumRowMapper, artistId, offset, limit);
+    }
+
+    @Override
+    public long countAlbums(long artistId) throws RepositoryException {
+        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_ALBUMS, countRowMapper, artistId);
+        return optionalCount.orElse(0L);
     }
 }

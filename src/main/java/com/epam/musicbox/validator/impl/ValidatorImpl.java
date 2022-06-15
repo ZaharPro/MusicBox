@@ -11,11 +11,11 @@ public class ValidatorImpl implements Validator {
     private static final String EMAIL_REGEX =
             "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
 
-    private static final Pattern loginPattern = Pattern.compile(LOGIN_REGEX);
-    private static final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
-    private static final Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
-
     private static final ValidatorImpl instance = new ValidatorImpl();
+
+    private final Pattern loginPattern = Pattern.compile(LOGIN_REGEX);
+    private final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
+    private final Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
 
     private ValidatorImpl() {
     }

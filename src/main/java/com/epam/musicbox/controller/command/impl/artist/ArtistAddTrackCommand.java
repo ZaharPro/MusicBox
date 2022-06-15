@@ -10,7 +10,6 @@ import com.epam.musicbox.service.ArtistService;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class ArtistAddTrackCommand implements Command {
 
@@ -18,32 +17,36 @@ public class ArtistAddTrackCommand implements Command {
             String.format("controller?command=%s&%s=%%s&%s=%%s&%s=%%s&%s=%%s&%s=%%s",
                     CommandType.GO_TO_EDIT_ARTIST_PAGE.getName(),
                     Parameter.ARTIST_ID,
-                    Parameter.TRACK_PAGE,
+                    Parameter.TRACK_PAGE_INDEX,
                     Parameter.TRACK_PAGE_SIZE,
-                    Parameter.ALBUM_PAGE,
+                    Parameter.ALBUM_PAGE_INDEX,
                     Parameter.ALBUM_PAGE_SIZE);
 
     private final ArtistService artistService = ArtistServiceImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
-        long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
+        try {
+            long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
+            long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
 
-        artistService.addTrack(artistId, trackId);
+            artistService.addTrack(artistId, trackId);
 
-        int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE);
-        int trackPageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
+            int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
+            int trackPageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
 
-        int albumPage = ParamTaker.getPage(req, Parameter.ALBUM_PAGE);
-        int albumPageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
+            int albumPage = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
+            int albumPageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
 
-        String url = String.format(REDIRECT_URL_FORMAT,
-                artistId,
-                trackPage,
-                trackPageSize,
-                albumPage,
-                albumPageSize);
-        return CommandResult.redirect(url);
+            String url = String.format(REDIRECT_URL_FORMAT,
+                    artistId,
+                    trackPage,
+                    trackPageSize,
+                    albumPage,
+                    albumPageSize);
+            return CommandResult.redirect(url);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

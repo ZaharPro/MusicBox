@@ -29,9 +29,10 @@ import java.util.concurrent.TimeUnit;
 
 public class AuthServiceImpl implements AuthService {
 
-    private static final String PROP_PATH = "prop/application.properties";
+    private static final String PROP_PATH = "prop/application";
     private static final String JWT_SECRET_KEY = "JWT_SECRET_KEY";
     private static final String JWT_TOKEN_LIFE_TIME = "JWT_LIFETIME";
+
     private static final String INVALID_LOGIN_MSG = "Invalid login";
     private static final String INVALID_EMAIL_MSG = "Invalid email";
     private static final String INVALID_PASSWORD_MSG = "Invalid password";
@@ -60,18 +61,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private static AuthServiceImpl createInstance() {
-        ClassLoader classLoader = AuthServiceImpl.class.getClassLoader();
-        try (InputStream inputStream = classLoader.getResourceAsStream(PROP_PATH)) {
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            Key secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode((String) properties.get(JWT_SECRET_KEY)));
-            long tokenLifetime = Long.parseLong((String) properties.get(JWT_TOKEN_LIFE_TIME));
-            int timezoneGmtPlusThree = 60 * 60 * 3;
-            int cookieMaxAge = (int) (timezoneGmtPlusThree + TimeUnit.MINUTES.toSeconds(tokenLifetime));
-            return new AuthServiceImpl(secretKey, tokenLifetime, cookieMaxAge);
-        } catch (IOException e) {
-            throw new RuntimeException("Error read application properties!", e);
-        }
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(PROP_PATH);
+        Key secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(resourceBundle.getString(JWT_SECRET_KEY)));
+        long tokenLifetime = Long.parseLong(resourceBundle.getString(JWT_TOKEN_LIFE_TIME));
+        int timezoneGmtPlusThree = 60 * 60 * 3;
+        int cookieMaxAge = (int) (timezoneGmtPlusThree + TimeUnit.MINUTES.toSeconds(tokenLifetime));
+        return new AuthServiceImpl(secretKey, tokenLifetime, cookieMaxAge);
     }
 
     public static AuthServiceImpl getInstance() {
@@ -110,7 +105,7 @@ public class AuthServiceImpl implements AuthService {
                         .findFirst();
     }
 
-    public Jws<Claims> getJws(HttpServletRequest req) throws ServiceException {
+    public Jws<Claims> getToken(HttpServletRequest req) throws ServiceException {
         Optional<Cookie> optionalCookie = getToken(req.getCookies());
         if (optionalCookie.isEmpty()) {
             throw new ServiceException(JWT_TOKEN_NOT_FOUND);

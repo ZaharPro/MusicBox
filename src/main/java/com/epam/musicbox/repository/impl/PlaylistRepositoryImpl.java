@@ -14,6 +14,9 @@ import java.util.Optional;
 
 public class PlaylistRepositoryImpl implements PlaylistRepository {
 
+    private static final String SQL_COUNT = "SELECT COUNT(*) " +
+                                            "FROM artists";
+
     private static final String SQL_FIND_ALL = "SELECT * " +
                                                "FROM playlists " +
                                                "ORDER BY name " +
@@ -61,8 +64,6 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     private static final String SQL_REMOVE_TRACK = "DELETE FROM playlist_tracks " +
                                                    "WHERE playlist_id=? AND track_id=?";
 
-    private static final String PLAYLIST_TABLE = "playlists";
-
     public static final PlaylistRepositoryImpl instance = new PlaylistRepositoryImpl();
 
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
@@ -80,7 +81,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.count(PLAYLIST_TABLE);
+        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override

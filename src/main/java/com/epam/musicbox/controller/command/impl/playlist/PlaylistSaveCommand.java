@@ -11,7 +11,6 @@ import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class PlaylistSaveCommand implements Command {
 
@@ -19,11 +18,15 @@ public class PlaylistSaveCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        Long playlistId = ParamTaker.getNullableLong(req, Parameter.PLAYLIST_ID);
-        String name = req.getParameter(Parameter.NAME);
-        String picture = req.getParameter(Parameter.PICTURE);
-        Playlist playlist = new Playlist(playlistId, name, picture);
-        service.save(playlist);
-        return CommandResult.forward(PagePath.EDIT_PLAYLIST);
+        try {
+            Long playlistId = ParamTaker.getNullableLong(req, Parameter.PLAYLIST_ID);
+            String name = req.getParameter(Parameter.NAME);
+            String picture = req.getParameter(Parameter.PICTURE);
+            Playlist playlist = new Playlist(playlistId, name, picture);
+            service.save(playlist);
+            return CommandResult.forward(PagePath.EDIT_PLAYLIST);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

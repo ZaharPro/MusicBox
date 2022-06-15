@@ -10,7 +10,6 @@ import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class PlaylistAddTrackCommand implements Command {
 
@@ -18,9 +17,13 @@ public class PlaylistAddTrackCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
-        long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
-        service.addTrack(playlistId, trackId);
-        return CommandResult.forward(PagePath.EDIT_PLAYLIST);
+        try {
+            long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
+            long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
+            service.addTrack(playlistId, trackId);
+            return CommandResult.forward(PagePath.EDIT_PLAYLIST);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

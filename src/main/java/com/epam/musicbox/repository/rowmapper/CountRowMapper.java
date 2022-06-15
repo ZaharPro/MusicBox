@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class CountRowMapper implements RowMapper<Long> {
 
-    private static final String COUNT = "COUNT(*)";
+    private static final int COUNT_COL_INDEX = 1;
 
     private static final CountRowMapper instance = new CountRowMapper();
 
@@ -21,7 +21,7 @@ public class CountRowMapper implements RowMapper<Long> {
     @Override
     public Long map(ResultSet resultSet) throws RepositoryException {
         try {
-            return resultSet.getLong(COUNT);
+            return resultSet.getLong(COUNT_COL_INDEX);
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }

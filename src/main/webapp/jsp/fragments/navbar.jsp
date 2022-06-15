@@ -35,7 +35,7 @@
                 </ct:access>
                 <ct:access role="user">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=user-page">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=profile-page">
                             <fmt:message key="navbar.profile"/>
                         </a>
                     </li>
@@ -47,7 +47,7 @@
                 </ct:access>
                 <ct:access role="admin">
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=user-page">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=profile-page">
                             <fmt:message key="navbar.profile"/>
                         </a>
                     </li>

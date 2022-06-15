@@ -8,12 +8,10 @@ import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AlbumService;
+import com.epam.musicbox.service.PageSearchResult;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.List;
 
 public class AlbumGetCommand implements Command {
 
@@ -21,11 +19,14 @@ public class AlbumGetCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        int page = ParamTaker.getPage(req, Parameter.ALBUM_PAGE);
-        int pageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
-        List<Album> albums = albumService.findPage(page, pageSize);
-        req.setAttribute(Parameter.ALBUM_PAGE, page);
-        req.setAttribute(Parameter.ALBUM_LIST, albums);
-        return CommandResult.forward(PagePath.ALBUMS_BY_NAME);
+        try {
+            int page = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
+            int pageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
+            PageSearchResult<Album> pageSearchResult = albumService.findPage(page, pageSize);
+            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, pageSearchResult);
+            return CommandResult.forward(PagePath.ALBUMS_BY_NAME);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

@@ -11,7 +11,6 @@ import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Optional;
 
@@ -26,13 +25,17 @@ public class UserSetBanCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        long userId = ParamTaker.getLong(req, Parameter.USER_ID);
-        boolean banned = ParamTaker.getBoolean(req, Parameter.BANNED);
+        try {
+            long userId = ParamTaker.getLong(req, Parameter.USER_ID);
+            boolean banned = ParamTaker.getBoolean(req, Parameter.BANNED);
 
-        banUser(userId, banned);
+            banUser(userId, banned);
 
-        String url = String.format(REDIRECT_URL_FORMAT, userId);
-        return CommandResult.redirect(url);
+            String url = String.format(REDIRECT_URL_FORMAT, userId);
+            return CommandResult.redirect(url);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 
     private void banUser(long userId, boolean banned) throws ServiceException {

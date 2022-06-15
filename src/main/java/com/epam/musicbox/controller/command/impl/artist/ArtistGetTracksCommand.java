@@ -8,12 +8,10 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.ArtistService;
+import com.epam.musicbox.service.PageSearchResult;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.List;
 
 public class ArtistGetTracksCommand implements Command {
 
@@ -21,12 +19,15 @@ public class ArtistGetTracksCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
-        int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE);
-        int pageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
-        List<Track> tracks = artistService.getTracks(artistId, page, pageSize);
-        req.setAttribute(Parameter.TRACK_PAGE, page);
-        req.setAttribute(Parameter.TRACK_LIST, tracks);
-        return CommandResult.forward(PagePath.TRACKS);
+        try {
+            long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
+            int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
+            int pageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
+            PageSearchResult<Track> pageSearchResult = artistService.getTracks(artistId, page, pageSize);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
+            return CommandResult.forward(PagePath.TRACKS);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

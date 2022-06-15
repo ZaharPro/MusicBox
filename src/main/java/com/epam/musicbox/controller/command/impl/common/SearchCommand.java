@@ -11,19 +11,16 @@ import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AlbumService;
 import com.epam.musicbox.service.ArtistService;
+import com.epam.musicbox.service.PageSearchResult;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.List;
 
 public class SearchCommand implements Command {
-    private static final int MAX_LIST_SIZE = 7;
     private static final int FIRST_PAGE = 1;
-    private static final int PAGE_SIZE = 20;
+    private static final int PAGE_SIZE = 10;
 
     private final ArtistService artistService = ArtistServiceImpl.getInstance();
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
@@ -31,23 +28,22 @@ public class SearchCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        String name = req.getParameter(Parameter.NAME);
+        try {
+            String name = req.getParameter(Parameter.NAME);
 
-        List<Artist> artistList = cutList(artistService.findByName(name, FIRST_PAGE, PAGE_SIZE));
-        List<Album> albumList = cutList(albumService.findByName(name, FIRST_PAGE, PAGE_SIZE));
-        List<Track> trackList = cutList(trackService.findByName(name, FIRST_PAGE, PAGE_SIZE));
+            PageSearchResult<Artist> artistPageSearchResult = artistService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+            PageSearchResult<Album> albumPageSearchResult = albumService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+            PageSearchResult<Track> trackPageSearchResult = trackService.findByName(name, FIRST_PAGE, PAGE_SIZE);
 
-        req.setAttribute(Parameter.ARTIST_LIST, artistList);
-        req.setAttribute(Parameter.ALBUM_LIST, albumList);
-        req.setAttribute(Parameter.TRACK_LIST, trackList);
-        req.setAttribute(Parameter.NAME, name);
+            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, artistPageSearchResult);
+            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
 
-        return CommandResult.forward(PagePath.SEARCH);
-    }
+            req.setAttribute(Parameter.NAME, name);
 
-    private static <T> List<T> cutList(List<T> list) {
-        return list.size() > MAX_LIST_SIZE ?
-                list.subList(0, MAX_LIST_SIZE) :
-                list;
+            return CommandResult.forward(PagePath.SEARCH);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

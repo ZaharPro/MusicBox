@@ -12,6 +12,9 @@ import java.util.Optional;
 
 public class TrackRepositoryImpl implements TrackRepository {
 
+    private static final String SQL_COUNT = "SELECT COUNT(*) " +
+                                            "FROM tracks";
+
     private static final String SQL_FIND_ALL = "SELECT * " +
                                                "FROM tracks " +
                                                "ORDER BY name " +
@@ -41,8 +44,6 @@ public class TrackRepositoryImpl implements TrackRepository {
                                                    "ORDER BY name " +
                                                    "LIMIT ?,?";
 
-    private static final String TRACK_TABLE = "tracks";
-
     public static final TrackRepositoryImpl instance = new TrackRepositoryImpl();
 
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
@@ -58,7 +59,7 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.count(TRACK_TABLE);
+        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override

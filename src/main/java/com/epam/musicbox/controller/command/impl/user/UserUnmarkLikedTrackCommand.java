@@ -13,9 +13,8 @@ import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
-public class UserCancelLikeTrackCommand implements Command {
+public class UserUnmarkLikedTrackCommand implements Command {
 
     private static final String REDIRECT_URL_FORMAT =
             String.format("controller?command=%s&%s=%%s",
@@ -26,14 +25,18 @@ public class UserCancelLikeTrackCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
-        Claims body = jws.getBody();
-        long userId = ParamTaker.getLong(body, Parameter.USER_ID);
-        long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
+        try {
+            Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
+            Claims body = token.getBody();
+            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+            long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
 
-        userService.cancelLikeTrack(userId, trackId);
+            userService.unmarkLikedTrack(userId, trackId);
 
-        String url = String.format(REDIRECT_URL_FORMAT, trackId);
-        return CommandResult.redirect(url);
+            String url = String.format(REDIRECT_URL_FORMAT, trackId);
+            return CommandResult.redirect(url);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

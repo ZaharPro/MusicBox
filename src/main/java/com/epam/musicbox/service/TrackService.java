@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TrackService extends EntityService<Track> {
 
-    long countByName(String regex) throws ServiceException;
+    long countByName(String name) throws ServiceException;
 
-    List<Track> findByName(String name, int page, int pageSize) throws ServiceException;
+    PageSearchResult<Track> findByName(String name, int page, int pageSize) throws ServiceException;
 }

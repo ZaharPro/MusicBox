@@ -27,7 +27,7 @@ public class RoleRights {
 
         map.put(Role.USER, setOf(
                 CommandType.GO_TO_HOME_PAGE,
-                CommandType.GO_TO_USER_PAGE,
+                CommandType.GO_TO_PROFILE_PAGE,
 
                 CommandType.GO_TO_CHANGE_PASSWORD_PAGE,
 
@@ -62,14 +62,14 @@ public class RoleRights {
                 CommandType.PLAYLIST_REMOVE_TRACK,
 
                 CommandType.USER_GET_LIKED_ALBUMS,
-                CommandType.USER_LIKE_ALBUM,
-                CommandType.USER_CANCEL_LIKE_ALBUM,
+                CommandType.USER_MARK_LIKED_ALBUM,
+                CommandType.USER_UNMARK_LIKED_ALBUM,
                 CommandType.USER_GET_LIKED_ARTISTS,
-                CommandType.USER_LIKE_ARTIST,
-                CommandType.USER_CANCEL_LIKE_ARTIST,
+                CommandType.USER_MARK_LIKED_ARTIST,
+                CommandType.USER_UNMARK_LIKED_ARTIST,
                 CommandType.USER_GET_LIKED_TRACKS,
-                CommandType.USER_LIKE_TRACK,
-                CommandType.USER_CANCEL_LIKE_TRACK,
+                CommandType.USER_MARK_LIKED_TRACK,
+                CommandType.USER_UNMARK_LIKED_TRACK,
                 CommandType.USER_GET_PLAYLISTS,
                 CommandType.USER_ADD_PLAYLIST,
                 CommandType.USER_REMOVE_PLAYLIST));

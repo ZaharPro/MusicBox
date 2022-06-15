@@ -14,39 +14,42 @@ import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Optional;
 
-public class GoToUserPageCommand extends GoToPageCommand {
+public class GoToProfilePageCommand extends GoToPageCommand {
 
     private static final String USER_NOT_FOUND_MSG = "User not found";
 
     private final UserService userService = UserServiceImpl.getInstance();
 
-    public GoToUserPageCommand() {
+    public GoToProfilePageCommand() {
         super(PagePath.USER);
     }
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
-        Claims body = jws.getBody();
-        long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+        try {
+            Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
+            Claims body = token.getBody();
+            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
 
-        Optional<User> optionalUser = userService.findById(userId);
-        if (optionalUser.isEmpty()) {
-            throw new ServiceException(USER_NOT_FOUND_MSG);
+            Optional<User> optionalUser = userService.findById(userId);
+            if (optionalUser.isEmpty()) {
+                throw new CommandException(USER_NOT_FOUND_MSG);
+            }
+
+            User user = optionalUser.get();
+            req.setAttribute(Parameter.USER, user);
+
+            Role role = ParamTaker.getRole(body);
+            if (role == Role.ADMIN) {
+                req.setAttribute(Parameter.ADMIN, userId);
+            }
+
+            return super.execute(req);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
         }
-
-        User user = optionalUser.get();
-        req.setAttribute(Parameter.USER, user);
-
-        Role role = ParamTaker.getRole(body);
-        if (role == Role.ADMIN) {
-            req.setAttribute(Parameter.ADMIN, userId);
-        }
-
-        return super.execute(req, resp);
     }
 }

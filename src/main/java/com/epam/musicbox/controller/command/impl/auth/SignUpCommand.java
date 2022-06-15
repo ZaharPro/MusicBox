@@ -9,7 +9,6 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class SignUpCommand implements Command {
 
@@ -24,7 +23,7 @@ public class SignUpCommand implements Command {
         try {
             authService.signUp(login, email, password);
         } catch (ServiceException e) {
-            req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
+            req.setAttribute(Parameter.MESSAGE, e.getMessage());
             return CommandResult.forward(PagePath.SIGN_UP);
         }
         return CommandResult.redirect(PagePath.LOGIN);

@@ -1,9 +1,8 @@
 package com.epam.musicbox.util;
 
-import com.epam.musicbox.repository.pool.ConnectionPool;
-import com.epam.musicbox.repository.rowmapper.CountRowMapper;
-import com.epam.musicbox.repository.rowmapper.RowMapper;
 import com.epam.musicbox.exception.RepositoryException;
+import com.epam.musicbox.repository.pool.ConnectionPool;
+import com.epam.musicbox.repository.rowmapper.RowMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,23 +11,20 @@ import java.util.Optional;
 
 public final class QueryHelper {
 
-    private static final String SQL_COUNT = "SELECT COUNT(*) FROM ";
-    private static final String SQL_WHERE = "WHERE ";
-
     private QueryHelper() {
     }
 
     public static <T> Optional<T> queryOne(String sql,
-                                           RowMapper<T> builder,
+                                           RowMapper<T> mapper,
                                            Object... params) throws RepositoryException {
-        List<T> items = QueryHelper.queryAll(sql, builder, params);
+        List<T> items = QueryHelper.queryAll(sql, mapper, params);
         return items.size() == 1 ?
-                Optional.of(items.get(0)) :
+                Optional.ofNullable(items.get(0)) :
                 Optional.empty();
     }
 
     public static <T> List<T> queryAll(String sql,
-                                       RowMapper<T> builder,
+                                       RowMapper<T> mapper,
                                        Object... params) throws RepositoryException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try (Connection connection = connectionPool.getConnection()) {
@@ -38,7 +34,7 @@ public final class QueryHelper {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<T> list = new ArrayList<>();
             while (resultSet.next()) {
-                T t = builder.map(resultSet);
+                T t = mapper.map(resultSet);
                 list.add(t);
             }
             return list;
@@ -76,7 +72,7 @@ public final class QueryHelper {
         int i = 1;
         for (Object param : params) {
             if (param == null) {
-                statement.setObject(i, "null");
+                statement.setString(i, "null");
             } else {
                 Class<?> paramClass = param.getClass();
                 if (paramClass == Integer.class) {
@@ -91,24 +87,5 @@ public final class QueryHelper {
             }
             i++;
         }
-    }
-
-    public static long count(String table, String condition, Object... params) throws RepositoryException {
-        StringBuilder sb = new StringBuilder();
-        sb.append(SQL_COUNT).append(table);
-        if (condition != null) {
-            sb.append(SQL_WHERE).append(condition);
-        }
-        String sql = sb.toString();
-        Optional<Long> optionalCount = QueryHelper.queryOne(sql, CountRowMapper.getInstance(), params);
-        return optionalCount.orElse(0L);
-    }
-
-    public static long count(String table) throws RepositoryException {
-        return count(table, null);
-    }
-
-    public static boolean exist(String table, String condition, Object... params) throws RepositoryException {
-        return count(table, condition, params) != 0;
     }
 }

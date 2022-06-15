@@ -11,6 +11,9 @@ import java.util.Optional;
 
 public class UserRepositoryImpl implements UserRepository {
 
+    private static final String SQL_COUNT = "SELECT COUNT(*) " +
+                                            "FROM users";
+
     private static final String SQL_FIND_ALL = "SELECT * " +
                                                "FROM users " +
                                                "ORDER BY name " +
@@ -51,6 +54,10 @@ public class UserRepositoryImpl implements UserRepository {
                                                    "WHERE user_roles.user_id=? " +
                                                    "LIMIT ?,?";
 
+    private static final String SQL_EXIST_USER_ROLE = "SELECT 1 " +
+                                                      "FROM user_role " +
+                                                      "WHERE user_id=? AND role_id=?";
+
     private static final String SQL_INSERT_ROLE = "INSERT INTO user_roles (user_id, role_id) " +
                                                   "VALUES (?,?)";
 
@@ -63,11 +70,16 @@ public class UserRepositoryImpl implements UserRepository {
                                                "ON user_roles.role_id = roles.role_id " +
                                                "WHERE user_roles.user_id=?";
 
+    //playlists
     private static final String SQL_COUNT_PLAYLISTS = "SELECT COUNT(*) " +
                                                       "FROM playlists " +
                                                       "JOIN user_playlists " +
                                                       "ON user_playlists.playlist_id = playlists.playlist_id " +
                                                       "WHERE user_playlists.user_id=?";
+
+    private static final String SQL_EXIST_PLAYLIST = "SELECT 1 " +
+                                                     "FROM user_playlists " +
+                                                     "WHERE user_id=? AND playlist_id=?";
 
     private static final String SQL_FIND_PLAYLISTS = "SELECT * " +
                                                      "FROM playlists " +
@@ -95,11 +107,16 @@ public class UserRepositoryImpl implements UserRepository {
                                                          "WHERE user_liked_artists.user_id=? " +
                                                          "LIMIT ?,?";
 
-    private static final String SQL_LIKE_ARTIST = "INSERT INTO user_liked_artists (user_id, artist_id) " +
-                                                  "VALUES (?,?)";
-
-    private static final String SQL_CANCEL_LIKE_ARTIST = "DELETE FROM user_liked_artists " +
+    //liked artist
+    private static final String SQL_EXIST_LIKED_ARTIST = "SELECT 1 " +
+                                                         "FROM user_liked_artists " +
                                                          "WHERE user_id=? AND artist_id=?";
+
+    private static final String SQL_MARK_LIKED_ARTIST = "INSERT INTO user_liked_artists (user_id, artist_id) " +
+                                                        "VALUES (?,?)";
+
+    private static final String SQL_UNMARK_LIKED_ARTIST = "DELETE FROM user_liked_artists " +
+                                                          "WHERE user_id=? AND artist_id=?";
 
     private static final String SQL_COUNT_LIKED_ALBUMS = "SELECT * " +
                                                          "FROM albums " +
@@ -107,6 +124,7 @@ public class UserRepositoryImpl implements UserRepository {
                                                          "ON user_liked_albums.album_id = albums.album_id " +
                                                          "WHERE user_liked_albums.user_id=?";
 
+    //liked albums
     private static final String SQL_FIND_LIKED_ALBUMS = "SELECT * " +
                                                         "FROM albums " +
                                                         "JOIN user_liked_albums " +
@@ -114,17 +132,26 @@ public class UserRepositoryImpl implements UserRepository {
                                                         "WHERE user_liked_albums.user_id=? " +
                                                         "LIMIT ?,?";
 
-    private static final String SQL_LIKE_ALBUM = "INSERT INTO user_liked_albums (user_id, album_id) " +
-                                                 "VALUES (?,?)";
-
-    private static final String SQL_CANCEL_LIKE_ALBUM = "DELETE FROM user_liked_albums " +
+    private static final String SQL_EXIST_LIKED_ALBUM = "SELECT 1 " +
+                                                        "FROM user_liked_albums " +
                                                         "WHERE user_id=? AND album_id=?";
 
+    private static final String SQL_MARK_LIKED_ALBUM = "INSERT INTO user_liked_albums (user_id, album_id) " +
+                                                       "VALUES (?,?)";
+
+    private static final String SQL_UNMARK_LIKED_ALBUM = "DELETE FROM user_liked_albums " +
+                                                         "WHERE user_id=? AND album_id=?";
+
+    //liked tracks
     private static final String SQL_COUNT_LIKED_TRACKS = "SELECT COUNT(*) " +
                                                          "FROM tracks " +
                                                          "JOIN user_liked_tracks " +
                                                          "ON user_liked_tracks.track_id = tracks.track_id " +
                                                          "WHERE user_liked_tracks.user_id=?";
+
+    private static final String SQL_EXIST_LIKED_TRACK = "SELECT 1 " +
+                                                        "FROM user_liked_tracks " +
+                                                        "WHERE user_id=? AND track_id=?";
 
     private static final String SQL_FIND_LIKED_TRACKS = "SELECT * " +
                                                         "FROM tracks " +
@@ -133,28 +160,11 @@ public class UserRepositoryImpl implements UserRepository {
                                                         "WHERE user_liked_tracks.user_id=? " +
                                                         "LIMIT ?,?";
 
-    private static final String SQL_LIKE_TRACK = "INSERT INTO user_liked_tracks (user_id, track_id) " +
-                                                 "VALUES (?,?)";
+    private static final String SQL_MARK_LIKED_TRACK = "INSERT INTO user_liked_tracks (user_id, track_id) " +
+                                                       "VALUES (?,?)";
 
-    private static final String SQL_CANCEL_LIKE_TRACK = "DELETE FROM user_liked_tracks " +
-                                                        "WHERE user_id=? AND track_id=?";
-
-    private static final String USER_TABLE = "users";
-
-    private static final String USER_ROLES_TABLE = "user_roles";
-    private static final String USER_ROLE_CONDITION = "user_id=? AND role_id=?";
-
-    private static final String USER_PLAYLISTS_TABLE = "user_playlists";
-    private static final String USER_PLAYLIST_CONDITION = "user_id=? AND playlist_id=?";
-
-    private static final String USER_ARTISTS_TABLE = "user_liked_artists";
-    private static final String USER_ARTISTS_CONDITION = "user_id=? AND artist_id=?";
-
-    private static final String USER_ALBUMS_TABLE = "user_liked_albums";
-    private static final String USER_ALBUMS_CONDITION = "user_id=? AND album_id=?";
-
-    private static final String USER_TRACKS_TABLE = "user_liked_tracks";
-    private static final String USER_TRACKS_CONDITION = "user_id=? AND track_id=?";
+    private static final String SQL_UNMARK_LIKED_TRACK = "DELETE FROM user_liked_tracks " +
+                                                         "WHERE user_id=? AND track_id=?";
 
     public static final UserRepositoryImpl instance = new UserRepositoryImpl();
 
@@ -172,6 +182,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
 
+    private final BooleanRowMapper booleanRowMapper = BooleanRowMapper.getInstance();
+
     private UserRepositoryImpl() {
     }
 
@@ -181,7 +193,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.count(USER_TABLE);
+        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override
@@ -219,6 +231,7 @@ public class UserRepositoryImpl implements UserRepository {
         QueryHelper.update(SQL_DELETE_BY_ID, id);
     }
 
+
     @Override
     public Optional<User> findByLogin(String login) throws RepositoryException {
         return QueryHelper.queryOne(SQL_FIND_BY_LOGIN, userRowMapper, login);
@@ -229,10 +242,10 @@ public class UserRepositoryImpl implements UserRepository {
         return QueryHelper.queryOne(SQL_FIND_BY_EMAIL, userRowMapper, email);
     }
 
+
     @Override
     public long countByRole(int roleId) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_BY_ROLE, countRowMapper, roleId);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_BY_ROLE, countRowMapper, roleId).orElse(0L);
     }
 
     @Override
@@ -241,41 +254,31 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<Playlist> getPlaylists(long userId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_PLAYLISTS, playlistRowMapper, userId, offset, limit);
-    }
-
-    @Override
-    public List<Artist> getLikedArtists(long userId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_LIKED_ARTISTS, artistRowMapper, userId, offset, limit);
-    }
-
-    @Override
-    public List<Album> getLikedAlbums(long userId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_LIKED_ALBUMS, albumRowMapper, userId, offset, limit);
-    }
-
-    @Override
-    public List<Track> getLikedTracks(long userId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_LIKED_TRACKS, trackRowMapper, userId, offset, limit);
-    }
-
-    @Override
-    public void setRole(long userId, int roleId) throws RepositoryException {
-        boolean exist = QueryHelper.exist(USER_ROLES_TABLE, USER_ROLE_CONDITION, userId, roleId);
-        String sql = exist ? SQL_UPDATE_ROLE : SQL_INSERT_ROLE;
-        QueryHelper.update(sql, userId, roleId);
-    }
-
-    @Override
     public Optional<Role> getRole(long userId) throws RepositoryException {
         return QueryHelper.queryOne(SQL_GET_ROLE, roleRowMapper, userId);
     }
 
     @Override
+    public void setRole(long userId, int roleId) throws RepositoryException {
+        boolean exist = QueryHelper.queryOne(SQL_EXIST_USER_ROLE, booleanRowMapper, userId, roleId).orElse(false);
+        String sql = exist ? SQL_UPDATE_ROLE : SQL_INSERT_ROLE;
+        QueryHelper.update(sql, userId, roleId);
+    }
+
+
+    @Override
     public long countPlaylists(long userId) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_PLAYLISTS, countRowMapper, userId);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_PLAYLISTS, countRowMapper, userId).orElse(0L);
+    }
+
+    @Override
+    public List<Playlist> getPlaylists(long userId, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_PLAYLISTS, playlistRowMapper, userId, offset, limit);
+    }
+
+    @Override
+    public boolean hasPlaylist(long userId, long playlistId) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_EXIST_PLAYLIST, booleanRowMapper, userId, playlistId).orElse(false);
     }
 
     @Override
@@ -284,75 +287,85 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean hasPlaylist(long userId, long playlistId) throws RepositoryException {
-        return QueryHelper.exist(USER_PLAYLISTS_TABLE, USER_PLAYLIST_CONDITION, userId, playlistId);
-    }
-
-    @Override
-    public void removePlayList(long userId, long playlistId) throws RepositoryException {
+    public void removePlaylist(long userId, long playlistId) throws RepositoryException {
         QueryHelper.update(SQL_REMOVE_PLAYLIST, userId, playlistId);
     }
 
+
     @Override
     public long countLikedArtists(long userId) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_LIKED_ARTISTS, countRowMapper, userId);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_LIKED_ARTISTS, countRowMapper, userId).orElse(0L);
     }
 
     @Override
-    public void likeArtist(long userId, long artistId) throws RepositoryException {
-        QueryHelper.update(SQL_LIKE_ARTIST, userId, artistId);
+    public List<Artist> getLikedArtists(long userId, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_LIKED_ARTISTS, artistRowMapper, userId, offset, limit);
     }
 
     @Override
-    public boolean isLikeArtist(long userId, long artistId) throws RepositoryException {
-        return QueryHelper.exist(USER_ARTISTS_TABLE, USER_ARTISTS_CONDITION, userId, artistId);
+    public boolean isLikedArtist(long userId, long artistId) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_EXIST_LIKED_ARTIST, booleanRowMapper, userId, artistId).orElse(false);
     }
 
     @Override
-    public void cancelLikeArtist(long userId, long artistId) throws RepositoryException {
-        QueryHelper.update(SQL_CANCEL_LIKE_ARTIST, userId, artistId);
+    public void markLikedArtist(long userId, long artistId) throws RepositoryException {
+        QueryHelper.update(SQL_MARK_LIKED_ARTIST, userId, artistId);
     }
+
+    @Override
+    public void unmarkLikedArtist(long userId, long artistId) throws RepositoryException {
+        QueryHelper.update(SQL_UNMARK_LIKED_ARTIST, userId, artistId);
+    }
+
 
     @Override
     public long countLikedAlbums(long userId) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_LIKED_ALBUMS, countRowMapper, userId);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_LIKED_ALBUMS, countRowMapper, userId).orElse(0L);
     }
 
     @Override
-    public void likeAlbum(long userId, long albumId) throws RepositoryException {
-        QueryHelper.update(SQL_LIKE_ALBUM, userId, albumId);
+    public List<Album> getLikedAlbums(long userId, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_LIKED_ALBUMS, albumRowMapper, userId, offset, limit);
     }
 
     @Override
-    public boolean isLikeAlbum(long userId, long albumId) throws RepositoryException {
-        return QueryHelper.exist(USER_ALBUMS_TABLE, USER_ALBUMS_CONDITION, userId, albumId);
+    public boolean isLikedAlbum(long userId, long albumId) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_EXIST_LIKED_ALBUM, booleanRowMapper, userId, albumId).orElse(false);
     }
 
     @Override
-    public void cancelLikeAlbum(long userId, long albumId) throws RepositoryException {
-        QueryHelper.update(SQL_CANCEL_LIKE_ALBUM, userId, albumId);
+    public void markLikedAlbum(long userId, long albumId) throws RepositoryException {
+        QueryHelper.update(SQL_MARK_LIKED_ALBUM, userId, albumId);
     }
+
+    @Override
+    public void unmarkLikedAlbum(long userId, long albumId) throws RepositoryException {
+        QueryHelper.update(SQL_UNMARK_LIKED_ALBUM, userId, albumId);
+    }
+
 
     @Override
     public long countLikedTracks(long userId) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_LIKED_TRACKS, countRowMapper, userId);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_LIKED_TRACKS, countRowMapper, userId).orElse(0L);
     }
 
     @Override
-    public void likeTrack(long userId, long trackId) throws RepositoryException {
-        QueryHelper.update(SQL_LIKE_TRACK, userId, trackId);
+    public List<Track> getLikedTracks(long userId, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_LIKED_TRACKS, trackRowMapper, userId, offset, limit);
     }
 
     @Override
-    public void cancelLikeTrack(long userId, long trackId) throws RepositoryException {
-        QueryHelper.update(SQL_CANCEL_LIKE_TRACK, userId, trackId);
+    public boolean isLikedTrack(long userId, long trackId) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_EXIST_LIKED_TRACK, booleanRowMapper, userId, trackId).orElse(false);
     }
 
     @Override
-    public boolean isLikeTrack(long userId, long trackId) throws RepositoryException {
-        return QueryHelper.exist(USER_TRACKS_TABLE, USER_TRACKS_CONDITION, userId, trackId);
+    public void markLikedTrack(long userId, long trackId) throws RepositoryException {
+        QueryHelper.update(SQL_MARK_LIKED_TRACK, userId, trackId);
+    }
+
+    @Override
+    public void unmarkLikedTrack(long userId, long trackId) throws RepositoryException {
+        QueryHelper.update(SQL_UNMARK_LIKED_TRACK, userId, trackId);
     }
 }

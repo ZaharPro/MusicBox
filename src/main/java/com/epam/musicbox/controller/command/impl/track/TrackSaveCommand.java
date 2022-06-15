@@ -11,7 +11,6 @@ import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class TrackSaveCommand implements Command {
 
@@ -19,12 +18,16 @@ public class TrackSaveCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        Long trackId = ParamTaker.getNullableLong(req, Parameter.TRACK_ID);
-        String name = req.getParameter(Parameter.NAME);
-        String path = req.getParameter(Parameter.PATH);
-        Long albumId = ParamTaker.getLong(req, Parameter.ALBUM_ID);
-        Track track = new Track(trackId, name, path, albumId);
-        service.save(track);
-        return CommandResult.forward(PagePath.EDIT_TRACK);
+        try {
+            Long trackId = ParamTaker.getNullableLong(req, Parameter.TRACK_ID);
+            String name = req.getParameter(Parameter.NAME);
+            String path = req.getParameter(Parameter.PATH);
+            Long albumId = ParamTaker.getLong(req, Parameter.ALBUM_ID);
+            Track track = new Track(trackId, name, path, albumId);
+            service.save(track);
+            return CommandResult.forward(PagePath.EDIT_TRACK);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

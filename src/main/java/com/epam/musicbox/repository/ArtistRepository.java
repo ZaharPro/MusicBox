@@ -13,6 +13,7 @@ public interface ArtistRepository extends Repository<Artist> {
 
     List<Artist> findByName(String regex, int offset, int limit) throws RepositoryException;
 
+
     long countTracks(long artistId) throws RepositoryException;
 
     List<Track> getTracks(long artistId, int offset, int limit) throws RepositoryException;
@@ -20,6 +21,9 @@ public interface ArtistRepository extends Repository<Artist> {
     void addTrack(long artistId, long trackId) throws RepositoryException;
 
     void removeTrack(long artistId, long trackId) throws RepositoryException;
+
+
+    long countAlbums(long artistId) throws RepositoryException;
 
     List<Album> getAlbums(long artistId, int offset, int limit) throws RepositoryException;
 }

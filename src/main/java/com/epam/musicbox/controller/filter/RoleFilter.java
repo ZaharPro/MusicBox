@@ -28,8 +28,8 @@ public class RoleFilter implements Filter {
         if (session.getAttribute(Parameter.ROLE) == null) {
             Role role;
             try {
-                Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
-                Claims body = jws.getBody();
+                Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
+                Claims body = token.getBody();
                 role = ParamTaker.getRole(body);
             } catch (ServiceException e) {
                 role = Role.GUEST;

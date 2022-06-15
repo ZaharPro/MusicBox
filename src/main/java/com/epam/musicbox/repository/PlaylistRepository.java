@@ -12,11 +12,12 @@ public interface PlaylistRepository extends Repository<Playlist> {
 
     List<Playlist> findByName(String regex, int offset, int limit) throws RepositoryException;
 
-    long countTracks(long artistId) throws RepositoryException;
 
-    List<Track> getTracks(long artistId, int offset, int limit) throws RepositoryException;
+    long countTracks(long playlistId) throws RepositoryException;
 
-    void addTrack(long artistId, long trackId) throws RepositoryException;
+    List<Track> getTracks(long playlistId, int offset, int limit) throws RepositoryException;
 
-    void removeTrack(long artistId, long trackId) throws RepositoryException;
+    void addTrack(long playlistId, long trackId) throws RepositoryException;
+
+    void removeTrack(long playlistId, long trackId) throws RepositoryException;
 }

@@ -13,32 +13,8 @@ public final class Parameter {
     public static final String AVATAR = "avatar";
     public static final String PATH = "path";
 
-    public static final String USER_ID = "userid";
-    public static final String TRACK_ID = "trackid";
-    public static final String ALBUM_ID = "albumid";
-    public static final String ARTIST_ID = "artistid";
-    public static final String PLAYLIST_ID = "playlistid";
-
-    public static final String USER = "user";
-    public static final String TRACK = "track";
-    public static final String ALBUM = "album";
-    public static final String ARTIST = "artist";
-    public static final String PLAYLIST = "artist";
-
-    public static final String USER_LIST = "users";
-    public static final String TRACK_LIST = "tracks";
-    public static final String ALBUM_LIST = "albums";
-    public static final String ARTIST_LIST = "artists";
-    public static final String PLAYLIST_LIST = "artists";
-
-    public static final String USER_PAGE = "userpage";
-    public static final String TRACK_PAGE = "trackpage";
-    public static final String ALBUM_PAGE = "albumpage";
-    public static final String ARTIST_PAGE = "artistpage";
-    public static final String PLAYLIST_PAGE = "playlistpage";
-
     public static final String COMMAND = "command";
-    public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String MESSAGE = "msg";
     public static final String ACCESS_TOKEN = "accesstoken";
     public static final String OLD_PASSWORD = "oldpass";
     public static final String NEW_PASSWORD = "newpass";
@@ -46,13 +22,35 @@ public final class Parameter {
     public static final String LIKE = "like";
     public static final String LOCALE = "locale";
 
-    public static final String USER_PAGE_SIZE = "userpagesize";
-    public static final String TRACK_PAGE_SIZE = "trackpagesize";
-    public static final String ALBUM_PAGE_SIZE = "albumpagesize";
-    public static final String ARTIST_PAGE_SIZE = "artistpagesize";
-    public static final String PLAYLIST_PAGE_SIZE = "playlistpagesize";
-    public static final String ALBUM_TRACK_PAGE = "albumtrackpage";
-    public static final String ALBUM_TRACK_PAGE_SIZE = "albumtrackpagesize";
+    public static final String USER = "user";
+    public static final String TRACK = "track";
+    public static final String ALBUM = "album";
+    public static final String ARTIST = "artist";
+    public static final String PLAYLIST = "artist";
+
+    public static final String USER_ID = USER + "id";
+    public static final String TRACK_ID = TRACK + "id";
+    public static final String ALBUM_ID = ALBUM + "id";
+    public static final String ARTIST_ID = ARTIST + "id";
+    public static final String PLAYLIST_ID = PLAYLIST + "id";
+
+    public static final String USER_PAGE_INDEX = USER + "page";
+    public static final String TRACK_PAGE_INDEX = TRACK + "page";
+    public static final String ALBUM_PAGE_INDEX = ALBUM + "page";
+    public static final String ARTIST_PAGE_INDEX = ARTIST + "page";
+    public static final String PLAYLIST_PAGE_INDEX = PLAYLIST + "page";
+
+    public static final String USER_PAGE_SIZE = USER + "size";
+    public static final String TRACK_PAGE_SIZE = TRACK + "size";
+    public static final String ALBUM_PAGE_SIZE = ALBUM + "size";
+    public static final String ARTIST_PAGE_SIZE = ARTIST + "size";
+    public static final String PLAYLIST_PAGE_SIZE = PLAYLIST + "size";
+
+    public static final String USER_PAGE_SEARCH_RESULT = USER + "psr";
+    public static final String TRACK_PAGE_SEARCH_RESULT = TRACK + "psr";
+    public static final String ALBUM_PAGE_SEARCH_RESULT = ALBUM + "psr";
+    public static final String ARTIST_PAGE_SEARCH_RESULT = ARTIST + "psr";
+    public static final String PLAYLIST_PAGE_SEARCH_RESULT = PLAYLIST + "psr";
 
     private Parameter() {
     }

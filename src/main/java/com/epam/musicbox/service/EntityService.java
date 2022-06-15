@@ -10,7 +10,7 @@ public interface EntityService<T extends Entity> {
 
     long count() throws ServiceException;
 
-    List<T> findPage(int page, int pageSize) throws ServiceException;
+    PageSearchResult<T> findPage(int page, int pageSize) throws ServiceException;
 
     Optional<T> findById(long id) throws ServiceException;
 

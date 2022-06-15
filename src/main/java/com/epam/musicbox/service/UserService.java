@@ -3,7 +3,6 @@ package com.epam.musicbox.service;
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.exception.ServiceException;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends EntityService<User> {
@@ -15,7 +14,7 @@ public interface UserService extends EntityService<User> {
 
     long countByRole(int roleId) throws ServiceException;
 
-    List<User> findByRole(int roleId, int page, int pageSize) throws ServiceException;
+    PageSearchResult<User> findByRole(int roleId, int page, int pageSize) throws ServiceException;
 
     void setRole(long userId, int roleId) throws ServiceException;
 
@@ -24,44 +23,44 @@ public interface UserService extends EntityService<User> {
 
     long countPlaylists(long userId) throws ServiceException;
 
-    List<Playlist> getPlaylists(long userId, int page, int pageSize) throws ServiceException;
-
-    void addPlaylist(long userId, long playlistId) throws ServiceException;
+    PageSearchResult<Playlist> getPlaylists(long userId, int page, int pageSize) throws ServiceException;
 
     boolean hasPlaylist(long userId, long playlistId) throws ServiceException;
 
-    void removePlayList(long userId, long playlistId) throws ServiceException;
+    void addPlaylist(long userId, long playlistId) throws ServiceException;
+
+    void removePlaylist(long userId, long playlistId) throws ServiceException;
 
 
     long countLikedArtists(long userId) throws ServiceException;
 
-    List<Artist> getLikedArtists(long userId, int page, int pageSize) throws ServiceException;
+    PageSearchResult<Artist> getLikedArtists(long userId, int page, int pageSize) throws ServiceException;
 
-    void likeArtist(long userId, long artistId) throws ServiceException;
+    boolean isLikedArtist(long userId, long artistId) throws ServiceException;
 
-    boolean isLikeArtist(long userId, long artistId) throws ServiceException;
+    void markLikedArtist(long userId, long artistId) throws ServiceException;
 
-    void cancelLikeArtist(long userId, long artistId) throws ServiceException;
+    void unmarkLikedArtist(long userId, long artistId) throws ServiceException;
 
 
     long countLikedAlbums(long userId) throws ServiceException;
 
-    List<Album> getLikedAlbums(long userId, int page, int pageSize) throws ServiceException;
+    PageSearchResult<Album> getLikedAlbums(long userId, int page, int pageSize) throws ServiceException;
 
-    void likeAlbum(long userId, long albumId) throws ServiceException;
+    boolean isLikedAlbum(long userId, long albumId) throws ServiceException;
 
-    boolean isLikeAlbum(long userId, long albumId) throws ServiceException;
+    void markLikedAlbum(long userId, long albumId) throws ServiceException;
 
-    void cancelLikeAlbum(long userId, long albumId) throws ServiceException;
+    void unmarkLikedAlbum(long userId, long albumId) throws ServiceException;
 
 
     long countLikedTracks(long userId) throws ServiceException;
 
-    List<Track> getLikedTracks(long userId, int page, int pageSize) throws ServiceException;
+    PageSearchResult<Track> getLikedTracks(long userId, int page, int pageSize) throws ServiceException;
 
-    void likeTrack(long userId, long trackId) throws ServiceException;
+    boolean isLikedTrack(long userId, long trackId) throws ServiceException;
 
-    boolean isLikeTrack(long userId, long trackId) throws ServiceException;
+    void markLikedTrack(long userId, long trackId) throws ServiceException;
 
-    void cancelLikeTrack(long userId, long trackId) throws ServiceException;
+    void unmarkLikedTrack(long userId, long trackId) throws ServiceException;
 }

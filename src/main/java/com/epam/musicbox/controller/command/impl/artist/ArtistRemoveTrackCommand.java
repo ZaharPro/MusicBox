@@ -10,7 +10,6 @@ import com.epam.musicbox.service.ArtistService;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class ArtistRemoveTrackCommand implements Command {
 
@@ -18,9 +17,13 @@ public class ArtistRemoveTrackCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
-        long userId = ParamTaker.getLong(req, Parameter.USER_ID);
-        long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
-        service.removeTrack(userId, trackId);
-        return CommandResult.forward(PagePath.EDIT_ARTIST);
+        try {
+            long userId = ParamTaker.getLong(req, Parameter.USER_ID);
+            long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
+            service.removeTrack(userId, trackId);
+            return CommandResult.forward(PagePath.EDIT_ARTIST);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
     }
 }

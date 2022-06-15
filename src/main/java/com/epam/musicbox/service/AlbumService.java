@@ -9,5 +9,5 @@ public interface AlbumService extends EntityService<Album> {
 
     long countByName(String regex) throws ServiceException;
 
-    List<Album> findByName(String name, int page, int pageSize) throws ServiceException;
+    PageSearchResult<Album> findByName(String name, int page, int pageSize) throws ServiceException;
 }
