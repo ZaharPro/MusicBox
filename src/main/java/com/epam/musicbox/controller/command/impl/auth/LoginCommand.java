@@ -1,8 +1,9 @@
 package com.epam.musicbox.controller.command.impl.auth;
 
+import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.service.AuthService;
-import com.epam.musicbox.util.constant.PagePath;
-import com.epam.musicbox.util.constant.Parameter;
+import com.epam.musicbox.controller.PagePath;
+import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Role;
@@ -22,12 +23,14 @@ import java.util.Optional;
 
 public class LoginCommand implements Command {
 
+    private static final String USER_ROLE_NOT_FOUND = "User role not found";
+
     private final UserService userService = UserServiceImpl.getInstance();
 
     private final AuthService authService = AuthServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
+    public CommandResult execute(HttpServletRequest req) throws CommandException {
         String login = req.getParameter(Parameter.LOGIN);
         String password = req.getParameter(Parameter.PASSWORD);
 
@@ -38,9 +41,10 @@ public class LoginCommand implements Command {
             req.setAttribute(Parameter.ERROR_MESSAGE, e.getMessage());
             return CommandResult.forward(PagePath.LOGIN);
         }
+
         Optional<Role> optionalRole = userService.getRole(user.getId());
         if (optionalRole.isEmpty())
-            throw new ServiceException("User has no role");
+            throw new ServiceException(USER_ROLE_NOT_FOUND);
         Role role = optionalRole.get();
 
         Map<String, String> claims = new HashMap<>();
@@ -52,11 +56,12 @@ public class LoginCommand implements Command {
         Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, token);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(authService.getCookieMaxAge());
-        resp.addCookie(cookie);
 
         HttpSession session = req.getSession();
         session.setAttribute(Parameter.ROLE, role.getValue());
 
-        return CommandResult.forward(PagePath.HOME);
+        CommandResult commandResult = CommandResult.redirect(PagePath.HOME);
+        commandResult.getCookies().add(cookie);
+        return commandResult;
     }
 }

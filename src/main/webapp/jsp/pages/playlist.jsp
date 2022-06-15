@@ -35,19 +35,19 @@
         </c:otherwise>
     </c:choose>
     <ct:access role="admin">
-        <form method="post" action="${pageContext.request.contextPath}/controller?command=edit-playlist-page">
-            <input type="hidden" name="playlistid" value="${playlist.getId()}"/>
-            <input type="submit" value="Edit">
-        </form>
+        <a class="btn btn-sm w-100 mt-1"
+           href="${pageContext.request.contextPath}/controller?command=edit-playlist-page&playlistid=${playlist.getId()}">
+            <fmt:message key="playlist.edit"/>
+        </a>
     </ct:access>
     <c:if test="${not empty tracks}">
-        <ul>
+        <ul class="list-group list-group-flush bg-light">
             <c:forEach items="${tracks}" var="track">
-                <li>
-                    <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
-                        <input type="hidden" name="trackid" value="${track.getId()}"/>
-                        <input type="submit" value="${track.getName()}">
-                    </form>
+                <li class="list-group-item">
+                    <a class="page-link"
+                       href="${pageContext.request.contextPath}/controller?command=track-get-by-id&trackid=${track.getId()}">
+                            ${track.getName()}
+                    </a>
                 </li>
             </c:forEach>
         </ul>

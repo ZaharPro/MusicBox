@@ -1,17 +1,19 @@
 package com.epam.musicbox.repository.impl;
 
+import com.epam.musicbox.repository.rowmapper.CountRowMapper;
+import com.epam.musicbox.util.QueryHelper;
 import com.epam.musicbox.repository.rowmapper.AlbumRowMapper;
 import com.epam.musicbox.repository.rowmapper.ArtistRowMapper;
 import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.repository.ArtistRepository;
-import com.epam.musicbox.util.QueryHelper;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ArtistRepositoryImpl implements ArtistRepository {
+
     private static final String SQL_FIND_ALL = "SELECT * " +
                                                "FROM artists " +
                                                "ORDER BY name " +
@@ -31,24 +33,38 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_DELETE_BY_ID = "DELETE FROM artists " +
                                                    "WHERE artist_id=?";
 
+    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(*) " +
+                                                    "FROM artists " +
+                                                    "WHERE name REGEXP (?)";
+
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
                                                    "FROM artists " +
                                                    "WHERE name REGEXP (?) " +
                                                    "ORDER BY name " +
                                                    "LIMIT ?,?";
 
+    private static final String SQL_COUNT_TRACKS = "SELECT COUNT(*) " +
+                                                   "FROM tracks " +
+                                                   "JOIN artist_tracks " +
+                                                   "ON artist_tracks.track_id = tracks.track_id " +
+                                                   "WHERE artist_tracks.artist_id=?";
+
     private static final String SQL_FIND_TRACKS = "SELECT * " +
                                                   "FROM tracks " +
                                                   "JOIN artist_tracks " +
                                                   "ON artist_tracks.track_id = tracks.track_id " +
-                                                  "WHERE artist_tracks.artist_id=?" +
+                                                  "WHERE artist_tracks.artist_id=? " +
                                                   "LIMIT ?,?";
 
-    private static final String SQL_ADD_TRACK = "INSERT INTO artist_tracks (artist_id, track_id) " +
-                                                "VALUES (?,?)";
+    private static final String SQL_ADD_TRACK = "IF EXISTS " +
+                                                "(SELECT 1 FROM artist_tracks WHERE artist_id=? AND track_id=?) " +
+                                                "BEGIN " +
+                                                "INSERT INTO artist_tracks (artist_id, track_id) " +
+                                                "VALUES (?,?) " +
+                                                "END";
 
     private static final String SQL_REMOVE_TRACK = "DELETE FROM artist_tracks " +
-                                                   "WHERE artist_id=? AND artist_id=?";
+                                                   "WHERE artist_id=? AND track_id=?";
 
     private static final String SQL_FIND_ALBUMS = "SELECT * " +
                                                   "FROM albums " +
@@ -59,7 +75,9 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                   "WHERE artist_tracks.artist_id=? " +
                                                   "LIMIT ?,?";
 
-    public static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();
+    private static final String ARTIST_TABLE = "artists";
+
+    private static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();
 
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
 
@@ -67,8 +85,18 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
 
+    private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
+
+    private ArtistRepositoryImpl() {
+    }
+
     public static ArtistRepositoryImpl getInstance() {
         return instance;
+    }
+
+    @Override
+    public long count() throws RepositoryException {
+        return QueryHelper.count(ARTIST_TABLE);
     }
 
     @Override
@@ -77,7 +105,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public Optional<Artist> findById(long id) {
+    public Optional<Artist> findById(long id) throws RepositoryException {
         return QueryHelper.queryOne(SQL_FIND_BY_ID, artistRowMapper, id);
     }
 
@@ -103,8 +131,20 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
+    public long countByName(String regex) throws RepositoryException {
+        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex);
+        return optionalCount.orElse(0L);
+    }
+
+    @Override
     public List<Artist> findByName(String regex, int offset, int limit) throws RepositoryException {
         return QueryHelper.queryAll(SQL_FIND_BY_NAME, artistRowMapper, regex, offset, limit);
+    }
+
+    @Override
+    public long countTracks(long artistId) throws RepositoryException {
+        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_TRACKS, countRowMapper, artistId);
+        return optionalCount.orElse(0L);
     }
 
     @Override

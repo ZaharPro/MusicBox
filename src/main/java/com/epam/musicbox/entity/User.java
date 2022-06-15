@@ -1,10 +1,9 @@
 package com.epam.musicbox.entity;
 
-import com.epam.musicbox.util.ObjectUtils;
-
 import java.sql.Timestamp;
 
-public class User implements Entity<Long> {
+public class User implements Entity {
+
     private Long id;
     private String login;
     private String email;
@@ -81,17 +80,31 @@ public class User implements Entity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return ObjectUtils.equals(id, user.id)
-               && ObjectUtils.equals(login, user.login)
-               && ObjectUtils.equals(email, user.email)
-               && ObjectUtils.equals(password, user.password)
-               && ObjectUtils.equals(banned, user.banned)
-               && ObjectUtils.equals(registration, user.registration);
+        if (!(id == null ? user.id == null : id.equals(user.id)))
+            return false;
+        if (!(login == null ? user.login == null : login.equals(user.login)))
+            return false;
+        if (!(email == null ? user.email == null : email.equals(user.email)))
+            return false;
+        if (!(password == null ? user.password == null : password.equals(user.password)))
+            return false;
+        if (!(banned == null ? user.banned == null : banned.equals(user.banned)))
+            return false;
+        if (!(registration == null ? user.registration == null : registration.equals(user.registration)))
+            return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtils.hash(id, login, email, password, registration);
+        int hash = 17;
+        hash = hash * 31 + (id == null ? 0 : id.hashCode());
+        hash = hash * 31 + (login == null ? 0 : login.hashCode());
+        hash = hash * 31 + (email == null ? 0 : email.hashCode());
+        hash = hash * 31 + (password == null ? 0 : password.hashCode());
+        hash = hash * 31 + (banned == null ? 0 : banned.hashCode());
+        hash = hash * 31 + (registration == null ? 0 : registration.hashCode());
+        return hash;
     }
 
     @Override

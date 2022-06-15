@@ -7,14 +7,19 @@ import com.epam.musicbox.exception.ServiceException;
 
 import java.util.List;
 
-public interface ArtistService extends EntityService<Artist, Long> {
-    List<Artist> findByName(String name, int page) throws ServiceException;
+public interface ArtistService extends EntityService<Artist> {
 
-    List<Track> getTracks(long artistId, int page) throws ServiceException;
+    long countByName(String regex) throws ServiceException;
+
+    List<Artist> findByName(String name, int page, int pageSize) throws ServiceException;
+
+    long countTracks(long artistId) throws ServiceException;
+
+    List<Track> getTracks(long artistId, int page, int pageSize) throws ServiceException;
 
     void addTrack(long artistId, long trackId) throws ServiceException;
 
     void removeTrack(long artistId, long trackId) throws ServiceException;
 
-    List<Album> getAlbums(long artistId, int page) throws ServiceException;
+    List<Album> getAlbums(long artistId, int page, int pageSize) throws ServiceException;
 }

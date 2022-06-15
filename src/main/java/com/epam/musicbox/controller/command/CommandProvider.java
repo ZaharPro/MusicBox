@@ -17,6 +17,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class CommandProvider {
+
     private static final CommandProvider instance = new CommandProvider();
 
     private final Map<CommandType, Command> commands;

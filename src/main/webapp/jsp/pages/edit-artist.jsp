@@ -14,49 +14,71 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div>
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-save">
-        <label for="artistName"></label>
-        <input type="text" id="artistName" name="name" required
+<div class="container d-flex justify-content-center mt-3">
+    <div class="card col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-dark">
         <c:if test="${artist != null}">
-               value="${artist.getName()}"
-        </c:if>>
+            <img class="card-img-top" src="/img/artist/${artist.getAvatar()}" alt="Album avatar">
+        </c:if>
 
-        <label for="artistAvatar"></label>
-        <input type="text" id="artistAvatar" name="avatar" required
-        <c:if test="${artist != null}">
-               value="${artist.getAvatar()}"
-        </c:if>>
+        <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-save">
+            <div class="form-outline mb-4">
+                <label for="artistName">
+                    <fmt:message key="edit.artist.label.name"/>
+                </label>
+                <input type="text" id="artistName" name="name" required class="form-control form-control-lg"
+                <c:if test="${artist != null}">
+                       value="${artist.getName()}"
+                </c:if>>
+            </div>
 
-        <input type="submit">
-    </form>
-    <c:if test="${artist != null}">
-        <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-delete">
-            <input type="hidden" name="artistid" value="${artist.getId()}"/>
-            <input type="submit" value="Delete">
+            <div class="file-drop-area">
+                <label for="avatar">
+                    <fmt:message key="edit.artist.choose.avatar"/>
+                </label>
+                <input class="file-input" id="avatar" type="file" name="avatar">
+            </div>
+
+            <button type="submit" class="btn btn-sm w-100 mt-3">
+                <fmt:message key="edit.artist.save"/>
+            </button>
         </form>
-    </c:if>
+        <c:if test="${artist != null}">
+            <form method="post" action="${pageContext.request.contextPath}/controller?command=artist-delete">
+                <input type="hidden" name="artistid" value="${artist.getId()}"/>
+                <button type="submit" class="btn btn-sm w-100 mt-2">
+                    <fmt:message key="edit.artist.delete"/>
+                </button>
+            </form>
+        </c:if>
 
-    <c:if test="${not empty tracks}">
-        <p>Choose track</p>
-        <ul>
-            <c:forEach items="${tracks}" var="track">
-                <li>
-                    <form method="post"
-                          action="${pageContext.request.contextPath}/controller?command=edit-artist-page">
-                        <input type="hidden" name="playlistid"
-                                <c:if test="${playlist != null}">
-                                    value="${playlist.getId()}"
-                                </c:if>/>
-                        <input type="hidden" name="trackid" value="${track.getId()}"/>
-                        <input type="hidden" name="trackpage" value="${trackpage}"/>
-                        <input type="submit" value="${track.getName()}">
-                    </form>
-                </li>
-            </c:forEach>
-        </ul>
-    </c:if>
+        <c:if test="${not empty tracks}">
+            <h5 class="font-weight-normal mt-2 me-3">
+                <fmt:message key="edit.artist.choose.track"/>
+            </h5>
+            <ul class="list-group list-group-flush bg-light">
+                <c:choose>
+                    <c:when test="${artist == null}">
+                        <c:forEach items="${tracks}" var="track">
+                            <a class="list-group-item list-group-item-action d-flex justify-content-sm-between"
+                               href="${pageContext.request.contextPath}/controller?command=edit-artist-page&trackid=${track.getId()}&trackpage=${trackpage}">
+                                    ${track.getName()}
+                            </a>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${tracks}" var="track">
+                            <a class="list-group-item list-group-item-action d-flex justify-content-sm-between"
+                               href="${pageContext.request.contextPath}/controller?command=edit-artist-page&artistid=${artist.getId()}&trackid=${track.getId()}&trackpage=${trackpage}">
+                                    ${track.getName()}
+                            </a>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </c:if>
+    </div>
 </div>
 
 </body>
 </html>
+</jsp:root>

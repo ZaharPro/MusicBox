@@ -6,6 +6,7 @@ import com.epam.musicbox.entity.Role;
 import java.util.*;
 
 public class RoleRights {
+
     private static final RoleRights instance = new RoleRights();
 
     private final Map<Role, Set<CommandType>> map;

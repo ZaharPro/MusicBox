@@ -8,10 +8,10 @@ import java.sql.SQLException;
 
 public class TrackRowMapper implements RowMapper<Track> {
 
-    public static final String ROW_TRACK_ID = "track_id";
-    public static final String ROW_NAME = "name";
-    public static final String ROW_PATH = "path";
-    public static final String ROW_ALBUM_ID = "album_id";
+    private static final String ROW_TRACK_ID = "track_id";
+    private static final String ROW_NAME = "name";
+    private static final String ROW_PATH = "path";
+    private static final String ROW_ALBUM_ID = "album_id";
 
     private static final TrackRowMapper instance = new TrackRowMapper();
 

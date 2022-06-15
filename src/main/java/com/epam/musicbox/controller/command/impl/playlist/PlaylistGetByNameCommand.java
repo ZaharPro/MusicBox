@@ -1,30 +1,32 @@
 package com.epam.musicbox.controller.command.impl.playlist;
 
-import com.epam.musicbox.util.constant.PagePath;
-import com.epam.musicbox.util.constant.Parameter;
-import com.epam.musicbox.controller.command.CommandType;
-import com.epam.musicbox.controller.command.impl.common.GetByNameCommand;
+import com.epam.musicbox.controller.PagePath;
+import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Playlist;
+import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
+import com.epam.musicbox.util.ParamTaker;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 
-public class PlaylistGetByNameCommand extends GetByNameCommand<Playlist> {
+public class PlaylistGetByNameCommand implements Command {
 
-    private final PlaylistService service = PlaylistServiceImpl.getInstance();
-
-    public PlaylistGetByNameCommand() {
-        super(Parameter.NAME,
-                Parameter.PLAYLIST_PAGE,
-                Parameter.PLAYLIST_LIST,
-                PagePath.PLAYLISTS,
-                CommandType.PLAYLIST_GET.getName());
-    }
+    private final PlaylistService playlistService = PlaylistServiceImpl.getInstance();
 
     @Override
-    protected List<Playlist> findByName(String name, int page) throws ServiceException {
-        return service.findByName(name, page);
+    public CommandResult execute(HttpServletRequest req) throws CommandException {
+        String name = req.getParameter(Parameter.NAME);
+        int page = ParamTaker.getPage(req, Parameter.PLAYLIST_PAGE);
+        int pageSize = ParamTaker.getPage(req, Parameter.PLAYLIST_PAGE_SIZE);
+        List<Playlist> playlists = playlistService.findByName(name, page, pageSize);
+        req.setAttribute(Parameter.PLAYLIST_PAGE, page);
+        req.setAttribute(Parameter.PLAYLIST_LIST, playlists);
+        return CommandResult.forward(PagePath.PLAYLISTS_BY_NAME);
     }
 }

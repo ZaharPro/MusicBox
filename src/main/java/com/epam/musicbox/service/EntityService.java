@@ -6,10 +6,13 @@ import com.epam.musicbox.exception.ServiceException;
 import java.util.List;
 import java.util.Optional;
 
-public interface EntityService<T extends Entity<K>, K> {
-    List<T> findPage(int page) throws ServiceException;
+public interface EntityService<T extends Entity> {
 
-    Optional<T> findById(long id);
+    long count() throws ServiceException;
+
+    List<T> findPage(int page, int pageSize) throws ServiceException;
+
+    Optional<T> findById(long id) throws ServiceException;
 
     long save(T t) throws ServiceException;
 

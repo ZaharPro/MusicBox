@@ -1,6 +1,6 @@
 package com.epam.musicbox.util;
 
-import com.epam.musicbox.util.constant.Parameter;
+import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.ServiceException;
 import io.jsonwebtoken.Claims;
@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.function.Function;
 
-public final class Parameters {
+public final class ParamTaker {
 
     public static final String JWT_VALUE_NOT_FOUND_MSG = "Jwt value not found: ";
     public static final String REQ_INVALID_PARAMETER_MSG = "Invalid parameter: ";
@@ -18,7 +18,7 @@ public final class Parameters {
     private static final Function<String, Boolean> BOOLEAN_MAPPER = Boolean::parseBoolean;
     private static final Function<String, Role> ROLE_MAPPER = Role::findByValue;
 
-    private Parameters() {
+    private ParamTaker() {
     }
 
     public static <T> T getNullable(Claims body,
@@ -37,7 +37,7 @@ public final class Parameters {
     public static <T> T get(Claims body,
                             String paramName,
                             Function<String, T> function) throws ServiceException {
-        T value = Parameters.getNullable(body, paramName, function);
+        T value = ParamTaker.getNullable(body, paramName, function);
         if (value == null)
             throw new ServiceException(JWT_VALUE_NOT_FOUND_MSG + paramName);
         return value;
@@ -45,11 +45,11 @@ public final class Parameters {
 
     public static long getLong(Claims body,
                                String paramName) throws ServiceException {
-        return Parameters.get(body, paramName, LONG_MAPPER);
+        return ParamTaker.get(body, paramName, LONG_MAPPER);
     }
 
     public static Role getRole(Claims body) throws ServiceException {
-        return Parameters.get(body, Parameter.ROLE, ROLE_MAPPER);
+        return ParamTaker.get(body, Parameter.ROLE, ROLE_MAPPER);
     }
 
     public static <T> T getNullable(HttpServletRequest req,
@@ -68,42 +68,42 @@ public final class Parameters {
     public static <T> T get(HttpServletRequest req,
                             String paramName,
                             Function<String, T> function) throws ServiceException {
-        T value = Parameters.getNullable(req, paramName, function);
+        T value = ParamTaker.getNullable(req, paramName, function);
         if (value == null)
             throw new ServiceException(REQ_INVALID_PARAMETER_MSG + paramName);
         return value;
     }
 
     public static Integer getNullableInt(HttpServletRequest req, String paramName) throws ServiceException {
-        return Parameters.getNullable(req, paramName, INT_MAPPER);
+        return ParamTaker.getNullable(req, paramName, INT_MAPPER);
     }
 
     public static int getInt(HttpServletRequest req, String paramName) throws ServiceException {
-        return Parameters.get(req, paramName, INT_MAPPER);
+        return ParamTaker.get(req, paramName, INT_MAPPER);
     }
 
     public static Long getNullableLong(HttpServletRequest req, String paramName) throws ServiceException {
-        return Parameters.getNullable(req, paramName, LONG_MAPPER);
+        return ParamTaker.getNullable(req, paramName, LONG_MAPPER);
     }
 
     public static long getLong(HttpServletRequest req, String paramName) throws ServiceException {
-        return Parameters.get(req, paramName, LONG_MAPPER);
+        return ParamTaker.get(req, paramName, LONG_MAPPER);
     }
 
     public static Boolean getNullableBoolean(HttpServletRequest req, String paramName) throws ServiceException {
-        return Parameters.getNullable(req, paramName, BOOLEAN_MAPPER);
+        return ParamTaker.getNullable(req, paramName, BOOLEAN_MAPPER);
     }
 
     public static boolean getBoolean(HttpServletRequest req, String paramName) throws ServiceException {
-        return Parameters.get(req, paramName, BOOLEAN_MAPPER);
+        return ParamTaker.get(req, paramName, BOOLEAN_MAPPER);
     }
 
     public static Role getRole(HttpServletRequest req) throws ServiceException {
-        return Parameters.get(req, Parameter.ROLE, ROLE_MAPPER);
+        return ParamTaker.get(req, Parameter.ROLE, ROLE_MAPPER);
     }
 
-    public static int getIntOrZero(HttpServletRequest req, String paramName) throws ServiceException {
-        Integer nullableInt = Parameters.getNullableInt(req, paramName);
-        return nullableInt == null ? 0 : nullableInt;
+    public static int getPage(HttpServletRequest req, String paramName) throws ServiceException {
+        Integer nullableInt = ParamTaker.getNullableInt(req, paramName);
+        return nullableInt == null ? 1 : nullableInt;
     }
 }

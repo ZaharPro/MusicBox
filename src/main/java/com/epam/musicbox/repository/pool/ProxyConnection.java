@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class ProxyConnection implements Connection {
+
     private final ConnectionPool connectionPool;
     private final Connection core;
 

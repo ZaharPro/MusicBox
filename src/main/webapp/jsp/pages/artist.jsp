@@ -15,59 +15,66 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div>
-    <img src="/img/artist${artist.getAvatar()}" alt="Artist picture"/>
-    <p>${artist.getName()}</p>
-    <c:choose>
-        <c:when test="${like == false}">
-            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-like-artist">
-                <input type="hidden" name="artistid" value="${artist.getId()}"/>
-                <input type="hidden" name="trackpage" value="${trackpage}"/>
-                <input type="hidden" name="albumpage" value="${albumpage}"/>
-                <input type="submit" value="Like">
-            </form>
-        </c:when>
-        <c:otherwise>
-            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-cancel-like-artist">
-                <input type="hidden" name="artistid" value="${artist.getId()}"/>
-                <input type="hidden" name="trackpage" value="${trackpage}"/>
-                <input type="hidden" name="albumpage" value="${albumpage}"/>
-                <input type="submit" value="Cancel like">
-            </form>
-        </c:otherwise>
-    </c:choose>
-    <ct:access role="admin">
-        <form method="post" action="${pageContext.request.contextPath}/controller?command=edit-artist-page">
-            <input type="hidden" name="artistid" value="${artist.getId()}"/>
-            <input type="submit" value="Edit">
-        </form>
-    </ct:access>
 
-    <c:if test="${not empty tracks}">
-        <ul>
-            <c:forEach items="${tracks}" var="track">
-                <li>
-                    <form method="post" action="${pageContext.request.contextPath}/controller?command=track-get-by-id">
-                        <input type="hidden" name="trackid" value="${track.getId()}"/>
-                        <input type="submit" value="${track.getName()}">
+<div class="container d-flex justify-content-center mt-3">
+    <div class="card col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-dark">
+        <img class="card-img-top" src="/img/artist/${artist.getAvatar()}" alt="Artist avatar">
+        <div class="card-body">
+            <h5 class="card-title">${artist.getName()}</h5>
+            <c:choose>
+                <c:when test="${like == false}">
+                    <form method="post" action="${pageContext.request.contextPath}/controller?command=user-like-artist">
+                        <input type="hidden" name="albumid" value="${artist.getId()}"/>
+                        <input type="hidden" name="trackpage" value="${trackpage}"/>
+                        <input type="hidden" name="albumpage" value="${albumpage}"/>
+                        <button type="submit" class="btn btn-sm w-100">
+                            <fmt:message key="artist.like"/>
+                        </button>
                     </form>
-                </li>
-            </c:forEach>
-        </ul>
-    </c:if>
-    <c:if test="${not empty albums}">
-        <ul>
-            <c:forEach items="${albums}" var="album">
-                <li>
-                    <form method="post" action="${pageContext.request.contextPath}/controller?command=album-get-by-id">
-                        <input type="hidden" name="albumid" value="${album.getId()}"/>
-                        <input type="submit" value="${album.getName()}">
+                </c:when>
+                <c:otherwise>
+                    <form method="post"
+                          action="${pageContext.request.contextPath}/controller?command=user-cancel-like-artist">
+                        <input type="hidden" name="albumid" value="${artist.getId()}"/>
+                        <input type="hidden" name="trackpage" value="${trackpage}"/>
+                        <input type="hidden" name="albumpage" value="${albumpage}"/>
+                        <button type="submit" class="btn btn-sm w-100">
+                            <fmt:message key="artist.cancel.like"/>
+                        </button>
                     </form>
-                    <img src="/img/album${album.getPicture()}" alt="Album picture"/>
-                </li>
-            </c:forEach>
-        </ul>
-    </c:if>
+                </c:otherwise>
+            </c:choose>
+            <ct:access role="admin">
+                <a class="btn btn-sm w-100 mt-1"
+                   href="${pageContext.request.contextPath}/controller?command=edit-artist-page&artistid=${artist.getId()}">
+                    <fmt:message key="artist.edit"/>
+                </a>
+            </ct:access>
+        </div>
+        <c:if test="${not empty tracks}">
+            <div class="list-group list-group-flush bg-light">
+                <c:forEach items="${tracks}" var="track">
+                    <a class="list-group-item list-group-item-action"
+                       href="${pageContext.request.contextPath}/controller?command=track-get-by-id&trackid=${track.getId()}">
+                            ${track.getName()}
+                    </a>
+                </c:forEach>
+            </div>
+        </c:if>
+        <c:if test="${not empty albums}">
+            <div class="list-group list-group-flush bg-light">
+                <c:forEach items="${albums}" var="album">
+                    <a class="list-group-item list-group-item-action d-flex justify-content-sm-between"
+                       href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
+                            ${album.getName()}
+
+                        <img class="rounded mx-auto d-block" src="/img/album/${album.getPicture()}"
+                             alt="Album picture">
+                    </a>
+                </c:forEach>
+            </div>
+        </c:if>
+    </div>
 </div>
 </body>
 </html>

@@ -5,25 +5,22 @@ import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.impl.UserRepositoryImpl;
 import com.epam.musicbox.service.UserService;
-import com.epam.musicbox.util.validator.Validator;
-import com.epam.musicbox.util.validator.impl.ValidatorImpl;
+import com.epam.musicbox.util.ServiceUtils;
+import com.epam.musicbox.validator.Validator;
+import com.epam.musicbox.validator.impl.ValidatorImpl;
 
 import java.util.List;
 import java.util.Optional;
 
-public class UserServiceImpl extends AbstractEntityService<User, Long> implements UserService {
-    public static final UserServiceImpl instance = new UserServiceImpl();
+public class UserServiceImpl implements UserService {
+
+    private static final UserServiceImpl instance = new UserServiceImpl();
 
     private final Validator validator = ValidatorImpl.getInstance();
 
     private final UserRepositoryImpl userRepository = UserRepositoryImpl.getInstance();
 
     private UserServiceImpl() {
-        this(DEFAULT_PAGE_SIZE);
-    }
-
-    private UserServiceImpl(int pageSize) {
-        super(pageSize);
     }
 
     public static UserServiceImpl getInstance() {
@@ -31,18 +28,31 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     }
 
     @Override
-    public List<User> findPage(int page) throws ServiceException {
+    public long count() throws ServiceException {
         try {
-            return userRepository.findAll(getOffset(page),
-                    getPageSize());
+            return userRepository.count();
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public Optional<User> findById(long id) {
-        return userRepository.findById(id);
+    public List<User> findPage(int page, int pageSize) throws ServiceException {
+        try {
+            return userRepository.findAll(ServiceUtils.getOffset(page, pageSize),
+                    pageSize);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Optional<User> findById(long id) throws ServiceException {
+        try {
+            return userRepository.findById(id);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -64,71 +74,88 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     }
 
     @Override
-    public Optional<User> findByLogin(String login) {
+    public Optional<User> findByLogin(String login) throws ServiceException {
         if (!validator.isValidLogin(login)) {
             return Optional.empty();
         }
-        return userRepository.findByLogin(login);
+        try {
+            return userRepository.findByLogin(login);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByEmail(String email) throws ServiceException {
         if (!validator.isValidEmail(email)) {
             return Optional.empty();
         }
-        return userRepository.findByEmail(email);
+        try {
+            return userRepository.findByEmail(email);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<User> findByRole(int roleId, int page) throws ServiceException {
+    public long countByRole(int roleId) throws ServiceException {
+        try {
+            return userRepository.countByRole(roleId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<User> findByRole(int roleId, int page, int pageSize) throws ServiceException {
         try {
             return userRepository.findByRole(roleId,
-                    getOffset(page),
-                    getPageSize());
+                    ServiceUtils.getOffset(page, pageSize),
+                    pageSize);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Playlist> getPlaylists(long userId, int page) throws ServiceException {
+    public List<Playlist> getPlaylists(long userId, int page, int pageSize) throws ServiceException {
         try {
             return userRepository.getPlaylists(userId,
-                    getOffset(page),
-                    getPageSize());
+                    ServiceUtils.getOffset(page, pageSize),
+                    pageSize);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Artist> getLikedArtists(long userId, int page) throws ServiceException {
+    public List<Artist> getLikedArtists(long userId, int page, int pageSize) throws ServiceException {
         try {
             return userRepository.getLikedArtists(userId,
-                    getOffset(page),
-                    getPageSize());
+                    ServiceUtils.getOffset(page, pageSize),
+                    pageSize);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Album> getLikedAlbums(long userId, int page) throws ServiceException {
+    public List<Album> getLikedAlbums(long userId, int page, int pageSize) throws ServiceException {
         try {
             return userRepository.getLikedAlbums(userId,
-                    getOffset(page),
-                    getPageSize());
+                    ServiceUtils.getOffset(page, pageSize),
+                    pageSize);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Track> getLikedTracks(long userId, int page) throws ServiceException {
+    public List<Track> getLikedTracks(long userId, int page, int pageSize) throws ServiceException {
         try {
             return userRepository.getLikedTracks(userId,
-                    getOffset(page),
-                    getPageSize());
+                    ServiceUtils.getOffset(page, pageSize),
+                    pageSize);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -144,8 +171,21 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     }
 
     @Override
-    public Optional<Role> getRole(long userId) {
-        return userRepository.getRole(userId);
+    public Optional<Role> getRole(long userId) throws ServiceException {
+        try {
+            return userRepository.getRole(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public long countPlaylists(long userId) throws ServiceException {
+        try {
+            return userRepository.countPlaylists(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -170,6 +210,15 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     public void removePlayList(long userId, long playlistId) throws ServiceException {
         try {
             userRepository.removePlayList(userId, playlistId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public long countLikedArtists(long userId) throws ServiceException {
+        try {
+            return userRepository.countLikedArtists(userId);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -203,6 +252,15 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     }
 
     @Override
+    public long countLikedAlbums(long userId) throws ServiceException {
+        try {
+            return userRepository.countLikedAlbums(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public void likeAlbum(long userId, long albumId) throws ServiceException {
         try {
             userRepository.likeAlbum(userId, albumId);
@@ -224,6 +282,15 @@ public class UserServiceImpl extends AbstractEntityService<User, Long> implement
     public void cancelLikeAlbum(long userId, long albumId) throws ServiceException {
         try {
             userRepository.cancelLikeAlbum(userId, albumId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public long countLikedTracks(long userId) throws ServiceException {
+        try {
+            return userRepository.countLikedTracks(userId);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

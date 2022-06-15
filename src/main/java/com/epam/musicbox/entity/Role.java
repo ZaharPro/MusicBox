@@ -1,6 +1,7 @@
 package com.epam.musicbox.entity;
 
-public enum Role implements Entity<Integer> {
+public enum Role implements Entity {
+
     GUEST("guest", -1),
     USER("user", 1),
     ADMIN("admin", 2);

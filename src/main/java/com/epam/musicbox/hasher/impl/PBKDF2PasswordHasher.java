@@ -1,6 +1,6 @@
-package com.epam.musicbox.util.hasher.impl;
+package com.epam.musicbox.hasher.impl;
 
-import com.epam.musicbox.util.hasher.PasswordHasher;
+import com.epam.musicbox.hasher.PasswordHasher;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -12,15 +12,25 @@ import java.util.Arrays;
 import java.util.Base64;
 
 public class PBKDF2PasswordHasher implements PasswordHasher {
-    private static final String ALGORITHM = "PBKDF2WithHmacSHA512";
+
+    private static final PBKDF2PasswordHasher instance = new PBKDF2PasswordHasher();
+
     private static final int ITERATIONS = 65536;
     private static final int KEY_LENGTH = 128;
     private static final int SALT_LENGTH = KEY_LENGTH / 8;
+    private static final String ALGORITHM = "PBKDF2WithHmacSHA512";
+    private static final SecretKeyFactory factory;
     private static final SecureRandom random = new SecureRandom();
-    
-    private static final PBKDF2PasswordHasher instance = new PBKDF2PasswordHasher();
 
     private PBKDF2PasswordHasher() {
+    }
+
+    static {
+        try {
+            factory = SecretKeyFactory.getInstance(ALGORITHM);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static PBKDF2PasswordHasher getInstance() {
@@ -48,13 +58,10 @@ public class PBKDF2PasswordHasher implements PasswordHasher {
 
     private static byte[] pbkdf2(char[] password, byte[] salt) {
         try {
-            SecretKeyFactory f = SecretKeyFactory.getInstance(ALGORITHM);
             KeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
-            return f.generateSecret(spec).getEncoded();
-        } catch (NoSuchAlgorithmException ex) {
-            throw new IllegalStateException("Missing algorithm: " + ALGORITHM, ex);
-        } catch (InvalidKeySpecException ex) {
-            throw new IllegalStateException("Invalid SecretKeyFactory", ex);
+            return factory.generateSecret(spec).getEncoded();
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 

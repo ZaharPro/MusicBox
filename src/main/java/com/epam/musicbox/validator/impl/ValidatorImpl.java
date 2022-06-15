@@ -1,10 +1,11 @@
-package com.epam.musicbox.util.validator.impl;
+package com.epam.musicbox.validator.impl;
 
-import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.validator.Validator;
 
 import java.util.regex.Pattern;
 
 public class ValidatorImpl implements Validator {
+
     private static final String LOGIN_REGEX = "^([\\w\\s:.'-]{1,30})$";
     private static final String PASSWORD_REGEX = "[A-Za-z\\d@$!%*#?&]{8,32}";
     private static final String EMAIL_REGEX =

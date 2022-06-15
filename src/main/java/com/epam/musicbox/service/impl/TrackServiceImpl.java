@@ -6,27 +6,23 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
 import com.epam.musicbox.service.TrackService;
-import com.epam.musicbox.util.validator.Validator;
-import com.epam.musicbox.util.validator.impl.ValidatorImpl;
+import com.epam.musicbox.util.ServiceUtils;
+import com.epam.musicbox.validator.Validator;
+import com.epam.musicbox.validator.impl.ValidatorImpl;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class TrackServiceImpl extends AbstractEntityService<Track, Long> implements TrackService {
+public class TrackServiceImpl implements TrackService {
 
-    public static final TrackServiceImpl instance = new TrackServiceImpl();
+    private static final TrackServiceImpl instance = new TrackServiceImpl();
 
     private final Validator validator = ValidatorImpl.getInstance();
 
     private final TrackRepository trackRepository = TrackRepositoryImpl.getInstance();
 
     private TrackServiceImpl() {
-        this(DEFAULT_PAGE_SIZE);
-    }
-
-    private TrackServiceImpl(int pageSize) {
-        super(pageSize);
     }
 
     public static TrackServiceImpl getInstance() {
@@ -34,17 +30,30 @@ public class TrackServiceImpl extends AbstractEntityService<Track, Long> impleme
     }
 
     @Override
-    public List<Track> findPage(int page) throws ServiceException {
+    public long count() throws ServiceException {
         try {
-            return trackRepository.findAll(getOffset(page), getPageSize());
+            return trackRepository.count();
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public Optional<Track> findById(long id) {
-        return trackRepository.findById(id);
+    public List<Track> findPage(int page, int pageSize) throws ServiceException {
+        try {
+            return trackRepository.findAll(ServiceUtils.getOffset(page, pageSize), pageSize);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Optional<Track> findById(long id) throws ServiceException {
+        try {
+            return trackRepository.findById(id);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -66,14 +75,23 @@ public class TrackServiceImpl extends AbstractEntityService<Track, Long> impleme
     }
 
     @Override
-    public List<Track> findByName(String name, int page) throws ServiceException {
+    public long countByName(String name) throws ServiceException {
+        try {
+            return trackRepository.countByName(ServiceUtils.buildRegex(name));
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Track> findByName(String name, int page, int pageSize) throws ServiceException {
         if (!validator.isValidName(name)) {
             return Collections.emptyList();
         }
         try {
-            return trackRepository.findByName(buildRegex(name),
-                    getOffset(page),
-                    getPageSize());
+            return trackRepository.findByName(ServiceUtils.buildRegex(name),
+                    ServiceUtils.getOffset(page, pageSize),
+                    pageSize);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

@@ -1,56 +1,54 @@
 package com.epam.musicbox.controller.command.impl.user;
 
-import com.epam.musicbox.service.impl.*;
-import com.epam.musicbox.util.constant.PagePath;
-import com.epam.musicbox.util.constant.Parameter;
+import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
-import com.epam.musicbox.entity.Artist;
+import com.epam.musicbox.controller.command.CommandType;
+import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.*;
-import com.epam.musicbox.util.Parameters;
-import com.epam.musicbox.util.Commands;
+import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.service.impl.AuthServiceImpl;
+import com.epam.musicbox.service.impl.UserServiceImpl;
+import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.Optional;
-
 public class UserLikeArtistCommand implements Command {
+
+    private static final String REDIRECT_URL_FORMAT =
+            String.format("controller?command=%s&%s=%%s&%s=%%s&%s=%%s&%s=%%s&%s=%%s",
+                    CommandType.ARTIST_GET_BY_ID.getName(),
+                    Parameter.ARTIST_ID,
+                    Parameter.TRACK_PAGE,
+                    Parameter.TRACK_PAGE_SIZE,
+                    Parameter.ALBUM_PAGE,
+                    Parameter.ALBUM_PAGE_SIZE);
 
     private final UserService userService = UserServiceImpl.getInstance();
 
-    private final TrackService trackService = TrackServiceImpl.getInstance();
-
-    private final AlbumService albumService = AlbumServiceImpl.getInstance();
-
-    private final ArtistService artistService = ArtistServiceImpl.getInstance();
-
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        long artistId = Parameters.getLong(req, Parameter.ARTIST_ID);
-        Optional<Artist> optionalArtist = artistService.findById(artistId);
-        if (optionalArtist.isPresent()) {
-            Artist artist = optionalArtist.get();
-            req.setAttribute(Parameter.ARTIST, artist);
+    public CommandResult execute(HttpServletRequest req) throws CommandException {
+        Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
+        Claims body = jws.getBody();
+        long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+        long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
 
-            Jws<Claims> jws = AuthServiceImpl.getInstance().getJws(req);
-            Claims body = jws.getBody();
-            long userId = Parameters.getLong(body, Parameter.USER_ID);
+        userService.likeArtist(userId, artistId);
 
-            userService.likeArtist(userId, artistId);
-            req.setAttribute(Parameter.LIKE, true);
+        int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE);
+        int trackPageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
 
-            Commands.handlePage(req, trackService, Parameter.TRACK_PAGE, Parameter.TRACK_LIST);
-            Commands.handlePage(req, albumService, Parameter.ALBUM_PAGE, Parameter.ALBUM_LIST);
-        } else {
-            req.setAttribute(Parameter.ARTIST, null);
-            req.setAttribute(Parameter.LIKE, null);
+        int albumPage = ParamTaker.getPage(req, Parameter.ALBUM_PAGE);
+        int albumPageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
 
-            Commands.savePageIndex(req, Parameter.TRACK_PAGE);
-            Commands.savePageIndex(req, Parameter.ALBUM_PAGE);
-        }
-        return CommandResult.forward(PagePath.ARTIST);
+        String url = String.format(REDIRECT_URL_FORMAT,
+                artistId,
+                trackPage,
+                trackPageSize,
+                albumPage,
+                albumPageSize);
+        return CommandResult.redirect(url);
     }
 }

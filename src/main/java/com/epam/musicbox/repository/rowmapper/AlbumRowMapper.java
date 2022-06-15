@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class AlbumRowMapper implements RowMapper<Album> {
 
-    public static final String ROW_ALBUM_ID = "album_id";
-    public static final String ROW_NAME = "name";
-    public static final String ROW_PICTURE = "picture";
+    private static final String ROW_ALBUM_ID = "album_id";
+    private static final String ROW_NAME = "name";
+    private static final String ROW_PICTURE = "picture";
 
     private static final AlbumRowMapper instance = new AlbumRowMapper();
 

@@ -9,7 +9,7 @@
 
     <tag>
         <name>access</name>
-        <tag-class>com.epam.musicbox.util.tag.AccessTag</tag-class>
+        <tag-class>com.epam.musicbox.controller.tag.AccessTag</tag-class>
         <body-content>scriptless</body-content>
         <attribute>
             <name>role</name>
@@ -19,7 +19,7 @@
 
     <tag>
         <name>locale-label</name>
-        <tag-class>com.epam.musicbox.util.tag.LocaleTag</tag-class>
+        <tag-class>com.epam.musicbox.controller.tag.LocaleTag</tag-class>
         <body-content>empty</body-content>
     </tag>
 

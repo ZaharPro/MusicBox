@@ -14,24 +14,31 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${command == null}">
-    <c:set var="command" value="artist-get-by-id" scope="request"/>
-</c:if>
+<div class="container d-flex justify-content-center mt-3">
+    <div class="card bg-dark col pt-3 pb-3">
+        <c:choose>
+            <c:when test="${not empty artists}">
+                <div class="list-group list-group-flush bg-light">
+                    <c:forEach items="${artists}" var="artist">
+                        <a class="list-group-item list-group-item-action d-flex justify-content-sm-between"
+                           href="${pageContext.request.contextPath}/controller?command=artist-get-by-id&artistid=${artist.getId()}&artistpage=${artistpage}">
+                                ${artist.getName()}
 
-<c:if test="${not empty artists}">
-    <ul>
-        <c:forEach items="${artists}" var="artist">
-            <li>
-                <img src="/img/artist${artist.getAvatar()}" alt="Artist picture"/>
-                <form method="post" action="${pageContext.request.contextPath}/controller?command=${command}">
-                    <input type="hidden" name="artistid" value="${artist.getId()}"/>
-                    <input type="hidden" name="artistpage" value="${artistpage}"/>
-                    <input type="submit" value="${artist.getName()}">
-                </form>
-            </li>
-        </c:forEach>
-    </ul>
-</c:if>
+                            <img class="img-fluid d-block" style="max-width: 2.5rem"
+                                 src="/img/artist/${artist.getAvatar()}"
+                                 alt="Artist avatar">
+                        </a>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <h2 class="lead font-weight-normal mt-4 mb-4 me-3">
+                    <fmt:message key="artists.not.found"/>
+                </h2>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
 
 </body>
 </html>

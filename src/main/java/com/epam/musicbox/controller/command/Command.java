@@ -1,9 +1,9 @@
 package com.epam.musicbox.controller.command;
 
-import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.exception.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public interface Command {
-    CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException;
+
+    CommandResult execute(HttpServletRequest req) throws CommandException;
 }

@@ -6,12 +6,17 @@ import com.epam.musicbox.exception.RepositoryException;
 
 import java.util.List;
 
-public interface PlaylistRepository extends Repository<Playlist, Long> {
+public interface PlaylistRepository extends Repository<Playlist> {
+
+    long countByName(String regex) throws RepositoryException;
+
     List<Playlist> findByName(String regex, int offset, int limit) throws RepositoryException;
 
-    List<Track> getTracks(long playListId, int offset, int limit) throws RepositoryException;
+    long countTracks(long artistId) throws RepositoryException;
 
-    void addTrack(long playlistId, long trackId) throws RepositoryException;
+    List<Track> getTracks(long artistId, int offset, int limit) throws RepositoryException;
 
-    void removeTrack(long playlistId, long trackId) throws RepositoryException;
+    void addTrack(long artistId, long trackId) throws RepositoryException;
+
+    void removeTrack(long artistId, long trackId) throws RepositoryException;
 }

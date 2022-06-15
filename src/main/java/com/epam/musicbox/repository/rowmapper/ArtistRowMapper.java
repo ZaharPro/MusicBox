@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class ArtistRowMapper implements RowMapper<Artist> {
 
-    public static final String ROW_ARTIST_ID = "artist_id";
-    public static final String ROW_NAME = "name";
-    public static final String ROW_AVATAR = "avatar";
+    private static final String ROW_ARTIST_ID = "artist_id";
+    private static final String ROW_NAME = "name";
+    private static final String ROW_AVATAR = "avatar";
 
     private static final ArtistRowMapper instance = new ArtistRowMapper();
 

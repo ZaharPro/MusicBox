@@ -1,8 +1,7 @@
 package com.epam.musicbox.entity;
 
-import com.epam.musicbox.util.ObjectUtils;
+public class Playlist implements Entity {
 
-public class Playlist implements Entity<Long> {
     private Long id;
     private String name;
     private String picture;
@@ -45,14 +44,22 @@ public class Playlist implements Entity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Playlist playlist = (Playlist) o;
-        return ObjectUtils.equals(id, playlist.id) &&
-               ObjectUtils.equals(name, playlist.name) &&
-               ObjectUtils.equals(picture, playlist.picture);
+        if (!(id == null ? playlist.id == null : id.equals(playlist.id)))
+            return false;
+        if (!(name == null ? playlist.name == null : name.equals(playlist.name)))
+            return false;
+        if (!(picture == null ? playlist.picture == null : picture.equals(playlist.picture)))
+            return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return ObjectUtils.hash(id, name, picture);
+        int hash = 17;
+        hash = hash * 31 + (id == null ? 0 : id.hashCode());
+        hash = hash * 31 + (name == null ? 0 : name.hashCode());
+        hash = hash * 31 + (picture == null ? 0 : picture.hashCode());
+        return hash;
     }
 
     @Override

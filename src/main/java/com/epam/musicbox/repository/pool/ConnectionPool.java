@@ -22,7 +22,7 @@ public class ConnectionPool {
     private static final String DB_POOL_SIZE = "POOL_SIZE";
 
     private static final String PROPERTY_NOT_FOUND_FORMAT = "Property %s is not found";
-    private static final String DRIVER_NOT_FOUND_FORMAT = "Driver is not found %s %s";
+    private static final String DRIVER_NOT_FOUND_MSG = "Driver is not found %s";
     private static final String POOL_CREATED_MSG = "Pool created";
     private static final String POOL_DESTROYED_MSG = "Pool destroyed";
 
@@ -78,9 +78,9 @@ public class ConnectionPool {
             }
             return new ConnectionPool(connections);
         } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(String.format(DRIVER_NOT_FOUND_FORMAT, e.getMessage(), e));
+            throw new RuntimeException(DRIVER_NOT_FOUND_MSG + e.getMessage(), e);
         }
     }
 

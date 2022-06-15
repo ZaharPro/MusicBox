@@ -1,6 +1,7 @@
-package com.epam.musicbox.util.validator;
+package com.epam.musicbox.validator;
 
 public interface Validator {
+
     boolean isValidLogin(String login);
 
     boolean isValidPassword(String password);

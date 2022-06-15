@@ -1,7 +1,7 @@
 package com.epam.musicbox.controller.filter;
 
 
-import com.epam.musicbox.util.constant.Parameter;
+import com.epam.musicbox.controller.Parameter;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;

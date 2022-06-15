@@ -8,12 +8,12 @@ import java.sql.SQLException;
 
 public class UserRowMapper implements RowMapper<User> {
 
-    public static final String ROW_USER_ID = "user_id";
-    public static final String ROW_LOGIN = "login";
-    public static final String ROW_EMAIL = "email";
-    public static final String ROW_PASSWORD = "password";
-    public static final String ROW_BANNED = "banned";
-    public static final String ROW_REGISTRATION = "registration";
+    private static final String ROW_USER_ID = "user_id";
+    private static final String ROW_LOGIN = "login";
+    private static final String ROW_EMAIL = "email";
+    private static final String ROW_PASSWORD = "password";
+    private static final String ROW_BANNED = "banned";
+    private static final String ROW_REGISTRATION = "registration";
 
     private static final UserRowMapper instance = new UserRowMapper();
 

@@ -1,14 +1,15 @@
 package com.epam.musicbox.controller.command.impl.artist;
 
-import com.epam.musicbox.util.constant.PagePath;
-import com.epam.musicbox.util.constant.Parameter;
+import com.epam.musicbox.controller.PagePath;
+import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Artist;
+import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.ArtistService;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
-import com.epam.musicbox.util.Parameters;
+import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -17,8 +18,8 @@ public class ArtistSaveCommand implements Command {
     private final ArtistService service = ArtistServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException {
-        Long artistId = Parameters.getNullableLong(req, Parameter.ARTIST_ID);
+    public CommandResult execute(HttpServletRequest req) throws CommandException {
+        Long artistId = ParamTaker.getNullableLong(req, Parameter.ARTIST_ID);
         String name = req.getParameter(Parameter.NAME);
         String avatar = req.getParameter(Parameter.AVATAR);
         Artist artist = new Artist(artistId, name, avatar);

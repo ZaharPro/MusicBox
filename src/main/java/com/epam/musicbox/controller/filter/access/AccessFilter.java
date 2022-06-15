@@ -1,8 +1,7 @@
 package com.epam.musicbox.controller.filter.access;
 
 import com.epam.musicbox.service.AuthService;
-import com.epam.musicbox.util.constant.PagePath;
-import com.epam.musicbox.util.constant.Parameter;
+import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
@@ -10,7 +9,7 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
-import com.epam.musicbox.util.Parameters;
+import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.*;
@@ -89,8 +88,8 @@ public class AccessFilter implements Filter {
             Jws<Claims> claims = authService.getJws(token);
             Claims body = claims.getBody();
 
-            long userId = Parameters.getLong(body, Parameter.USER_ID);
-            Role role = Parameters.getRole(body);
+            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+            Role role = ParamTaker.getRole(body);
 
             UserService userService = UserServiceImpl.getInstance();
             Optional<User> optionalUser = userService.findById(userId);
@@ -111,7 +110,7 @@ public class AccessFilter implements Filter {
         String commandName = req.getParameter(Parameter.COMMAND);
         if (commandName == null)
             return AccessCode.OK;
-        CommandType commandType = CommandType.of(commandName);
+        CommandType commandType = CommandType.findByName(commandName);
         if (commandType == null) {
             return AccessCode.NOT_FOUND;
         }

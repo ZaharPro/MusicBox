@@ -6,6 +6,9 @@ import com.epam.musicbox.exception.ServiceException;
 
 import java.util.List;
 
-public interface AlbumRepository extends Repository<Album, Long> {
+public interface AlbumRepository extends Repository<Album> {
+
+    long countByName(String regex) throws RepositoryException;
+
     List<Album> findByName(String regex, int offset, int limit) throws RepositoryException;
 }

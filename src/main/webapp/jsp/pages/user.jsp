@@ -27,9 +27,16 @@
         <c:if test="${admin != user.getId()}">
             <form method="post" action="${pageContext.request.contextPath}/controller?command=user-set-ban">
                 <input type="hidden" name="userid" value="${user.getId()}"/>
-                <input type="submit" value="Ban user">
-                <label for="banCheckbox"></label>
-                <input type="checkbox" value="false" id="banCheckbox"/>
+                <c:choose>
+                    <c:when test="${user.getBanned() == true}">
+                        <input type="hidden" value="false"/>
+                        <button type="submit">UNBAN</button>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="hidden" value="true"/>
+                        <button type="submit">BAN</button>
+                    </c:otherwise>
+                </c:choose>
             </form>
         </c:if>
         <a href="${pageContext.request.contextPath}/controller?command=edit-artist-page">

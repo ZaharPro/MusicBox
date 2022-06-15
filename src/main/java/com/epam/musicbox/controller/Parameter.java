@@ -1,6 +1,7 @@
-package com.epam.musicbox.util.constant;
+package com.epam.musicbox.controller;
 
 public final class Parameter {
+
     public static final String LOGIN = "login";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
@@ -44,6 +45,14 @@ public final class Parameter {
     public static final String INVALIDATE = "invalidate";
     public static final String LIKE = "like";
     public static final String LOCALE = "locale";
+
+    public static final String USER_PAGE_SIZE = "userpagesize";
+    public static final String TRACK_PAGE_SIZE = "trackpagesize";
+    public static final String ALBUM_PAGE_SIZE = "albumpagesize";
+    public static final String ARTIST_PAGE_SIZE = "artistpagesize";
+    public static final String PLAYLIST_PAGE_SIZE = "playlistpagesize";
+    public static final String ALBUM_TRACK_PAGE = "albumtrackpage";
+    public static final String ALBUM_TRACK_PAGE_SIZE = "albumtrackpagesize";
 
     private Parameter() {
     }

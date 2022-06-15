@@ -6,10 +6,13 @@ import com.epam.musicbox.exception.RepositoryException;
 import java.util.List;
 import java.util.Optional;
 
-public interface Repository<T extends Entity<K>, K> {
+public interface Repository<T extends Entity> {
+
+    long count() throws RepositoryException;
+
     List<T> findAll(int offset, int limit) throws RepositoryException;
 
-    Optional<T> findById(long id);
+    Optional<T> findById(long id) throws RepositoryException;
 
     long save(T t) throws RepositoryException;
 

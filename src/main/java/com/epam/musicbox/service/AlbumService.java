@@ -5,6 +5,9 @@ import com.epam.musicbox.exception.ServiceException;
 
 import java.util.List;
 
-public interface AlbumService extends EntityService<Album, Long> {
-    List<Album> findByName(String name, int page) throws ServiceException;
+public interface AlbumService extends EntityService<Album> {
+
+    long countByName(String regex) throws ServiceException;
+
+    List<Album> findByName(String name, int page, int pageSize) throws ServiceException;
 }

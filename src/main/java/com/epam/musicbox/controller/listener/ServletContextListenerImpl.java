@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebListener;
 
 @WebListener
 public class ServletContextListenerImpl implements ServletContextListener {
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ConnectionPool.getInstance();

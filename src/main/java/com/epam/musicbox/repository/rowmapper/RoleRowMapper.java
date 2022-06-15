@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class RoleRowMapper implements RowMapper<Role> {
 
-    public static final String ROW_ROLE_ID = "role_id";
+    private static final String ROW_ROLE_ID = "role_id";
 
     private static final RoleRowMapper instance = new RoleRowMapper();
 

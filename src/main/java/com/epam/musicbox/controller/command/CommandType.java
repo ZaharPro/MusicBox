@@ -94,7 +94,7 @@ public enum CommandType {
         return name;
     }
 
-    public static CommandType of(String name) {
+    public static CommandType findByName(String name) {
         if (name == null)
             return null;
         for (CommandType type : CommandType.values()) {

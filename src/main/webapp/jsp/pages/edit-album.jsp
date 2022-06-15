@@ -14,28 +14,43 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div>
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=album-save">
-        <label for="albumName"></label>
-        <input type="text" id="albumName" name="name" required
+<div class="container d-flex justify-content-center mt-3">
+    <div class="card col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-dark">
         <c:if test="${album != null}">
-               value="${album.getName()}"
-        </c:if>>
+            <img class="card-img-top" src="/img/album/${album.getPicture()}" alt="Album picture">
+        </c:if>
 
-        <label for="albumPicture"></label>
-        <input type="text" id="albumPicture" name="picture" required
-        <c:if test="${album != null}">
-               value="${album.getPicture()}"
-        </c:if>>
+        <form method="post" action="${pageContext.request.contextPath}/controller?command=album-save">
+            <div class="form-outline mb-4">
+                <label for="albumName">
+                    <fmt:message key="edit.album.label.name"/>
+                </label>
+                <input type="text" id="albumName" name="name" required class="form-control form-control-lg"
+                <c:if test="${album != null}">
+                       value="${album.getName()}"
+                </c:if>>
+            </div>
 
-        <input type="submit">
-    </form>
-    <c:if test="${album != null}">
-        <form method="post" action="${pageContext.request.contextPath}/controller?command=album-delete">
-            <input type="hidden" name="albumid" value="${album.getId()}"/>
-            <input type="submit" value="Delete">
+            <div class="file-drop-area">
+                <label for="picture">
+                    <fmt:message key="edit.album.choose.picture"/>
+                </label>
+                <input class="file-input" id="picture" type="file" name="picture">
+            </div>
+
+            <button type="submit" class="btn btn-sm w-100 mt-3">
+                <fmt:message key="edit.album.save"/>
+            </button>
         </form>
-    </c:if>
+        <c:if test="${album != null}">
+            <form method="post" action="${pageContext.request.contextPath}/controller?command=album-delete">
+                <input type="hidden" name="albumid" value="${album.getId()}"/>
+                <button type="submit" class="btn btn-sm w-100 mt-2">
+                    <fmt:message key="edit.album.delete"/>
+                </button>
+            </form>
+        </c:if>
+    </div>
 </div>
 
 </body>
