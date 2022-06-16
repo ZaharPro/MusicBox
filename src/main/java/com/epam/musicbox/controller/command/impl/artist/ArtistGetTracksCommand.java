@@ -8,7 +8,7 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.ArtistService;
-import com.epam.musicbox.service.PageSearchResult;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;

@@ -14,22 +14,63 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${not empty users}">
-    <ul>
-        <c:forEach items="${users}" var="user">
-            <li>
-                <p>${user.getLogin()}</p>
-                <p>${user.getEmail()}</p>
-                <p>${user.getBanned()}</p>
-                <p>${user.getRegistration()}</p>
-                <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-by-id">
-                    <input type="hidden" name="userid" value="${user.getId()}"/>
-                    <input type="submit" value="Show user">
-                </form>
-            </li>
-        </c:forEach>
-    </ul>
+<c:if test="${command == null}">
+    <c:set var="command" value="user-get" scope="request"/>
 </c:if>
+
+<div class="container flex-col h-100 pt-3 pb-3">
+    <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h4 class="card-title text-center">
+            <fmt:message key="users.title"/>
+        </h4>
+        <c:choose>
+            <c:when test="${userpsr.hasElements()}">
+                <div class="flex-col justify-content-between h-100">
+                    <div class="list-group list-group-flush bg-light">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="col-3">
+                                <fmt:message key="users.login"/>
+                            </span>
+                            <span class="col-3">
+                                <fmt:message key="users.email"/>
+                            </span>
+                            <span class="col-1">
+                                <fmt:message key="users.banned"/>
+                            </span>
+                            <span class="col-2">
+                                <fmt:message key="users.role"/>
+                            </span>
+                            <span class="col-3">
+                                <fmt:message key="users.registration"/>
+                            </span>
+                        </div>
+                        <c:forEach items="${userpsr.getElements()}" var="user" varStatus="i">
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                               href="${pageContext.request.contextPath}/controller?command=user-get-by-id&userid=${user.getId()}">
+                                <span class="col-3">${user.getLogin()}</span>
+                                <span class="col-3">${user.getEmail()}</span>
+                                <span class="col-1">${user.getBanned()}</span>
+                                <span class="col-2">${userpsr.getRoles().get(i)}</span>
+                                <span class="col-3">${user.getRegistration()}</span>
+                            </a>
+                        </c:forEach>
+                    </div>
+                    <c:set var="page" value="${userpsr.getPage()}" scope="request"/>
+                    <c:set var="maxpage" value="${userpsr.getMaxPage()}" scope="request"/>
+                    <c:set var="pagename" value="userpage" scope="request"/>
+                    <c:import url="/jsp/fragments/page-navigation.jsp"/>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="flex-col justify-content-center h-100">
+                    <h4 class="card-title text-center">
+                        <fmt:message key="users.not.found"/>
+                    </h4>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
 
 </body>
 </html>

@@ -6,7 +6,7 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.repository.impl.AlbumRepositoryImpl;
 import com.epam.musicbox.service.AlbumService;
-import com.epam.musicbox.service.PageSearchResult;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;
 

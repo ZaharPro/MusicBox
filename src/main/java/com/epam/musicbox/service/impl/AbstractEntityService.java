@@ -5,7 +5,7 @@ import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.Repository;
 import com.epam.musicbox.service.EntityService;
-import com.epam.musicbox.service.PageSearchResult;
+import com.epam.musicbox.service.psr.PageSearchResult;
 
 import java.util.List;
 import java.util.Optional;

@@ -3,8 +3,7 @@ package com.epam.musicbox.service;
 import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
-
-import java.util.List;
+import com.epam.musicbox.service.psr.PageSearchResult;
 
 public interface PlaylistService extends EntityService<Playlist> {
 

@@ -32,6 +32,7 @@
                                   action="${pageContext.request.contextPath}/controller?command=user-mark-liked-artist">
                                 <input type="hidden" name="artistid" value="${artist.getId()}"/>
                                 <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
+                                <input type="hidden" name="albumpage" value="${albumpsr.getPage()}"/>
                                 <button type="submit" class="btn btn-sm">
                                     <fmt:message key="artist.mark.liked"/>
                                 </button>
@@ -42,6 +43,7 @@
                                   action="${pageContext.request.contextPath}/controller?command=user-unmark-liked-artist">
                                 <input type="hidden" name="artistid" value="${artist.getId()}"/>
                                 <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
+                                <input type="hidden" name="albumpage" value="${albumpsr.getPage()}"/>
                                 <button type="submit" class="btn btn-sm">
                                     <fmt:message key="artist.unmark.liked"/>
                                 </button>

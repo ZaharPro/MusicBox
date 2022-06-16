@@ -14,62 +14,155 @@
 </head>
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
-<div>
-    <p>${user.getLogin()}</p>
-    <p>${user.getEmail()}</p>
-    <c:if test="${user.getBanned() == true}">
-        <p>User banned</p>
-    </c:if>
-    <ct:access role="admin">
-        <p>${user.getRegistration()}</p>
-        <p>${role}</p>
 
-        <c:if test="${admin != user.getId()}">
-            <form method="post" action="${pageContext.request.contextPath}/controller?command=user-set-ban">
-                <input type="hidden" name="userid" value="${user.getId()}"/>
-                <c:choose>
-                    <c:when test="${user.getBanned() == true}">
-                        <input type="hidden" value="false"/>
-                        <button type="submit">UNBAN</button>
-                    </c:when>
-                    <c:otherwise>
-                        <input type="hidden" value="true"/>
-                        <button type="submit">BAN</button>
-                    </c:otherwise>
-                </c:choose>
-            </form>
+<div class="container flex-col h-100 pt-3 pb-3">
+    <div class="col card pt-3 pb-3 m-0 flex-col h-100 bg-dark">
+        <h2 class="card-title">
+            <fmt:message key="user.title"/>
+        </h2>
+
+        <h4 class="text-primary mt-1">
+            <fmt:message key="user.login"/>
+            <span class="text-info h6">
+                ${user.getLogin()}
+            </span>
+        </h4>
+
+        <h4 class="text-primary mt-1">
+            <fmt:message key="user.email"/>
+            <span class="text-info h6">
+                <a class="page-link border-0 p-1 bg-transparent" href="${user.getEmail()}">
+                    ${user.getEmail()}
+                </a>
+            </span>
+        </h4>
+
+        <c:if test="${user.getBanned() == true}">
+            <h4 class="text-primary mt-1">
+                <fmt:message key="user.status"/>
+                <span class="text-danger h6">
+                    <fmt:message key="user.banned"/>
+                </span>
+            </h4>
         </c:if>
-        <a href="${pageContext.request.contextPath}/controller?command=edit-artist-page">
-            <fmt:message key="user.create.artist"/>
-        </a>
-        <a href="${pageContext.request.contextPath}/controller?command=edit-album-page">
-            <fmt:message key="user.create.album"/>
-        </a>
-        <a href="${pageContext.request.contextPath}/controller?command=edit-track-page">
-            <fmt:message key="user.create.track"/>
-        </a>
-    </ct:access>
 
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks">
-        <input type="hidden" name="userid" value="${user.getId()}"/>
-        <input type="submit" value="Show liked tracks">
-    </form>
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-liked-albums">
-        <input type="hidden" name="userid" value="${user.getId()}"/>
-        <input type="submit" value="Show liked albums">
-    </form>
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-liked-artists">
-        <input type="hidden" name="userid" value="${user.getId()}"/>
-        <input type="submit" value="Show liked artists">
-    </form>
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=user-get-playlists">
-        <input type="hidden" name="userid" value="${user.getId()}"/>
-        <input type="submit" value="Show playlists">
-    </form>
+        <ct:access role="admin">
+            <h4 class="text-primary mt-1">
+                <fmt:message key="user.registration"/>
+                <span class="text-info h6">
+                        ${user.getRegistration()}
+                </span>
+            </h4>
 
-    <a href="${pageContext.request.contextPath}/controller?command=change-password-page">
-        Change password
-    </a>
+            <h4 class="text-primary mt-1">
+                <fmt:message key="user.role"/>
+                <span class="text-info h6">
+                        ${role}
+                </span>
+            </h4>
+
+            <c:choose>
+                <c:when test="${admin == user.getId()}">
+                    <h4 class="text-primary mt-1">
+                        <fmt:message key="admin.tools"/>
+                    </h4>
+                    <div class="list-group list-group-flush bg-transparent">
+                        <a class="list-group-item list-group-item-action"
+                           href="${pageContext.request.contextPath}/controller?command=edit-album-page">
+                            <fmt:message key="user.create.artist"/>
+                        </a>
+                        <a class="list-group-item list-group-item-action"
+                           href="${pageContext.request.contextPath}/controller?command=edit-album-page">
+                            <fmt:message key="user.create.album"/>
+                        </a>
+                        <a class="list-group-item list-group-item-action"
+                           href="${pageContext.request.contextPath}/controller?command=edit-track-page">
+                            <fmt:message key="user.create.track"/>
+                        </a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <h4 class="text-primary mt-1">
+                        <fmt:message key="admin.ban.title"/>
+                    </h4>
+                    <form method="post" action="${pageContext.request.contextPath}/controller?command=user-set-ban">
+                        <input type="hidden" name="userid" value="${user.getId()}"/>
+                        <c:choose>
+                            <c:when test="${user.getBanned() == true}">
+                                <input type="hidden" value="false"/>
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <fmt:message key="user.unban"/>
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <input type="hidden" value="true"/>
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <fmt:message key="user.ban"/>
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
+                    </form>
+
+                    <h4 class="text-primary mt-1">
+                        <fmt:message key="user.data"/>
+                    </h4>
+                    <div class="list-group list-group-flush bg-transparent">
+                        <a class="list-group-item list-group-item-action"
+                           href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks&userid=${user.getId()}">
+                            <fmt:message key="user.show.liked.tracks"/>
+                        </a>
+                        <a class="list-group-item list-group-item-action"
+                           href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums&userid=${user.getId()}">
+                            <fmt:message key="user.show.liked.albums"/>
+                        </a>
+                        <a class="list-group-item list-group-item-action"
+                           href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists&userid=${user.getId()}">
+                            <fmt:message key="user.show.liked.artists"/>
+                        </a>
+                        <a class="list-group-item list-group-item-action"
+                           href="${pageContext.request.contextPath}/controller?command=user-get-playlists&userid=${user.getId()}">
+                            <fmt:message key="user.show.playlists"/>
+                        </a>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </ct:access>
+
+        <c:if test="${admin == null or admin == user.getId()}">
+            <h4 class="text-primary mt-1">
+                <fmt:message key="user.my.data"/>
+            </h4>
+            <div class="list-group list-group-flush bg-transparent">
+                <a class="list-group-item list-group-item-action"
+                   href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks">
+                    <fmt:message key="user.show.liked.tracks"/>
+                </a>
+                <a class="list-group-item list-group-item-action"
+                   href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums">
+                    <fmt:message key="user.show.liked.albums"/>
+                </a>
+                <a class="list-group-item list-group-item-action"
+                   href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists">
+                    <fmt:message key="user.show.liked.artists"/>
+                </a>
+                <a class="list-group-item list-group-item-action"
+                   href="${pageContext.request.contextPath}/controller?command=user-get-playlists">
+                    <fmt:message key="user.show.playlists"/>
+                </a>
+            </div>
+
+            <h4 class="text-primary mt-1">
+                <fmt:message key="user.settings"/>
+            </h4>
+            <div class="list-group list-group-flush bg-transparent">
+                <a class="list-group-item list-group-item-action bg-light border-0"
+                   href="${pageContext.request.contextPath}/controller?command=change-password-page">
+                    <fmt:message key="user.change.password"/>
+                </a>
+            </div>
+        </c:if>
+    </div>
 </div>
+
 </body>
 </html>

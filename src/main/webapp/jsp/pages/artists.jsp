@@ -14,6 +14,10 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
+<c:if test="${command == null}">
+    <c:set var="command" value="artist-get" scope="request"/>
+</c:if>
+
 <div class="container flex-col h-100 pt-3 pb-3">
     <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark">
         <h4 class="card-title text-center">
@@ -37,7 +41,6 @@
                     <c:set var="page" value="${artistpsr.getPage()}" scope="request"/>
                     <c:set var="maxpage" value="${artistpsr.getMaxPage()}" scope="request"/>
                     <c:set var="pagename" value="artistpage" scope="request"/>
-                    <c:set var="command" value="artist-get" scope="request"/>
                     <c:import url="/jsp/fragments/page-navigation.jsp"/>
                 </div>
             </c:when>

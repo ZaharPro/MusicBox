@@ -2,6 +2,7 @@ package com.epam.musicbox.service;
 
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.service.psr.PageSearchResult;
 
 import java.util.Optional;
 

@@ -4,6 +4,7 @@ import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.service.psr.PageSearchResult;
 
 public interface ArtistService extends EntityService<Artist> {
 

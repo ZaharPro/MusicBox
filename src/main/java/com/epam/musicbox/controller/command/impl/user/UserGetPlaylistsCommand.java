@@ -7,7 +7,7 @@ import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.PageSearchResult;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;

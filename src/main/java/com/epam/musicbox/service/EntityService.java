@@ -2,8 +2,8 @@ package com.epam.musicbox.service;
 
 import com.epam.musicbox.entity.Entity;
 import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.service.psr.PageSearchResult;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface EntityService<T extends Entity> {
