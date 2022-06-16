@@ -21,10 +21,10 @@ public class AlbumGetCommand implements Command {
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
             int page = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
             PageSearchResult<Album> pageSearchResult = albumService.findPage(page, pageSize);
             req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, pageSearchResult);
-            return CommandResult.forward(PagePath.ALBUMS_BY_NAME);
+            return CommandResult.forward(PagePath.ALBUMS);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

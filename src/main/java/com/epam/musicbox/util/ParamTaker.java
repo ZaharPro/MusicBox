@@ -18,6 +18,9 @@ public final class ParamTaker {
     private static final Function<String, Boolean> BOOLEAN_MAPPER = Boolean::parseBoolean;
     private static final Function<String, Role> ROLE_MAPPER = Role::findByValue;
 
+    private static final Integer FIRST_PAGE = 1;
+    private static final Integer DEFAULT_PAGE_SIZE = 20;
+
     private ParamTaker() {
     }
 
@@ -74,6 +77,14 @@ public final class ParamTaker {
         return value;
     }
 
+    public static <T> T getOrDefault(HttpServletRequest req,
+                                     String paramName,
+                                     Function<String, T> function,
+                                     T defaultValue) throws ServiceException {
+        T t = ParamTaker.getNullable(req, paramName, function);
+        return t == null ? defaultValue : t;
+    }
+
     public static Integer getNullableInt(HttpServletRequest req, String paramName) throws ServiceException {
         return ParamTaker.getNullable(req, paramName, INT_MAPPER);
     }
@@ -91,7 +102,7 @@ public final class ParamTaker {
     }
 
     public static Boolean getNullableBoolean(HttpServletRequest req, String paramName) throws ServiceException {
-        return ParamTaker.getNullable(req, paramName, BOOLEAN_MAPPER);
+        return ParamTaker.getOrDefault(req, paramName, BOOLEAN_MAPPER, false);
     }
 
     public static boolean getBoolean(HttpServletRequest req, String paramName) throws ServiceException {
@@ -103,7 +114,10 @@ public final class ParamTaker {
     }
 
     public static int getPage(HttpServletRequest req, String paramName) throws ServiceException {
-        Integer nullableInt = ParamTaker.getNullableInt(req, paramName);
-        return nullableInt == null ? 1 : nullableInt;
+        return  ParamTaker.getOrDefault(req, paramName, INT_MAPPER, FIRST_PAGE);
+    }
+
+    public static int getPageSize(HttpServletRequest req, String paramName) throws ServiceException {
+        return  ParamTaker.getOrDefault(req, paramName, INT_MAPPER, DEFAULT_PAGE_SIZE);
     }
 }

@@ -52,7 +52,7 @@ public class PlaylistGetByIdCommand implements Command {
             }
 
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
             PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
             req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
 

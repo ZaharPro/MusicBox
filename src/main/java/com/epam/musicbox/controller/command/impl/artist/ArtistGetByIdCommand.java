@@ -50,12 +50,12 @@ public class ArtistGetByIdCommand implements Command {
             }
 
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
             PageSearchResult<Track> trackPageSearchResult = artistService.getTracks(artistId, page, pageSize);
             req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
 
             page = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
-            pageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
+            pageSize = ParamTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
             PageSearchResult<Album> albumPageSearchResult = artistService.getAlbums(artistId, page, pageSize);
             req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
 

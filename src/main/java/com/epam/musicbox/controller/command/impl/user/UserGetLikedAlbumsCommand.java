@@ -27,7 +27,7 @@ public class UserGetLikedAlbumsCommand implements Command {
             Claims body = token.getBody();
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
             int page = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
             PageSearchResult<Album> pageSearchResult = service.getLikedAlbums(userId, page, pageSize);
             req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, pageSearchResult);
             return CommandResult.forward(PagePath.ALBUMS);

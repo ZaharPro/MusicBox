@@ -14,23 +14,39 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${command == null}">
-    <c:set var="command" value="track-get-by-id" scope="request"/>
-</c:if>
-
-<c:if test="${not empty tracks}">
-    <ul>
-        <c:forEach items="${tracks}" var="track">
-            <li>
-                <form method="post" action="${pageContext.request.contextPath}/controller?command=${command}">
-                    <input type="hidden" name="trackid" value="${track.getId()}"/>
-                    <input type="hidden" name="trackpage" value="${trackpage}"/>
-                    <input type="submit" value="${track.getName()}">
-                </form>
-            </li>
-        </c:forEach>
-    </ul>
-</c:if>
+<div class="container flex-col h-100 pt-3 pb-3">
+    <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h4 class="card-title text-center">
+            <fmt:message key="tracks.title"/>
+        </h4>
+        <c:choose>
+            <c:when test="${trackpsr.hasElements()}">
+                <div class="flex-col justify-content-between h-100">
+                    <div class="list-group list-group-flush bg-light">
+                        <c:forEach items="${trackpsr.getElements()}" var="track">
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                               href="${pageContext.request.contextPath}/controller?command=track-get-by-id&trackid=${track.getId()}&trackpage=${trackpsr.getPage()}">
+                                    ${track.getName()}
+                            </a>
+                        </c:forEach>
+                    </div>
+                    <c:set var="page" value="${trackpsr.getPage()}" scope="request"/>
+                    <c:set var="maxpage" value="${trackpsr.getMaxPage()}" scope="request"/>
+                    <c:set var="pagename" value="trackpage" scope="request"/>
+                    <c:set var="command" value="track-get" scope="request"/>
+                    <c:import url="/jsp/fragments/page-navigation.jsp"/>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="flex-col justify-content-center h-100">
+                    <h4 class="card-title text-center">
+                        <fmt:message key="tracks.not.found"/>
+                    </h4>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
 
 </body>
 </html>

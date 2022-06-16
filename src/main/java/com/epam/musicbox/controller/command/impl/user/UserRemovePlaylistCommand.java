@@ -36,7 +36,7 @@ public class UserRemovePlaylistCommand implements Command {
             userService.removePlaylist(userId, playlistId);
 
             int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int trackPageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
+            int trackPageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
 
             String url = String.format(REDIRECT_URL_FORMAT,
                     playlistId,

@@ -38,10 +38,10 @@ public class UserMarkLikedArtistCommand implements Command {
             userService.markLikedArtist(userId, artistId);
 
             int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int trackPageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
+            int trackPageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
 
             int albumPage = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
-            int albumPageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
+            int albumPageSize = ParamTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
 
             String url = String.format(REDIRECT_URL_FORMAT,
                     artistId,

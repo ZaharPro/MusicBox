@@ -27,7 +27,7 @@ public class UserGetLikedTracksCommand implements Command {
             Claims body = token.getBody();
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.TRACK_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
             PageSearchResult<Track> pageSearchResult = service.getLikedTracks(userId, page, pageSize);
             req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             return CommandResult.forward(PagePath.TRACKS);

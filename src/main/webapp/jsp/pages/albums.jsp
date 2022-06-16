@@ -14,66 +14,39 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container d-flex justify-content-center mt-3">
-    <div class="card bg-dark col pt-3 pb-3">
+<div class="container flex-col h-100 pt-3 pb-3">
+    <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h4 class="card-title text-center">
+            <fmt:message key="albums.title"/>
+        </h4>
         <c:choose>
-            <c:when test="${not empty albums}">
-                <div class="list-group list-group-flush bg-light">
-                    <c:forEach items="${albums}" var="album">
-                        <a class="list-group-item list-group-item-action d-flex justify-content-sm-between"
-                           href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}&albumpage=${albumpage}">
-                                ${album.getName()}
+            <c:when test="${albumpsr.hasElements()}">
+                <div class="flex-col justify-content-between h-100">
+                    <div class="list-group list-group-flush bg-light">
+                        <c:forEach items="${albumpsr.getElements()}" var="album">
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                               href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}&albumpage=${albumpsr.getPage()}">
+                                    ${album.getName()}
 
-                            <img class="img-fluid d-block" style="max-width: 2.5rem"
-                                 src="/img/album/${album.getPicture()}"
-                                 alt="Album picture">
-                        </a>
-                    </c:forEach>
-                </div>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <c:if test="${albumpage != 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous"
-                                   href="${pageContext.request.contextPath}/controller?command=album-get&albumpage=${albumpage - 1}">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                        </c:if>
-                        <c:forEach begin="1" end="${maxpage}" var="i">
-                            <c:choose>
-                                <c:when test="${albumpage eq i}">
-                                    <li class="page-item active">
-                                            ${i}
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="page-item">
-                                        <a class="page-link"
-                                           href="${pageContext.request.contextPath}/controller?command=album-get&albumpage=${i}">
-                                                ${i}
-                                        </a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
+                                <img class="img-fluid d-block" style="max-width: 2.5rem"
+                                     src="/img/album/${album.getPicture()}"
+                                     alt="Album picture">
+                            </a>
                         </c:forEach>
-                        <c:if test="${albumpage lt maxpage}">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next"
-                                   href="${pageContext.request.contextPath}/controller?command=album-get&albumpage=${albumpage + 1}">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </nav>
+                    </div>
+                    <c:set var="page" value="${albumpsr.getPage()}" scope="request"/>
+                    <c:set var="maxpage" value="${albumpsr.getMaxPage()}" scope="request"/>
+                    <c:set var="pagename" value="albumpage" scope="request"/>
+                    <c:set var="command" value="album-get" scope="request"/>
+                    <c:import url="/jsp/fragments/page-navigation.jsp"/>
+                </div>
             </c:when>
             <c:otherwise>
-                <h2 class="lead font-weight-normal mt-4 mb-4 me-3">
-                    <fmt:message key="albums.not.found"/>
-                </h2>
+                <div class="flex-col justify-content-center h-100">
+                    <h4 class="card-title text-center">
+                        <fmt:message key="albums.not.found"/>
+                    </h4>
+                </div>
             </c:otherwise>
         </c:choose>
     </div>

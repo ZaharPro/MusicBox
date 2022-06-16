@@ -14,19 +14,43 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${not empty playlists}">
-    <ul>
-        <c:forEach items="${playlists}" var="playlist">
-            <li>
-                <img src="/img/playlist${playlist.getPicture()}" alt="Playlist picture"/>
-                <form method="post" action="${pageContext.request.contextPath}/controller?command=playlist-get-by-id">
-                    <input type="hidden" name="playlistid" value="${playlist.getId()}"/>
-                    <input type="submit" value="${playlist.getName()}">
-                </form>
-            </li>
-        </c:forEach>
-    </ul>
-</c:if>
+<div class="container flex-col h-100 pt-3 pb-3">
+    <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h4 class="card-title text-center">
+            <fmt:message key="playlists.title"/>
+        </h4>
+        <c:choose>
+            <c:when test="${playlistpsr.hasElements()}">
+                <div class="flex-col justify-content-between h-100">
+                    <div class="list-group list-group-flush bg-light">
+                        <c:forEach items="${playlistpsr.getElements()}" var="playlist">
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                               href="${pageContext.request.contextPath}/controller?command=playlist-get-by-id&playlistid=${playlist.getId()}&playlistpage=${playlistpsr.getPage()}">
+                                    ${playlist.getName()}
+
+                                <img class="img-fluid d-block" style="max-width: 2.5rem"
+                                     src="/img/playlist/${playlist.getPicture()}"
+                                     alt="Playlist picture">
+                            </a>
+                        </c:forEach>
+                    </div>
+                    <c:set var="page" value="${playlistpsr.getPage()}" scope="request"/>
+                    <c:set var="maxpage" value="${playlistpsr.getMaxPage()}" scope="request"/>
+                    <c:set var="pagename" value="playlistpage" scope="request"/>
+                    <c:set var="command" value="playlist-get" scope="request"/>
+                    <c:import url="/jsp/fragments/page-navigation.jsp"/>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="flex-col justify-content-center h-100">
+                    <h4 class="card-title text-center">
+                        <fmt:message key="playlists.not.found"/>
+                    </h4>
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
 
 </body>
 </html>

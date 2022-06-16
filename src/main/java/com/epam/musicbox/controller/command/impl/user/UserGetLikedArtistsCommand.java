@@ -27,7 +27,7 @@ public class UserGetLikedArtistsCommand implements Command {
             Claims body = token.getBody();
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
             int page = ParamTaker.getPage(req, Parameter.ARTIST_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.ARTIST_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.ARTIST_PAGE_SIZE);
             PageSearchResult<Artist> pageSearchResult = service.getLikedArtists(userId, page, pageSize);
             req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
             return CommandResult.forward(PagePath.ARTISTS);

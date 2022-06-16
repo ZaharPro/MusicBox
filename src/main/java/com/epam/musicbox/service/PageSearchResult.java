@@ -42,4 +42,8 @@ public class PageSearchResult<T> {
             return 0;
         return (int) (count / pageSize) + 1;
     }
+
+    public boolean hasElements() {
+        return count != 0;
+    }
 }

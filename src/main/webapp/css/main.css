@@ -2,16 +2,26 @@
     --gradient: linear-gradient(to left top, #DD2476 10%, #FF512F 90%) !important;
 }
 
-body {
-    display: block;
-    min-width: 100vw;
-    min-height: 100vh;
-    background: linear-gradient(60grad, #7118ad, #ad5b18);
-    font-family: 'Montserrat', sans-serif;
+.flex-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-.image-parent {
-    max-width: 40px;
+.h-100 {
+    flex: 1;
+}
+
+body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(60grad, #7118ad, #ad5b18);
+    font-family: 'Montserrat', sans-serif;
 }
 
 .card {
@@ -27,7 +37,7 @@ body {
     background: var(--gradient) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
-    border-image-source:  var(--gradient) !important;
+    border-image-source: var(--gradient) !important;
     text-decoration: none;
     transition: all .4s ease;
 }

@@ -22,7 +22,7 @@ public class ArtistGetByNameCommand implements Command {
         try {
             String name = req.getParameter(Parameter.NAME);
             int page = ParamTaker.getPage(req, Parameter.ARTIST_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.ARTIST_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.ARTIST_PAGE_SIZE);
             PageSearchResult<Artist> pageSearchResult = artistService.findByName(name, page, pageSize);
             req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
             return CommandResult.forward(PagePath.ARTISTS_BY_NAME);

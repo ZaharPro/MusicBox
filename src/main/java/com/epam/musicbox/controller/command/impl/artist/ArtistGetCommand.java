@@ -21,7 +21,7 @@ public class ArtistGetCommand implements Command {
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
             int page = ParamTaker.getPage(req, Parameter.ARTIST_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.ARTIST_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.ARTIST_PAGE_SIZE);
             PageSearchResult<Artist> pageSearchResult = artistService.findPage(page, pageSize);
             req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
             return CommandResult.forward(PagePath.ARTISTS);

@@ -22,7 +22,7 @@ public class AlbumGetByNameCommand implements Command {
         try {
             String name = req.getParameter(Parameter.NAME);
             int page = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
-            int pageSize = ParamTaker.getInt(req, Parameter.ALBUM_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
             PageSearchResult<Album> pageSearchResult = albumService.findByName(name, page, pageSize);
             req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, pageSearchResult);
             return CommandResult.forward(PagePath.ALBUMS_BY_NAME);
