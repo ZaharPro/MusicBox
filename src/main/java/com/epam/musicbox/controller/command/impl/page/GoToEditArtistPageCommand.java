@@ -12,6 +12,8 @@ import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
+import com.epam.musicbox.service.psr.TrackAlbumPageSearchResult;
+import com.epam.musicbox.service.psr.TrackArtistPageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -35,6 +37,12 @@ public class GoToEditArtistPageCommand extends GoToPageCommand {
                 Optional<Artist> optional = artistService.findById(artistId);
                 Artist artist = optional.orElse(null);
                 req.setAttribute(Parameter.ARTIST, artist);
+
+                int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
+                int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
+                PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
+                pageSearchResult = TrackArtistPageSearchResult.from(pageSearchResult, artistService, artistId);
+                req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             }
 
             Long trackId = ParamTaker.getNullableLong(req, Parameter.TRACK_ID);
@@ -43,11 +51,6 @@ public class GoToEditArtistPageCommand extends GoToPageCommand {
                 Track track = optionalTrack.orElse(null);
                 req.setAttribute(Parameter.TRACK, track);
             }
-
-            int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
 
             return super.execute(req);
         } catch (ServiceException e) {

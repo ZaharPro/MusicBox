@@ -4,6 +4,7 @@ import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.PlaylistRepository;
+import com.epam.musicbox.repository.rowmapper.BooleanRowMapper;
 import com.epam.musicbox.repository.rowmapper.CountRowMapper;
 import com.epam.musicbox.repository.rowmapper.PlaylistRowMapper;
 import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
@@ -58,8 +59,16 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                                                   "ON playlist_tracks.track_id = tracks.track_id " +
                                                   "WHERE playlist_tracks.playlist_id=?";
 
-    private static final String SQL_ADD_TRACK = "INSERT INTO playlist_tracks (playlist_id, track_id) " +
-                                                "VALUES (?,?)";
+    private static final String SQL_EXIST_TRACK = "SELECT 1 " +
+                                                  "FROM playlist_tracks " +
+                                                  "WHERE playlist_id=? AND track_id=?";
+
+    private static final String SQL_ADD_TRACK = "IF EXISTS " +
+                                                "(" + SQL_EXIST_TRACK + ") " +
+                                                "BEGIN " +
+                                                "INSERT INTO playlist_tracks (playlist_id, track_id) " +
+                                                "VALUES (?,?) " +
+                                                "END";
 
     private static final String SQL_REMOVE_TRACK = "DELETE FROM playlist_tracks " +
                                                    "WHERE playlist_id=? AND track_id=?";
@@ -71,6 +80,8 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     private final PlaylistRowMapper playlistRowMapper = PlaylistRowMapper.getInstance();
 
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
+
+    private final BooleanRowMapper booleanRowMapper = BooleanRowMapper.getInstance();
 
     private PlaylistRepositoryImpl() {
     }
@@ -117,8 +128,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public long countByName(String regex) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex).orElse(0L);
     }
 
     @Override
@@ -128,13 +138,17 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public long countTracks(long artistId) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_TRACKS, countRowMapper, artistId);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_TRACKS, countRowMapper, artistId).orElse(0L);
     }
 
     @Override
     public List<Track> getTracks(long playlistId, int offset, int limit) throws RepositoryException {
         return QueryHelper.queryAll(SQL_FIND_TRACKS, trackRowMapper, playlistId, offset, limit);
+    }
+
+    @Override
+    public boolean hasTrack(long artistId, long trackId) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_EXIST_TRACK, booleanRowMapper, artistId, trackId).orElse(false);
     }
 
     @Override

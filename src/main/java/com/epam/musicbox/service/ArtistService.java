@@ -3,6 +3,7 @@ package com.epam.musicbox.service;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
+import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.psr.PageSearchResult;
 
@@ -17,9 +18,12 @@ public interface ArtistService extends EntityService<Artist> {
 
     PageSearchResult<Track> getTracks(long artistId, int page, int pageSize) throws ServiceException;
 
+    boolean hasTrack(long artistId, long trackId) throws ServiceException;
+
     void addTrack(long artistId, long trackId) throws ServiceException;
 
     void removeTrack(long artistId, long trackId) throws ServiceException;
+
 
     long countAlbums(long artistId) throws ServiceException;
 

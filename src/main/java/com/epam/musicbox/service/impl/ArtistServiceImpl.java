@@ -90,6 +90,15 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
     }
 
     @Override
+    public boolean hasTrack(long artistId, long trackId) throws ServiceException {
+        try {
+            return getRepository().hasTrack(artistId, trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public void addTrack(long artistId, long trackId) throws ServiceException {
         try {
             getRepository().addTrack(artistId, trackId);

@@ -1,9 +1,9 @@
 package com.epam.musicbox.repository;
 
 import com.epam.musicbox.entity.Album;
-import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
+import com.epam.musicbox.exception.RepositoryException;
 
 import java.util.List;
 
@@ -17,6 +17,8 @@ public interface ArtistRepository extends Repository<Artist> {
     long countTracks(long artistId) throws RepositoryException;
 
     List<Track> getTracks(long artistId, int offset, int limit) throws RepositoryException;
+
+    boolean hasTrack(long artistId, long trackId) throws RepositoryException;
 
     void addTrack(long artistId, long trackId) throws RepositoryException;
 

@@ -1,10 +1,7 @@
 package com.epam.musicbox.repository.impl;
 
-import com.epam.musicbox.repository.rowmapper.CountRowMapper;
+import com.epam.musicbox.repository.rowmapper.*;
 import com.epam.musicbox.util.QueryHelper;
-import com.epam.musicbox.repository.rowmapper.AlbumRowMapper;
-import com.epam.musicbox.repository.rowmapper.ArtistRowMapper;
-import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.entity.*;
 import com.epam.musicbox.repository.ArtistRepository;
@@ -59,8 +56,12 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                   "WHERE artist_tracks.artist_id=? " +
                                                   "LIMIT ?,?";
 
+    private static final String SQL_EXIST_TRACK = "SELECT 1 " +
+                                                  "FROM artist_tracks " +
+                                                  "WHERE artist_id=? AND track_id=?";
+
     private static final String SQL_ADD_TRACK = "IF EXISTS " +
-                                                "(SELECT 1 FROM artist_tracks WHERE artist_id=? AND track_id=?) " +
+                                                "(" + SQL_EXIST_TRACK + ") " +
                                                 "BEGIN " +
                                                 "INSERT INTO artist_tracks (artist_id, track_id) " +
                                                 "VALUES (?,?) " +
@@ -95,6 +96,8 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
 
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
+
+    private final BooleanRowMapper booleanRowMapper = BooleanRowMapper.getInstance();
 
     private ArtistRepositoryImpl() {
     }
@@ -163,7 +166,12 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     @Override
     public void addTrack(long artistId, long trackId) throws RepositoryException {
-        QueryHelper.update(SQL_ADD_TRACK, artistId, trackId);
+        QueryHelper.update(SQL_ADD_TRACK, artistId, trackId, artistId, trackId);
+    }
+
+    @Override
+    public boolean hasTrack(long artistId, long trackId) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_EXIST_TRACK, booleanRowMapper, artistId, trackId).orElse(false);
     }
 
     @Override
@@ -172,13 +180,13 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public List<Album> getAlbums(long artistId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_ALBUMS, albumRowMapper, artistId, offset, limit);
-    }
-
-    @Override
     public long countAlbums(long artistId) throws RepositoryException {
         Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_ALBUMS, countRowMapper, artistId);
         return optionalCount.orElse(0L);
+    }
+
+    @Override
+    public List<Album> getAlbums(long artistId, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_ALBUMS, albumRowMapper, artistId, offset, limit);
     }
 }

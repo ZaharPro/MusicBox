@@ -16,6 +16,8 @@ public interface PlaylistService extends EntityService<Playlist> {
 
     PageSearchResult<Track> getTracks(long playlistId, int page, int pageSize) throws ServiceException;
 
+    boolean hasTrack(long playlistId, long trackId) throws ServiceException;
+
     void addTrack(long playlistId, long trackId) throws ServiceException;
 
     void removeTrack(long playlistId, long trackId) throws ServiceException;

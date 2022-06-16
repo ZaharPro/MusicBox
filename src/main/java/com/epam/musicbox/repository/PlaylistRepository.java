@@ -17,6 +17,8 @@ public interface PlaylistRepository extends Repository<Playlist> {
 
     List<Track> getTracks(long playlistId, int offset, int limit) throws RepositoryException;
 
+    boolean hasTrack(long playlistId, long trackId) throws RepositoryException;
+
     void addTrack(long playlistId, long trackId) throws RepositoryException;
 
     void removeTrack(long playlistId, long trackId) throws RepositoryException;

@@ -7,11 +7,13 @@ import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
+import com.epam.musicbox.service.psr.TrackArtistPageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -35,6 +37,13 @@ public class GoToEditPlaylistPageCommand extends GoToPageCommand {
                 Optional<Playlist> optional = playlistService.findById(playlistId);
                 Playlist playlist = optional.orElse(null);
                 req.setAttribute(Parameter.PLAYLIST, playlist);
+                int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
+                int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
+                PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
+                pageSearchResult = TrackArtistPageSearchResult.from(pageSearchResult,
+                        ArtistServiceImpl.getInstance(),
+                        playlistId);
+                req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             }
 
             Long trackId = ParamTaker.getNullableLong(req, Parameter.TRACK_ID);
@@ -44,13 +53,8 @@ public class GoToEditPlaylistPageCommand extends GoToPageCommand {
                 req.setAttribute(Parameter.TRACK, track);
             }
 
-            int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
-
             return super.execute(req);
-        }  catch (ServiceException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
     }
