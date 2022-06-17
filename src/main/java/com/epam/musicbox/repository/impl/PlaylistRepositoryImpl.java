@@ -63,12 +63,8 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                                                   "FROM playlist_tracks " +
                                                   "WHERE playlist_id=? AND track_id=?";
 
-    private static final String SQL_ADD_TRACK = "IF EXISTS " +
-                                                "(" + SQL_EXIST_TRACK + ") " +
-                                                "BEGIN " +
-                                                "INSERT INTO playlist_tracks (playlist_id, track_id) " +
-                                                "VALUES (?,?) " +
-                                                "END";
+    private static final String SQL_ADD_TRACK = "INSERT INTO playlist_tracks (playlist_id, track_id) " +
+                                                "VALUES (?,?)";
 
     private static final String SQL_REMOVE_TRACK = "DELETE FROM playlist_tracks " +
                                                    "WHERE playlist_id=? AND track_id=?";
@@ -153,7 +149,9 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public void addTrack(long playlistId, long trackId) throws RepositoryException {
-        QueryHelper.update(SQL_ADD_TRACK, playlistId, trackId);
+        if (!hasTrack(playlistId, trackId)) {
+            QueryHelper.update(SQL_ADD_TRACK, playlistId, trackId);
+        }
     }
 
     @Override

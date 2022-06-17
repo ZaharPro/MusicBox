@@ -46,9 +46,6 @@ public class PlaylistGetByIdCommand implements Command {
 
                 boolean like = userService.hasPlaylist(userId, playlistId);
                 req.setAttribute(Parameter.LIKE, like);
-            } else {
-                req.setAttribute(Parameter.PLAYLIST, null);
-                req.setAttribute(Parameter.LIKE, null);
             }
 
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);

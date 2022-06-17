@@ -41,20 +41,20 @@
                 </li>
             </c:when>
             <c:otherwise>
-                <c:forEach begin="${from}" end="${to}" var="i">
+                <c:forEach begin="${from}" end="${to}" var="status">
                     <c:choose>
-                        <c:when test="${page == i}">
+                        <c:when test="${page == status}">
                             <li class="page-item active">
                                 <div class="page-link">
-                                        ${i}<span class="sr-only">(current)</span>
+                                        ${status}<span class="sr-only">(current)</span>
                                 </div>
                             </li>
                         </c:when>
                         <c:otherwise>
                             <li class="page-item">
                                 <a class="page-link"
-                                   href="${pageContext.request.contextPath}/controller?command=${command}&${pagename}=${i}">
-                                        ${i}
+                                   href="${pageContext.request.contextPath}/controller?command=${command}&${pagename}=${status}">
+                                        ${status}
                                 </a>
                             </li>
                         </c:otherwise>

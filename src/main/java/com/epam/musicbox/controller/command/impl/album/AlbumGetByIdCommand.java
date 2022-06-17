@@ -46,9 +46,6 @@ public class AlbumGetByIdCommand implements Command {
 
                 boolean like = userService.isLikedAlbum(userId, albumId);
                 req.setAttribute(Parameter.LIKE, like);
-            } else {
-                req.setAttribute(Parameter.ALBUM, null);
-                req.setAttribute(Parameter.LIKE, null);
             }
 
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);

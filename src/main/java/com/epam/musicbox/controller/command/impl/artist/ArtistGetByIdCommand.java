@@ -43,10 +43,6 @@ public class ArtistGetByIdCommand implements Command {
 
                 boolean like = userService.isLikedArtist(userId, artistId);
                 req.setAttribute(Parameter.LIKE, like);
-
-            } else {
-                req.setAttribute(Parameter.ARTIST, null);
-                req.setAttribute(Parameter.LIKE, null);
             }
 
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);

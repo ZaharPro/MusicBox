@@ -37,13 +37,11 @@ public class PageSearchResult<T> {
         return elements;
     }
 
-    public int getMaxPage() {
-        if (count == 0)
-            return 0;
-        return (int) (count / pageSize) + 1;
-    }
-
     public boolean hasElements() {
         return count != 0;
+    }
+
+    public int getMaxPage() {
+        return (int) ((count + (pageSize - 1)) / pageSize);
     }
 }

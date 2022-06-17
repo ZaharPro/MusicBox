@@ -4,6 +4,7 @@ import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.CommandException;
@@ -17,7 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class UserGetByRoleCommand implements Command {
 
-    private static final String COMMAND = "user-get-by-role&role=";
+    private static final String COMMAND = String.format("%s&%s=",
+            CommandType.USER_GET_BY_ROLE.getName(),
+            Parameter.ROLE);
 
     private final UserService userService = UserServiceImpl.getInstance();
 

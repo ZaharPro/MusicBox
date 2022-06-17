@@ -15,8 +15,8 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container flex-col h-100 pt-3 pb-3">
-    <div class="col card pt-3 pb-3 m-0 flex-col h-100 bg-dark">
+<div class="container d-flex flex-column h-100 pt-3 pb-3">
+    <div class="col card pt-3 pb-3 m-0 d-flex flex-column h-100 bg-dark">
         <h2 class="card-title">
             <fmt:message key="user.title"/>
         </h2>
@@ -31,9 +31,7 @@
         <h4 class="text-primary mt-1">
             <fmt:message key="user.email"/>
             <span class="text-info h6">
-                <a class="page-link border-0 p-1 bg-transparent" href="${user.getEmail()}">
-                    ${user.getEmail()}
-                </a>
+                ${user.getEmail()}
             </span>
         </h4>
 
@@ -69,15 +67,15 @@
                     <div class="list-group list-group-flush bg-transparent">
                         <a class="list-group-item list-group-item-action"
                            href="${pageContext.request.contextPath}/controller?command=edit-album-page">
-                            <fmt:message key="user.create.artist"/>
+                            <fmt:message key="admin.create.artist"/>
                         </a>
                         <a class="list-group-item list-group-item-action"
                            href="${pageContext.request.contextPath}/controller?command=edit-album-page">
-                            <fmt:message key="user.create.album"/>
+                            <fmt:message key="admin.create.album"/>
                         </a>
                         <a class="list-group-item list-group-item-action"
                            href="${pageContext.request.contextPath}/controller?command=edit-track-page">
-                            <fmt:message key="user.create.track"/>
+                            <fmt:message key="admin.create.track"/>
                         </a>
                     </div>
                 </c:when>

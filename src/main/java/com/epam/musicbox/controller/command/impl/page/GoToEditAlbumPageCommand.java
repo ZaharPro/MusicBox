@@ -8,11 +8,9 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AlbumService;
-import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
-import com.epam.musicbox.service.psr.TrackAlbumPageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -36,11 +34,6 @@ public class GoToEditAlbumPageCommand extends GoToPageCommand {
                 Optional<Album> optional = albumService.findById(albumId);
                 Album album = optional.orElse(null);
                 req.setAttribute(Parameter.ALBUM, album);
-                int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-                int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
-                PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
-                pageSearchResult = TrackAlbumPageSearchResult.from(pageSearchResult, albumId);
-                req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             }
 
             Long trackId = ParamTaker.getNullableLong(req, Parameter.TRACK_ID);

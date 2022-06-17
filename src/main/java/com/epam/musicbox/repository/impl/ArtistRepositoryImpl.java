@@ -60,12 +60,8 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                   "FROM artist_tracks " +
                                                   "WHERE artist_id=? AND track_id=?";
 
-    private static final String SQL_ADD_TRACK = "IF EXISTS " +
-                                                "(" + SQL_EXIST_TRACK + ") " +
-                                                "BEGIN " +
-                                                "INSERT INTO artist_tracks (artist_id, track_id) " +
-                                                "VALUES (?,?) " +
-                                                "END";
+    private static final String SQL_ADD_TRACK = "INSERT INTO artist_tracks (artist_id, track_id) " +
+                                                "VALUES (?,?)";
 
     private static final String SQL_REMOVE_TRACK = "DELETE FROM artist_tracks " +
                                                    "WHERE artist_id=? AND track_id=?";
@@ -144,8 +140,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     @Override
     public long countByName(String regex) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex).orElse(0L);
     }
 
     @Override
@@ -155,8 +150,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     @Override
     public long countTracks(long artistId) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_TRACKS, countRowMapper, artistId);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_TRACKS, countRowMapper, artistId).orElse(0L);
     }
 
     @Override
@@ -165,13 +159,15 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public void addTrack(long artistId, long trackId) throws RepositoryException {
-        QueryHelper.update(SQL_ADD_TRACK, artistId, trackId, artistId, trackId);
+    public boolean hasTrack(long artistId, long trackId) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_EXIST_TRACK, booleanRowMapper, artistId, trackId).orElse(false);
     }
 
     @Override
-    public boolean hasTrack(long artistId, long trackId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_EXIST_TRACK, booleanRowMapper, artistId, trackId).orElse(false);
+    public void addTrack(long artistId, long trackId) throws RepositoryException {
+        if (!hasTrack(artistId, trackId)) {
+            QueryHelper.update(SQL_ADD_TRACK, artistId, trackId);
+        }
     }
 
     @Override
@@ -181,8 +177,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     @Override
     public long countAlbums(long artistId) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_ALBUMS, countRowMapper, artistId);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_ALBUMS, countRowMapper, artistId).orElse(0L);
     }
 
     @Override

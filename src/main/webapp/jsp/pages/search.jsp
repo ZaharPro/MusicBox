@@ -14,18 +14,15 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container flex-col h-100 pt-3 pb-3">
+<div class="container d-flex flex-column h-100 pt-3 pb-3">
     <c:choose>
         <c:when test="${trackpsr.hasElements() or albumpsr.hasElements() or artistpsr.hasElements()}">
-            <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark"
-                    <c:if test="${trackpsr.hasElements()}">
-                        style="min-height: 25rem"
-                    </c:if>>
-                <h4 class="card-title text-center">
-                    <fmt:message key="tracks.title"/>
-                </h4>
-                <c:if test="${trackpsr.hasElements()}">
-                    <div class="flex-col justify-content-between h-100">
+            <c:if test="${trackpsr.hasElements()}">
+                <div class="col card d-flex flex-column h-100 pt-3 pb-3 mb-0 bg-dark" style="min-height: 25rem">
+                    <h4 class="card-title text-center">
+                        <fmt:message key="tracks.title"/>
+                    </h4>
+                    <div class="d-flex flex-column justify-content-between h-100">
                         <div class="list-group list-group-flush bg-light">
                             <c:forEach items="${trackpsr.getElements()}" var="track">
                                 <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
@@ -40,17 +37,14 @@
                         <c:set var="command" value="track-get-by-name&name=${name}" scope="request"/>
                         <c:import url="/jsp/fragments/page-navigation.jsp"/>
                     </div>
-                </c:if>
-            </div>
-            <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark mt-1"
-                    <c:if test="${albumpsr.hasElements()}">
-                        style="min-height: 25rem"
-                    </c:if>>
-                <h4 class="card-title text-center">
-                    <fmt:message key="albums.title"/>
-                </h4>
-                <c:if test="${albumpsr.hasElements()}">
-                    <div class="flex-col justify-content-between h-100">
+                </div>
+            </c:if>
+            <c:if test="${albumpsr.hasElements()}">
+                <div class="col card d-flex flex-column h-100 pt-3 pb-3 mb-0 bg-dark mt-1" style="min-height: 25rem">
+                    <h4 class="card-title text-center">
+                        <fmt:message key="albums.title"/>
+                    </h4>
+                    <div class="d-flex flex-column justify-content-between h-100">
                         <div class="list-group list-group-flush bg-light">
                             <c:forEach items="${albumpsr.getElements()}" var="album">
                                 <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
@@ -69,17 +63,14 @@
                         <c:set var="command" value="album-get-by-name&name=${name}" scope="request"/>
                         <c:import url="/jsp/fragments/page-navigation.jsp"/>
                     </div>
-                </c:if>
-            </div>
-            <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark mt-1"
-                    <c:if test="${artistpsr.hasElements()}">
-                        style="min-height: 25rem"
-                    </c:if>>
-                <h4 class="card-title text-center">
-                    <fmt:message key="artists.title"/>
-                </h4>
-                <c:if test="${artistpsr.hasElements()}">
-                    <div class="flex-col justify-content-between h-100">
+                </div>
+            </c:if>
+            <c:if test="${artistpsr.hasElements()}">
+                <div class="col card d-flex flex-column h-100 pt-3 pb-3 mb-0 bg-dark mt-1" style="min-height: 25rem">
+                    <h4 class="card-title text-center">
+                        <fmt:message key="artists.title"/>
+                    </h4>
+                    <div class="d-flex flex-column justify-content-between h-100">
                         <div class="list-group list-group-flush bg-light">
                             <c:forEach items="${artistpsr.getElements()}" var="artist">
                                 <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
@@ -98,14 +89,14 @@
                         <c:set var="command" value="artist-get-by-name&name=${name}" scope="request"/>
                         <c:import url="/jsp/fragments/page-navigation.jsp"/>
                     </div>
-                </c:if>
-            </div>
+                </div>
+            </c:if>
         </c:when>
         <c:otherwise>
-            <div class="col card flex-col h-100 pt-3 pb-3 mb-0 bg-dark">
-                <div class="flex-col justify-content-center h-100">
+            <div class="col card d-flex flex-column h-100 pt-3 pb-3 mb-0 bg-dark">
+                <div class="d-flex flex-column justify-content-center h-100">
                     <h4 class="card-title text-center">
-                        <fmt:message key="tracks.not.found"/>
+                        <fmt:message key="search.not.found"/>
                     </h4>
                 </div>
             </div>

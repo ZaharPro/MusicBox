@@ -4,9 +4,12 @@ import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.service.AlbumService;
+import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.UserService;
@@ -26,6 +29,8 @@ public class TrackGetByIdCommand implements Command {
 
     private final UserService userService = UserServiceImpl.getInstance();
 
+    private final AlbumService albumService = AlbumServiceImpl.getInstance();
+
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
@@ -41,9 +46,10 @@ public class TrackGetByIdCommand implements Command {
 
                 boolean like = userService.isLikedTrack(userId, trackId);
                 req.setAttribute(Parameter.LIKE, like);
-            } else {
-                req.setAttribute(Parameter.TRACK, null);
-                req.setAttribute(Parameter.LIKE, null);
+
+                Optional<Album> optionalAlbum = albumService.findById(track.getAlbumId());
+                Album album = optionalAlbum.orElse(null);
+                req.setAttribute(Parameter.ALBUM, album);
             }
 
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);

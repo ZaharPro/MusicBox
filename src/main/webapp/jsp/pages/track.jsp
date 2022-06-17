@@ -15,8 +15,8 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container flex-col h-100 pt-3 pb-3">
-    <div class="col card pt-0 pb-3 mb-0 flex-col h-100 bg-dark">
+<div class="container d-flex flex-column h-100 pt-3 pb-3">
+    <div class="col card pt-0 pb-3 mb-0 d-flex flex-column h-100 bg-dark">
         <div class="row pt-3 pb-3" style="border-bottom: 1px solid #dd2476;">
             <div class="col-lg-2 col-md-2">
                 <img class="card-img" src="/img/album/${album.getPicture()}" alt="Album picture">
@@ -59,8 +59,8 @@
                 </div>
             </div>
         </div>
-        <div class="pt-3 flex-col align-items-center h-100">
-            <div class="d-flex flex-col align-items-center h-100">
+        <div class="pt-3 d-flex flex-column align-items-center h-100">
+            <div class="d-flex d-flex flex-column align-items-center h-100">
                 <h2 class="card-title">
                     ${track.getName()}
                 </h2>
@@ -98,7 +98,7 @@
                 </div>
             </div>
             <audio controls>
-                <source src="${track.getPath()}" type="audio/mpeg">
+                <source src="/audio/${track.getPath()}" type="audio/mpeg">
             </audio>
         </div>
     </div>

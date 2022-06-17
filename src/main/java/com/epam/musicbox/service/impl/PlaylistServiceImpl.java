@@ -89,6 +89,15 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
     }
 
     @Override
+    public boolean hasTrack(long playlistId, long trackId) throws ServiceException {
+        try {
+            return getRepository().hasTrack(playlistId, trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public void addTrack(long playlistId, long trackId) throws ServiceException {
         try {
             getRepository().addTrack(playlistId, trackId);
