@@ -4,6 +4,7 @@ import com.epam.musicbox.controller.command.*;
 import com.epam.musicbox.exception.CommandException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -16,9 +17,12 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "controller", urlPatterns = "/controller")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 11)
 public class Controller extends HttpServlet {
 
-    public static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     private final CommandProvider commandProvider = CommandProvider.getInstance();
 

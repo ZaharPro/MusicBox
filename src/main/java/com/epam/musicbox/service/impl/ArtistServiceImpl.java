@@ -19,9 +19,7 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
     private static final ArtistServiceImpl instance = new ArtistServiceImpl();
 
     private final Validator validator = ValidatorImpl.getInstance();
-
     private final ArtistRepository repository = ArtistRepositoryImpl.getInstance();
-
     private ArtistServiceImpl() {
     }
 

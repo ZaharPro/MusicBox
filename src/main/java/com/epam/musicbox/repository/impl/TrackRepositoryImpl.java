@@ -24,11 +24,11 @@ public class TrackRepositoryImpl implements TrackRepository {
                                                  "FROM tracks " +
                                                  "WHERE track_id=?";
 
-    private static final String SQL_INSERT_ONE = "INSERT INTO tracks (name, path, album_id) " +
+    private static final String SQL_INSERT_ONE = "INSERT INTO tracks (name, audio, album_id) " +
                                                  "VALUES (?,?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE tracks " +
-                                                 "SET name=? path=? album_id=? " +
+                                                 "SET name=?, audio=?, album_id=? " +
                                                  "WHERE track_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM tracks " +
@@ -47,7 +47,6 @@ public class TrackRepositoryImpl implements TrackRepository {
     public static final TrackRepositoryImpl instance = new TrackRepositoryImpl();
 
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
-
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
 
     private TrackRepositoryImpl() {
@@ -78,12 +77,12 @@ public class TrackRepositoryImpl implements TrackRepository {
         if (trackId == null) {
             return QueryHelper.insert(SQL_INSERT_ONE,
                     track.getName(),
-                    track.getPath(),
+                    track.getAudio(),
                     track.getAlbumId());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
                     track.getName(),
-                    track.getPath(),
+                    track.getAudio(),
                     track.getAlbumId(),
                     trackId);
             return trackId;

@@ -16,10 +16,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class UserUnmarkLikedTrackCommand implements Command {
 
-    private static final String REDIRECT_URL_FORMAT =
-            String.format("controller?command=%s&%s=%%s",
-                    CommandType.TRACK_GET_BY_ID.getName(),
-                    Parameter.TRACK_ID);
+    private static final String REDIRECT_URL = String.format("%s&%s=",
+            CommandType.TRACK_GET_BY_ID.getName(),
+            Parameter.TRACK_ID);
 
     private final UserService userService = UserServiceImpl.getInstance();
 
@@ -33,8 +32,7 @@ public class UserUnmarkLikedTrackCommand implements Command {
 
             userService.unmarkLikedTrack(userId, trackId);
 
-            String url = String.format(REDIRECT_URL_FORMAT, trackId);
-            return CommandResult.redirect(url);
+            return CommandResult.redirect(REDIRECT_URL + trackId);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

@@ -7,6 +7,7 @@ public final class PagePath {
     public static final String CHANGE_PASSWORD = "/jsp/pages/change-password.jsp";
     public static final String HOME = "/jsp/pages/home.jsp";
 
+    public static final String PROFILE = "/jsp/pages/profile.jsp";
     public static final String USER = "/jsp/pages/user.jsp";
     public static final String TRACK = "/jsp/pages/track.jsp";
     public static final String ALBUM = "/jsp/pages/album.jsp";

@@ -26,9 +26,7 @@ import java.util.Optional;
 public class PlaylistGetByIdCommand implements Command {
 
     private final PlaylistService playlistService = PlaylistServiceImpl.getInstance();
-
     private final UserService userService = UserServiceImpl.getInstance();
-
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
     @Override

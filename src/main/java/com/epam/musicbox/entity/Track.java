@@ -4,17 +4,17 @@ public class Track implements Entity {
 
     private Long id;
     private String name;
-    private String path;
+    private String audio;
     private Long albumId;
 
     public Track() {
     }
 
-    public Track(Long id, String name, String path, Long albumId) {
+    public Track(Long id, String name, String audio, Long albumId) {
         this.id = id;
         this.name = name;
         this.albumId = albumId;
-        this.path = path;
+        this.audio = audio;
     }
 
     public Long getId() {
@@ -41,12 +41,12 @@ public class Track implements Entity {
         this.albumId = albumId;
     }
 
-    public String getPath() {
-        return path;
+    public String getAudio() {
+        return audio;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setAudio(String audio) {
+        this.audio = audio;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class Track implements Entity {
             return false;
         if (!(name == null ? track.name == null : name.equals(track.name)))
             return false;
-        if (!(path == null ? track.path == null : path.equals(track.path)))
+        if (!(audio == null ? track.audio == null : audio.equals(track.audio)))
             return false;
         if (!(albumId == null ? track.albumId == null : albumId.equals(track.albumId)))
             return false;
@@ -70,7 +70,7 @@ public class Track implements Entity {
         int hash = 17;
         hash = hash * 31 + (id == null ? 0 : id.hashCode());
         hash = hash * 31 + (name == null ? 0 : name.hashCode());
-        hash = hash * 31 + (path == null ? 0 : path.hashCode());
+        hash = hash * 31 + (audio == null ? 0 : audio.hashCode());
         hash = hash * 31 + (albumId == null ? 0 : albumId.hashCode());
         return hash;
     }
@@ -80,7 +80,7 @@ public class Track implements Entity {
         return new StringBuilder("Track{")
                 .append("id=").append(id)
                 .append(", name='").append(name).append('\'')
-                .append(", path='").append(path).append('\'')
+                .append(", audio='").append(audio).append('\'')
                 .append(", albumId=").append(albumId)
                 .append('}')
                 .toString();

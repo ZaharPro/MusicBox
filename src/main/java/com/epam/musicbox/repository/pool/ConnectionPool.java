@@ -24,6 +24,7 @@ public class ConnectionPool {
 
     private static final String DRIVER_NOT_FOUND_MSG = "Driver is not found %s";
     private static final String POOL_CREATED_MSG = "Pool created";
+    private static final String POOL_CREATION_ERROR_MSG = "Pool creation error";
     private static final String POOL_DESTROYED_MSG = "Pool destroyed";
 
     private static final Logger logger = LogManager.getLogger();
@@ -73,9 +74,10 @@ public class ConnectionPool {
                 if (instanceCreated.compareAndSet(false, true)) {
                     ConnectionPool pool = createInstance();
                     logger.info(POOL_CREATED_MSG);
-                    ConnectionPool.instance.set(pool);
+                    instance.set(pool);
                 }
             } catch (Exception e) {
+                logger.error(POOL_CREATION_ERROR_MSG, e);
                 instanceCreated.set(false);
                 throw e;
             } finally {

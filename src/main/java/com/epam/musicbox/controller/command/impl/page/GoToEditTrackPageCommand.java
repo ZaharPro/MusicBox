@@ -26,7 +26,6 @@ public class GoToEditTrackPageCommand extends GoToPageCommand {
     private static final String ALBUM_CHOOSE_COMMAND = "albumchoosecommand";
 
     private final TrackService trackService = TrackServiceImpl.getInstance();
-
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
 
     public GoToEditTrackPageCommand() {

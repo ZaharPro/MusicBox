@@ -22,7 +22,6 @@ import java.util.Optional;
 public class GoToEditArtistPageCommand extends GoToPageCommand {
 
     private final ArtistService artistService = ArtistServiceImpl.getInstance();
-
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
     public GoToEditArtistPageCommand() {

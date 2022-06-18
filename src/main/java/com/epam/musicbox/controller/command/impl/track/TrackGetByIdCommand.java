@@ -26,9 +26,7 @@ import java.util.Optional;
 public class TrackGetByIdCommand implements Command {
 
     private final TrackService trackService = TrackServiceImpl.getInstance();
-
     private final UserService userService = UserServiceImpl.getInstance();
-
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
 
     @Override

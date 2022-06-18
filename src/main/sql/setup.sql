@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`tracks`
 (
     `track_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
     `name`     VARCHAR(32)  NOT NULL,
-    `path`     VARCHAR(128) NOT NULL,
+    `audio`     VARCHAR(128) NOT NULL,
     `album_id` BIGINT       NOT NULL,
     CONSTRAINT `tracks_album_id`
     FOREIGN KEY (`album_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_albums`
     `user_id`             BIGINT NOT NULL,
     `album_id`            BIGINT NOT NULL,
     CONSTRAINT `user_liked_albums_user_id`
-    FOREIGN KEY (`user_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `user_liked_albums_album_id`
-    FOREIGN KEY (`album_id`) REFERENCES users (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`album_id`) REFERENCES albums (`album_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`user_liked_tracks`

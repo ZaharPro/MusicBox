@@ -18,7 +18,6 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
     private static final PlaylistServiceImpl instance = new PlaylistServiceImpl();
 
     private final Validator validator = ValidatorImpl.getInstance();
-
     private final PlaylistRepository repository = PlaylistRepositoryImpl.getInstance();
 
     private PlaylistServiceImpl() {

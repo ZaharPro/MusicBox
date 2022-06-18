@@ -24,14 +24,16 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${album != null}">
-                        <img class="card-img" src="/img/album/${album.getPicture()}" alt="Album picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}"
+                             alt="Album picture">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="/img/album/default.png" alt="Album picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png"
+                             alt="Album picture">
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="col-lg-10 col-md-10 d-flex justify-content-between align-items-center">
+            <div class="col-lg-10 col-md-10">
                 <h4 class="card-title">
                     <c:choose>
                         <c:when test="${album != null}">
@@ -45,7 +47,11 @@
             </div>
         </div>
         <form method="post" class="row p-3 h-100" style="border-bottom: 1px solid #dd2476; min-height: 10rem"
-              action="${pageContext.request.contextPath}/controller?command=track-save">
+              action="${pageContext.request.contextPath}/controller?command=track-save"
+              enctype="multipart/form-data">
+            <c:if test="${track != null}">
+                <input type="hidden" name="trackid" value="${track.getId()}">
+            </c:if>
             <div class="form-outline col-3">
                 <label for="trackName" class="card-title h4">
                     <fmt:message key="edit.track.name"/>
@@ -56,22 +62,26 @@
                 </c:if>>
             </div>
             <div class="col-6 d-flex flex-column">
-                <div class="file-drop-area p-3" style="border: 1px solid #dd2476; border-radius: 2px;">
+                <div class="file-drop-area col-6 d-flex flex-column justify-content-center align-items-center p-3"
+                     style="border: 1px solid #dd2476; border-radius: 2px;">
                     <label for="picture">
                         <fmt:message key="edit.album.choose.picture"/>
                     </label>
-                    <input class="file-input" id="picture" type="file" name="picture">
+                    <input class="file-input w-100 h-100" id="picture" type="file" name="audio" accept=".wav, .mp3">
                 </div>
                 <c:if test="${track != null}">
                     <audio controls class="w-100 mt-2 p-0">
-                        <source src="/audio/${track.getPath()}" type="audio/mpeg">
+                        <source src="${pageContext.request.contextPath}/file/audio/${track.getAudio()}"
+                                type="audio/mpeg">
                     </audio>
                 </c:if>
             </div>
 
             <c:choose>
                 <c:when test="${album != null}">
-                    <div class="btn-group-lg col-3 d-flex flex-columnumn w-100">
+                    <input type="hidden" name="albumid" value="${album.getId()}">
+                    <input type="hidden" name="albumpage" value="${albumpsr.getPage()}">
+                    <div class="btn-group-lg col-3 d-flex flex-column w-100">
                         <button type="submit" class="btn btn-lg w-100">
                             <fmt:message key="edit.track.save"/>
                         </button>

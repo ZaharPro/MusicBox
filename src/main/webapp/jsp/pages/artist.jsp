@@ -19,7 +19,7 @@
     <div class="col card pt-0 pb-3 mb-0 d-flex flex-column h-100 bg-dark">
         <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
-                <img class="card-img" src="/img/artist/${artist.getAvatar()}" alt="Artist avatar">
+                <img class="card-img" src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}" alt="Artist avatar">
             </div>
             <div class="col-lg-10 col-md-10 d-flex justify-content-between align-items-center">
                 <h2 class="card-title">

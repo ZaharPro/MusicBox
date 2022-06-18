@@ -10,7 +10,7 @@ public class TrackRowMapper implements RowMapper<Track> {
 
     private static final String ROW_TRACK_ID = "track_id";
     private static final String ROW_NAME = "name";
-    private static final String ROW_PATH = "path";
+    private static final String ROW_AUDIO = "audio";
     private static final String ROW_ALBUM_ID = "album_id";
 
     private static final TrackRowMapper instance = new TrackRowMapper();
@@ -27,7 +27,7 @@ public class TrackRowMapper implements RowMapper<Track> {
         try {
             return new Track(resultSet.getLong(ROW_TRACK_ID),
                     resultSet.getString(ROW_NAME),
-                    resultSet.getString(ROW_PATH),
+                    resultSet.getString(ROW_AUDIO),
                     resultSet.getLong(ROW_ALBUM_ID));
         } catch (SQLException e) {
             throw new RepositoryException(e);

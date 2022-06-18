@@ -14,6 +14,7 @@ import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.psr.TrackArtistPageSearchResult;
+import com.epam.musicbox.service.psr.TrackPlaylistPageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -22,7 +23,6 @@ import java.util.Optional;
 public class GoToEditPlaylistPageCommand extends GoToPageCommand {
 
     private final PlaylistService playlistService = PlaylistServiceImpl.getInstance();
-
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
     public GoToEditPlaylistPageCommand() {
@@ -40,8 +40,8 @@ public class GoToEditPlaylistPageCommand extends GoToPageCommand {
                 int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
                 int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
                 PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
-                pageSearchResult = TrackArtistPageSearchResult.from(pageSearchResult,
-                        ArtistServiceImpl.getInstance(),
+                pageSearchResult = TrackPlaylistPageSearchResult.from(pageSearchResult,
+                        playlistService,
                         playlistId);
                 req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             }

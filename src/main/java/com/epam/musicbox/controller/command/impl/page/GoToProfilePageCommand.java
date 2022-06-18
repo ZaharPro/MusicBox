@@ -24,7 +24,7 @@ public class GoToProfilePageCommand extends GoToPageCommand {
     private final UserService userService = UserServiceImpl.getInstance();
 
     public GoToProfilePageCommand() {
-        super(PagePath.USER);
+        super(PagePath.PROFILE);
     }
 
     @Override
@@ -41,11 +41,6 @@ public class GoToProfilePageCommand extends GoToPageCommand {
 
             User user = optionalUser.get();
             req.setAttribute(Parameter.USER, user);
-
-            Role role = ParamTaker.getRole(body);
-            if (role == Role.ADMIN) {
-                req.setAttribute(Parameter.ADMIN, userId);
-            }
 
             return super.execute(req);
         } catch (ServiceException e) {

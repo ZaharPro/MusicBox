@@ -8,6 +8,6 @@ import com.epam.musicbox.service.impl.AlbumServiceImpl;
 public class AlbumDeleteCommand extends DeleteCommand<Album> {
 
     public AlbumDeleteCommand() {
-        super(AlbumServiceImpl.getInstance(), Parameter.ALBUM_ID);
+        super(AlbumServiceImpl.getInstance(), Parameter.ALBUM_ID, AlbumSaveCommand.ALBUM_PICTURE);
     }
 }

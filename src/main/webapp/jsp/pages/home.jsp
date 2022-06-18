@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 card p-3 mb-lg-0 mb-md-0">
                     <a href="${pageContext.request.contextPath}/controller?command=track-get">
-                        <img class="card-img" src="${pageContext.request.contextPath}/img/home-track.png"
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-track.png"
                              alt="Track img">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center">
                             <h2 class="card-title font-weight-bold text-white" style="text-shadow: 0 0 5px black;">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 card p-3 mb-lg-0 mb-md-0">
                     <a href="${pageContext.request.contextPath}/controller?command=album-get">
-                        <img class="card-img" src="${pageContext.request.contextPath}/img/home-album.png"
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-album.png"
                              alt="Album img">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center">
                             <h2 class="card-title font-weight-bold text-white" style="text-shadow: 0 0 5px black;">
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 card p-3 mb-lg-0 mb-md-0">
                     <a href="${pageContext.request.contextPath}/controller?command=artist-get">
-                        <img class="card-img" src="${pageContext.request.contextPath}/img/home-artist.png"
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-artist.png"
                              alt="Artist img">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center">
                             <h2 class="card-title font-weight-bold text-white" style="text-shadow: 0 0 5px black;">
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 card p-3 mb-lg-0 mb-md-0">
                     <a href="${pageContext.request.contextPath}/controller?command=playlist-get">
-                        <img class="card-img" src="${pageContext.request.contextPath}/img/home-playlist.png"
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-playlist.png"
                              alt="Playlist img">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center">
                             <h2 class="card-title font-weight-bold text-white" style="text-shadow: 0 0 5px black;">

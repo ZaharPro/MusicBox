@@ -16,10 +16,9 @@ import java.util.Optional;
 
 public class UserSetBanCommand implements Command {
 
-    private static final String REDIRECT_URL_FORMAT =
-            String.format("controller?command=%s&%s=%%s",
-                    CommandType.USER_GET_BY_ID.getName(),
-                    Parameter.USER_ID);
+    private static final String REDIRECT_URL = String.format("%s&%s=",
+            CommandType.USER_GET_BY_ID.getName(),
+            Parameter.USER_ID);
 
     private final UserService userService = UserServiceImpl.getInstance();
 
@@ -31,8 +30,7 @@ public class UserSetBanCommand implements Command {
 
             banUser(userId, banned);
 
-            String url = String.format(REDIRECT_URL_FORMAT, userId);
-            return CommandResult.redirect(url);
+            return CommandResult.redirect(REDIRECT_URL + userId);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

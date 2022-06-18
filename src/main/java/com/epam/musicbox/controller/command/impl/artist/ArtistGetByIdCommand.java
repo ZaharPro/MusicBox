@@ -25,7 +25,6 @@ import java.util.Optional;
 public class ArtistGetByIdCommand implements Command {
 
     private final ArtistService artistService = ArtistServiceImpl.getInstance();
-
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override

@@ -27,7 +27,7 @@ public class UserRepositoryImpl implements UserRepository {
                                                  "VALUES (?,?,?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE users " +
-                                                 "SET login=? email=? password=? banned=? " +
+                                                 "SET login=?, email=?, password=?, banned=? " +
                                                  "WHERE user_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM users " +
@@ -55,14 +55,14 @@ public class UserRepositoryImpl implements UserRepository {
                                                    "LIMIT ?,?";
 
     private static final String SQL_EXIST_USER_ROLE = "SELECT 1 " +
-                                                      "FROM user_role " +
+                                                      "FROM user_roles " +
                                                       "WHERE user_id=? AND role_id=?";
 
     private static final String SQL_INSERT_ROLE = "INSERT INTO user_roles (user_id, role_id) " +
                                                   "VALUES (?,?)";
 
     private static final String SQL_UPDATE_ROLE = "UPDATE users " +
-                                                  "SET user_id, role_id=? ";
+                                                  "SET user_id=?, role_id=? ";
 
     private static final String SQL_GET_ROLE = "SELECT * " +
                                                "FROM roles " +
@@ -169,19 +169,12 @@ public class UserRepositoryImpl implements UserRepository {
     public static final UserRepositoryImpl instance = new UserRepositoryImpl();
 
     private final UserRowMapper userRowMapper = UserRowMapper.getInstance();
-
     private final PlaylistRowMapper playlistRowMapper = PlaylistRowMapper.getInstance();
-
     private final ArtistRowMapper artistRowMapper = ArtistRowMapper.getInstance();
-
     private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
-
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
-
     private final RoleRowMapper roleRowMapper = RoleRowMapper.getInstance();
-
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
-
     private final BooleanRowMapper booleanRowMapper = BooleanRowMapper.getInstance();
 
     private UserRepositoryImpl() {

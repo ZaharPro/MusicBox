@@ -14,10 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class UserSetRoleCommand implements Command {
 
-    private static final String REDIRECT_URL_FORMAT =
-            String.format("controller?command=%s&%s=%%s",
-                    CommandType.USER_GET_BY_ID.getName(),
-                    Parameter.USER_ID);
+    private static final String REDIRECT_URL = String.format("%s&%s=",
+            CommandType.USER_GET_BY_ID.getName(),
+            Parameter.USER_ID);
 
     private final UserService userService = UserServiceImpl.getInstance();
 
@@ -30,8 +29,7 @@ public class UserSetRoleCommand implements Command {
             userService.setRole(userId, role.getId());
             req.setAttribute(Parameter.ROLE, role.getValue());
 
-            String url = String.format(REDIRECT_URL_FORMAT, userId);
-            return CommandResult.redirect(url);
+            return CommandResult.redirect(REDIRECT_URL + userId);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

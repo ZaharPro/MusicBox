@@ -9,4 +9,10 @@ public interface Validator {
     boolean isValidEmail(String email);
 
     boolean isValidName(String name);
+
+    boolean isValidAudioFileName(String fileName);
+
+    boolean isValidImageFileName(String fileName);
+
+    boolean isValidKey(String key);
 }

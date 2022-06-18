@@ -133,7 +133,7 @@ public class AuthServiceImpl implements AuthService {
         String hash = passwordHasher.hash(password);
         User user = new User(null, login, email, hash, false, Timestamp.from(Instant.now()));
         long userId = userService.save(user);
-        userService.setRole(userId, Role.USER.getId());
+        userService.setRole(userId, Role.ADMIN.getId());
     }
 
     public User login(String login, String password) throws ServiceException {

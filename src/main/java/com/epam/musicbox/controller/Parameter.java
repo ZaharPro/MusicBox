@@ -6,12 +6,11 @@ public final class Parameter {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String ROLE = "role";
-    public static final String ADMIN = "admin";
     public static final String NAME = "name";
     public static final String BANNED = "banned";
     public static final String PICTURE = "picture";
     public static final String AVATAR = "avatar";
-    public static final String PATH = "path";
+    public static final String AUDIO = "audio";
 
     public static final String COMMAND = "command";
     public static final String MESSAGE = "msg";

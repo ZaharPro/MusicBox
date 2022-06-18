@@ -33,7 +33,7 @@
                                     ${artist.getName()}
 
                                 <img class="img-fluid d-block" style="max-width: 2.5rem"
-                                     src="/img/artist/${artist.getAvatar()}"
+                                     src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}"
                                      alt="Artist avatar">
                             </a>
                         </c:forEach>

@@ -27,7 +27,6 @@ public class LoginCommand implements Command {
     private static final String USER_ROLE_NOT_FOUND = "User role not found";
 
     private final UserService userService = UserServiceImpl.getInstance();
-
     private final AuthService authService = AuthServiceImpl.getInstance();
 
     @Override

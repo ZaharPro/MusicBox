@@ -27,7 +27,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                  "VALUES (?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE artists " +
-                                                 "SET name=? avatar=? " +
+                                                 "SET name=?, avatar=? " +
                                                  "WHERE artist_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM artists " +
@@ -86,13 +86,9 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();
 
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
-
     private final ArtistRowMapper artistRowMapper = ArtistRowMapper.getInstance();
-
     private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
-
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
-
     private final BooleanRowMapper booleanRowMapper = BooleanRowMapper.getInstance();
 
     private ArtistRepositoryImpl() {

@@ -19,7 +19,6 @@ import java.util.Optional;
 public class GoToEditAlbumPageCommand extends GoToPageCommand {
 
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
-
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
     public GoToEditAlbumPageCommand() {

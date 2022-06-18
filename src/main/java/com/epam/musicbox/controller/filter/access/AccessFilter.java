@@ -30,7 +30,6 @@ public class AccessFilter implements Filter {
     private static final String COMMAND_NOT_FOUND_MSG = "Command not found";
 
     private final AuthService authService = AuthServiceImpl.getInstance();
-
     private final RoleRights roleRights = RoleRights.getInstance();
 
     @Override

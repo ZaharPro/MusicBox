@@ -1,15 +1,12 @@
 package com.epam.musicbox.service.psr;
 
-import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.ArtistService;
 import com.epam.musicbox.service.PlaylistService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TrackPlaylistPageSearchResult extends PageSearchResult<Track> {
 

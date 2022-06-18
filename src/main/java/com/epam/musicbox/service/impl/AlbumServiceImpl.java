@@ -17,7 +17,6 @@ public class AlbumServiceImpl extends AbstractEntityService<Album> implements Al
     private static final AlbumServiceImpl instance = new AlbumServiceImpl();
 
     private final Validator validator = ValidatorImpl.getInstance();
-
     private final AlbumRepository repository = AlbumRepositoryImpl.getInstance();
 
     private AlbumServiceImpl() {

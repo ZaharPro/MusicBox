@@ -33,7 +33,7 @@
                                     ${playlist.getName()}
 
                                 <img class="img-fluid d-block" style="max-width: 2.5rem"
-                                     src="/img/playlist/${playlist.getPicture()}"
+                                     src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}"
                                      alt="Playlist picture">
                             </a>
                         </c:forEach>

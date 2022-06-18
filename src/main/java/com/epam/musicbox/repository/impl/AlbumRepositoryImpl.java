@@ -28,7 +28,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
                                                  "VALUES (?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE albums " +
-                                                 "SET name=? picture=? " +
+                                                 "SET name=?, picture=? " +
                                                  "WHERE album_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM albums " +
@@ -47,7 +47,6 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     public static final AlbumRepositoryImpl instance = new AlbumRepositoryImpl();
 
     private final AlbumRowMapper albumRowMapper = AlbumRowMapper.getInstance();
-
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
 
     private AlbumRepositoryImpl() {

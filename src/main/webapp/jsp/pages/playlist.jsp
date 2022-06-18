@@ -19,7 +19,7 @@
     <div class="col card pt-0 pb-3 mb-0 d-flex flex-column h-100 bg-dark">
         <div class="row pt-3 pb-3" style="border-bottom: 1px solid #dd2476;">
             <div class="col-lg-2 col-md-2">
-                <img class="card-img" src="/img/playlist/${playlist.getPicture()}" alt="Playlist picture">
+                <img class="card-img" src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}" alt="Playlist picture">
             </div>
             <div class="col-lg-10 col-md-10 d-flex justify-content-between align-items-center">
                 <h2 class="card-title">

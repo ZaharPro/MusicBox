@@ -31,7 +31,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                                                  "VALUES (?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE playlists " +
-                                                 "SET name=? picture=? " +
+                                                 "SET name=?, picture=? " +
                                                  "WHERE playlist_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM playlists " +
@@ -72,13 +72,9 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     public static final PlaylistRepositoryImpl instance = new PlaylistRepositoryImpl();
 
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
-
     private final PlaylistRowMapper playlistRowMapper = PlaylistRowMapper.getInstance();
-
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
-
     private final BooleanRowMapper booleanRowMapper = BooleanRowMapper.getInstance();
-
     private PlaylistRepositoryImpl() {
     }
 

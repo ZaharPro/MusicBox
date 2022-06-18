@@ -15,11 +15,11 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container d-flex d-flex flex-columnumn h-100 pt-3 pb-3">
+<div class="container d-flex d-flex flex-column h-100 pt-3 pb-3">
     <div class="col card pt-0 pb-3 mb-0 d-flex flex-column h-100 bg-dark">
         <div class="row pt-3 pb-3" style="border-bottom: 1px solid #dd2476;">
             <div class="col-lg-2 col-md-2">
-                <img class="card-img" src="/img/album/${album.getPicture()}" alt="Album picture">
+                <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}" alt="Album picture">
             </div>
             <div class="col-lg-10 col-md-10 d-flex justify-content-between align-items-center">
                 <h2 class="card-title">

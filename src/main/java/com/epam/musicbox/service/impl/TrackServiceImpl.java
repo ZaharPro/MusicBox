@@ -17,7 +17,6 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
     private static final TrackServiceImpl instance = new TrackServiceImpl();
 
     private final Validator validator = ValidatorImpl.getInstance();
-
     private final TrackRepository trackRepository = TrackRepositoryImpl.getInstance();
 
     private TrackServiceImpl() {

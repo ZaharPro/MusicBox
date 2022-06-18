@@ -33,7 +33,7 @@
                                     ${album.getName()}
 
                                 <img class="img-fluid d-block" style="max-width: 2.5rem"
-                                     src="/img/album/${album.getPicture()}"
+                                     src="${pageContext.request.contextPath}/file/img/${album.getPicture()}"
                                      alt="Album picture">
                             </a>
                         </c:forEach>

@@ -8,6 +8,6 @@ import com.epam.musicbox.service.impl.ArtistServiceImpl;
 public class ArtistDeleteCommand extends DeleteCommand<Artist> {
 
     public ArtistDeleteCommand() {
-        super(ArtistServiceImpl.getInstance(), Parameter.ARTIST_ID);
+        super(ArtistServiceImpl.getInstance(), Parameter.ARTIST_ID, ArtistSaveCommand.ARTIST_AVATAR);
     }
 }

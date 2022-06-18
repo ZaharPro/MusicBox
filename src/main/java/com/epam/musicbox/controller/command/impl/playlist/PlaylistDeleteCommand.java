@@ -8,6 +8,6 @@ import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 public class PlaylistDeleteCommand extends DeleteCommand<Playlist> {
 
     public PlaylistDeleteCommand() {
-        super(PlaylistServiceImpl.getInstance(), Parameter.PLAYLIST_ID);
+        super(PlaylistServiceImpl.getInstance(), Parameter.PLAYLIST_ID, PlaylistSaveCommand.PLAYLIST_PICTURE);
     }
 }
