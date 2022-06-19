@@ -15,7 +15,7 @@ public class PlaylistAddTrackCommand implements Command {
 
     private static final String REDIRECT_URL_FORMAT =
             String.format("controller?command=%s&%s=%%s&%s=%%s&%s=%%s",
-                    CommandType.GO_TO_EDIT_PLAYLIST_PAGE.getName(),
+                    CommandType.EDIT_PLAYLIST_PAGE.getName(),
                     Parameter.PLAYLIST_ID,
                     Parameter.TRACK_PAGE_INDEX,
                     Parameter.TRACK_PAGE_SIZE);

@@ -23,7 +23,7 @@ import java.util.Optional;
 
 public class LoginCommand implements Command {
 
-    private static final String REDIRECT_URL = "controller?command=" + CommandType.GO_TO_HOME_PAGE.getName();
+    private static final String REDIRECT_URL = "controller?command=" + CommandType.HOME_PAGE.getName();
     private static final String USER_ROLE_NOT_FOUND = "User role not found";
 
     private final UserService userService = UserServiceImpl.getInstance();

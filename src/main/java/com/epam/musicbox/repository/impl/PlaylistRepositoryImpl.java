@@ -58,6 +58,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                                                   "JOIN playlist_tracks " +
                                                   "ON playlist_tracks.track_id = tracks.track_id " +
                                                   "WHERE playlist_tracks.playlist_id=? " +
+                                                  "ORDER BY tracks.name " +
                                                   "LIMIT ?,?";
 
     private static final String SQL_EXIST_TRACK = "SELECT 1 " +

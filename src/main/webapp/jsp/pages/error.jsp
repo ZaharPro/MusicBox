@@ -5,31 +5,52 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="content"/>
 
-<html lang="<fmt:message key="html.lang"/>">
+<html lang="en">
 <head>
     <title>MusicBox</title>
     <c:import url="/jsp/head.jsp"/>
 </head>
 <body>
 
-<div class="d-flex justify-content-center align-items-center h-100">
-    <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
-        <h2 class="lead font-weight-normal mb-4 me-3">
-            Request fail
+<div class="container f-col h-100 p-5">
+    <div class="card f-col justify-content-center align-items-center h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h2 class="title text-center mb-3">
+            Error
         </h2>
+
         <c:if test="${pageContext.errorData.statusCode != 0}">
-            <p class="text-danger mb-3">Status code: ${pageContext.errorData.statusCode}</p>
+            <div class="mb-3">
+                <h4 class="text-danger text-center mb-1">
+                    Status code
+                </h4>
+                <div class="text-info text-center">
+                        ${pageContext.errorData.statusCode}
+                </div>
+            </div>
         </c:if>
         <c:if test="${not empty pageContext.errorData.throwable}">
-            <p class="text-danger mb-3">Exception: ${pageContext.errorData.throwable}</p>
+            <div class="mb-3">
+                <h4 class="text-danger text-center mb-1">
+                    Exception
+                </h4>
+                <div class="text-info text-center">
+                        ${pageContext.errorData.throwable}
+                </div>
+            </div>
         </c:if>
-        <c:if test="${not empty errorMessage}">
-            <p class="text-danger mb-3">Description: ${errorMessage}</p>
+        <c:if test="${not empty msg}">
+            <div class="mb-3">
+                <h4 class="text-danger text-center mb-1">
+                    Message
+                </h4>
+                <div class="text-info text-center">
+                        ${msg}
+                </div>
+            </div>
         </c:if>
-        <button type="button" class="btn btn-lg"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;">
-            <a href="${pageContext.request.contextPath}/controller?command=home-page" class="text-white">Go home</a>
-        </button>
+        <a class="btn btn-lg" href="${pageContext.request.contextPath}/controller?command=home-page">
+            Home
+        </a>
     </div>
 </div>
 

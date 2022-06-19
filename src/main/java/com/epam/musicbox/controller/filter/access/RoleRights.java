@@ -15,9 +15,9 @@ public class RoleRights {
         Map<Role, Set<CommandType>> map = new EnumMap<>(Role.class);
 
         map.put(Role.GUEST, setOf(
-                CommandType.GO_TO_LOGIN_PAGE,
-                CommandType.GO_TO_SIGN_UP_PAGE,
-                CommandType.GO_TO_HOME_PAGE,
+                CommandType.LOGIN_PAGE,
+                CommandType.SIGN_UP_PAGE,
+                CommandType.HOME_PAGE,
 
                 CommandType.CHANGE_LOCALE,
 
@@ -26,12 +26,12 @@ public class RoleRights {
                 CommandType.LOGOUT));
 
         map.put(Role.USER, setOf(
-                CommandType.GO_TO_HOME_PAGE,
-                CommandType.GO_TO_PROFILE_PAGE,
+                CommandType.HOME_PAGE,
+                CommandType.PROFILE_PAGE,
 
-                CommandType.GO_TO_CHANGE_PASSWORD_PAGE,
+                CommandType.CHANGE_PASSWORD_PAGE,
 
-                CommandType.GO_TO_EDIT_PLAYLIST_PAGE,
+                CommandType.EDIT_PLAYLIST_PAGE,
 
                 CommandType.LOGOUT,
                 CommandType.CHANGE_PASSWORD,

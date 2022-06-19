@@ -15,7 +15,7 @@ public class ArtistAddTrackCommand implements Command {
 
     private static final String REDIRECT_URL_FORMAT =
             String.format("controller?command=%s&%s=%%s&%s=%%s&%s=%%s&%s=%%s&%s=%%s",
-                    CommandType.GO_TO_EDIT_ARTIST_PAGE.getName(),
+                    CommandType.EDIT_ARTIST_PAGE.getName(),
                     Parameter.ARTIST_ID,
                     Parameter.TRACK_PAGE_INDEX,
                     Parameter.TRACK_PAGE_SIZE,

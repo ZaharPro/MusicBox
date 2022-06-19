@@ -15,100 +15,121 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-3 pb-3">
-    <div class="col card pt-3 pb-3 m-0 bg-dark">
-        <h2 class="title">
+<div class="container f-col h-100 pt-2 pb-2">
+    <div class="card f-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h2 class="title text-center mb-3">
             <fmt:message key="user.title"/>
         </h2>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.login"/>
-            <span class="text-info h6">
-                ${user.getLogin()}
-            </span>
-        </h4>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.email"/>
-            <span class="text-info h6">
-                ${user.getEmail()}
-            </span>
-        </h4>
-
-        <c:if test="${user.getBanned() == true}">
-            <h4 class="text-primary mt-1">
-                <fmt:message key="user.status"/>
-                <span class="text-danger h6">
-                    <fmt:message key="user.banned"/>
-                </span>
-            </h4>
-        </c:if>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.registration"/>
-            <span class="text-info h6">
-                ${user.getRegistration()}
-            </span>
-        </h4>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.role"/>
-            <span class="text-info h6">
-                ${role}
-            </span>
-        </h4>
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.ban.title"/>
-        </h4>
-        <form method="post" action="${pageContext.request.contextPath}/controller?command=user-set-ban">
-            <input type="hidden" name="userid" value="${user.getId()}"/>
-            <c:choose>
-                <c:when test="${user.getBanned() == true}">
-                    <input type="hidden" value="false"/>
-                    <button type="submit" class="btn btn-danger">
-                        <fmt:message key="user.unban"/>
-                    </button>
-                </c:when>
-                <c:otherwise>
-                    <input type="hidden" value="true"/>
-                    <button type="submit" class="btn btn-danger">
-                        <fmt:message key="user.ban"/>
-                    </button>
-                </c:otherwise>
-            </c:choose>
-        </form>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.data"/>
-        </h4>
-        <div class="list-group list-group-flush bg-transparent">
-            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-               href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks&userid=${user.getId()}">
-                <fmt:message key="user.show.liked.tracks"/>
-            </a>
-            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-               href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums&userid=${user.getId()}">
-                <fmt:message key="user.show.liked.albums"/>
-            </a>
-            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-               href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists&userid=${user.getId()}">
-                <fmt:message key="user.show.liked.artists"/>
-            </a>
-            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-               href="${pageContext.request.contextPath}/controller?command=user-get-playlists&userid=${user.getId()}">
-                <fmt:message key="user.show.playlists"/>
-            </a>
-        </div>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.settings"/>
-        </h4>
-        <div class="list-group list-group-flush bg-transparent">
-            <a class="list-group-item list-group-item-action bg-light border-0"
-               href="${pageContext.request.contextPath}/controller?command=change-password-page&userid=${user.getId()}">
-                <fmt:message key="user.change.password"/>
-            </a>
-        </div>
+        <c:choose>
+            <c:when test="${user != null}">
+                <div class="f-col align-items-center">
+                    <div class="col-auto">
+                        <div class="row mb-3">
+                            <h4 class="col-6 text-primary">
+                                <fmt:message key="user.login"/>
+                            </h4>
+                            <div class="col-6 text-info">
+                                    ${user.getLogin()}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <h4 class="col-6 text-primary">
+                                <fmt:message key="user.email"/>
+                            </h4>
+                            <div class="col-6 text-info">
+                                    ${user.getEmail()}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <h4 class="col-6 text-primary">
+                                <fmt:message key="user.registration"/>
+                            </h4>
+                            <div class="col-6 text-info">
+                                    ${user.getRegistration()}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <h4 class="col-6 text-primary">
+                                <fmt:message key="user.role"/>
+                            </h4>
+                            <div class="col-6 text-info">
+                                    ${role}
+                            </div>
+                        </div>
+                        <div class="row mb-3 align-items-center">
+                            <h4 class="col-6 text-primary">
+                                <fmt:message key="user.status"/>
+                            </h4>
+                            <div class="col-3 text-info">
+                                <c:choose>
+                                    <c:when test="${user.getBanned() == true}">
+                                        <fmt:message key="user.banned"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <fmt:message key="user.active"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div class="col-3">
+                                <form method="post"
+                                      action="${pageContext.request.contextPath}/controller?command=user-set-ban">
+                                    <input type="hidden" name="userid" value="${user.getId()}"/>
+                                    <c:choose>
+                                        <c:when test="${user.getBanned() == true}">
+                                            <input type="hidden" value="false"/>
+                                            <button type="submit" class="btn btn-sm w-100">
+                                                <fmt:message key="user.unban"/>
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="hidden" value="true"/>
+                                            <button type="submit" class="btn btn-sm w-100">
+                                                <fmt:message key="user.ban"/>
+                                            </button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col f-col align-items-center">
+                                <div class="row justify-content-center mt-1">
+                                    <a class="f-col justify-content-center img-link img-link-sm"
+                                       style="background-image: url('/system/img/home-track.png');"
+                                       href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks&userid=${user.getId()}">
+                                        <fmt:message key="user.tracks"/>
+                                    </a>
+                                    <a class="f-col justify-content-center img-link img-link-sm ml-1"
+                                       style="background-image: url('/system/img/home-album.png');"
+                                       href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums&userid=${user.getId()}">
+                                        <fmt:message key="user.albums"/>
+                                    </a>
+                                </div>
+                                <div class="row justify-content-center mt-1">
+                                    <a class="f-col justify-content-center img-link img-link-sm"
+                                       style="background-image: url('/system/img/home-artist.png');"
+                                       href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists&userid=${user.getId()}">
+                                        <fmt:message key="user.artists"/>
+                                    </a>
+                                    <a class="f-col justify-content-center img-link img-link-sm ml-1"
+                                       style="background-image: url('/system/img/home-playlist.png');"
+                                       href="${pageContext.request.contextPath}/controller?command=user-get-playlists&userid=${user.getId()}">
+                                        <fmt:message key="user.playlists"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="f-col justify-content-center h-100">
+                    <h4 class="title text-center mb-2">
+                        <fmt:message key="user.not.found"/>
+                    </h4>
+                </div>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 

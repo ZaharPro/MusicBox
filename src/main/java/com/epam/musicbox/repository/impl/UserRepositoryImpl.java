@@ -16,7 +16,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     private static final String SQL_FIND_ALL = "SELECT * " +
                                                "FROM users " +
-                                               "ORDER BY name " +
+                                               "ORDER BY login " +
                                                "LIMIT ?,?";
 
     private static final String SQL_FIND_BY_ID = "SELECT * " +
@@ -44,14 +44,15 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_COUNT_BY_ROLE = "SELECT COUNT(*) " +
                                                     "FROM users " +
                                                     "JOIN user_roles " +
-                                                    "ON user_roles.role_id = roles.role_id " +
-                                                    "WHERE user_roles.user_id=?";
+                                                    "ON user_roles.user_id = users.user_id " +
+                                                    "WHERE user_roles.role_id=?";
 
     private static final String SQL_FIND_BY_ROLE = "SELECT * " +
                                                    "FROM users " +
                                                    "JOIN user_roles " +
-                                                   "ON user_roles.role_id = roles.role_id " +
-                                                   "WHERE user_roles.user_id=? " +
+                                                   "ON user_roles.user_id = users.user_id " +
+                                                   "WHERE user_roles.role_id=? " +
+                                                   "ORDER BY users.login " +
                                                    "LIMIT ?,?";
 
     private static final String SQL_EXIST_USER_ROLE = "SELECT 1 " +
@@ -87,6 +88,7 @@ public class UserRepositoryImpl implements UserRepository {
                                                      "JOIN user_playlists " +
                                                      "ON user_playlists.playlist_id = playlists.playlist_id " +
                                                      "WHERE user_playlists.user_id=? " +
+                                                     "ORDER BY playlists.name " +
                                                      "LIMIT ?,?";
 
     private static final String SQL_ADD_PLAYLIST = "INSERT INTO user_playlists (user_id, playlist_id) " +
@@ -106,6 +108,7 @@ public class UserRepositoryImpl implements UserRepository {
                                                          "JOIN user_liked_artists " +
                                                          "ON user_liked_artists.artist_id = artists.artist_id " +
                                                          "WHERE user_liked_artists.user_id=? " +
+                                                         "ORDER BY artists.name " +
                                                          "LIMIT ?,?";
 
     //liked artist
@@ -131,6 +134,7 @@ public class UserRepositoryImpl implements UserRepository {
                                                         "JOIN user_liked_albums " +
                                                         "ON user_liked_albums.album_id = albums.album_id " +
                                                         "WHERE user_liked_albums.user_id=? " +
+                                                        "ORDER BY albums.name " +
                                                         "LIMIT ?,?";
 
     private static final String SQL_EXIST_LIKED_ALBUM = "SELECT 1 " +
@@ -159,6 +163,7 @@ public class UserRepositoryImpl implements UserRepository {
                                                         "JOIN user_liked_tracks " +
                                                         "ON user_liked_tracks.track_id = tracks.track_id " +
                                                         "WHERE user_liked_tracks.user_id=? " +
+                                                        "ORDER BY tracks.name " +
                                                         "LIMIT ?,?";
 
     private static final String SQL_MARK_LIKED_TRACK = "INSERT INTO user_liked_tracks (user_id, track_id) " +
@@ -244,7 +249,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findByRole(int roleId, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_ROLE, userRowMapper, roleId, offset, limit, roleId);
+        return QueryHelper.queryAll(SQL_FIND_BY_ROLE, userRowMapper, roleId, offset, limit);
     }
 
     @Override

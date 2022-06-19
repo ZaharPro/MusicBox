@@ -16,13 +16,13 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 
-public class GoToProfilePageCommand extends GoToPageCommand {
+public class ProfilePageCommand extends PageCommand {
 
     private static final String USER_NOT_FOUND_MSG = "User not found";
 
     private final UserService userService = UserServiceImpl.getInstance();
 
-    public GoToProfilePageCommand() {
+    public ProfilePageCommand() {
         super(PagePath.PROFILE);
     }
 

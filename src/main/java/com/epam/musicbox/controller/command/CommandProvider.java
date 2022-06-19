@@ -25,17 +25,18 @@ public class CommandProvider {
     private CommandProvider() {
         Map<CommandType, Command> commands = new EnumMap<>(CommandType.class);
 
-        commands.put(CommandType.GO_TO_SIGN_UP_PAGE, new GoToSingUpPageCommand());
-        commands.put(CommandType.GO_TO_LOGIN_PAGE, new GoToLoginPageCommand());
-        commands.put(CommandType.GO_TO_CHANGE_PASSWORD_PAGE, new GoToChangePasswordPageCommand());
+        commands.put(CommandType.SIGN_UP_PAGE, new SingUpPageCommand());
+        commands.put(CommandType.LOGIN_PAGE, new LoginPageCommand());
+        commands.put(CommandType.CHANGE_PASSWORD_PAGE, new ChangePasswordPageCommand());
 
-        commands.put(CommandType.GO_TO_HOME_PAGE, new GoToHomePageCommand());
-        commands.put(CommandType.GO_TO_PROFILE_PAGE, new GoToProfilePageCommand());
+        commands.put(CommandType.HOME_PAGE, new HomePageCommand());
+        commands.put(CommandType.ADMIN_PAGE, new AdminPageCommand());
+        commands.put(CommandType.PROFILE_PAGE, new ProfilePageCommand());
 
-        commands.put(CommandType.GO_TO_EDIT_ARTIST_PAGE, new GoToEditArtistPageCommand());
-        commands.put(CommandType.GO_TO_EDIT_ALBUM_PAGE, new GoToEditAlbumPageCommand());
-        commands.put(CommandType.GO_TO_EDIT_TRACK_PAGE, new GoToEditTrackPageCommand());
-        commands.put(CommandType.GO_TO_EDIT_PLAYLIST_PAGE, new GoToEditPlaylistPageCommand());
+        commands.put(CommandType.EDIT_ARTIST_PAGE, new EditArtistPageCommand());
+        commands.put(CommandType.EDIT_ALBUM_PAGE, new EditAlbumPageCommand());
+        commands.put(CommandType.EDIT_TRACK_PAGE, new EditTrackPageCommand());
+        commands.put(CommandType.EDIT_PLAYLIST_PAGE, new EditPlaylistPageCommand());
 
         commands.put(CommandType.SEARCH, new SearchCommand());
         commands.put(CommandType.CHANGE_LOCALE, new ChangeLocaleCommand());

@@ -5,11 +5,11 @@ import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.exception.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
 
-public abstract class GoToPageCommand implements Command {
+public abstract class PageCommand implements Command {
 
     private final String pagePath;
 
-    protected GoToPageCommand(String pagePath) {
+    protected PageCommand(String pagePath) {
         this.pagePath = pagePath;
     }
 

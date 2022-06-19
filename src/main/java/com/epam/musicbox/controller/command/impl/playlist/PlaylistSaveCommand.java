@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class PlaylistSaveCommand implements Command {
 
     private static final String REDIRECT_URL = String.format("controller?command=%s&%s=",
-            CommandType.GO_TO_EDIT_PLAYLIST_PAGE.getName(),
+            CommandType.EDIT_PLAYLIST_PAGE.getName(),
             Parameter.PLAYLIST_ID);
 
     public static final String PLAYLIST_PICTURE = Parameter.PLAYLIST + Parameter.PICTURE;

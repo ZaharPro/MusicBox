@@ -18,12 +18,12 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 
-public class GoToEditPlaylistPageCommand extends GoToPageCommand {
+public class EditPlaylistPageCommand extends PageCommand {
 
     private final PlaylistService playlistService = PlaylistServiceImpl.getInstance();
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
-    public GoToEditPlaylistPageCommand() {
+    public EditPlaylistPageCommand() {
         super(PagePath.EDIT_PLAYLIST);
     }
 

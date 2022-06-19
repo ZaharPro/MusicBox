@@ -7,7 +7,7 @@
 <fmt:setBundle basename="locale"/>
 
 <header class="container-fluid d-flex bg-dark">
-    <nav class="navbar navbar-expand-md navbar-dark bg-transparent mb-2 container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent mb-2 container">
         <a class="navbar-brand" href="${pageContext.request.contextPath}/controller?command=home-page">
             <h3 class="mb-0">
                 <fmt:message key="navbar.logo"/>
@@ -52,6 +52,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=admin-page">
+                            <fmt:message key="navbar.admin"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=logout">
                             <fmt:message key="navbar.logout"/>
                         </a>
@@ -59,11 +64,11 @@
                 </ct:access>
             </ul>
             <ct:access role="not-guest">
-                <form class="form-inline my-2 my-lg-0" method="POST"
+                <form class="form-inline my-2 my-lg-0 mr-1" method="post"
                       action="${pageContext.request.contextPath}/controller?command=search">
                     <input class="form-control mr-sm-2" type="search" name="name" aria-label="Search" value="${name}">
                     <button class="btn" type="submit">
-                        <fmt:message key="navbar.search.button"/>
+                        <fmt:message key="navbar.search"/>
                     </button>
                 </form>
             </ct:access>
@@ -73,15 +78,15 @@
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <ct:locale-label/>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 0">
-                    <form class="dropdown-item" method="POST"
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <form class="dropdown-item" method="post"
                           action="${pageContext.request.contextPath}/controller?command=change-locale">
                         <input type="hidden" name="locale" value="en_EN">
                         <button class="btn" type="submit">
                             <fmt:message key="navbar.locale.en"/>
                         </button>
                     </form>
-                    <form class="dropdown-item" method="POST"
+                    <form class="dropdown-item" method="post"
                           action="${pageContext.request.contextPath}/controller?command=change-locale">
                         <input type="hidden" name="locale" value="ru_RU">
                         <button class="btn" type="submit">

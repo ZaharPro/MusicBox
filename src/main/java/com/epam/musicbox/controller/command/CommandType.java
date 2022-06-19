@@ -2,15 +2,16 @@ package com.epam.musicbox.controller.command;
 
 public enum CommandType {
     //page
-    GO_TO_SIGN_UP_PAGE("sign-up-page"),
-    GO_TO_LOGIN_PAGE("login-page"),
-    GO_TO_CHANGE_PASSWORD_PAGE("change-password-page"),
-    GO_TO_HOME_PAGE("home-page"),
-    GO_TO_PROFILE_PAGE("profile-page"),
-    GO_TO_EDIT_ARTIST_PAGE("edit-artist-page"),
-    GO_TO_EDIT_ALBUM_PAGE("edit-album-page"),
-    GO_TO_EDIT_TRACK_PAGE("edit-track-page"),
-    GO_TO_EDIT_PLAYLIST_PAGE("edit-playlist-page"),
+    SIGN_UP_PAGE("sign-up-page"),
+    LOGIN_PAGE("login-page"),
+    CHANGE_PASSWORD_PAGE("change-password-page"),
+    HOME_PAGE("home-page"),
+    ADMIN_PAGE("admin-page"),
+    PROFILE_PAGE("profile-page"),
+    EDIT_ARTIST_PAGE("edit-artist-page"),
+    EDIT_ALBUM_PAGE("edit-album-page"),
+    EDIT_TRACK_PAGE("edit-track-page"),
+    EDIT_PLAYLIST_PAGE("edit-playlist-page"),
     SEARCH("search"),
     CHANGE_LOCALE("change-locale"),
 

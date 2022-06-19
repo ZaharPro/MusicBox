@@ -14,13 +14,13 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-3 pb-3">
+<div class="container f-col h-100 pt-2 pb-2">
     <c:choose>
         <c:when test="${trackpsr.hasElements() or albumpsr.hasElements() or artistpsr.hasElements()}">
             <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
                 <c:if test="${trackpsr.hasElements()}">
                     <div class="col f-col h-100 pt-3 pb-3 mb-0">
-                        <h4 class="title text-center">
+                        <h4 class="title text-center mb-2">
                             <fmt:message key="tracks.title"/>
                         </h4>
                         <div class="f-col h-100">
@@ -42,7 +42,7 @@
                 </c:if>
                 <c:if test="${albumpsr.hasElements()}">
                     <div class="col f-col h-100 pt-3 pb-3 mb-0">
-                        <h4 class="title text-center">
+                        <h4 class="title text-center mb-2">
                             <fmt:message key="albums.title"/>
                         </h4>
                         <div class="f-col h-100">
@@ -76,7 +76,7 @@
                 </c:if>
                 <c:if test="${artistpsr.hasElements()}">
                     <div class="col f-col h-100 pt-3 pb-3 mb-0">
-                        <h4 class="title text-center">
+                        <h4 class="title text-center mb-2">
                             <fmt:message key="artists.title"/>
                         </h4>
                         <div class="f-col h-100">
@@ -113,8 +113,8 @@
         <c:otherwise>
             <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
                 <div class="col f-col justify-content-center h-100">
-                    <h4 class="title text-center">
-                        <fmt:message key="search.not.found"/>
+                    <h4 class="title text-center mb-2">
+                        <fmt:message key="search.empty"/>
                     </h4>
                 </div>
             </div>

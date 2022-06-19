@@ -15,7 +15,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-3 pb-3">
+<div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
         <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
@@ -38,7 +38,7 @@
         </div>
         <div class="col f-col align-items-center h-100">
             <div class="col f-col align-items-center h-100">
-                <h2 class="title">
+                <h2 class="title text-center> mb-3">
                     ${track.getName()}
                 </h2>
                 <c:choose>
@@ -56,17 +56,17 @@
                         <button type="submit" class="btn w-100">
                             <c:choose>
                                 <c:when test="${like == false}">
-                                    <fmt:message key="mark.liked"/>
+                                    <fmt:message key="track.mark.liked"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <fmt:message key="unmark.liked"/>
+                                    <fmt:message key="track.unmark.liked"/>
                                 </c:otherwise>
                             </c:choose>
                         </button>
                         <ct:access role="admin">
                             <a class="btn w-100 ml-1"
                                href="${pageContext.request.contextPath}/controller?command=edit-track-page&trackid=${track.getId()}">
-                                <fmt:message key="edit"/>
+                                <fmt:message key="track.edit"/>
                             </a>
                         </ct:access>
                     </div>

@@ -18,12 +18,12 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 
-public class GoToEditArtistPageCommand extends GoToPageCommand {
+public class EditArtistPageCommand extends PageCommand {
 
     private final ArtistService artistService = ArtistServiceImpl.getInstance();
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
-    public GoToEditArtistPageCommand() {
+    public EditArtistPageCommand() {
         super(PagePath.EDIT_ARTIST);
     }
 

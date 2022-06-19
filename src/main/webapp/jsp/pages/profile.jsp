@@ -15,85 +15,76 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-3 pb-3">
-    <div class="col card pt-3 pb-3 m-0 bg-dark">
-        <h2 class="title">
-            <fmt:message key="user.title"/>
+<div class="container f-col h-100 pt-2 pb-2">
+    <div class="card f-col align-items-center h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h2 class="title text-center mb-3">
+            <fmt:message key="profile.title"/>
         </h2>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.login"/>
-            <span class="text-info h6">
-                ${user.getLogin()}
-            </span>
-        </h4>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.email"/>
-            <span class="text-info h6">
-                ${user.getEmail()}
-            </span>
-        </h4>
-
-        <c:if test="${user.getBanned() == true}">
-            <h4 class="text-primary mt-1">
-                <fmt:message key="user.status"/>
-                <span class="text-danger h6">
-                    <fmt:message key="user.banned"/>
-                </span>
-            </h4>
-        </c:if>
-
-        <ct:access role="admin">
-            <h4 class="text-primary mt-1">
-                <fmt:message key="user.tools"/>
-            </h4>
-            <div class="list-group list-group-flush bg-transparent">
-                <a class="list-group-item list-group-item-action"
-                   href="${pageContext.request.contextPath}/controller?command=edit-track-page">
-                    <fmt:message key="user.create.track"/>
-                </a>
-                <a class="list-group-item list-group-item-action"
-                   href="${pageContext.request.contextPath}/controller?command=edit-album-page">
-                    <fmt:message key="user.create.album"/>
-                </a>
-                <a class="list-group-item list-group-item-action"
-                   href="${pageContext.request.contextPath}/controller?command=edit-artist-page">
-                    <fmt:message key="user.create.artist"/>
-                </a>
+        <div class="col-auto">
+            <div class="d-flex mb-3">
+                <h4 class="text-primary mr-5">
+                    <fmt:message key="user.login"/>
+                </h4>
+                <div class="text-info">
+                    ${user.getLogin()}
+                </div>
             </div>
-        </ct:access>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.my.data"/>
-        </h4>
-        <div class="list-group list-group-flush bg-transparent">
-            <a class="list-group-item list-group-item-action"
-               href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks">
-                <fmt:message key="user.show.liked.tracks"/>
-            </a>
-            <a class="list-group-item list-group-item-action"
-               href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums">
-                <fmt:message key="user.show.liked.albums"/>
-            </a>
-            <a class="list-group-item list-group-item-action"
-               href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists">
-                <fmt:message key="user.show.liked.artists"/>
-            </a>
-            <a class="list-group-item list-group-item-action"
-               href="${pageContext.request.contextPath}/controller?command=user-get-playlists">
-                <fmt:message key="user.show.playlists"/>
-            </a>
-        </div>
-
-        <h4 class="text-primary mt-1">
-            <fmt:message key="user.settings"/>
-        </h4>
-        <div class="list-group list-group-flush bg-transparent">
-            <a class="list-group-item list-group-item-action bg-light border-0"
-               href="${pageContext.request.contextPath}/controller?command=change-password-page">
-                <fmt:message key="user.change.password"/>
-            </a>
+            <div class="d-flex mb-3">
+                <h4 class="text-primary mr-5">
+                    <fmt:message key="user.email"/>
+                </h4>
+                <div class="text-info">
+                    ${user.getEmail()}
+                </div>
+            </div>
+            <c:choose>
+                <c:when test="${user.getBanned() == true}">
+                    <div class="d-flex mb-5 align-items-center">
+                        <h4 class="text-primary mr-5">
+                            <fmt:message key="user.status"/>
+                        </h4>
+                        <div class="text-info">
+                            <fmt:message key="user.banned"/>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="d-flex mb-3 justify-content-center">
+                        <a class="btn btn-sm"
+                           href="${pageContext.request.contextPath}/controller?command=change-password-page">
+                            <fmt:message key="user.ch.pass"/>
+                        </a>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <div class="row">
+                <div class="col f-col align-items-center">
+                    <div class="row justify-content-center mt-1">
+                        <a class="f-col justify-content-center img-link img-link-sm"
+                           style="background-image: url('/system/img/home-track.png');"
+                           href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks">
+                            <fmt:message key="user.tracks"/>
+                        </a>
+                        <a class="f-col justify-content-center img-link img-link-sm ml-1"
+                           style="background-image: url('/system/img/home-album.png');"
+                           href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums">
+                            <fmt:message key="user.albums"/>
+                        </a>
+                    </div>
+                    <div class="row justify-content-center mt-1">
+                        <a class="f-col justify-content-center img-link img-link-sm"
+                           style="background-image: url('/system/img/home-artist.png');"
+                           href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists">
+                            <fmt:message key="user.artists"/>
+                        </a>
+                        <a class="f-col justify-content-center img-link img-link-sm ml-1"
+                           style="background-image: url('/system/img/home-playlist.png');"
+                           href="${pageContext.request.contextPath}/controller?command=user-get-playlists">
+                            <fmt:message key="user.playlists"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

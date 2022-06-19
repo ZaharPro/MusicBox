@@ -16,12 +16,12 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 
-public class GoToEditAlbumPageCommand extends GoToPageCommand {
+public class EditAlbumPageCommand extends PageCommand {
 
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
-    public GoToEditAlbumPageCommand() {
+    public EditAlbumPageCommand() {
         super(PagePath.EDIT_ALBUM);
     }
 

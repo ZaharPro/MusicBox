@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 
-public class GoToEditTrackPageCommand extends GoToPageCommand {
+public class EditTrackPageCommand extends PageCommand {
 
     private static final char URL_ATTRIBUTE_DELIMITER = '&';
     private static final char URL_ATTRIBUTE_EQ = '=';
@@ -28,7 +28,7 @@ public class GoToEditTrackPageCommand extends GoToPageCommand {
     private final TrackService trackService = TrackServiceImpl.getInstance();
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
 
-    public GoToEditTrackPageCommand() {
+    public EditTrackPageCommand() {
         super(PagePath.EDIT_TRACK);
     }
 
@@ -37,8 +37,8 @@ public class GoToEditTrackPageCommand extends GoToPageCommand {
         try {
             StringBuilder navCommandBuilder = new StringBuilder();
             StringBuilder albumChooseCommandBuilder = new StringBuilder();
-            navCommandBuilder.append(CommandType.GO_TO_EDIT_TRACK_PAGE.getName());
-            albumChooseCommandBuilder.append(CommandType.GO_TO_EDIT_TRACK_PAGE.getName());
+            navCommandBuilder.append(CommandType.EDIT_TRACK_PAGE.getName());
+            albumChooseCommandBuilder.append(CommandType.EDIT_TRACK_PAGE.getName());
 
             Long trackId = ParamTaker.getNullableLong(req, Parameter.TRACK_ID);
             if (trackId != null) {

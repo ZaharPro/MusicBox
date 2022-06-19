@@ -15,7 +15,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-3 pb-3">
+<div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
         <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
@@ -51,17 +51,17 @@
                         <button type="submit" class="btn w-100">
                             <c:choose>
                                 <c:when test="${like == false}">
-                                    <fmt:message key="mark.liked"/>
+                                    <fmt:message key="playlist.mark.liked"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <fmt:message key="unmark.liked"/>
+                                    <fmt:message key="playlist.unmark.liked"/>
                                 </c:otherwise>
                             </c:choose>
                         </button>
                         <ct:access role="admin">
                             <a class="btn w-100 ml-1"
                                href="${pageContext.request.contextPath}/controller?command=edit-playlist-page&playlistid=${playlist.getId()}">
-                                <fmt:message key="edit"/>
+                                <fmt:message key="playlist.edit"/>
                             </a>
                         </ct:access>
                     </div>
@@ -69,7 +69,7 @@
             </div>
         </div>
         <div class="col f-col h-100 pt-3 pb-3 mb-0">
-            <h4 class="title text-center">
+            <h4 class="title text-center mb-2">
                 <fmt:message key="tracks.title"/>
             </h4>
             <c:choose>
@@ -92,8 +92,8 @@
                 </c:when>
                 <c:otherwise>
                     <div class="col f-col justify-content-center h-100">
-                        <h4 class="title text-center">
-                            <fmt:message key="not.found"/>
+                        <h4 class="title text-center mb-2">
+                            <fmt:message key="tracks.empty"/>
                         </h4>
                     </div>
                 </c:otherwise>

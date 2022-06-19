@@ -18,31 +18,65 @@
     <c:set var="command" value="user-get" scope="request"/>
 </c:if>
 
-<div class="container f-col h-100 pt-3 pb-3">
+<div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <h4 class="title text-center">
+        <h4 class="title text-center mb-2">
             <fmt:message key="users.title"/>
         </h4>
+        <div class="row justify-content-between">
+            <div class="btn-group-lg btn-group-sm col-3">
+                <a class="btn w-100"
+                   href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=user">
+                    <fmt:message key="users.only.users"/>
+                </a>
+                <a class="btn w-100"
+                   href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=admin">
+                    <fmt:message key="users.only.admins"/>
+                </a>
+                <a class="btn w-100"
+                   href="${pageContext.request.contextPath}/controller?command=user-get">
+                    <fmt:message key="users.all"/>
+                </a>
+            </div>
+            <form class="form-inline col-4" method="post"
+                  action="${pageContext.request.contextPath}/controller?command=user-get-by-login">
+                <input class="form-control mr-sm-2" type="search" name="login" aria-label="Search by login"
+                       value="${login}">
+                <button class="btn" type="submit">
+                    <fmt:message key="users.search"/>
+                </button>
+            </form>
+        </div>
         <c:choose>
             <c:when test="${userpsr.hasElements()}">
                 <div class="f-col h-100">
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover mb-auto">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col"><fmt:message key="users.login"/></th>
-                            <th scope="col"><fmt:message key="users.email"/></th>
-                            <th scope="col"><fmt:message key="users.banned"/></th>
-                            <th scope="col"><fmt:message key="users.role"/></th>
-                            <th scope="col"><fmt:message key="users.registration"/>></th>
+                            <th scope="col"><fmt:message key="user.login"/></th>
+                            <th scope="col"><fmt:message key="user.email"/></th>
+                            <th scope="col"><fmt:message key="user.status"/></th>
+                            <th scope="col"><fmt:message key="user.role"/></th>
+                            <th scope="col"><fmt:message key="user.registration"/></th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${userpsr.getElements()}" var="user" varStatus="status">
-                            <tr onclick="window.location='${pageContext.request.contextPath}/controller?command=user-get-by-id&userid=${user.getId()}';">
+                            <tr class="tr-link"
+                                onclick="window.location='${pageContext.request.contextPath}/controller?command=user-get-by-id&userid=${user.getId()}';">
                                 <td>${user.getLogin()}</td>
                                 <td>${user.getEmail()}</td>
-                                <td>${user.getBanned()}</td>
-                                <td>${userpsr.getRoles().get(status)}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${user.getBanned()}">
+                                            <fmt:message key="user.banned"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="user.active"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>${userpsr.getRoles().get(status.index)}</td>
                                 <td>${user.getRegistration()}</td>
                             </tr>
                         </c:forEach>
@@ -57,8 +91,8 @@
             </c:when>
             <c:otherwise>
                 <div class="col f-col justify-content-center h-100">
-                    <h4 class="title text-center">
-                        <fmt:message key="not.found"/>
+                    <h4 class="title text-center mb-2">
+                        <fmt:message key="users.empty"/>
                     </h4>
                 </div>
             </c:otherwise>

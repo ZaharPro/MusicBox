@@ -15,14 +15,14 @@
 
 <div class="d-flex justify-content-center align-items-center h-100">
     <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
-        <form method="POST" name="loginForm" action="${pageContext.request.contextPath}/controller?command=login">
+        <form method="post" name="loginForm" action="${pageContext.request.contextPath}/controller?command=login">
             <h2 class="lead font-weight-normal mb-4 me-3">
                 <fmt:message key="login.title"/>
             </h2>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="loginInput">
-                    <fmt:message key="login.input.login"/>
+                    <fmt:message key="login.login"/>
                 </label>
                 <input type="text" id="loginInput" placeholder="Enter login" name="login"
                        class="form-control form-control-lg"/>
@@ -30,7 +30,7 @@
 
             <div class="form-outline mb-3">
                 <label class="form-label" for="passwordInput">
-                    <fmt:message key="login.input.password"/>
+                    <fmt:message key="login.password"/>
                 </label>
                 <input type="password" id="passwordInput" placeholder="Enter password" name="password"
                        class="form-control form-control-lg"/>
@@ -41,23 +41,23 @@
                     <input class="form-check-input me-2" type="checkbox" value="" id="passwordCheckbox"
                            onclick="togglePasswordCheckbox()"/>
                     <label class="form-check-label" for="passwordCheckbox">
-                        <fmt:message key="login.checkbox.password"/>
+                        <fmt:message key="login.show.pass"/>
                     </label>
                 </div>
                 <a href="${pageContext.request.contextPath}/controller?command=forgot-password" class="text-body">
-                    <fmt:message key="login.button.forgot.pass"/>
+                    <fmt:message key="login.forgot.password"/>
                 </a>
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">
                 <button type="submit" class="btn btn-lg">
-                    <fmt:message key="login.button.submit"/>
+                    <fmt:message key="login.submit"/>
                 </button>
                 <p class="small fw-bold mt-2 pt-1 mb-0">
-                    <fmt:message key="login.button.label"/>
+                    <fmt:message key="login.signup.question"/>
                     <a href="${pageContext.request.contextPath}/controller?command=sign-up-page"
                        class="link-danger">
-                        <fmt:message key="login.button.signup"/>
+                        <fmt:message key="login.signup"/>
                     </a>
                 </p>
             </div>

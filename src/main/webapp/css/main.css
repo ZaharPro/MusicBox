@@ -40,6 +40,45 @@ body {
     text-decoration: underline;
 }
 
+.tr-link td {
+    cursor: pointer;
+    transition: all .4s ease;
+}
+
+.img-link {
+    display: inline-block;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    width: 8rem;
+    height: 8rem;
+    line-height: 1.5;
+    color: #ffffff;
+    text-shadow: 0 0 5px black;
+    transition: all 0.15s ease-in-out;
+}
+
+.img-link:hover, .img-link:focus {
+    text-decoration: none;
+    color: #ff8cb9;
+}
+
+.img-link-sm {
+    font-size: 1.2rem;
+    width: 12rem;
+    height: 12rem;
+}
+
+.img-link-lg {
+    font-size: 1.8rem;
+    width: 18rem;
+    height: 18rem;
+}
+
 .file-drop-area {
     border: 1px solid #dd2476;
     border-radius: 4px;

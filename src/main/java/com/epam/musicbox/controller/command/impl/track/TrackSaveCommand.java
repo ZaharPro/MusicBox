@@ -20,7 +20,7 @@ public class TrackSaveCommand implements Command {
 
     private static final String REDIRECT_URL_FORMAT =
             String.format("controller?command=%s&%s=%%s&%s=%%s&%s=%%s",
-                    CommandType.GO_TO_EDIT_TRACK_PAGE.getName(),
+                    CommandType.EDIT_TRACK_PAGE.getName(),
                     Parameter.TRACK_ID,
                     Parameter.ALBUM_ID,
                     Parameter.ALBUM_PAGE_SIZE);

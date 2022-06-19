@@ -15,7 +15,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-3 pb-3">
+<div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
         <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
@@ -39,7 +39,7 @@
                     </c:if>
                     <div class="form-outline col-3">
                         <label for="playlistName" class="title h4">
-                            <fmt:message key="enter.name"/>
+                            <fmt:message key="edit.playlist.enter.name"/>
                         </label>
                         <input type="text" id="playlistName" name="name" required
                                class="form-control form-control-lg w-100"
@@ -51,7 +51,7 @@
                     <div class="col-6">
                         <div class="file-drop-area h-100 p-3">
                             <label for="picture" class="text-center">
-                                <fmt:message key="choose.picture"/>
+                                <fmt:message key="edit.playlist.upload.picture"/>
                             </label>
                             <input class="file-input w-100" id="picture" type="file" name="picture"
                                    accept=".png, .jpg, .jpeg, .gif">
@@ -60,12 +60,12 @@
 
                     <div class="btn-group-lg col-3 f-col">
                         <button type="submit" class="btn w-100">
-                            <fmt:message key="save"/>
+                            <fmt:message key="edit.playlist.save"/>
                         </button>
                         <c:if test="${playlist != null}">
                             <a class="btn w-100 mt-2"
                                href="${pageContext.request.contextPath}/controller?command=playlist-delete&playlistid=${playlist.getId()}">
-                                <fmt:message key="delete"/>
+                                <fmt:message key="edit.playlist.delete"/>
                             </a>
                         </c:if>
                     </div>
@@ -74,7 +74,7 @@
         </div>
         <c:if test="${playlist != null}">
             <div class="col f-col h-100 pt-3 pb-3 mb-0">
-                <h4 class="title text-center">
+                <h4 class="title text-center mb-2">
                     <fmt:message key="tracks.title"/>
                 </h4>
                 <c:choose>
@@ -100,10 +100,10 @@
                                             <button type="submit" class="btn btn-sm">
                                                 <c:choose>
                                                     <c:when test="${trackpsr.getFlags().get(status.index)}">
-                                                        <fmt:message key="remove"/>
+                                                        <fmt:message key="edit.playlist.remove"/>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <fmt:message key="add"/>
+                                                        <fmt:message key="edit.playlist.add"/>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </button>
@@ -121,8 +121,8 @@
                     </c:when>
                     <c:otherwise>
                         <div class="col f-col justify-content-center h-100">
-                            <h4 class="title text-center">
-                                <fmt:message key="not.found"/>
+                            <h4 class="title text-center mb-2">
+                                <fmt:message key="tracks.empty"/>
                             </h4>
                         </div>
                     </c:otherwise>

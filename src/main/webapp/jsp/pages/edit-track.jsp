@@ -18,7 +18,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-3 pb-3">
+<div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
         <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
@@ -40,7 +40,7 @@
                             ${album.getName()}
                         </c:when>
                         <c:otherwise>
-                            <fmt:message key="album.not.selected"/>
+                            <fmt:message key="edit.track.album.not.selected"/>
                         </c:otherwise>
                     </c:choose>
                 </h4>
@@ -54,17 +54,17 @@
             </c:if>
             <div class="form-outline col-3">
                 <label for="trackName" class="title h4">
-                    <fmt:message key="enter.name"/>
+                    <fmt:message key="edit.track.enter.name"/>
                 </label>
                 <input type="text" id="trackName" name="name" required
                 <c:if test="${track != null}">
                        value="${track.getName()}"
                 </c:if>>
             </div>
-            <div class="col-6">
+            <div class="col-6 f-col h-100">
                 <div class="file-drop-area h-100 p-3">
                     <label for="picture" class="text-center">
-                        <fmt:message key="choose.picture"/>
+                        <fmt:message key="edit.track.upload.track"/>
                     </label>
                     <input class="file-input w-100" id="picture" type="file" name="audio" accept=".wav, .mp3">
                 </div>
@@ -82,25 +82,31 @@
                     <input type="hidden" name="albumpage" value="${albumpsr.getPage()}">
                     <div class="btn-group-lg col-3 f-col">
                         <button type="submit" class="btn w-100">
-                            <fmt:message key="save"/>
+                            <fmt:message key="edit.track.save"/>
                         </button>
                         <c:if test="${track != null}">
                             <a class="btn w-100 mt-2"
                                href="${pageContext.request.contextPath}/controller?command=track-delete&trackid=${track.getId()}">
-                                <fmt:message key="delete"/>
+                                <fmt:message key="edit.track.delete"/>
                             </a>
                         </c:if>
                     </div>
                 </c:when>
                 <c:otherwise>
-                        <span class="text-danger text-center col-3 d-block">
-                            <fmt:message key="choose.album"/>
-                        </span>
+                    <div class="col-3 f-col">
+                        <h4 class="text-danger text-center col-3 d-block">
+                            <fmt:message key="edit.track.select.album"/>
+                        </h4>
+                        <a class="btn w-100 mt-2"
+                           href="${pageContext.request.contextPath}/controller?command=edit-album-page">
+                            <fmt:message key="admin.add.album"/>
+                        </a>
+                    </div>
                 </c:otherwise>
             </c:choose>
         </form>
         <div class="col f-col h-100 pt-3 pb-3 mb-0">
-            <h4 class="title text-center">
+            <h4 class="title text-center mb-2">
                 <fmt:message key="albums.title"/>
             </h4>
             <c:choose>
@@ -124,8 +130,8 @@
                 </c:when>
                 <c:otherwise>
                     <div class="col f-col justify-content-center h-100">
-                        <h4 class="title text-center">
-                            <fmt:message key="not.found"/>
+                        <h4 class="title text-center mb-2">
+                            <fmt:message key="albums.empty"/>
                         </h4>
                     </div>
                 </c:otherwise>

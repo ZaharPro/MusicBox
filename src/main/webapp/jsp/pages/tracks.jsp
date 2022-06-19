@@ -18,9 +18,9 @@
     <c:set var="command" value="track-get" scope="request"/>
 </c:if>
 
-<div class="container f-col h-100 pt-3 pb-3">
+<div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <h4 class="title text-center">
+        <h4 class="title text-center mb-2">
             <fmt:message key="tracks.title"/>
         </h4>
         <c:choose>
@@ -43,8 +43,8 @@
             </c:when>
             <c:otherwise>
                 <div class="col f-col justify-content-center h-100">
-                    <h4 class="title text-center">
-                        <fmt:message key="not.found"/>
+                    <h4 class="title text-center mb-2">
+                        <fmt:message key="tracks.empty"/>
                     </h4>
                 </div>
             </c:otherwise>

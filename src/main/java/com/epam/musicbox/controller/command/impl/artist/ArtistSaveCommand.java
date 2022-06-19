@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ArtistSaveCommand implements Command {
 
     private static final String REDIRECT_URL = String.format("controller?command=%s&%s=",
-            CommandType.GO_TO_EDIT_ARTIST_PAGE.getName(),
+            CommandType.EDIT_ARTIST_PAGE.getName(),
             Parameter.ARTIST_ID);
 
     public static final String ARTIST_AVATAR = Parameter.ARTIST + Parameter.AVATAR;

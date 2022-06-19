@@ -56,6 +56,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                   "JOIN artist_tracks " +
                                                   "ON artist_tracks.track_id = tracks.track_id " +
                                                   "WHERE artist_tracks.artist_id=? " +
+                                                  "ORDER BY tracks.name " +
                                                   "LIMIT ?,?";
 
     private static final String SQL_EXIST_TRACK = "SELECT 1 " +
@@ -83,6 +84,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                   "JOIN artist_tracks " +
                                                   "ON tracks.track_id = artist_tracks.track_id " +
                                                   "WHERE artist_tracks.artist_id=? " +
+                                                  "ORDER BY albums.name " +
                                                   "LIMIT ?,?";
 
     private static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();

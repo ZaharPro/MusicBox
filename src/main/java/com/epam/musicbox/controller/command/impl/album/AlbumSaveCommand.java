@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AlbumSaveCommand implements Command {
 
     private static final String REDIRECT_URL = String.format("controller?command=%s&%s=",
-            CommandType.GO_TO_EDIT_ALBUM_PAGE.getName(),
+            CommandType.EDIT_ALBUM_PAGE.getName(),
             Parameter.ALBUM_ID);
 
     public static final String ALBUM_PICTURE = Parameter.ALBUM + Parameter.PICTURE;
