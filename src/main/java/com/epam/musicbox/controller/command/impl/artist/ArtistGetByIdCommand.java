@@ -10,11 +10,11 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.ArtistService;
-import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -24,6 +24,8 @@ import java.util.Optional;
 
 public class ArtistGetByIdCommand implements Command {
 
+    private static final String ARTIST_NOT_FOUND_MSG = "Artist not found";
+
     private final ArtistService artistService = ArtistServiceImpl.getInstance();
     private final UserService userService = UserServiceImpl.getInstance();
 
@@ -32,17 +34,18 @@ public class ArtistGetByIdCommand implements Command {
         try {
             long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
             Optional<Artist> optional = artistService.findById(artistId);
-            if (optional.isPresent()) {
-                Artist artist = optional.get();
-                req.setAttribute(Parameter.ARTIST, artist);
-
-                Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
-                Claims body = token.getBody();
-                long userId = ParamTaker.getLong(body, Parameter.USER_ID);
-
-                boolean like = userService.isLikedArtist(userId, artistId);
-                req.setAttribute(Parameter.LIKE, like);
+            if (optional.isEmpty()) {
+                throw new CommandException(ARTIST_NOT_FOUND_MSG);
             }
+            Artist artist = optional.get();
+            req.setAttribute(Parameter.ARTIST, artist);
+
+            Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
+            Claims body = token.getBody();
+            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+
+            boolean like = userService.isLikedArtist(userId, artistId);
+            req.setAttribute(Parameter.LIKE, like);
 
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);

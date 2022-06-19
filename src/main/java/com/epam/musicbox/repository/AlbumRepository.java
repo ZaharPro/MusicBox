@@ -2,7 +2,6 @@ package com.epam.musicbox.repository;
 
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.exception.RepositoryException;
-import com.epam.musicbox.exception.ServiceException;
 
 import java.util.List;
 

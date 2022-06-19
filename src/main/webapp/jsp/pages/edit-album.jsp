@@ -15,12 +15,12 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container d-flex d-flex flex-column h-100 pt-3 pb-3">
-    <div class="col card pt-0 pb-3 mb-0 d-flex d-flex flex-column h-100 bg-dark">
-        <div class="row pt-3 pb-3" style="border-bottom: 1px solid #dd2476;">
+<div class="container f-col h-100 pt-3 pb-3">
+    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
-                    <c:when test="${album != null}">
+                    <c:when test="${album != null && album.getPicture() != null}">
                         <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}"
                              alt="Album picture">
                     </c:when>
@@ -30,7 +30,7 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="col-lg-10 col-md-10">
+            <div class="col-lg-10 col-md-10 f-col h-100">
                 <form method="post" class="row"
                       action="${pageContext.request.contextPath}/controller?command=album-save"
                       enctype="multipart/form-data">
@@ -38,31 +38,34 @@
                         <input type="hidden" name="albumid" value="${album.getId()}">
                     </c:if>
                     <div class="form-outline col-3">
-                        <label for="albumName">
-                            <fmt:message key="edit.album.label.name"/>
+                        <label for="albumName" class="title h4">
+                            <fmt:message key="enter.name"/>
                         </label>
-                        <input type="text" id="albumName" name="name" required class="form-control form-control-lg"
+                        <input type="text" id="albumName" name="name" required
+                               class="form-control form-control-lg w-100"
                         <c:if test="${album != null}">
                                value="${album.getName()}"
                         </c:if>>
                     </div>
 
-                    <div class="file-drop-area col-6 p-3" style="border: 1px solid #dd2476; border-radius: 2px;">
-                        <label for="picture">
-                            <fmt:message key="edit.album.choose.picture"/>
-                        </label>
-                        <input class="file-input w-100 h-100" id="picture" type="file" name="picture"
-                               accept=".png, .jpg, .jpeg, .gif">
+                    <div class="col-6">
+                        <div class="file-drop-area h-100 p-3">
+                            <label for="picture" class="text-center">
+                                <fmt:message key="choose.picture"/>
+                            </label>
+                            <input class="file-input w-100" id="picture" type="file" name="picture"
+                                   accept=".png, .jpg, .jpeg, .gif">
+                        </div>
                     </div>
 
-                    <div class="btn-group-lg col-3 d-flex flex-column w-100">
-                        <button type="submit" class="btn btn-lg w-100">
-                            <fmt:message key="edit.album.save"/>
+                    <div class="btn-group-lg col-3 f-col">
+                        <button type="submit" class="btn w-100">
+                            <fmt:message key="save"/>
                         </button>
                         <c:if test="${album != null}">
-                            <a class="btn btn-lg w-100"
+                            <a class="btn w-100 mt-2"
                                href="${pageContext.request.contextPath}/controller?command=album-delete&albumid=${album.getId()}">
-                                <fmt:message key="edit.album.delete"/>
+                                <fmt:message key="delete"/>
                             </a>
                         </c:if>
                     </div>

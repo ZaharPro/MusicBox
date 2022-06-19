@@ -25,7 +25,7 @@ public final class Parameter {
     public static final String TRACK = "track";
     public static final String ALBUM = "album";
     public static final String ARTIST = "artist";
-    public static final String PLAYLIST = "artist";
+    public static final String PLAYLIST = "playlist";
 
     public static final String USER_ID = USER + "id";
     public static final String TRACK_ID = TRACK + "id";

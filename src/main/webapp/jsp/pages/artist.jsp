@@ -15,93 +15,102 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container d-flex flex-column h-100 pt-3 pb-3">
-    <div class="col card pt-0 pb-3 mb-0 d-flex flex-column h-100 bg-dark">
+<div class="container f-col h-100 pt-3 pb-3">
+    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
         <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
-                <img class="card-img" src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}" alt="Artist avatar">
+                <c:choose>
+                    <c:when test="${artist != null && artist.getAvatar() != null}">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}"
+                             alt="Artist avatar">
+                    </c:when>
+                    <c:otherwise>
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/artist-default.png"
+                             alt="Artist avatar">
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <div class="col-lg-10 col-md-10 d-flex justify-content-between align-items-center">
-                <h2 class="card-title">
+            <div class="col-lg-10 col-md-10 row">
+                <h2 class="title col-9">
                     ${artist.getName()}
                 </h2>
-                <div class="btn-group">
-                    <c:choose>
-                        <c:when test="${like == false}">
-                            <form method="post" class="m-0"
-                                  action="${pageContext.request.contextPath}/controller?command=user-mark-liked-artist">
-                                <input type="hidden" name="artistid" value="${artist.getId()}"/>
-                                <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
-                                <input type="hidden" name="albumpage" value="${albumpsr.getPage()}"/>
-                                <button type="submit" class="btn btn-sm">
-                                    <fmt:message key="artist.mark.liked"/>
-                                </button>
-                            </form>
-                        </c:when>
-                        <c:otherwise>
-                            <form method="post" class="m-0"
-                                  action="${pageContext.request.contextPath}/controller?command=user-unmark-liked-artist">
-                                <input type="hidden" name="artistid" value="${artist.getId()}"/>
-                                <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
-                                <input type="hidden" name="albumpage" value="${albumpsr.getPage()}"/>
-                                <button type="submit" class="btn btn-sm">
-                                    <fmt:message key="artist.unmark.liked"/>
-                                </button>
-                            </form>
-                        </c:otherwise>
-                    </c:choose>
-                    <ct:access role="admin">
-                        <div>
-                            <a class="btn btn-sm ml-1"
+                <c:choose>
+                    <c:when test="${like == false}">
+                        <c:set var="cmd" value="user-mark-liked-artist" scope="request"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="cmd" value="user-unmark-liked-artist" scope="request"/>
+                    </c:otherwise>
+                </c:choose>
+                <form method="post" class="col-3"
+                      action="${pageContext.request.contextPath}/controller?command=${cmd}">
+                    <input type="hidden" name="artistid" value="${artist.getId()}"/>
+                    <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
+                    <input type="hidden" name="albumpage" value="${albumpsr.getPage()}"/>
+
+                    <div class="btn-group btn-group-sm w-100">
+                        <button type="submit" class="btn w-100">
+                            <c:choose>
+                                <c:when test="${like == false}">
+                                    <fmt:message key="mark.liked"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="unmark.liked"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </button>
+                        <ct:access role="admin">
+                            <a class="btn w-100 ml-1"
                                href="${pageContext.request.contextPath}/controller?command=edit-artist-page&artistid=${artist.getId()}">
-                                <fmt:message key="artist.edit"/>
+                                <fmt:message key="edit"/>
                             </a>
-                        </div>
-                    </ct:access>
-                </div>
+                        </ct:access>
+                    </div>
+                </form>
             </div>
         </div>
-
         <c:if test="${trackpsr.hasElements()}">
-            <span class="w-100 m-0 mt-3 pt-0" style="border-bottom: 1px solid #dd2476;"></span>
-            <h4 class="card-title text-center mt-3">
-                <fmt:message key="tracks.title"/>
-            </h4>
-            <div class="d-flex flex-column justify-content-between h-100" style="min-height: 20rem">
-                <div class="list-group list-group-flush bg-light">
-                    <c:forEach items="${trackpsr.getElements()}" var="track">
-                        <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                           href="${pageContext.request.contextPath}/controller?command=track-get-by-id&trackid=${track.getId()}&trackpage=${trackpsr.getPage()}">
-                                ${track.getName()}
-                        </a>
-                    </c:forEach>
+            <div class="col f-col h-100 pt-3 pb-3 mb-0">
+                <h4 class="title text-center">
+                    <fmt:message key="tracks.title"/>
+                </h4>
+                <div class="f-col h-100">
+                    <div class="list-group list-group-flush bg-light h-100 mb-2">
+                        <c:forEach items="${trackpsr.getElements()}" var="track">
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                               href="${pageContext.request.contextPath}/controller?command=track-get-by-id&trackid=${track.getId()}&trackpage=${trackpsr.getPage()}">
+                                    ${track.getName()}
+                            </a>
+                        </c:forEach>
+                    </div>
+                    <c:set var="page" value="${trackpsr.getPage()}" scope="request"/>
+                    <c:set var="maxpage" value="${trackpsr.getMaxPage()}" scope="request"/>
+                    <c:set var="pagename" value="trackpage" scope="request"/>
+                    <c:set var="command" value="track-get" scope="request"/>
+                    <c:import url="/jsp/fragments/page-navigation.jsp"/>
                 </div>
-                <c:set var="page" value="${trackpsr.getPage()}" scope="request"/>
-                <c:set var="maxpage" value="${trackpsr.getMaxPage()}" scope="request"/>
-                <c:set var="pagename" value="trackpage" scope="request"/>
-                <c:set var="command" value="track-get" scope="request"/>
-                <c:import url="/jsp/fragments/page-navigation.jsp"/>
             </div>
         </c:if>
         <c:if test="${albumpsr.hasElements()}">
-            <span class="w-100 m-0 mt-3 pt-0" style="border-bottom: 1px solid #dd2476;"></span>
-            <h4 class="card-title text-center mt-3">
-                <fmt:message key="albums.title"/>
-            </h4>
-            <div class="d-flex flex-column justify-content-between h-100" style="min-height: 20rem">
-                <div class="list-group list-group-flush bg-light">
-                    <c:forEach items="${albumpsr.getElements()}" var="album">
-                        <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                           href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}&albumpage=${albumpsr.getPage()}">
-                                ${album.getName()}
-                        </a>
-                    </c:forEach>
+            <div class="col f-col h-100 pt-3 pb-3 mb-0">
+                <h4 class="title text-center">
+                    <fmt:message key="albums.title"/>
+                </h4>
+                <div class="f-col h-100">
+                    <div class="list-group list-group-flush bg-light h-100 mb-2">
+                        <c:forEach items="${albumpsr.getElements()}" var="album">
+                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                               href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}&albumpage=${albumpsr.getPage()}">
+                                    ${album.getName()}
+                            </a>
+                        </c:forEach>
+                    </div>
+                    <c:set var="page" value="${albumpsr.getPage()}" scope="request"/>
+                    <c:set var="maxpage" value="${albumpsr.getMaxPage()}" scope="request"/>
+                    <c:set var="pagename" value="albumpage" scope="request"/>
+                    <c:set var="command" value="album-get" scope="request"/>
+                    <c:import url="/jsp/fragments/page-navigation.jsp"/>
                 </div>
-                <c:set var="page" value="${albumpsr.getPage()}" scope="request"/>
-                <c:set var="maxpage" value="${albumpsr.getMaxPage()}" scope="request"/>
-                <c:set var="pagename" value="albumpage" scope="request"/>
-                <c:set var="command" value="album-get" scope="request"/>
-                <c:import url="/jsp/fragments/page-navigation.jsp"/>
             </div>
         </c:if>
     </div>

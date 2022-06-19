@@ -18,53 +18,47 @@
     <c:set var="command" value="user-get" scope="request"/>
 </c:if>
 
-<div class="container d-flex flex-column h-100 pt-3 pb-3">
-    <div class="col card d-flex flex-column h-100 pt-3 pb-3 mb-0 bg-dark">
-        <h4 class="card-title text-center">
+<div class="container f-col h-100 pt-3 pb-3">
+    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h4 class="title text-center">
             <fmt:message key="users.title"/>
         </h4>
         <c:choose>
             <c:when test="${userpsr.hasElements()}">
-                <div class="d-flex flex-column justify-content-between h-100">
-                    <div class="list-group list-group-flush bg-light">
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="col-3">
-                                <fmt:message key="users.login"/>
-                            </span>
-                            <span class="col-3">
-                                <fmt:message key="users.email"/>
-                            </span>
-                            <span class="col-1">
-                                <fmt:message key="users.banned"/>
-                            </span>
-                            <span class="col-2">
-                                <fmt:message key="users.role"/>
-                            </span>
-                            <span class="col-3">
-                                <fmt:message key="users.registration"/>
-                            </span>
-                        </div>
+                <div class="f-col h-100">
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"><fmt:message key="users.login"/></th>
+                            <th scope="col"><fmt:message key="users.email"/></th>
+                            <th scope="col"><fmt:message key="users.banned"/></th>
+                            <th scope="col"><fmt:message key="users.role"/></th>
+                            <th scope="col"><fmt:message key="users.registration"/>></th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         <c:forEach items="${userpsr.getElements()}" var="user" varStatus="status">
-                            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                               href="${pageContext.request.contextPath}/controller?command=user-get-by-id&userid=${user.getId()}">
-                                <span class="col-3">${user.getLogin()}</span>
-                                <span class="col-3">${user.getEmail()}</span>
-                                <span class="col-1">${user.getBanned()}</span>
-                                <span class="col-2">${userpsr.getRoles().get(status)}</span>
-                                <span class="col-3">${user.getRegistration()}</span>
-                            </a>
+                            <tr onclick="window.location='${pageContext.request.contextPath}/controller?command=user-get-by-id&userid=${user.getId()}';">
+                                <td>${user.getLogin()}</td>
+                                <td>${user.getEmail()}</td>
+                                <td>${user.getBanned()}</td>
+                                <td>${userpsr.getRoles().get(status)}</td>
+                                <td>${user.getRegistration()}</td>
+                            </tr>
                         </c:forEach>
-                    </div>
+                        </tbody>
+                    </table>
                     <c:set var="page" value="${userpsr.getPage()}" scope="request"/>
                     <c:set var="maxpage" value="${userpsr.getMaxPage()}" scope="request"/>
                     <c:set var="pagename" value="userpage" scope="request"/>
+                    <c:set var="command" value="${command}" scope="request"/>
                     <c:import url="/jsp/fragments/page-navigation.jsp"/>
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="d-flex flex-column justify-content-center h-100">
-                    <h4 class="card-title text-center">
-                        <fmt:message key="users.not.found"/>
+                <div class="col f-col justify-content-center h-100">
+                    <h4 class="title text-center">
+                        <fmt:message key="not.found"/>
                     </h4>
                 </div>
             </c:otherwise>

@@ -8,9 +8,9 @@ import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -32,7 +32,7 @@ public class TrackGetByNameCommand implements Command {
             req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             req.setAttribute(Parameter.COMMAND, COMMAND + name);
             return CommandResult.forward(PagePath.TRACKS);
-        }  catch (ServiceException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
     }

@@ -16,9 +16,10 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class UserMarkLikedTrackCommand implements Command {
 
-    private static final String REDIRECT_URL = String.format("%s&%s=",
-            CommandType.TRACK_GET_BY_ID.getName(),
-            Parameter.TRACK_ID);
+    private static final String REDIRECT_URL_FORMAT =
+            String.format("controller?command=%s&%s=%%s",
+                    CommandType.TRACK_GET_BY_ID.getName(),
+                    Parameter.TRACK_ID);
 
     private final UserService userService = UserServiceImpl.getInstance();
 
@@ -32,7 +33,8 @@ public class UserMarkLikedTrackCommand implements Command {
 
             userService.markLikedTrack(userId, trackId);
 
-            return CommandResult.redirect(REDIRECT_URL + trackId);
+            String url = String.format(REDIRECT_URL_FORMAT, trackId);
+            return CommandResult.redirect(url);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

@@ -1,11 +1,11 @@
 package com.epam.musicbox.repository.impl;
 
 import com.epam.musicbox.entity.Track;
-import com.epam.musicbox.repository.rowmapper.CountRowMapper;
-import com.epam.musicbox.util.QueryHelper;
-import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.TrackRepository;
+import com.epam.musicbox.repository.rowmapper.CountRowMapper;
+import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
+import com.epam.musicbox.util.QueryHelper;
 
 import java.util.List;
 import java.util.Optional;

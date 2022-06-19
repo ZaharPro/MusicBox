@@ -48,16 +48,17 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                                                    "LIMIT ?,?";
 
     private static final String SQL_COUNT_TRACKS = "SELECT COUNT(*) " +
-                                                  "FROM tracks " +
-                                                  "JOIN playlist_tracks " +
-                                                  "ON playlist_tracks.track_id = tracks.track_id " +
-                                                  "WHERE playlist_tracks.playlist_id=?";
+                                                   "FROM tracks " +
+                                                   "JOIN playlist_tracks " +
+                                                   "ON playlist_tracks.track_id = tracks.track_id " +
+                                                   "WHERE playlist_tracks.playlist_id=?";
 
     private static final String SQL_FIND_TRACKS = "SELECT * " +
                                                   "FROM tracks " +
                                                   "JOIN playlist_tracks " +
                                                   "ON playlist_tracks.track_id = tracks.track_id " +
-                                                  "WHERE playlist_tracks.playlist_id=?";
+                                                  "WHERE playlist_tracks.playlist_id=? " +
+                                                  "LIMIT ?,?";
 
     private static final String SQL_EXIST_TRACK = "SELECT 1 " +
                                                   "FROM playlist_tracks " +
@@ -75,6 +76,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     private final PlaylistRowMapper playlistRowMapper = PlaylistRowMapper.getInstance();
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
     private final BooleanRowMapper booleanRowMapper = BooleanRowMapper.getInstance();
+
     private PlaylistRepositoryImpl() {
     }
 

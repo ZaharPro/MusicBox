@@ -3,7 +3,6 @@ package com.epam.musicbox.service;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
-import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.psr.PageSearchResult;
 

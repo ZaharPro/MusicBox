@@ -48,9 +48,7 @@ public class Artist implements Entity {
             return false;
         if (!(name == null ? artist.name == null : name.equals(artist.name)))
             return false;
-        if (!(avatar == null ? artist.avatar == null : avatar.equals(artist.avatar)))
-            return false;
-        return true;
+        return avatar == null ? artist.avatar == null : avatar.equals(artist.avatar);
     }
 
     @Override

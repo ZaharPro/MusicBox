@@ -1,13 +1,13 @@
 package com.epam.musicbox.service.impl;
 
-import com.epam.musicbox.service.AuthService;
-import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.hasher.PasswordHasher;
 import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
+import com.epam.musicbox.service.AuthService;
+import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;
 import io.jsonwebtoken.Claims;
@@ -18,8 +18,6 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.Key;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -133,7 +131,7 @@ public class AuthServiceImpl implements AuthService {
         String hash = passwordHasher.hash(password);
         User user = new User(null, login, email, hash, false, Timestamp.from(Instant.now()));
         long userId = userService.save(user);
-        userService.setRole(userId, Role.ADMIN.getId());
+        userService.setRole(userId, Role.USER.getId());
     }
 
     public User login(String login, String password) throws ServiceException {

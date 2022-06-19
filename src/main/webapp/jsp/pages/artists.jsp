@@ -18,23 +18,31 @@
     <c:set var="command" value="artist-get" scope="request"/>
 </c:if>
 
-<div class="container d-flex flex-column h-100 pt-3 pb-3">
-    <div class="col card d-flex flex-column h-100 pt-3 pb-3 mb-0 bg-dark">
-        <h4 class="card-title text-center">
+<div class="container f-col h-100 pt-3 pb-3">
+    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h4 class="title text-center">
             <fmt:message key="artists.title"/>
         </h4>
         <c:choose>
             <c:when test="${artistpsr.hasElements()}">
-                <div class="d-flex flex-column justify-content-between h-100">
-                    <div class="list-group list-group-flush bg-light">
+                <div class="f-col h-100">
+                    <div class="list-group list-group-flush bg-light h-100 mb-2">
                         <c:forEach items="${artistpsr.getElements()}" var="artist">
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                                href="${pageContext.request.contextPath}/controller?command=artist-get-by-id&artistid=${artist.getId()}">
                                     ${artist.getName()}
-
-                                <img class="img-fluid d-block" style="max-width: 2.5rem"
-                                     src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}"
-                                     alt="Artist avatar">
+                                <c:choose>
+                                    <c:when test="${artist != null && artist.getAvatar() != null}">
+                                        <img class="img-fluid col-2"
+                                             src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}"
+                                             alt="Artist avatar">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img class="img-fluid col-2"
+                                             src="${pageContext.request.contextPath}/system/img/artist-default.png"
+                                             alt="Artist avatar">
+                                    </c:otherwise>
+                                </c:choose>
                             </a>
                         </c:forEach>
                     </div>
@@ -46,9 +54,9 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="d-flex flex-column justify-content-center h-100">
-                    <h4 class="card-title text-center">
-                        <fmt:message key="artists.not.found"/>
+                <div class="col f-col justify-content-center h-100">
+                    <h4 class="title text-center">
+                        <fmt:message key="not.found"/>
                     </h4>
                 </div>
             </c:otherwise>

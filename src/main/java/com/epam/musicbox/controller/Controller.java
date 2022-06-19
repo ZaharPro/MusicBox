@@ -1,6 +1,9 @@
 package com.epam.musicbox.controller;
 
-import com.epam.musicbox.controller.command.*;
+import com.epam.musicbox.controller.command.Command;
+import com.epam.musicbox.controller.command.CommandProvider;
+import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.exception.CommandException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

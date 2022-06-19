@@ -9,10 +9,9 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AlbumService;
-import com.epam.musicbox.service.impl.AlbumServiceImpl;
-import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.UserService;
+import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
@@ -25,6 +24,8 @@ import java.util.Optional;
 
 public class TrackGetByIdCommand implements Command {
 
+    private static final String TRACK_NOT_FOUND_MSG = "Track not found";
+
     private final TrackService trackService = TrackServiceImpl.getInstance();
     private final UserService userService = UserServiceImpl.getInstance();
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
@@ -34,27 +35,22 @@ public class TrackGetByIdCommand implements Command {
         try {
             long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
             Optional<Track> optional = trackService.findById(trackId);
-            if (optional.isPresent()) {
-                Track track = optional.get();
-                req.setAttribute(Parameter.TRACK, track);
-
-                Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
-                Claims body = token.getBody();
-                long userId = ParamTaker.getLong(body, Parameter.USER_ID);
-
-                boolean like = userService.isLikedTrack(userId, trackId);
-                req.setAttribute(Parameter.LIKE, like);
-
-                Optional<Album> optionalAlbum = albumService.findById(track.getAlbumId());
-                Album album = optionalAlbum.orElse(null);
-                req.setAttribute(Parameter.ALBUM, album);
+            if (optional.isEmpty()) {
+                throw new CommandException(TRACK_NOT_FOUND_MSG);
             }
+            Track track = optional.get();
+            req.setAttribute(Parameter.TRACK, track);
 
-            int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
+            Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
+            Claims body = token.getBody();
+            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
 
+            boolean like = userService.isLikedTrack(userId, trackId);
+            req.setAttribute(Parameter.LIKE, like);
+
+            Optional<Album> optionalAlbum = albumService.findById(track.getAlbumId());
+            Album album = optionalAlbum.orElse(null);
+            req.setAttribute(Parameter.ALBUM, album);
             return CommandResult.forward(PagePath.TRACK);
         } catch (ServiceException e) {
             throw new CommandException(e);

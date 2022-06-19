@@ -90,9 +90,7 @@ public class User implements Entity {
             return false;
         if (!(banned == null ? user.banned == null : banned.equals(user.banned)))
             return false;
-        if (!(registration == null ? user.registration == null : registration.equals(user.registration)))
-            return false;
-        return true;
+        return registration == null ? user.registration == null : registration.equals(user.registration);
     }
 
     @Override

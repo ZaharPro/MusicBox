@@ -114,10 +114,10 @@ public final class ParamTaker {
     }
 
     public static int getPage(HttpServletRequest req, String paramName) throws ServiceException {
-        return  ParamTaker.getOrDefault(req, paramName, INT_MAPPER, FIRST_PAGE);
+        return ParamTaker.getOrDefault(req, paramName, INT_MAPPER, FIRST_PAGE);
     }
 
     public static int getPageSize(HttpServletRequest req, String paramName) throws ServiceException {
-        return  ParamTaker.getOrDefault(req, paramName, INT_MAPPER, DEFAULT_PAGE_SIZE);
+        return ParamTaker.getOrDefault(req, paramName, INT_MAPPER, DEFAULT_PAGE_SIZE);
     }
 }

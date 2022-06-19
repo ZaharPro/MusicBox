@@ -43,7 +43,7 @@ public class FileServiceImpl implements FileService {
     }
 
     public static String generateKey(String entityField, Object id) {
-        return entityField + String.valueOf(id);
+        return entityField + id;
     }
 
     private String getRoot(HttpServletRequest req) {

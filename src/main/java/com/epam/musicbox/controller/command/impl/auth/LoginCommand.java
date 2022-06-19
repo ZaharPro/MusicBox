@@ -46,7 +46,7 @@ public class LoginCommand implements Command {
         Optional<Role> optionalRole;
         try {
             optionalRole = userService.getRole(user.getId());
-        }  catch (ServiceException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
         if (optionalRole.isEmpty())

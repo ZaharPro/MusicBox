@@ -48,9 +48,7 @@ public class Playlist implements Entity {
             return false;
         if (!(name == null ? playlist.name == null : name.equals(playlist.name)))
             return false;
-        if (!(picture == null ? playlist.picture == null : picture.equals(playlist.picture)))
-            return false;
-        return true;
+        return picture == null ? playlist.picture == null : picture.equals(playlist.picture);
     }
 
     @Override

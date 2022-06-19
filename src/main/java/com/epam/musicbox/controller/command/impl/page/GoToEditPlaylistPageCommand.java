@@ -7,13 +7,11 @@ import com.epam.musicbox.entity.Playlist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.impl.ArtistServiceImpl;
-import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
-import com.epam.musicbox.service.psr.TrackArtistPageSearchResult;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.psr.TrackPlaylistPageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,14 +43,6 @@ public class GoToEditPlaylistPageCommand extends GoToPageCommand {
                         playlistId);
                 req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             }
-
-            Long trackId = ParamTaker.getNullableLong(req, Parameter.TRACK_ID);
-            if (trackId != null) {
-                Optional<Track> optionalTrack = trackService.findById(trackId);
-                Track track = optionalTrack.orElse(null);
-                req.setAttribute(Parameter.TRACK, track);
-            }
-
             return super.execute(req);
         } catch (ServiceException e) {
             throw new CommandException(e);

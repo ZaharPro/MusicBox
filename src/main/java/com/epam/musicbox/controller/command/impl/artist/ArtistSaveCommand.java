@@ -1,4 +1,3 @@
-
 package com.epam.musicbox.controller.command.impl.artist;
 
 import com.epam.musicbox.controller.Parameter;
@@ -8,8 +7,10 @@ import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.*;
-import com.epam.musicbox.service.impl.*;
+import com.epam.musicbox.service.ArtistService;
+import com.epam.musicbox.service.FileService;
+import com.epam.musicbox.service.impl.ArtistServiceImpl;
+import com.epam.musicbox.service.impl.FileServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;

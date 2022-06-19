@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<section class="d-flex justify-content-center align-items-center" style="min-height: 100vh">
+<div class="d-flex justify-content-center align-items-center h-100">
     <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
         <h2 class="lead font-weight-normal mb-4 me-3">
             Request fail
@@ -26,12 +26,12 @@
         <c:if test="${not empty errorMessage}">
             <p class="text-danger mb-3">Description: ${errorMessage}</p>
         </c:if>
-        <button type="button" class="btn btn-primary btn-lg"
+        <button type="button" class="btn btn-lg"
                 style="padding-left: 2.5rem; padding-right: 2.5rem;">
             <a href="${pageContext.request.contextPath}/controller?command=home-page" class="text-white">Go home</a>
         </button>
     </div>
-</section>
+</div>
 
 </body>
 </html>

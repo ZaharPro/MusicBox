@@ -94,8 +94,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @Override
     public long countByName(String regex) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex).orElse(0L);
     }
 
     @Override

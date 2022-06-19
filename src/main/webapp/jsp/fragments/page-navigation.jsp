@@ -54,7 +54,7 @@
                             <li class="page-item">
                                 <a class="page-link"
                                    href="${pageContext.request.contextPath}/controller?command=${command}&${pagename}=${status}">
-                                        ${status}
+                                        <span class=col-10">${status}
                                 </a>
                             </li>
                         </c:otherwise>

@@ -1,11 +1,11 @@
 package com.epam.musicbox.controller.filter;
 
 
+import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
-import com.epam.musicbox.controller.Parameter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.*;

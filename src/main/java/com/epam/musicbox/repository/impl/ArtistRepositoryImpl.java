@@ -1,10 +1,12 @@
 package com.epam.musicbox.repository.impl;
 
+import com.epam.musicbox.entity.Album;
+import com.epam.musicbox.entity.Artist;
+import com.epam.musicbox.entity.Track;
+import com.epam.musicbox.exception.RepositoryException;
+import com.epam.musicbox.repository.ArtistRepository;
 import com.epam.musicbox.repository.rowmapper.*;
 import com.epam.musicbox.util.QueryHelper;
-import com.epam.musicbox.exception.RepositoryException;
-import com.epam.musicbox.entity.*;
-import com.epam.musicbox.repository.ArtistRepository;
 
 import java.util.List;
 import java.util.Optional;

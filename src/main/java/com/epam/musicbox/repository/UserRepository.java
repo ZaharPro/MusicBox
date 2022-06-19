@@ -1,7 +1,7 @@
 package com.epam.musicbox.repository;
 
-import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.entity.*;
+import com.epam.musicbox.exception.RepositoryException;
 
 import java.util.List;
 import java.util.Optional;

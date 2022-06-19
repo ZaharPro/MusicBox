@@ -1,14 +1,14 @@
 package com.epam.musicbox.controller.filter.access;
 
-import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.ServiceException;
+import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.service.UserService;
-import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
+import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

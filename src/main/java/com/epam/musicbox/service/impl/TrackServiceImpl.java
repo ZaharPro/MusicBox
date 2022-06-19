@@ -5,8 +5,8 @@ import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
-import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.TrackService;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;
 

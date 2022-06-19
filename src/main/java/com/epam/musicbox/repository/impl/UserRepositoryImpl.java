@@ -1,10 +1,10 @@
 package com.epam.musicbox.repository.impl;
 
-import com.epam.musicbox.util.QueryHelper;
-import com.epam.musicbox.repository.rowmapper.*;
-import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.entity.*;
+import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.UserRepository;
+import com.epam.musicbox.repository.rowmapper.*;
+import com.epam.musicbox.util.QueryHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,8 +61,9 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_INSERT_ROLE = "INSERT INTO user_roles (user_id, role_id) " +
                                                   "VALUES (?,?)";
 
-    private static final String SQL_UPDATE_ROLE = "UPDATE users " +
-                                                  "SET user_id=?, role_id=? ";
+    private static final String SQL_UPDATE_ROLE = "UPDATE user_roles " +
+                                                  "SET role_id=? " +
+                                                  "WHERE user_id=?";
 
     private static final String SQL_GET_ROLE = "SELECT * " +
                                                "FROM roles " +
@@ -254,8 +255,11 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void setRole(long userId, int roleId) throws RepositoryException {
         boolean exist = QueryHelper.queryOne(SQL_EXIST_USER_ROLE, booleanRowMapper, userId, roleId).orElse(false);
-        String sql = exist ? SQL_UPDATE_ROLE : SQL_INSERT_ROLE;
-        QueryHelper.update(sql, userId, roleId);
+        if (exist) {
+            QueryHelper.update(SQL_UPDATE_ROLE, roleId, userId);
+        } else {
+            QueryHelper.update(SQL_INSERT_ROLE, userId, roleId);
+        }
     }
 
 
@@ -276,7 +280,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void addPlaylist(long userId, long playlistId) throws RepositoryException {
-        QueryHelper.update(SQL_ADD_PLAYLIST, userId, playlistId);
+        if (!hasPlaylist(userId, playlistId)) {
+            QueryHelper.update(SQL_ADD_PLAYLIST, userId, playlistId);
+        }
     }
 
     @Override
@@ -302,7 +308,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void markLikedArtist(long userId, long artistId) throws RepositoryException {
-        QueryHelper.update(SQL_MARK_LIKED_ARTIST, userId, artistId);
+        if (!isLikedArtist(userId, artistId)) {
+            QueryHelper.update(SQL_MARK_LIKED_ARTIST, userId, artistId);
+        }
     }
 
     @Override
@@ -328,7 +336,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void markLikedAlbum(long userId, long albumId) throws RepositoryException {
-        QueryHelper.update(SQL_MARK_LIKED_ALBUM, userId, albumId);
+        if (!isLikedAlbum(userId, albumId)) {
+            QueryHelper.update(SQL_MARK_LIKED_ALBUM, userId, albumId);
+        }
     }
 
     @Override
@@ -354,7 +364,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void markLikedTrack(long userId, long trackId) throws RepositoryException {
-        QueryHelper.update(SQL_MARK_LIKED_TRACK, userId, trackId);
+        if (!isLikedTrack(userId, trackId)) {
+            QueryHelper.update(SQL_MARK_LIKED_TRACK, userId, trackId);
+        }
     }
 
     @Override

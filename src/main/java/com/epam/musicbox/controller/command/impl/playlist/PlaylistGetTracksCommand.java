@@ -7,9 +7,9 @@ import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -26,7 +26,7 @@ public class PlaylistGetTracksCommand implements Command {
             PageSearchResult<Track> pageSearchResult = service.getTracks(playlistId, page, pageSize);
             req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, pageSearchResult);
             return CommandResult.forward(PagePath.TRACKS);
-        }  catch (ServiceException e) {
+        } catch (ServiceException e) {
             throw new CommandException(e);
         }
     }

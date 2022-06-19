@@ -18,23 +18,31 @@
     <c:set var="command" value="playlist-get" scope="request"/>
 </c:if>
 
-<div class="container d-flex flex-column h-100 pt-3 pb-3">
-    <div class="col card d-flex flex-column h-100 pt-3 pb-3 mb-0 bg-dark">
-        <h4 class="card-title text-center">
+<div class="container f-col h-100 pt-3 pb-3">
+    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <h4 class="title text-center">
             <fmt:message key="playlists.title"/>
         </h4>
         <c:choose>
             <c:when test="${playlistpsr.hasElements()}">
-                <div class="d-flex flex-column justify-content-between h-100">
-                    <div class="list-group list-group-flush bg-light">
+                <div class="f-col h-100">
+                    <div class="list-group list-group-flush bg-light h-100 mb-2">
                         <c:forEach items="${playlistpsr.getElements()}" var="playlist">
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                                href="${pageContext.request.contextPath}/controller?command=playlist-get-by-id&playlistid=${playlist.getId()}">
                                     ${playlist.getName()}
-
-                                <img class="img-fluid d-block" style="max-width: 2.5rem"
-                                     src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}"
-                                     alt="Playlist picture">
+                                <c:choose>
+                                    <c:when test="${playlist != null && playlist.getPicture()}">
+                                        <img class="img-fluid col-2"
+                                             src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}"
+                                             alt="Playlist picture">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img class="img-fluid col-2"
+                                             src="${pageContext.request.contextPath}/system/img/playlist-default.png"
+                                             alt="Playlist picture">
+                                    </c:otherwise>
+                                </c:choose>
                             </a>
                         </c:forEach>
                     </div>
@@ -46,9 +54,9 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="d-flex flex-column justify-content-center h-100">
-                    <h4 class="card-title text-center">
-                        <fmt:message key="playlists.not.found"/>
+                <div class="col f-col justify-content-center h-100">
+                    <h4 class="title text-center">
+                        <fmt:message key="not.found"/>
                     </h4>
                 </div>
             </c:otherwise>

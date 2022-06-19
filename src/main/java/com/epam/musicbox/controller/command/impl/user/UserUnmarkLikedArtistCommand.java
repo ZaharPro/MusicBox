@@ -35,7 +35,7 @@ public class UserUnmarkLikedArtistCommand implements Command {
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
             long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
 
-            userService.unmarkLikedTrack(userId, artistId);
+            userService.unmarkLikedArtist(userId, artistId);
 
             int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int trackPageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);

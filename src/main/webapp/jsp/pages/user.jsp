@@ -15,9 +15,9 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container d-flex flex-column h-100 pt-3 pb-3">
-    <div class="col card pt-3 pb-3 m-0 d-flex flex-column h-100 bg-dark">
-        <h2 class="card-title">
+<div class="container f-col h-100 pt-3 pb-3">
+    <div class="col card pt-3 pb-3 m-0 bg-dark">
+        <h2 class="title">
             <fmt:message key="user.title"/>
         </h2>
 
@@ -58,20 +58,20 @@
             </span>
         </h4>
         <h4 class="text-primary mt-1">
-            <fmt:message key="admin.ban.title"/>
+            <fmt:message key="user.ban.title"/>
         </h4>
         <form method="post" action="${pageContext.request.contextPath}/controller?command=user-set-ban">
             <input type="hidden" name="userid" value="${user.getId()}"/>
             <c:choose>
                 <c:when test="${user.getBanned() == true}">
                     <input type="hidden" value="false"/>
-                    <button type="submit" class="btn btn-sm btn-danger">
+                    <button type="submit" class="btn btn-danger">
                         <fmt:message key="user.unban"/>
                     </button>
                 </c:when>
                 <c:otherwise>
                     <input type="hidden" value="true"/>
-                    <button type="submit" class="btn btn-sm btn-danger">
+                    <button type="submit" class="btn btn-danger">
                         <fmt:message key="user.ban"/>
                     </button>
                 </c:otherwise>
@@ -82,19 +82,19 @@
             <fmt:message key="user.data"/>
         </h4>
         <div class="list-group list-group-flush bg-transparent">
-            <a class="list-group-item list-group-item-action"
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks&userid=${user.getId()}">
                 <fmt:message key="user.show.liked.tracks"/>
             </a>
-            <a class="list-group-item list-group-item-action"
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums&userid=${user.getId()}">
                 <fmt:message key="user.show.liked.albums"/>
             </a>
-            <a class="list-group-item list-group-item-action"
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists&userid=${user.getId()}">
                 <fmt:message key="user.show.liked.artists"/>
             </a>
-            <a class="list-group-item list-group-item-action"
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                href="${pageContext.request.contextPath}/controller?command=user-get-playlists&userid=${user.getId()}">
                 <fmt:message key="user.show.playlists"/>
             </a>

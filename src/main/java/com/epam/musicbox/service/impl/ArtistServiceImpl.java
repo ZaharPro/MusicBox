@@ -7,8 +7,8 @@ import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.ArtistRepository;
 import com.epam.musicbox.repository.impl.ArtistRepositoryImpl;
-import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.service.ArtistService;
+import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.validator.Validator;
 import com.epam.musicbox.validator.impl.ValidatorImpl;
 
@@ -20,6 +20,7 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
 
     private final Validator validator = ValidatorImpl.getInstance();
     private final ArtistRepository repository = ArtistRepositoryImpl.getInstance();
+
     private ArtistServiceImpl() {
     }
 

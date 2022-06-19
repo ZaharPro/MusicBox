@@ -2,16 +2,7 @@
     --gradient: linear-gradient(to left top, #DD2476 10%, #FF512F 90%) !important;
 }
 
-.h-100 {
-    flex: 1;
-}
-
-.h-50 {
-    flex: 0.5;
-}
-
 body {
-    position: relative;
     display: flex;
     flex-direction: column;
     width: 100vw;
@@ -47,4 +38,26 @@ body {
     border: 5px solid #fff !important;
     box-shadow: #222 1px 0 10px;
     text-decoration: underline;
+}
+
+.file-drop-area {
+    border: 1px solid #dd2476;
+    border-radius: 4px;
+}
+
+.min-h {
+    min-height: 20rem;
+}
+
+.f-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.h-100 {
+    flex: 1;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #dd2476;
 }

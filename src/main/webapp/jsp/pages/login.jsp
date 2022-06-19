@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<section class="d-flex justify-content-center align-items-center" style="min-height: 100vh">
+<div class="d-flex justify-content-center align-items-center h-100">
     <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
         <form method="POST" name="loginForm" action="${pageContext.request.contextPath}/controller?command=login">
             <h2 class="lead font-weight-normal mb-4 me-3">
@@ -36,7 +36,7 @@
                        class="form-control form-control-lg"/>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="row">
                 <div class="form-check mb-0">
                     <input class="form-check-input me-2" type="checkbox" value="" id="passwordCheckbox"
                            onclick="togglePasswordCheckbox()"/>
@@ -50,7 +50,7 @@
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">
-                <button type="submit" class="btn btn-primary btn-lg">
+                <button type="submit" class="btn btn-lg">
                     <fmt:message key="login.button.submit"/>
                 </button>
                 <p class="small fw-bold mt-2 pt-1 mb-0">
@@ -67,7 +67,7 @@
             </c:if>
         </form>
     </div>
-</section>
+</div>
 
 <script src="../../js/login.js"></script>
 </body>

@@ -48,9 +48,7 @@ public class Album implements Entity {
             return false;
         if (!(name == null ? album.name == null : name.equals(album.name)))
             return false;
-        if (!(picture == null ? album.picture == null : picture.equals(album.picture)))
-            return false;
-        return true;
+        return picture == null ? album.picture == null : picture.equals(album.picture);
     }
 
     @Override

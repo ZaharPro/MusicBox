@@ -15,87 +15,62 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container d-flex flex-column h-100 pt-3 pb-3">
-    <div class="col card pt-0 pb-3 mb-0 d-flex flex-column h-100 bg-dark">
-        <div class="row pt-3 pb-3" style="border-bottom: 1px solid #dd2476;">
+<div class="container f-col h-100 pt-3 pb-3">
+    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
+        <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
-                <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}" alt="Album picture">
+                <c:choose>
+                    <c:when test="${album != null && album.getPicture() != null}">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}"
+                             alt="Album picture">
+                    </c:when>
+                    <c:otherwise>
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png"
+                             alt="Album picture">
+                    </c:otherwise>
+                </c:choose>
             </div>
-            <div class="col-lg-10 col-md-10 d-flex justify-content-between align-items-center">
-                <h2 class="card-title">
+            <div class="col-lg-10 col-md-10 row">
+                <h2 class="title col-9">
                     ${album.getName()}
                 </h2>
-                <div class="btn-group">
-                    <c:choose>
-                        <c:when test="${like == false}">
-                            <form method="post" class="m-0"
-                                  action="${pageContext.request.contextPath}/controller?command=user-mark-liked-album">
-                                <input type="hidden" name="albumid" value="${album.getId()}"/>
-                                <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
-                                <button type="submit" class="btn btn-sm">
-                                    <fmt:message key="album.mark.liked"/>
-                                </button>
-                            </form>
-                        </c:when>
-                        <c:otherwise>
-                            <form method="post" class="m-0"
-                                  action="${pageContext.request.contextPath}/controller?command=user-unmark-liked-album">
-                                <input type="hidden" name="albumid" value="${album.getId()}"/>
-                                <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
-                                <button type="submit" class="btn btn-sm">
-                                    <fmt:message key="album.unmark.liked"/>
-                                </button>
-                            </form>
-                        </c:otherwise>
-                    </c:choose>
-                    <ct:access role="admin">
-                        <div>
-                            <a class="btn btn-sm ml-1"
-                               href="${pageContext.request.contextPath}/controller?command=edit-album-page&albumid=${album.getId()}">
-                                <fmt:message key="album.edit"/>
-                            </a>
-                        </div>
-                    </ct:access>
-                </div>
             </div>
         </div>
-        <div class="pt-3 d-flex flex-column align-items-center h-100">
-            <div class="d-flex d-flex flex-column align-items-center h-100">
-                <h2 class="card-title">
+        <div class="col f-col align-items-center h-100">
+            <div class="col f-col align-items-center h-100">
+                <h2 class="title">
                     ${track.getName()}
                 </h2>
-                <div class="btn-group">
-                    <c:choose>
-                        <c:when test="${like == false}">
-                            <form method="post" class="m-0"
-                                  action="${pageContext.request.contextPath}/controller?command=user-mark-liked-track">
-                                <input type="hidden" name="trackid" value="${track.getId()}"/>
-                                <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
-                                <button type="submit" class="btn btn-sm">
-                                    <fmt:message key="track.mark.liked"/>
-                                </button>
-                            </form>
-                        </c:when>
-                        <c:otherwise>
-                            <form method="post" class="m-0"
-                                  action="${pageContext.request.contextPath}/controller?command=user-unmark-liked-track">
-                                <input type="hidden" name="trackid" value="${track.getId()}"/>
-                                <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
-                                <button type="submit" class="btn btn-sm">
-                                    <fmt:message key="track.unmark.liked"/>
-                                </button>
-                            </form>
-                        </c:otherwise>
-                    </c:choose>
-                    <ct:access role="admin">
-                        <div>
-                            <a class="btn btn-sm ml-1"
+                <c:choose>
+                    <c:when test="${like == false}">
+                        <c:set var="cmd" value="user-mark-liked-track" scope="request"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="cmd" value="user-unmark-liked-track" scope="request"/>
+                    </c:otherwise>
+                </c:choose>
+                <form method="post" class="col-3"
+                      action="${pageContext.request.contextPath}/controller?command=${cmd}">
+                    <input type="hidden" name="trackid" value="${track.getId()}"/>
+                    <div class="btn-group btn-group-sm w-100">
+                        <button type="submit" class="btn w-100">
+                            <c:choose>
+                                <c:when test="${like == false}">
+                                    <fmt:message key="mark.liked"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="unmark.liked"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </button>
+                        <ct:access role="admin">
+                            <a class="btn w-100 ml-1"
                                href="${pageContext.request.contextPath}/controller?command=edit-track-page&trackid=${track.getId()}">
-                                <fmt:message key="track.edit"/>
+                                <fmt:message key="edit"/>
                             </a>
-                        </div>
-                    </ct:access>
-                </div>
+                        </ct:access>
+                    </div>
+                </form>
             </div>
             <audio controls>
                 <source src="${pageContext.request.contextPath}/file/audio/${track.getAudio()}" type="audio/mpeg">

@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<section class="d-flex justify-content-center align-items-center" style="min-height: 100vh">
+<div class="d-flex justify-content-center align-items-center h-100">
     <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
         <form method="POST" name=signUpForm" action="${pageContext.request.contextPath}/controller?command=sign-up">
             <h2 class="lead font-weight-normal mb-4 me-3">
@@ -71,7 +71,7 @@
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">
-                <button type="submit" class="btn btn-primary btn-lg">
+                <button type="submit" class="btn btn-lg">
                     <fmt:message key="signup.button.submit"/>
                 </button>
             </div>
@@ -81,7 +81,7 @@
             </c:if>
         </form>
     </div>
-</section>
+</div>
 
 <script src="../../js/sign-up.js"></script>
 </body>

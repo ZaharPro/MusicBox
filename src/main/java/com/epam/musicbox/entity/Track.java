@@ -60,9 +60,7 @@ public class Track implements Entity {
             return false;
         if (!(audio == null ? track.audio == null : audio.equals(track.audio)))
             return false;
-        if (!(albumId == null ? track.albumId == null : albumId.equals(track.albumId)))
-            return false;
-        return true;
+        return albumId == null ? track.albumId == null : albumId.equals(track.albumId);
     }
 
     @Override

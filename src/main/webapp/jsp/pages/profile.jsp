@@ -15,9 +15,9 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container d-flex flex-column h-100 pt-3 pb-3">
-    <div class="col card pt-3 pb-3 m-0 d-flex flex-column h-100 bg-dark">
-        <h2 class="card-title">
+<div class="container f-col h-100 pt-3 pb-3">
+    <div class="col card pt-3 pb-3 m-0 bg-dark">
+        <h2 class="title">
             <fmt:message key="user.title"/>
         </h2>
 
@@ -46,20 +46,20 @@
 
         <ct:access role="admin">
             <h4 class="text-primary mt-1">
-                <fmt:message key="admin.tools"/>
+                <fmt:message key="user.tools"/>
             </h4>
             <div class="list-group list-group-flush bg-transparent">
                 <a class="list-group-item list-group-item-action"
                    href="${pageContext.request.contextPath}/controller?command=edit-track-page">
-                    <fmt:message key="admin.create.track"/>
+                    <fmt:message key="user.create.track"/>
                 </a>
                 <a class="list-group-item list-group-item-action"
                    href="${pageContext.request.contextPath}/controller?command=edit-album-page">
-                    <fmt:message key="admin.create.album"/>
+                    <fmt:message key="user.create.album"/>
                 </a>
                 <a class="list-group-item list-group-item-action"
                    href="${pageContext.request.contextPath}/controller?command=edit-artist-page">
-                    <fmt:message key="admin.create.artist"/>
+                    <fmt:message key="user.create.artist"/>
                 </a>
             </div>
         </ct:access>
