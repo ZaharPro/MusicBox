@@ -33,14 +33,12 @@
                                     ${playlist.getName()}
                                 <c:choose>
                                     <c:when test="${playlist != null && playlist.getPicture()}">
-                                        <img class="img-fluid col-2"
-                                             src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}"
-                                             alt="Playlist picture">
+                                        <img class="img-fluid col-1"
+                                             src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                                     </c:when>
                                     <c:otherwise>
-                                        <img class="img-fluid col-2"
-                                             src="${pageContext.request.contextPath}/system/img/playlist-default.png"
-                                             alt="Playlist picture">
+                                        <img class="img-fluid col-1"
+                                             src="${pageContext.request.contextPath}/system/img/playlist-default.png">
                                     </c:otherwise>
                                 </c:choose>
                             </a>
@@ -61,6 +59,12 @@
                 </div>
             </c:otherwise>
         </c:choose>
+        <div class="d-flex mt-3 justify-content-center">
+            <a class="btn btn-sm"
+               href="${pageContext.request.contextPath}/controller?command=playlist-get">
+                <fmt:message key="playlists.get.all"/>
+            </a>
+        </div>
     </div>
 </div>
 

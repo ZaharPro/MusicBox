@@ -18,9 +18,9 @@ public class ArtistRemoveTrackCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
-            long userId = ParamTaker.getLong(req, Parameter.USER_ID);
+            long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
             long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
-            service.removeTrack(userId, trackId);
+            service.removeTrack(artistId, trackId);
             return CommandResult.forward(PagePath.EDIT_ARTIST);
         } catch (ServiceException e) {
             throw new CommandException(e);

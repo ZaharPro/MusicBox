@@ -21,17 +21,15 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${album != null && album.getPicture() != null}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}"
-                             alt="Album picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png"
-                             alt="Album picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-album.png">
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="col-lg-10 col-md-10 row">
-                <h2 class="title col-9">
+            <div class="col-lg-10 col-md-10 d-flex justify-content-between">
+                <h2 class="title">
                     ${album.getName()}
                 </h2>
             </div>
@@ -49,10 +47,10 @@
                         <c:set var="cmd" value="user-unmark-liked-track" scope="request"/>
                     </c:otherwise>
                 </c:choose>
-                <form method="post" class="col-3"
+                <form method="post"
                       action="${pageContext.request.contextPath}/controller?command=${cmd}">
                     <input type="hidden" name="trackid" value="${track.getId()}"/>
-                    <div class="btn-group btn-group-sm w-100">
+                    <div class="btn-group btn-group-sm">
                         <button type="submit" class="btn w-100">
                             <c:choose>
                                 <c:when test="${like == false}">

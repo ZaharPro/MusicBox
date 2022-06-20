@@ -21,12 +21,10 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${playlist != null && playlist.getPicture()}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}"
-                             alt="Playlist picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/playlist-default.png"
-                             alt="Playlist picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/playlist-default.png">
                     </c:otherwise>
                 </c:choose>
             </div>

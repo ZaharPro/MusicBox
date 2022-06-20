@@ -21,17 +21,15 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${playlist != null && playlist.getPicture()}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}"
-                             alt="Playlist picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/playlist-default.png"
-                             alt="Playlist picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/playlist-default.png">
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="col-lg-10 col-md-10 row">
-                <h2 class="title col-9">
+            <div class="col-lg-10 col-md-10 d-flex justify-content-between">
+                <h2 class="title">
                     ${playlist.getName()}
                 </h2>
                 <c:choose>
@@ -42,12 +40,12 @@
                         <c:set var="cmd" value="user-remove-playlist" scope="request"/>
                     </c:otherwise>
                 </c:choose>
-                <form method="post" class="col-3"
+                <form method="post"
                       action="${pageContext.request.contextPath}/controller?command=${cmd}">
                     <input type="hidden" name="playlistid" value="${playlist.getId()}"/>
                     <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
 
-                    <div class="btn-group btn-group-sm w-100">
+                    <div class="btn-group btn-group-sm">
                         <button type="submit" class="btn w-100">
                             <c:choose>
                                 <c:when test="${like == false}">

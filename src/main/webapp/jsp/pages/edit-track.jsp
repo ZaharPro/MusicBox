@@ -24,12 +24,10 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${album != null && album.getPicture() != null}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}"
-                             alt="Album picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png"
-                             alt="Album picture">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-album.png">
                     </c:otherwise>
                 </c:choose>
             </div>

@@ -23,22 +23,22 @@
         <h4 class="title text-center mb-2">
             <fmt:message key="users.title"/>
         </h4>
-        <div class="row justify-content-between">
-            <div class="btn-group-lg btn-group-sm col-3">
-                <a class="btn w-100"
+        <div class="d-flex justify-content-between mb-3">
+            <div class="btn-group btn-group-sm">
+                <a class="btn"
                    href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=user">
                     <fmt:message key="users.only.users"/>
                 </a>
-                <a class="btn w-100"
+                <a class="btn"
                    href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=admin">
                     <fmt:message key="users.only.admins"/>
                 </a>
-                <a class="btn w-100"
+                <a class="btn"
                    href="${pageContext.request.contextPath}/controller?command=user-get">
                     <fmt:message key="users.all"/>
                 </a>
             </div>
-            <form class="form-inline col-4" method="post"
+            <form class="form-inline" method="post"
                   action="${pageContext.request.contextPath}/controller?command=user-get-by-login">
                 <input class="form-control mr-sm-2" type="search" name="login" aria-label="Search by login"
                        value="${login}">

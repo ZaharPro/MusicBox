@@ -100,7 +100,7 @@
                                         <fmt:message key="user.tracks"/>
                                     </a>
                                     <a class="f-col justify-content-center img-link img-link-sm ml-1"
-                                       style="background-image: url('/system/img/home-album.png');"
+                                       style="background-image: url('/system/img/album-default.png');"
                                        href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums&userid=${user.getId()}">
                                         <fmt:message key="user.albums"/>
                                     </a>

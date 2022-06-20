@@ -33,14 +33,12 @@
                                     ${album.getName()}
                                 <c:choose>
                                     <c:when test="${album != null && album.getPicture() != null}">
-                                        <img class="img-fluid col-2"
-                                             src="${pageContext.request.contextPath}/file/img/${album.getPicture()}"
-                                             alt="Album picture">
+                                        <img class="img-fluid col-1"
+                                             src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                                     </c:when>
                                     <c:otherwise>
-                                        <img class="img-fluid col-2"
-                                             src="${pageContext.request.contextPath}/system/img/album-default.png"
-                                             alt="Album picture">
+                                        <img class="img-fluid col-1"
+                                             src="${pageContext.request.contextPath}/system/img/home-album.png">
                                     </c:otherwise>
                                 </c:choose>
                             </a>
@@ -61,6 +59,12 @@
                 </div>
             </c:otherwise>
         </c:choose>
+        <div class="d-flex mt-3 justify-content-center">
+            <a class="btn btn-sm"
+               href="${pageContext.request.contextPath}/controller?command=album-get">
+                <fmt:message key="albums.get.all"/>
+            </a>
+        </div>
     </div>
 </div>
 

@@ -53,14 +53,12 @@
                                             ${album.getName()}
                                         <c:choose>
                                             <c:when test="${album != null && album.getPicture() != null}">
-                                                <img class="img-fluid col-2"
-                                                     src="${pageContext.request.contextPath}/file/img/${album.getPicture()}"
-                                                     alt="Album picture">
+                                                <img class="img-fluid col-1"
+                                                     src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                                             </c:when>
                                             <c:otherwise>
-                                                <img class="img-fluid col-2"
-                                                     src="${pageContext.request.contextPath}/system/img/album-default.png"
-                                                     alt="Album picture">
+                                                <img class="img-fluid col-1"
+                                                     src="${pageContext.request.contextPath}/system/img/home-album.png">
                                             </c:otherwise>
                                         </c:choose>
                                     </a>
@@ -87,14 +85,12 @@
                                             ${artist.getName()}
                                         <c:choose>
                                             <c:when test="${artist != null && artist.getAvatar() != null}">
-                                                <img class="img-fluid col-2"
-                                                     src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}"
-                                                     alt="Artist avatar">
+                                                <img class="img-fluid col-1"
+                                                     src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}">
                                             </c:when>
                                             <c:otherwise>
-                                                <img class="img-fluid col-2"
-                                                     src="${pageContext.request.contextPath}/system/img/artist-default.png"
-                                                     alt="Artist avatar">
+                                                <img class="img-fluid col-1"
+                                                     src="${pageContext.request.contextPath}/system/img/artist-default.png">
                                             </c:otherwise>
                                         </c:choose>
                                     </a>

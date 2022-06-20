@@ -48,7 +48,7 @@ public class TrackSaveCommand implements Command {
             try {
                 String key = FileServiceImpl.generateKey(TRACK_AUDIO, trackId);
                 audio = fileService.put(req, key, Parameter.AUDIO, false,
-                        FileService.AUDIO_DIR, validator::isValidAudioFileName);
+                        Parameter.AUDIO_DIR, validator::isValidAudioFileName);
             } catch (ServiceException e) {
                 if (deleteOnFail) {
                     trackService.deleteById(trackId);

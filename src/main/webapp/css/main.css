@@ -40,6 +40,10 @@ body {
     text-decoration: underline;
 }
 
+.list-group {
+    min-height: 20rem;
+}
+
 .tr-link td {
     cursor: pointer;
     transition: all .4s ease;
@@ -58,7 +62,7 @@ body {
     height: 8rem;
     line-height: 1.5;
     color: #ffffff;
-    text-shadow: 0 0 5px black;
+    text-shadow: 0 0 10px black;
     transition: all 0.15s ease-in-out;
 }
 

@@ -33,14 +33,12 @@
                                     ${artist.getName()}
                                 <c:choose>
                                     <c:when test="${artist != null && artist.getAvatar() != null}">
-                                        <img class="img-fluid col-2"
-                                             src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}"
-                                             alt="Artist avatar">
+                                        <img class="img-fluid col-1"
+                                             src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}">
                                     </c:when>
                                     <c:otherwise>
-                                        <img class="img-fluid col-2"
-                                             src="${pageContext.request.contextPath}/system/img/artist-default.png"
-                                             alt="Artist avatar">
+                                        <img class="img-fluid col-1"
+                                             src="${pageContext.request.contextPath}/system/img/artist-default.png">
                                     </c:otherwise>
                                 </c:choose>
                             </a>
@@ -61,6 +59,12 @@
                 </div>
             </c:otherwise>
         </c:choose>
+        <div class="d-flex mt-3 justify-content-center">
+            <a class="btn btn-sm"
+               href="${pageContext.request.contextPath}/controller?command=artist-get">
+                <fmt:message key="artists.get.all"/>
+            </a>
+        </div>
     </div>
 </div>
 

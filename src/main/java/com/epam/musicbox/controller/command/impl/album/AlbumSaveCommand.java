@@ -44,7 +44,7 @@ public class AlbumSaveCommand implements Command {
             try {
                 String key = FileServiceImpl.generateKey(ALBUM_PICTURE, albumId);
                 picture = fileService.put(req, key, Parameter.PICTURE, false,
-                        FileService.IMG_DIR, validator::isValidImageFileName);
+                        Parameter.IMG_DIR, validator::isValidImageFileName);
             } catch (ServiceException e) {
                 if (deleteOnFail) {
                     albumService.deleteById(albumId);

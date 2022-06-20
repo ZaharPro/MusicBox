@@ -18,25 +18,25 @@
     <div class="card f-col justify-content-center align-items-center h-100 pt-3 pb-3 mb-0 bg-dark">
         <div class="row">
             <div class="col f-col align-items-center">
-                <div class="row justify-content-center mt-1">
-                    <a class="f-col justify-content-center img-link img-link-lg"
+                <div class="row justify-content-center">
+                    <a class="f-col justify-content-center img-link img-link-lg m-1"
                        style="background-image: url('/system/img/home-track.png');"
                        href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks">
                         <fmt:message key="user.tracks"/>
                     </a>
-                    <a class="f-col justify-content-center img-link img-link-lg ml-1"
+                    <a class="f-col justify-content-center img-link img-link-lg m-1"
                        style="background-image: url('/system/img/home-album.png');"
                        href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums">
                         <fmt:message key="user.albums"/>
                     </a>
                 </div>
-                <div class="row justify-content-center mt-1">
-                    <a class="f-col justify-content-center img-link img-link-lg"
+                <div class="row justify-content-center">
+                    <a class="f-col justify-content-center img-link img-link-lg m-1"
                        style="background-image: url('/system/img/home-artist.png');"
                        href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists">
                         <fmt:message key="user.artists"/>
                     </a>
-                    <a class="f-col justify-content-center img-link img-link-lg ml-1"
+                    <a class="f-col justify-content-center img-link img-link-lg m-1"
                        style="background-image: url('/system/img/home-playlist.png');"
                        href="${pageContext.request.contextPath}/controller?command=user-get-playlists">
                         <fmt:message key="user.playlists"/>

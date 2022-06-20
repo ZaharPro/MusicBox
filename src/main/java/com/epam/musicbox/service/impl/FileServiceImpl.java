@@ -26,7 +26,6 @@ public class FileServiceImpl implements FileService {
     private static final String INVALID_KEY_MSG = "Invalid key: ";
     private static final String INVALID_FILE_NAME_MSG = "Invalid file name: ";
     private static final String KEY_NOT_FOUND_MSG = "Key not found";
-    private static final String FILE_EXTENSION_NOT_FOUND = "File extension not found";
 
     private static final String UPLOAD_ROOT_DIR = "file";
     private static final String KEY_SEPARATOR = "_";
@@ -43,7 +42,7 @@ public class FileServiceImpl implements FileService {
     }
 
     public static String generateKey(String entityField, Object id) {
-        return entityField + id;
+        return entityField + String.valueOf(id);
     }
 
     private String getRoot(HttpServletRequest req) {
@@ -67,17 +66,13 @@ public class FileServiceImpl implements FileService {
         return sb.toString();
     }
 
-    private static String getExtension(String fileName) throws ServiceException {
+    private static String getExtension(String fileName) {
         int i = fileName.lastIndexOf('.');
-        if (i == -1) {
-            throw new ServiceException(FILE_EXTENSION_NOT_FOUND);
-        }
-        return fileName.substring(i);
+        return i == -1 ? "" : fileName.substring(i);
     }
 
     private static Optional<Path> filePathByKey(String root, String key) throws IOException {
         return Files.walk(Paths.get(root))
-                .filter(Files::isRegularFile)
                 .filter(path -> key.equals(extractKey(getFileName(path))))
                 .findAny();
     }

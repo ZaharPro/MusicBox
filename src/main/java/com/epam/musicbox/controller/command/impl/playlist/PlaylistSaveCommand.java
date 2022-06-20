@@ -44,7 +44,7 @@ public class PlaylistSaveCommand implements Command {
             try {
                 String key = FileServiceImpl.generateKey(PLAYLIST_PICTURE, playlistId);
                 picture = fileService.put(req, key, Parameter.PICTURE, false,
-                        FileService.IMG_DIR, validator::isValidImageFileName);
+                        Parameter.IMG_DIR, validator::isValidImageFileName);
             } catch (ServiceException e) {
                 if (deleteOnFail) {
                     playlistService.deleteById(playlistId);

@@ -44,7 +44,7 @@ public class ArtistSaveCommand implements Command {
             try {
                 String key = FileServiceImpl.generateKey(ARTIST_AVATAR, artistId);
                 avatar = fileService.put(req, key, Parameter.AVATAR, false,
-                        FileService.IMG_DIR, validator::isValidImageFileName);
+                        Parameter.IMG_DIR, validator::isValidImageFileName);
             } catch (ServiceException e) {
                 if (deleteOnFail) {
                     artistService.deleteById(artistId);
