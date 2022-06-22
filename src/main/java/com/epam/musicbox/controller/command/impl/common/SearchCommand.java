@@ -19,6 +19,7 @@ import com.epam.musicbox.service.psr.PageSearchResult;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class SearchCommand implements Command {
+
     private static final int FIRST_PAGE = 1;
     private static final int PAGE_SIZE = 10;
 

@@ -10,7 +10,7 @@
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
-    <c:import url="/jsp/head.jsp"/>
+    <c:import url="/jsp/fragments/head.jsp"/>
 </head>
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
@@ -22,7 +22,7 @@
         </h2>
 
         <h4 class="mt-3">
-            <fmt:message key="admin.crate"/>
+            <fmt:message key="admin.manage"/>
         </h4>
         <div class="list-group list-group-flush bg-transparent">
             <a class="list-group-item list-group-item-action"
@@ -36,27 +36,6 @@
             <a class="list-group-item list-group-item-action"
                href="${pageContext.request.contextPath}/controller?command=edit-artist-page">
                 <fmt:message key="admin.add.artist"/>
-            </a>
-        </div>
-        <h4 class="mt-3">
-            <fmt:message key="admin.view"/>
-        </h4>
-        <div class="list-group list-group-flush bg-transparent">
-            <a class="list-group-item list-group-item-action"
-               href="${pageContext.request.contextPath}/controller?command=track-get">
-                <fmt:message key="admin.tracks"/>
-            </a>
-            <a class="list-group-item list-group-item-action"
-               href="${pageContext.request.contextPath}/controller?command=album-get">
-                <fmt:message key="admin.albums"/>
-            </a>
-            <a class="list-group-item list-group-item-action"
-               href="${pageContext.request.contextPath}/controller?command=artist-get">
-                <fmt:message key="admin.artists"/>
-            </a>
-            <a class="list-group-item list-group-item-action"
-               href="${pageContext.request.contextPath}/controller?command=playlist-get">
-                <fmt:message key="admin.playlists"/>
             </a>
             <a class="list-group-item list-group-item-action"
                href="${pageContext.request.contextPath}/controller?command=user-get">

@@ -14,9 +14,9 @@
             </h3>
         </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarToggle"
                 aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggle-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarToggle">
@@ -79,17 +79,17 @@
                     <ct:locale-label/>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <form class="dropdown-item" method="post"
+                    <form method="post"
                           action="${pageContext.request.contextPath}/controller?command=change-locale">
                         <input type="hidden" name="locale" value="en_EN">
-                        <button class="btn" type="submit">
+                        <button class="dropdown-item text-center px-2" type="submit">
                             <fmt:message key="navbar.locale.en"/>
                         </button>
                     </form>
-                    <form class="dropdown-item" method="post"
+                    <form method="post"
                           action="${pageContext.request.contextPath}/controller?command=change-locale">
                         <input type="hidden" name="locale" value="ru_RU">
-                        <button class="btn" type="submit">
+                        <button class="dropdown-item text-center px-2" type="submit">
                             <fmt:message key="navbar.locale.ru"/>
                         </button>
                     </form>

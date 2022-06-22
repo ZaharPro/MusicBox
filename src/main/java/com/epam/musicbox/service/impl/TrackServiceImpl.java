@@ -72,9 +72,16 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
     }
 
     @Override
-    public List<Artist> getArtists(long trackId, int offset, int limit) throws ServiceException {
+    public PageSearchResult<Artist> getArtists(long trackId, int page, int pageSize) throws ServiceException {
         try {
-            return getRepository().getArtists(trackId, offset, limit);
+            TrackRepository repository = getRepository();
+            long count = repository.countArtists(trackId);
+            if (count == 0) {
+                return new PageSearchResult<>(page, pageSize);
+            }
+            int offset = getOffset(page, pageSize);
+            List<Artist> list = repository.getArtists(trackId, offset, pageSize);
+            return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

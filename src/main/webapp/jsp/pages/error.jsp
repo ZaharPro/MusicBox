@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <title>MusicBox</title>
-    <c:import url="/jsp/head.jsp"/>
+    <c:import url="/jsp/fragments/head.jsp"/>
 </head>
 <body>
 

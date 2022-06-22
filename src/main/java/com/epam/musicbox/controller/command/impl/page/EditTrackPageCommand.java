@@ -16,9 +16,10 @@ import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.Optional;
-
 public class EditTrackPageCommand extends PageCommand {
+
+    private static final String TRACK_NOT_FOUND_MSG = "Track not found";
+    private static final String ALBUM_NOT_FOUND_MSG = "Album not found";
 
     private static final char URL_ATTRIBUTE_DELIMITER = '&';
     private static final char URL_ATTRIBUTE_EQ = '=';
@@ -40,11 +41,18 @@ public class EditTrackPageCommand extends PageCommand {
             navCommandBuilder.append(CommandType.EDIT_TRACK_PAGE.getName());
             albumChooseCommandBuilder.append(CommandType.EDIT_TRACK_PAGE.getName());
 
+            Long albumId = ParamTaker.getNullableLong(req, Parameter.ALBUM_ID);
+
+
             Long trackId = ParamTaker.getNullableLong(req, Parameter.TRACK_ID);
             if (trackId != null) {
-                Optional<Track> optionalTrack = trackService.findById(trackId);
-                Track track = optionalTrack.orElse(null);
+                Track track = trackService.findById(trackId)
+                        .orElseThrow(() -> new CommandException(TRACK_NOT_FOUND_MSG));
                 req.setAttribute(Parameter.TRACK, track);
+
+                if (albumId == null) {
+                    albumId = track.getAlbumId();
+                }
                 navCommandBuilder.append(URL_ATTRIBUTE_DELIMITER)
                         .append(Parameter.TRACK_ID)
                         .append(URL_ATTRIBUTE_EQ)
@@ -56,10 +64,9 @@ public class EditTrackPageCommand extends PageCommand {
                         .append(trackId);
             }
 
-            Long albumId = ParamTaker.getNullableLong(req, Parameter.ALBUM_ID);
             if (albumId != null) {
-                Optional<Album> optional = albumService.findById(albumId);
-                Album album = optional.orElse(null);
+                Album album = albumService.findById(albumId)
+                        .orElseThrow(() -> new CommandException(ALBUM_NOT_FOUND_MSG));
                 req.setAttribute(Parameter.ALBUM, album);
                 navCommandBuilder.append(URL_ATTRIBUTE_DELIMITER)
                         .append(Parameter.ALBUM_ID)

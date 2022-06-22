@@ -9,7 +9,7 @@
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
-    <c:import url="/jsp/head.jsp"/>
+    <c:import url="/jsp/fragments/head.jsp"/>
 </head>
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>

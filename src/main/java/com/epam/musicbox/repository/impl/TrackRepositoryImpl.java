@@ -50,13 +50,13 @@ public class TrackRepositoryImpl implements TrackRepository {
                                                     "FROM artists " +
                                                     "JOIN artist_tracks " +
                                                     "ON artist_tracks.artist_id = artists.artist_id " +
-                                                    "WHERE tracks.track_id=?";
+                                                    "WHERE artist_tracks.track_id=?";
 
     private static final String SQL_FIND_ARTISTS = "SELECT * " +
                                                   "FROM artists " +
                                                   "JOIN artist_tracks " +
                                                   "ON artist_tracks.artist_id = artists.artist_id " +
-                                                  "WHERE tracks.track_id=? " +
+                                                  "WHERE artist_tracks.track_id=? " +
                                                   "ORDER BY artists.name " +
                                                   "LIMIT ?,?";
 

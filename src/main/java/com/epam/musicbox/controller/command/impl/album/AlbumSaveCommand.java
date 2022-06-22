@@ -12,10 +12,10 @@ import com.epam.musicbox.service.FileService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.FileServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
-import com.epam.musicbox.validator.FileValidator;
 import com.epam.musicbox.validator.EntityValidator;
-import com.epam.musicbox.validator.impl.FileValidatorImpl;
+import com.epam.musicbox.validator.FileValidator;
 import com.epam.musicbox.validator.impl.EntityValidatorImpl;
+import com.epam.musicbox.validator.impl.FileValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class AlbumSaveCommand implements Command {

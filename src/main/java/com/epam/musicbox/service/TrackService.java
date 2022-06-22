@@ -5,8 +5,6 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.psr.PageSearchResult;
 
-import java.util.List;
-
 public interface TrackService extends EntityService<Track> {
 
     long countByName(String name) throws ServiceException;
@@ -16,5 +14,5 @@ public interface TrackService extends EntityService<Track> {
 
     long countArtists(long trackId) throws ServiceException;
 
-    List<Artist> getArtists(long trackId, int offset, int limit) throws ServiceException;
+    PageSearchResult<Artist> getArtists(long trackId, int page, int pageSize) throws ServiceException;
 }

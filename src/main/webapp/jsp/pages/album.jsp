@@ -10,7 +10,7 @@
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
-    <c:import url="/jsp/head.jsp"/>
+    <c:import url="/jsp/fragments/head.jsp"/>
 </head>
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
@@ -21,7 +21,8 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${album != null && album.getPicture() != null}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
+                        <img class="card-img"
+                             src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
                     </c:when>
                     <c:otherwise>
                         <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png">
