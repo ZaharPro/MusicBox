@@ -9,11 +9,9 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.PlaylistService;
-import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
-import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.service.psr.PageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
@@ -21,37 +19,32 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.Optional;
-
 public class PlaylistGetByIdCommand implements Command {
 
     private static final String PLAYLIST_NOT_FOUND_MSG = "Playlist not found";
 
     private final PlaylistService playlistService = PlaylistServiceImpl.getInstance();
     private final UserService userService = UserServiceImpl.getInstance();
-    private final TrackService trackService = TrackServiceImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
-            long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
-            Optional<Playlist> optional = playlistService.findById(playlistId);
-            if (optional.isEmpty()) {
-                throw new CommandException(PLAYLIST_NOT_FOUND_MSG);
-            }
-            Playlist playlist = optional.get();
-            req.setAttribute(Parameter.PLAYLIST, playlist);
-
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+            long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
 
             boolean like = userService.hasPlaylist(userId, playlistId);
             req.setAttribute(Parameter.LIKE, like);
 
+            Playlist playlist = playlistService.findById(playlistId)
+                    .orElseThrow(() -> new CommandException(PLAYLIST_NOT_FOUND_MSG));
+
+            req.setAttribute(Parameter.PLAYLIST, playlist);
+
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
+            PageSearchResult<Track> pageSearchResult = playlistService.getTracks(playlistId, page, pageSize);
             req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
 
             return CommandResult.forward(PagePath.PLAYLIST);

@@ -21,10 +21,10 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${album != null && album.getPicture() != null}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-album.png">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png">
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -84,7 +84,7 @@
                         <c:set var="page" value="${trackpsr.getPage()}" scope="request"/>
                         <c:set var="maxpage" value="${trackpsr.getMaxPage()}" scope="request"/>
                         <c:set var="pagename" value="trackpage" scope="request"/>
-                        <c:set var="command" value="track-get" scope="request"/>
+                        <c:set var="command" value="album-get-by-id&albumid=${album.getId()}" scope="request"/>
                         <c:import url="/jsp/fragments/page-navigation.jsp"/>
                     </div>
                 </c:when>

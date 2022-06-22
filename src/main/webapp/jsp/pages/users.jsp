@@ -76,7 +76,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td>${userpsr.getRoles().get(status.index)}</td>
+                                <td>${user.getRole()}</td>
                                 <td>${user.getRegistration()}</td>
                             </tr>
                         </c:forEach>

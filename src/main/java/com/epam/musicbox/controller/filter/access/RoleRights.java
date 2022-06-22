@@ -50,14 +50,12 @@ public class RoleRights {
                 CommandType.ARTIST_GET,
                 CommandType.ARTIST_GET_BY_ID,
                 CommandType.ARTIST_GET_BY_NAME,
-                CommandType.ARTIST_GET_TRACKS,
 
                 CommandType.PLAYLIST_SAVE,
                 CommandType.PLAYLIST_DELETE,
                 CommandType.PLAYLIST_GET,
                 CommandType.PLAYLIST_GET_BY_ID,
                 CommandType.PLAYLIST_GET_BY_NAME,
-                CommandType.PLAYLIST_GET_TRACKS,
                 CommandType.PLAYLIST_ADD_TRACK,
                 CommandType.PLAYLIST_REMOVE_TRACK,
 
@@ -70,9 +68,7 @@ public class RoleRights {
                 CommandType.USER_GET_LIKED_TRACKS,
                 CommandType.USER_MARK_LIKED_TRACK,
                 CommandType.USER_UNMARK_LIKED_TRACK,
-                CommandType.USER_GET_PLAYLISTS,
-                CommandType.USER_ADD_PLAYLIST,
-                CommandType.USER_REMOVE_PLAYLIST));
+                CommandType.USER_GET_PLAYLISTS));
 
         map.put(Role.ADMIN, EnumSet.allOf(CommandType.class));
 

@@ -1,5 +1,6 @@
 package com.epam.musicbox.service.impl;
 
+import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
@@ -7,8 +8,8 @@ import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.psr.PageSearchResult;
-import com.epam.musicbox.validator.Validator;
-import com.epam.musicbox.validator.impl.ValidatorImpl;
+import com.epam.musicbox.validator.EntityValidator;
+import com.epam.musicbox.validator.impl.EntityValidatorImpl;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
 
     private static final TrackServiceImpl instance = new TrackServiceImpl();
 
-    private final Validator validator = ValidatorImpl.getInstance();
+    private final EntityValidator validator = EntityValidatorImpl.getInstance();
     private final TrackRepository trackRepository = TrackRepositoryImpl.getInstance();
 
     private TrackServiceImpl() {
@@ -56,6 +57,24 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
             int offset = getOffset(page, pageSize);
             List<Track> list = repository.findByName(regex, offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public long countArtists(long trackId) throws ServiceException {
+        try {
+            return getRepository().countArtists(trackId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Artist> getArtists(long trackId, int offset, int limit) throws ServiceException {
+        try {
+            return getRepository().getArtists(trackId, offset, limit);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

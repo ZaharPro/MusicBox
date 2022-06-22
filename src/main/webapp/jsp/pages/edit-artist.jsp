@@ -83,7 +83,7 @@
                                     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                             ${track.getName()}
                                         <c:choose>
-                                            <c:when test="${trackpsr.getFlags().get(status.index)}">
+                                            <c:when test="${trackpsr.getFlags()[status.index]}">
                                                 <c:set var="cmd" value="artist-remove-track" scope="request"/>
                                             </c:when>
                                             <c:otherwise>
@@ -97,7 +97,7 @@
                                             <input type="hidden" name="trackpage" value="${trackpsr.getPage()}">
                                             <button type="submit" class="btn btn-sm">
                                                 <c:choose>
-                                                    <c:when test="${trackpsr.getFlags().get(status.index)}">
+                                                    <c:when test="${trackpsr.getFlags()[status.index]}">
                                                         <fmt:message key="edit.artist.remove"/>
                                                     </c:when>
                                                     <c:otherwise>

@@ -27,7 +27,7 @@ public class TrackGetByNameCommand implements Command {
         try {
             String name = req.getParameter(Parameter.NAME);
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
             PageSearchResult<Track> pageSearchResult = trackService.findByName(name, page, pageSize);
             req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             req.setAttribute(Parameter.COMMAND, COMMAND + name);

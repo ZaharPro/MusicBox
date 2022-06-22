@@ -33,20 +33,17 @@ public class TrackGetByIdCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
-            long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
-            Optional<Track> optional = trackService.findById(trackId);
-            if (optional.isEmpty()) {
-                throw new CommandException(TRACK_NOT_FOUND_MSG);
-            }
-            Track track = optional.get();
-            req.setAttribute(Parameter.TRACK, track);
-
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+            long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
 
             boolean like = userService.isLikedTrack(userId, trackId);
             req.setAttribute(Parameter.LIKE, like);
+
+            Track track = trackService.findById(trackId)
+                    .orElseThrow(() -> new CommandException(TRACK_NOT_FOUND_MSG));
+            req.setAttribute(Parameter.TRACK, track);
 
             Optional<Album> optionalAlbum = albumService.findById(track.getAlbumId());
             Album album = optionalAlbum.orElse(null);

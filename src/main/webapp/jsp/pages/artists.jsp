@@ -59,12 +59,6 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <div class="d-flex mt-3 justify-content-center">
-            <a class="btn btn-sm"
-               href="${pageContext.request.contextPath}/controller?command=artist-get">
-                <fmt:message key="artists.get.all"/>
-            </a>
-        </div>
     </div>
 </div>
 

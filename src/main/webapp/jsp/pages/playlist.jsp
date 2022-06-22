@@ -20,8 +20,9 @@
         <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
-                    <c:when test="${playlist != null && playlist.getPicture()}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
+                    <c:when test="${playlist != null && playlist.getPicture() != null}">
+                        <img class="card-img"
+                             src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                     </c:when>
                     <c:otherwise>
                         <img class="card-img" src="${pageContext.request.contextPath}/system/img/playlist-default.png">
@@ -32,38 +33,13 @@
                 <h2 class="title">
                     ${playlist.getName()}
                 </h2>
-                <c:choose>
-                    <c:when test="${like == false}">
-                        <c:set var="cmd" value="user-add-playlist" scope="request"/>
-                    </c:when>
-                    <c:otherwise>
-                        <c:set var="cmd" value="user-remove-playlist" scope="request"/>
-                    </c:otherwise>
-                </c:choose>
-                <form method="post"
-                      action="${pageContext.request.contextPath}/controller?command=${cmd}">
-                    <input type="hidden" name="playlistid" value="${playlist.getId()}"/>
-                    <input type="hidden" name="trackpage" value="${trackpsr.getPage()}"/>
 
-                    <div class="btn-group btn-group-sm">
-                        <button type="submit" class="btn w-100">
-                            <c:choose>
-                                <c:when test="${like == false}">
-                                    <fmt:message key="playlist.mark.liked"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <fmt:message key="playlist.unmark.liked"/>
-                                </c:otherwise>
-                            </c:choose>
-                        </button>
-                        <ct:access role="admin">
-                            <a class="btn w-100 ml-1"
-                               href="${pageContext.request.contextPath}/controller?command=edit-playlist-page&playlistid=${playlist.getId()}">
-                                <fmt:message key="playlist.edit"/>
-                            </a>
-                        </ct:access>
-                    </div>
-                </form>
+                <div>
+                    <a class="btn"
+                       href="${pageContext.request.contextPath}/controller?command=edit-playlist-page&playlistid=${playlist.getId()}">
+                        <fmt:message key="playlist.edit"/>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="col f-col h-100 pt-3 pb-3 mb-0">
@@ -74,17 +50,26 @@
                 <c:when test="${trackpsr.hasElements()}">
                     <div class="f-col h-100">
                         <div class="list-group list-group-flush bg-light h-100 mb-2">
-                            <c:forEach items="${trackpsr.getElements()}" var="track">
+                            <c:forEach items="${trackpsr.getElements()}" var="track" varStatus="status">
                                 <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                                    href="${pageContext.request.contextPath}/controller?command=track-get-by-id&trackid=${track.getId()}&trackpage=${trackpsr.getPage()}">
                                         ${track.getName()}
+                                    <form method="post"
+                                          action="${pageContext.request.contextPath}/controller?command=playlist-remove-track">
+                                        <input type="hidden" name="playlistid" value="${playlist.getId()}">
+                                        <input type="hidden" name="trackid" value="${track.getId()}">
+                                        <input type="hidden" name="trackpage" value="${trackpsr.getPage()}">
+                                        <button type="submit" class="btn btn-sm">
+                                            <fmt:message key="edit.playlist.remove"/>
+                                        </button>
+                                    </form>
                                 </a>
                             </c:forEach>
                         </div>
                         <c:set var="page" value="${trackpsr.getPage()}" scope="request"/>
                         <c:set var="maxpage" value="${trackpsr.getMaxPage()}" scope="request"/>
                         <c:set var="pagename" value="trackpage" scope="request"/>
-                        <c:set var="command" value="track-get" scope="request"/>
+                        <c:set var="command" value="playlist-get-by-id&playlistid=${playlist.getId()}" scope="request"/>
                         <c:import url="/jsp/fragments/page-navigation.jsp"/>
                     </div>
                 </c:when>
@@ -98,6 +83,6 @@
             </c:choose>
         </div>
     </div>
-
+</div>
 </body>
 </html>

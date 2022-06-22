@@ -34,11 +34,11 @@
                                 <c:choose>
                                     <c:when test="${album != null && album.getPicture() != null}">
                                         <img class="img-fluid col-1"
-                                             src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
+                                             src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
                                     </c:when>
                                     <c:otherwise>
                                         <img class="img-fluid col-1"
-                                             src="${pageContext.request.contextPath}/system/img/home-album.png">
+                                             src="${pageContext.request.contextPath}/system/img/album-default.png">
                                     </c:otherwise>
                                 </c:choose>
                             </a>
@@ -59,12 +59,6 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <div class="d-flex mt-3 justify-content-center">
-            <a class="btn btn-sm"
-               href="${pageContext.request.contextPath}/controller?command=album-get">
-                <fmt:message key="albums.get.all"/>
-            </a>
-        </div>
     </div>
 </div>
 

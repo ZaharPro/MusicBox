@@ -21,10 +21,10 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${album != null && album.getPicture() != null}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-album.png">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png">
                     </c:otherwise>
                 </c:choose>
             </div>

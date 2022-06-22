@@ -16,10 +16,10 @@ public final class ParamTaker {
     private static final Function<String, Integer> INT_MAPPER = Integer::parseInt;
     private static final Function<String, Long> LONG_MAPPER = Long::parseLong;
     private static final Function<String, Boolean> BOOLEAN_MAPPER = Boolean::parseBoolean;
-    private static final Function<String, Role> ROLE_MAPPER = Role::findByValue;
+    private static final Function<String, Role> ROLE_MAPPER = Role::findByName;
 
     private static final Integer FIRST_PAGE = 1;
-    private static final Integer DEFAULT_PAGE_SIZE = 20;
+    private static final Integer DEFAULT_PAGE_SIZE = 7;
 
     private ParamTaker() {
     }

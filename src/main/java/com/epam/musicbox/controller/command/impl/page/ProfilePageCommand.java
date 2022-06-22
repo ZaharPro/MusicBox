@@ -14,8 +14,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.Optional;
-
 public class ProfilePageCommand extends PageCommand {
 
     private static final String USER_NOT_FOUND_MSG = "User not found";
@@ -33,12 +31,8 @@ public class ProfilePageCommand extends PageCommand {
             Claims body = token.getBody();
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
 
-            Optional<User> optionalUser = userService.findById(userId);
-            if (optionalUser.isEmpty()) {
-                throw new CommandException(USER_NOT_FOUND_MSG);
-            }
-
-            User user = optionalUser.get();
+            User user = userService.findById(userId)
+                    .orElseThrow(() -> new CommandException(USER_NOT_FOUND_MSG));
             req.setAttribute(Parameter.USER, user);
 
             return super.execute(req);

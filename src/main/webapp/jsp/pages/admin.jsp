@@ -17,10 +17,13 @@
 
 <div class="container f-col h-100 pt-2 pb-2">
     <div class="col card pt-3 pb-3 m-0 bg-dark">
-        <h2 class="title text-center>">
+        <h2 class="title text-center">
             <fmt:message key="admin.title"/>
         </h2>
 
+        <h4 class="mt-3">
+            <fmt:message key="admin.crate"/>
+        </h4>
         <div class="list-group list-group-flush bg-transparent">
             <a class="list-group-item list-group-item-action"
                href="${pageContext.request.contextPath}/controller?command=edit-track-page">
@@ -33,6 +36,27 @@
             <a class="list-group-item list-group-item-action"
                href="${pageContext.request.contextPath}/controller?command=edit-artist-page">
                 <fmt:message key="admin.add.artist"/>
+            </a>
+        </div>
+        <h4 class="mt-3">
+            <fmt:message key="admin.view"/>
+        </h4>
+        <div class="list-group list-group-flush bg-transparent">
+            <a class="list-group-item list-group-item-action"
+               href="${pageContext.request.contextPath}/controller?command=track-get">
+                <fmt:message key="admin.tracks"/>
+            </a>
+            <a class="list-group-item list-group-item-action"
+               href="${pageContext.request.contextPath}/controller?command=album-get">
+                <fmt:message key="admin.albums"/>
+            </a>
+            <a class="list-group-item list-group-item-action"
+               href="${pageContext.request.contextPath}/controller?command=artist-get">
+                <fmt:message key="admin.artists"/>
+            </a>
+            <a class="list-group-item list-group-item-action"
+               href="${pageContext.request.contextPath}/controller?command=playlist-get">
+                <fmt:message key="admin.playlists"/>
             </a>
             <a class="list-group-item list-group-item-action"
                href="${pageContext.request.contextPath}/controller?command=user-get">

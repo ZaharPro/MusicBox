@@ -12,9 +12,9 @@ import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.Optional;
-
 public class UserSetBanCommand implements Command {
+
+    private static final String USER_NOT_FOUND = "User not found";
 
     private static final String REDIRECT_URL = String.format("%s&%s=",
             CommandType.USER_GET_BY_ID.getName(),
@@ -37,13 +37,11 @@ public class UserSetBanCommand implements Command {
     }
 
     private void banUser(long userId, boolean banned) throws ServiceException {
-        Optional<User> optionalUser = userService.findById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if (banned == user.getBanned())
-                return;
-            user.setBanned(banned);
-            userService.save(user);
-        }
+        User user = userService.findById(userId)
+                .orElseThrow(() -> new ServiceException(USER_NOT_FOUND));
+        if (banned == user.getBanned())
+            return;
+        user.setBanned(banned);
+        userService.save(user);
     }
 }

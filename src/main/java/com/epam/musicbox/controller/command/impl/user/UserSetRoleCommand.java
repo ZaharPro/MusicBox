@@ -27,7 +27,7 @@ public class UserSetRoleCommand implements Command {
             Role role = ParamTaker.getRole(req);
 
             userService.setRole(userId, role.getId());
-            req.setAttribute(Parameter.ROLE, role.getValue());
+            req.setAttribute(Parameter.ROLE, role.getName());
 
             return CommandResult.redirect(REDIRECT_URL + userId);
         } catch (ServiceException e) {

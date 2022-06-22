@@ -71,7 +71,7 @@ public class EditTrackPageCommand extends PageCommand {
             req.setAttribute(NAV_COMMAND, navCommand);
 
             int page = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
-            int pageSize = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
             PageSearchResult<Album> pageSearchResult = albumService.findPage(page, pageSize);
             req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, pageSearchResult);
 

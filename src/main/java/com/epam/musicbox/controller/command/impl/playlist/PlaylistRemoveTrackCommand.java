@@ -15,7 +15,7 @@ public class PlaylistRemoveTrackCommand implements Command {
 
     private static final String REDIRECT_URL_FORMAT =
             String.format("controller?command=%s&%s=%%s&%s=%%s&%s=%%s",
-                    CommandType.EDIT_PLAYLIST_PAGE.getName(),
+                    CommandType.PLAYLIST_GET_BY_ID.getName(),
                     Parameter.PLAYLIST_ID,
                     Parameter.TRACK_PAGE_INDEX,
                     Parameter.TRACK_PAGE_SIZE);
@@ -27,7 +27,9 @@ public class PlaylistRemoveTrackCommand implements Command {
         try {
             long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
             long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
+
             service.removeTrack(playlistId, trackId);
+
             int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int trackPageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
             String url = String.format(REDIRECT_URL_FORMAT,

@@ -36,17 +36,12 @@
                        class="form-control form-control-lg"/>
             </div>
 
-            <div class="row">
-                <div class="form-check mb-0">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="passwordCheckbox"
-                           onclick="togglePasswordCheckbox()"/>
-                    <label class="form-check-label" for="passwordCheckbox">
-                        <fmt:message key="login.show.pass"/>
-                    </label>
-                </div>
-                <a href="${pageContext.request.contextPath}/controller?command=forgot-password" class="text-body">
-                    <fmt:message key="login.forgot.password"/>
-                </a>
+            <div class="form-check mb-0">
+                <input class="form-check-input me-2" type="checkbox" value="" id="passwordCheckbox"
+                       onclick="togglePasswordCheckbox()"/>
+                <label class="form-check-label" for="passwordCheckbox">
+                    <fmt:message key="login.show.pass"/>
+                </label>
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">

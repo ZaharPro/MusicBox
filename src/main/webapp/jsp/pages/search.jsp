@@ -54,11 +54,11 @@
                                         <c:choose>
                                             <c:when test="${album != null && album.getPicture() != null}">
                                                 <img class="img-fluid col-1"
-                                                     src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
+                                                     src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
                                             </c:when>
                                             <c:otherwise>
                                                 <img class="img-fluid col-1"
-                                                     src="${pageContext.request.contextPath}/system/img/home-album.png">
+                                                     src="${pageContext.request.contextPath}/system/img/album-default.png">
                                             </c:otherwise>
                                         </c:choose>
                                     </a>

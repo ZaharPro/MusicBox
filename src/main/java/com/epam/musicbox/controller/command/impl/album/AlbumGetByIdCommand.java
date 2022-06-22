@@ -21,8 +21,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.Optional;
-
 public class AlbumGetByIdCommand implements Command {
 
     private static final String ALBUM_NOT_FOUND_MSG = "Album not found";
@@ -34,20 +32,17 @@ public class AlbumGetByIdCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
-            long albumId = ParamTaker.getLong(req, Parameter.ALBUM_ID);
-            Optional<Album> optional = albumService.findById(albumId);
-            if (optional.isEmpty()) {
-                throw new CommandException(ALBUM_NOT_FOUND_MSG);
-            }
-            Album album = optional.get();
-            req.setAttribute(Parameter.ALBUM, album);
-
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
             long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+            long albumId = ParamTaker.getLong(req, Parameter.ALBUM_ID);
 
             boolean like = userService.isLikedAlbum(userId, albumId);
             req.setAttribute(Parameter.LIKE, like);
+
+            Album album = albumService.findById(albumId)
+                    .orElseThrow(() -> new CommandException(ALBUM_NOT_FOUND_MSG));
+            req.setAttribute(Parameter.ALBUM, album);
 
             int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);

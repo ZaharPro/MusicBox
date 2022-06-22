@@ -6,23 +6,6 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="locale"/>
 
-<%
-    int deltaIndex = 2;
-    int currentPage = (int) request.getAttribute("page");
-    int maxPage = (int) request.getAttribute("maxpage");
-    int from = Math.max(currentPage - deltaIndex, 1);
-    int to = Math.min(currentPage + deltaIndex, maxPage);
-    int deltaf = currentPage - from;
-    int deltat = to - currentPage;
-    if (deltaf != deltat) {
-        deltaf = deltat = Math.min(deltaf, deltat);
-        from = currentPage - deltaf;
-        to = currentPage + deltat;
-    }
-    request.setAttribute("from", from);
-    request.setAttribute("to", to);
-%>
-
 <nav aria-label="Page navigation" class="d-flex justify-content-center w-100">
     <ul class="pagination bg-light mb-0">
         <li class="page-item">
@@ -31,37 +14,27 @@
                 <fmt:message key="page.nav.start"/>
             </a>
         </li>
-
-        <c:choose>
-            <c:when test="${from == to}">
-                <li class="page-item active">
-                    <div class="page-link">
-                            ${page}<span class="sr-only">(current)</span>
-                    </div>
-                </li>
-            </c:when>
-            <c:otherwise>
-                <c:forEach begin="${from}" end="${to}" var="status">
-                    <c:choose>
-                        <c:when test="${page == status}">
-                            <li class="page-item active">
-                                <div class="page-link">
-                                        ${status}<span class="sr-only">(current)</span>
-                                </div>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="page-item">
-                                <a class="page-link"
-                                   href="${pageContext.request.contextPath}/controller?command=${command}&${pagename}=${status}">
-                                        <span class=col-10">${status}
-                                </a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-            </c:otherwise>
-        </c:choose>
+        <c:if test="${page > 1}">
+            <li class="page-item">
+                <a class="page-link"
+                   href="${pageContext.request.contextPath}/controller?command=${command}&${pagename}=${page - 1}">
+                        ${page - 1}
+                </a>
+            </li>
+        </c:if>
+        <li class="page-item active">
+            <div class="page-link">
+                ${page}<span class="sr-only">(current)</span>
+            </div>
+        </li>
+        <c:if test="${page < maxpage}">
+            <li class="page-item">
+                <a class="page-link"
+                   href="${pageContext.request.contextPath}/controller?command=${command}&${pagename}=${page + 1}">
+                        ${page + 1}
+                </a>
+            </li>
+        </c:if>
         <li class="page-item">
             <a class="page-link" aria-label="End"
                href="${pageContext.request.contextPath}/controller?command=${command}&${pagename}=${maxpage}">

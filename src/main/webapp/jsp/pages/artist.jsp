@@ -84,7 +84,7 @@
                     <c:set var="page" value="${trackpsr.getPage()}" scope="request"/>
                     <c:set var="maxpage" value="${trackpsr.getMaxPage()}" scope="request"/>
                     <c:set var="pagename" value="trackpage" scope="request"/>
-                    <c:set var="command" value="track-get" scope="request"/>
+                    <c:set var="command" value="artist-get-by-id&artistid=${artist.getId()}&albumpage=${albumpsr.getPage()}" scope="request"/>
                     <c:import url="/jsp/fragments/page-navigation.jsp"/>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                     <c:set var="page" value="${albumpsr.getPage()}" scope="request"/>
                     <c:set var="maxpage" value="${albumpsr.getMaxPage()}" scope="request"/>
                     <c:set var="pagename" value="albumpage" scope="request"/>
-                    <c:set var="command" value="album-get" scope="request"/>
+                    <c:set var="command" value="artist-get-by-id&artistid=${artist.getId()}&trackpage=${trackpsr.getPage()}" scope="request"/>
                     <c:import url="/jsp/fragments/page-navigation.jsp"/>
                 </div>
             </div>

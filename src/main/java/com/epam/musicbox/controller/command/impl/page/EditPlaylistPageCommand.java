@@ -36,7 +36,7 @@ public class EditPlaylistPageCommand extends PageCommand {
                 Playlist playlist = optional.orElse(null);
                 req.setAttribute(Parameter.PLAYLIST, playlist);
                 int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-                int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
+                int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
                 PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
                 pageSearchResult = TrackPlaylistPageSearchResult.from(pageSearchResult,
                         playlistService,

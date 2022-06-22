@@ -72,7 +72,7 @@ public final class QueryHelper {
         int i = 1;
         for (Object param : params) {
             if (param == null) {
-                statement.setString(i, "null");
+                statement.setObject(i, null);
             } else {
                 Class<?> paramClass = param.getClass();
                 if (paramClass == Integer.class) {

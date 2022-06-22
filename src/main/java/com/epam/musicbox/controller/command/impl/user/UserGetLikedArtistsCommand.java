@@ -4,6 +4,7 @@ import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
@@ -30,6 +31,7 @@ public class UserGetLikedArtistsCommand implements Command {
             int pageSize = ParamTaker.getPageSize(req, Parameter.ARTIST_PAGE_SIZE);
             PageSearchResult<Artist> pageSearchResult = service.getLikedArtists(userId, page, pageSize);
             req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            req.setAttribute(Parameter.COMMAND, CommandType.USER_GET_LIKED_ARTISTS.getName());
             return CommandResult.forward(PagePath.ARTISTS);
         } catch (ServiceException e) {
             throw new CommandException(e);

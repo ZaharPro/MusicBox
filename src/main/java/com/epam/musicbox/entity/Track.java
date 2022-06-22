@@ -5,12 +5,12 @@ public class Track implements Entity {
     private Long id;
     private String name;
     private String audio;
-    private Long albumId;
+    private long albumId;
 
     public Track() {
     }
 
-    public Track(Long id, String name, String audio, Long albumId) {
+    public Track(Long id, String name, String audio, long albumId) {
         this.id = id;
         this.name = name;
         this.albumId = albumId;
@@ -33,11 +33,11 @@ public class Track implements Entity {
         this.name = name;
     }
 
-    public Long getAlbumId() {
+    public long getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(Long albumId) {
+    public void setAlbumId(long albumId) {
         this.albumId = albumId;
     }
 
@@ -60,7 +60,7 @@ public class Track implements Entity {
             return false;
         if (!(audio == null ? track.audio == null : audio.equals(track.audio)))
             return false;
-        return albumId == null ? track.albumId == null : albumId.equals(track.albumId);
+        return albumId == track.albumId;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Track implements Entity {
         hash = hash * 31 + (id == null ? 0 : id.hashCode());
         hash = hash * 31 + (name == null ? 0 : name.hashCode());
         hash = hash * 31 + (audio == null ? 0 : audio.hashCode());
-        hash = hash * 31 + (albumId == null ? 0 : albumId.hashCode());
+        hash = hash * 31 + Long.hashCode(albumId);
         return hash;
     }
 

@@ -11,6 +11,7 @@ public class PlaylistRowMapper implements RowMapper<Playlist> {
     private static final String ROW_PLAYLIST_ID = "playlist_id";
     private static final String ROW_NAME = "name";
     private static final String ROW_PICTURE = "picture";
+    private static final String ROW_USER_ID = "user_id";
 
     private static final PlaylistRowMapper instance = new PlaylistRowMapper();
 
@@ -26,7 +27,8 @@ public class PlaylistRowMapper implements RowMapper<Playlist> {
         try {
             return new Playlist(resultSet.getLong(ROW_PLAYLIST_ID),
                     resultSet.getString(ROW_NAME),
-                    resultSet.getString(ROW_PICTURE));
+                    resultSet.getString(ROW_PICTURE),
+                    resultSet.getLong(ROW_USER_ID));
         } catch (SQLException e) {
             throw new RepositoryException(e);
         }

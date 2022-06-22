@@ -32,7 +32,7 @@
                                href="${pageContext.request.contextPath}/controller?command=playlist-get-by-id&playlistid=${playlist.getId()}">
                                     ${playlist.getName()}
                                 <c:choose>
-                                    <c:when test="${playlist != null && playlist.getPicture()}">
+                                    <c:when test="${playlist != null && playlist.getPicture() != null}">
                                         <img class="img-fluid col-1"
                                              src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                                     </c:when>
@@ -59,12 +59,6 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <div class="d-flex mt-3 justify-content-center">
-            <a class="btn btn-sm"
-               href="${pageContext.request.contextPath}/controller?command=playlist-get">
-                <fmt:message key="playlists.get.all"/>
-            </a>
-        </div>
     </div>
 </div>
 

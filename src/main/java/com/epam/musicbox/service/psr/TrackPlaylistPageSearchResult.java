@@ -11,14 +11,14 @@ import java.util.List;
 public class TrackPlaylistPageSearchResult extends PageSearchResult<Track> {
 
     private final long playlistId;
-    private final List<Boolean> flags;
+    private final boolean[] flags;
 
     public TrackPlaylistPageSearchResult(int page,
                                          int pageSize,
                                          long count,
                                          List<Track> elements,
                                          long playlistId,
-                                         List<Boolean> flags) {
+                                         boolean[] flags) {
         super(page, pageSize, count, elements);
         this.playlistId = playlistId;
         this.flags = flags;
@@ -27,36 +27,37 @@ public class TrackPlaylistPageSearchResult extends PageSearchResult<Track> {
     public TrackPlaylistPageSearchResult(int page, int pageSize) {
         super(page, pageSize);
         this.playlistId = -1;
-        this.flags = Collections.emptyList();
+        this.flags = null;
     }
 
     public long getPlaylistId() {
         return playlistId;
     }
 
-    public List<Boolean> getFlags() {
+    public boolean[] getFlags() {
         return flags;
     }
 
-    public static TrackArtistPageSearchResult from(PageSearchResult<Track> psr,
-                                                   PlaylistService service,
-                                                   long artistId) throws ServiceException {
+    public static TrackPlaylistPageSearchResult from(PageSearchResult<Track> psr,
+                                                     PlaylistService service,
+                                                     long playlist) throws ServiceException {
         if (psr.getCount() == 0) {
-            return new TrackArtistPageSearchResult(psr.getPage(), psr.getPageSize());
+            return new TrackPlaylistPageSearchResult(psr.getPage(), psr.getPageSize());
         }
         List<Track> elements = psr.getElements();
-        List<Boolean> flags = new ArrayList<>(elements.size());
-        for (Track track : elements) {
+        boolean[] flags = new boolean[elements.size()];
+        for (int i = 0; i < elements.size(); i++) {
+            Track track = elements.get(i);
             Long id = track.getId();
-            Boolean hasTrack = service.hasTrack(artistId, id);
-            flags.add(hasTrack);
+            boolean hasTrack = service.hasTrack(playlist, id);
+            flags[i] = hasTrack;
         }
 
-        return new TrackArtistPageSearchResult(psr.getPage(),
+        return new TrackPlaylistPageSearchResult(psr.getPage(),
                 psr.getPageSize(),
                 psr.getCount(),
                 elements,
-                artistId,
+                playlist,
                 flags);
     }
 }

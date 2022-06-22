@@ -42,7 +42,6 @@ public enum CommandType {
     ARTIST_SAVE("artist-save"),
     ARTIST_DELETE("artist-delete"),
 
-    ARTIST_GET_TRACKS("artist-get-tracks"),
     ARTIST_ADD_TRACK("artist-add-track"),
     ARTIST_REMOVE_TRACK("artist-remove-track"),
 
@@ -53,7 +52,6 @@ public enum CommandType {
     PLAYLIST_SAVE("playlist-save"),
     PLAYLIST_DELETE("playlist-delete"),
 
-    PLAYLIST_GET_TRACKS("playlist-get-tracks"),
     PLAYLIST_ADD_TRACK("playlist-add-track"),
     PLAYLIST_REMOVE_TRACK("playlist-remove-track"),
 
@@ -79,8 +77,6 @@ public enum CommandType {
     USER_UNMARK_LIKED_TRACK("user-unmark-liked-track"),
 
     USER_GET_PLAYLISTS("user-get-playlists"),
-    USER_ADD_PLAYLIST("user-add-playlist"),
-    USER_REMOVE_PLAYLIST("user-remove-playlist"),
 
     USER_SET_BAN("user-set-ban"),
     USER_SET_ROLE("user-set-role");

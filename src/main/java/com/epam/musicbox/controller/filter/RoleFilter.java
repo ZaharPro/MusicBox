@@ -34,7 +34,7 @@ public class RoleFilter implements Filter {
             } catch (ServiceException e) {
                 role = Role.GUEST;
             }
-            session.setAttribute(Parameter.ROLE, role.getValue());
+            session.setAttribute(Parameter.ROLE, role.getName());
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

@@ -26,10 +26,10 @@ public class AccessTag extends TagSupport {
 
     private boolean testName(String roleName) {
         if (roleName == null) {
-            roleName = Role.GUEST.getValue();
+            roleName = Role.GUEST.getName();
         }
         return NOT_GUEST.equals(role) ?
-                !roleName.equals(Role.GUEST.getValue()) :
+                !roleName.equals(Role.GUEST.getName()) :
                 roleName.equals(role);
     }
 }

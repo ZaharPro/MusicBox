@@ -1,8 +1,10 @@
 package com.epam.musicbox.repository.impl;
 
+import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.TrackRepository;
+import com.epam.musicbox.repository.rowmapper.ArtistRowMapper;
 import com.epam.musicbox.repository.rowmapper.CountRowMapper;
 import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
 import com.epam.musicbox.util.QueryHelper;
@@ -44,9 +46,24 @@ public class TrackRepositoryImpl implements TrackRepository {
                                                    "ORDER BY name " +
                                                    "LIMIT ?,?";
 
+    private static final String SQL_COUNT_ARTISTS = "SELECT COUNT(*) " +
+                                                    "FROM artists " +
+                                                    "JOIN artist_tracks " +
+                                                    "ON artist_tracks.artist_id = artists.artist_id " +
+                                                    "WHERE tracks.track_id=?";
+
+    private static final String SQL_FIND_ARTISTS = "SELECT * " +
+                                                  "FROM artists " +
+                                                  "JOIN artist_tracks " +
+                                                  "ON artist_tracks.artist_id = artists.artist_id " +
+                                                  "WHERE tracks.track_id=? " +
+                                                  "ORDER BY artists.name " +
+                                                  "LIMIT ?,?";
+
     public static final TrackRepositoryImpl instance = new TrackRepositoryImpl();
 
     private final TrackRowMapper trackRowMapper = TrackRowMapper.getInstance();
+    private final ArtistRowMapper artistRowMapper = ArtistRowMapper.getInstance();
     private final CountRowMapper countRowMapper = CountRowMapper.getInstance();
 
     private TrackRepositoryImpl() {
@@ -96,12 +113,21 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public long countByName(String regex) throws RepositoryException {
-        Optional<Long> optionalCount = QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex);
-        return optionalCount.orElse(0L);
+        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex).orElse(0L);
     }
 
     @Override
     public List<Track> findByName(String regex, int offset, int limit) throws RepositoryException {
         return QueryHelper.queryAll(SQL_FIND_BY_NAME, trackRowMapper, regex, offset, limit);
+    }
+
+    @Override
+    public long countArtists(long trackId) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_COUNT_ARTISTS, countRowMapper, trackId).orElse(0L);
+    }
+
+    @Override
+    public List<Artist> getArtists(long trackId, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_ARTISTS, artistRowMapper, trackId, offset, limit);
     }
 }

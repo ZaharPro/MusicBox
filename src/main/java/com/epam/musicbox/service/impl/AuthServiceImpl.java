@@ -8,8 +8,8 @@ import com.epam.musicbox.hasher.PasswordHasher;
 import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
 import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.service.UserService;
-import com.epam.musicbox.validator.Validator;
-import com.epam.musicbox.validator.impl.ValidatorImpl;
+import com.epam.musicbox.validator.EntityValidator;
+import com.epam.musicbox.validator.impl.EntityValidatorImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserService userService = UserServiceImpl.getInstance();
     private final PasswordHasher passwordHasher = PBKDF2PasswordHasher.getInstance();
-    private final Validator validator = ValidatorImpl.getInstance();
+    private final EntityValidator validator = EntityValidatorImpl.getInstance();
 
     private AuthServiceImpl(Key secretKey, long tokenLifetime, int cookieMaxAge) {
         this.secretKey = secretKey;
@@ -87,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
                 .compact();
     }
 
-    public Jws<Claims> getJws(String token) {
+    public Jws<Claims> buildToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .setAllowedClockSkewSeconds(10)
@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
                 .parseClaimsJws(token);
     }
 
-    public Optional<Cookie> getToken(Cookie[] cookies) {
+    public Optional<Cookie> getTokenCookie(Cookie[] cookies) {
         return cookies == null ?
                 Optional.empty() :
                 Arrays.stream(cookies)
@@ -104,12 +104,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public Jws<Claims> getToken(HttpServletRequest req) throws ServiceException {
-        Optional<Cookie> optionalCookie = getToken(req.getCookies());
-        if (optionalCookie.isEmpty()) {
-            throw new ServiceException(JWT_TOKEN_NOT_FOUND);
-        }
-        String token = optionalCookie.get().getValue();
-        return getJws(token);
+        Cookie cookie = getTokenCookie(req.getCookies())
+                .orElseThrow(() -> new ServiceException(JWT_TOKEN_NOT_FOUND));
+        String token = cookie.getValue();
+        return buildToken(token);
     }
 
     public void signUp(String login, String email, String password) throws ServiceException {
@@ -129,9 +127,8 @@ public class AuthServiceImpl implements AuthService {
             throw new ServiceException(USER_WITH_EMAIL_ALREADY_EXIST);
 
         String hash = passwordHasher.hash(password);
-        User user = new User(null, login, email, hash, false, Timestamp.from(Instant.now()));
-        long userId = userService.save(user);
-        userService.setRole(userId, Role.USER.getId());
+        User user = new User(null, login, email, hash, Role.USER, false, Timestamp.from(Instant.now()));
+        userService.save(user);
     }
 
     public User login(String login, String password) throws ServiceException {
@@ -140,11 +137,9 @@ public class AuthServiceImpl implements AuthService {
         if (!validator.isValidPassword(password))
             throw new ServiceException(INVALID_PASSWORD_MSG);
 
-        Optional<User> optionalUser = userService.findByLogin(login);
-        if (optionalUser.isEmpty())
-            throw new ServiceException(USER_NOT_FOUND);
+        User user = userService.findByLogin(login)
+                .orElseThrow(() -> new ServiceException(USER_NOT_FOUND));
 
-        User user = optionalUser.get();
         if (user.getBanned())
             throw new ServiceException(USER_BANNED);
 
@@ -159,11 +154,9 @@ public class AuthServiceImpl implements AuthService {
         if (!validator.isValidPassword(newPassword))
             throw new ServiceException(INVALID_NEW_PASSWORD_MSG);
 
-        Optional<User> optionalUser = userService.findById(userId);
-        if (optionalUser.isEmpty())
-            throw new ServiceException(USER_NOT_FOUND);
+        User user = userService.findById(userId)
+                .orElseThrow(() -> new ServiceException(USER_NOT_FOUND));
 
-        User user = optionalUser.get();
         if (!passwordHasher.checkPassword(oldPassword, user.getPassword()))
             throw new ServiceException(INVALID_OLD_PASSWORD_MSG);
 

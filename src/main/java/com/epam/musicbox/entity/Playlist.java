@@ -5,14 +5,16 @@ public class Playlist implements Entity {
     private Long id;
     private String name;
     private String picture;
+    private long userId;
 
     public Playlist() {
     }
 
-    public Playlist(Long id, String name, String picture) {
+    public Playlist(Long id, String name, String picture, long userId) {
         this.id = id;
         this.name = name;
         this.picture = picture;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -39,6 +41,14 @@ public class Playlist implements Entity {
         this.picture = picture;
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,7 +58,9 @@ public class Playlist implements Entity {
             return false;
         if (!(name == null ? playlist.name == null : name.equals(playlist.name)))
             return false;
-        return picture == null ? playlist.picture == null : picture.equals(playlist.picture);
+        if (!(picture == null ? playlist.picture == null : picture.equals(playlist.picture)))
+            return false;
+        return userId == playlist.userId;
     }
 
     @Override
@@ -57,6 +69,7 @@ public class Playlist implements Entity {
         hash = hash * 31 + (id == null ? 0 : id.hashCode());
         hash = hash * 31 + (name == null ? 0 : name.hashCode());
         hash = hash * 31 + (picture == null ? 0 : picture.hashCode());
+        hash = hash * 31 + Long.hashCode(userId);
         return hash;
     }
 
@@ -66,6 +79,7 @@ public class Playlist implements Entity {
                 .append("id=").append(id)
                 .append("name= '").append(name).append('\'')
                 .append("picture= '").append(picture).append('\'')
+                .append("userId= '").append(userId).append('\'')
                 .append('}')
                 .toString();
     }

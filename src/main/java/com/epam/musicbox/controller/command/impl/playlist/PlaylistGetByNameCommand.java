@@ -27,7 +27,7 @@ public class PlaylistGetByNameCommand implements Command {
         try {
             String name = req.getParameter(Parameter.NAME);
             int page = ParamTaker.getPage(req, Parameter.PLAYLIST_PAGE_INDEX);
-            int pageSize = ParamTaker.getPage(req, Parameter.PLAYLIST_PAGE_SIZE);
+            int pageSize = ParamTaker.getPageSize(req, Parameter.PLAYLIST_PAGE_SIZE);
             PageSearchResult<Playlist> pageSearchResult = playlistService.findByName(name, page, pageSize);
             req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, pageSearchResult);
             req.setAttribute(Parameter.COMMAND, COMMAND + name);

@@ -37,7 +37,7 @@ public class EditArtistPageCommand extends PageCommand {
                 req.setAttribute(Parameter.ARTIST, artist);
 
                 int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-                int pageSize = ParamTaker.getPage(req, Parameter.TRACK_PAGE_SIZE);
+                int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
                 PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
                 pageSearchResult = TrackArtistPageSearchResult.from(pageSearchResult, artistService, artistId);
                 req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);

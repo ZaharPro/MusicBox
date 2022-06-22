@@ -63,7 +63,6 @@ public class CommandProvider {
         commands.put(CommandType.ARTIST_GET_BY_NAME, new ArtistGetByNameCommand());
         commands.put(CommandType.ARTIST_SAVE, new ArtistSaveCommand());
         commands.put(CommandType.ARTIST_DELETE, new ArtistDeleteCommand());
-        commands.put(CommandType.ARTIST_GET_TRACKS, new ArtistGetTracksCommand());
         commands.put(CommandType.ARTIST_ADD_TRACK, new ArtistAddTrackCommand());
         commands.put(CommandType.ARTIST_REMOVE_TRACK, new ArtistRemoveTrackCommand());
 
@@ -72,7 +71,6 @@ public class CommandProvider {
         commands.put(CommandType.PLAYLIST_GET_BY_NAME, new PlaylistGetByNameCommand());
         commands.put(CommandType.PLAYLIST_SAVE, new PlaylistSaveCommand());
         commands.put(CommandType.PLAYLIST_DELETE, new PlaylistDeleteCommand());
-        commands.put(CommandType.PLAYLIST_GET_TRACKS, new PlaylistGetTracksCommand());
         commands.put(CommandType.PLAYLIST_ADD_TRACK, new PlaylistAddTrackCommand());
         commands.put(CommandType.PLAYLIST_REMOVE_TRACK, new PlaylistRemoveTrackCommand());
 
@@ -92,8 +90,6 @@ public class CommandProvider {
         commands.put(CommandType.USER_MARK_LIKED_TRACK, new UserMarkLikedTrackCommand());
         commands.put(CommandType.USER_UNMARK_LIKED_TRACK, new UserUnmarkLikedTrackCommand());
         commands.put(CommandType.USER_GET_PLAYLISTS, new UserGetPlaylistsCommand());
-        commands.put(CommandType.USER_ADD_PLAYLIST, new UserAddPlaylistCommand());
-        commands.put(CommandType.USER_REMOVE_PLAYLIST, new UserRemovePlaylistCommand());
 
         commands.put(CommandType.USER_SET_BAN, new UserSetBanCommand());
         commands.put(CommandType.USER_SET_ROLE, new UserSetRoleCommand());

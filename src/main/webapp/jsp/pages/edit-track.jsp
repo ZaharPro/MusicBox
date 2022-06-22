@@ -24,10 +24,10 @@
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${album != null && album.getPicture() != null}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
+                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/home-album.png">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png">
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -92,7 +92,7 @@
                 </c:when>
                 <c:otherwise>
                     <div class="col-3 f-col">
-                        <h4 class="text-danger text-center col-3 d-block">
+                        <h4 class="text-danger text-center">
                             <fmt:message key="edit.track.select.album"/>
                         </h4>
                         <a class="btn w-100 mt-2"

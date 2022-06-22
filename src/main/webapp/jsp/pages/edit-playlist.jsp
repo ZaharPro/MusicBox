@@ -20,8 +20,9 @@
         <div class="row pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
-                    <c:when test="${playlist != null && playlist.getPicture()}">
-                        <img class="card-img" src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
+                    <c:when test="${playlist != null && playlist.getPicture() != null}">
+                        <img class="card-img"
+                             src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                     </c:when>
                     <c:otherwise>
                         <img class="card-img" src="${pageContext.request.contextPath}/system/img/playlist-default.png">
@@ -78,12 +79,13 @@
                 <c:choose>
                     <c:when test="${trackpsr.hasElements()}">
                         <div class="f-col h-100">
-                            <ul class="list-group list-group-flush bg-light h-100 mb-2">
+                            <div class="list-group list-group-flush bg-light h-100 mb-2">
                                 <c:forEach items="${trackpsr.getElements()}" var="track" varStatus="status">
-                                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                                       href="${pageContext.request.contextPath}/controller?command=track-get-by-id&trackid=${track.getId()}&trackpage=${trackpsr.getPage()}">
                                             ${track.getName()}
                                         <c:choose>
-                                            <c:when test="${trackpsr.getFlags().get(status.index)}">
+                                            <c:when test="${trackpsr.getFlags()[status.index]}">
                                                 <c:set var="cmd" value="playlist-remove-track" scope="request"/>
                                             </c:when>
                                             <c:otherwise>
@@ -97,7 +99,7 @@
                                             <input type="hidden" name="trackpage" value="${trackpsr.getPage()}">
                                             <button type="submit" class="btn btn-sm">
                                                 <c:choose>
-                                                    <c:when test="${trackpsr.getFlags().get(status.index)}">
+                                                    <c:when test="${trackpsr.getFlags()[status.index]}">
                                                         <fmt:message key="edit.playlist.remove"/>
                                                     </c:when>
                                                     <c:otherwise>
@@ -106,9 +108,9 @@
                                                 </c:choose>
                                             </button>
                                         </form>
-                                    </li>
+                                    </a>
                                 </c:forEach>
-                            </ul>
+                            </div>
                             <c:set var="page" value="${trackpsr.getPage()}" scope="request"/>
                             <c:set var="maxpage" value="${trackpsr.getMaxPage()}" scope="request"/>
                             <c:set var="pagename" value="trackpage" scope="request"/>

@@ -27,6 +27,7 @@ public class PlaylistAddTrackCommand implements Command {
         try {
             long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
             long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
+
             service.addTrack(playlistId, trackId);
 
             int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);

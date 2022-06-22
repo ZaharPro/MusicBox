@@ -2,8 +2,8 @@ package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.FileService;
-import com.epam.musicbox.validator.Validator;
-import com.epam.musicbox.validator.impl.ValidatorImpl;
+import com.epam.musicbox.validator.FileValidator;
+import com.epam.musicbox.validator.impl.FileValidatorImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
@@ -32,7 +32,7 @@ public class FileServiceImpl implements FileService {
 
     private static final FileServiceImpl instance = new FileServiceImpl();
 
-    private final Validator validator = ValidatorImpl.getInstance();
+    private final FileValidator validator = FileValidatorImpl.getInstance();
 
     private FileServiceImpl() {
     }

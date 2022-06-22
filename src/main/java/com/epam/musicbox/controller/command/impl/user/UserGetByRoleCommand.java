@@ -12,7 +12,6 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.service.psr.PageSearchResult;
-import com.epam.musicbox.service.psr.UserPageSearchResult;
 import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -31,9 +30,8 @@ public class UserGetByRoleCommand implements Command {
             int page = ParamTaker.getPage(req, Parameter.USER_PAGE_INDEX);
             int pageSize = ParamTaker.getPageSize(req, Parameter.USER_PAGE_SIZE);
             PageSearchResult<User> pageSearchResult = userService.findByRole(role.getId(), page, pageSize);
-            UserPageSearchResult userPageSearchResult = UserPageSearchResult.from(pageSearchResult, userService);
-            req.setAttribute(Parameter.USER_PAGE_SEARCH_RESULT, userPageSearchResult);
-            req.setAttribute(Parameter.COMMAND, COMMAND + role.getValue());
+            req.setAttribute(Parameter.USER_PAGE_SEARCH_RESULT, pageSearchResult);
+            req.setAttribute(Parameter.COMMAND, COMMAND + role.getName());
             return CommandResult.forward(PagePath.USERS);
         } catch (ServiceException e) {
             throw new CommandException(e);

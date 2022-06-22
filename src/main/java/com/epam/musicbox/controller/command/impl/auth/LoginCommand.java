@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class LoginCommand implements Command {
 
@@ -41,22 +40,12 @@ public class LoginCommand implements Command {
             req.setAttribute(Parameter.MESSAGE, e.getMessage());
             return CommandResult.forward(PagePath.LOGIN);
         }
-
-
-        Optional<Role> optionalRole;
-        try {
-            optionalRole = userService.getRole(user.getId());
-        } catch (ServiceException e) {
-            throw new CommandException(e);
-        }
-        if (optionalRole.isEmpty())
-            throw new CommandException(USER_ROLE_NOT_FOUND);
-        Role role = optionalRole.get();
-
+        Role role = user.getRole();
+        String roleName = role.getName();
         Map<String, String> claims = new HashMap<>();
         claims.put(Parameter.USER_ID, String.valueOf(user.getId()));
         claims.put(Parameter.LOGIN, String.valueOf(user.getLogin()));
-        claims.put(Parameter.ROLE, role.getValue());
+        claims.put(Parameter.ROLE, roleName);
 
         String token = authService.generateToken(claims);
         Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, token);
@@ -64,7 +53,7 @@ public class LoginCommand implements Command {
         cookie.setMaxAge(authService.getCookieMaxAge());
 
         HttpSession session = req.getSession();
-        session.setAttribute(Parameter.ROLE, role.getValue());
+        session.setAttribute(Parameter.ROLE, roleName);
 
         CommandResult commandResult = CommandResult.redirect(REDIRECT_URL);
         commandResult.getCookies().add(cookie);

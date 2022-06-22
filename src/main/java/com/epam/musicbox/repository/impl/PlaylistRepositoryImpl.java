@@ -27,11 +27,11 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                                                  "FROM playlists " +
                                                  "WHERE playlist_id=?";
 
-    private static final String SQL_INSERT_ONE = "INSERT INTO playlists (name, picture) " +
-                                                 "VALUES (?,?)";
+    private static final String SQL_INSERT_ONE = "INSERT INTO playlists (name, picture, user_id) " +
+                                                 "VALUES (?,?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE playlists " +
-                                                 "SET name=?, picture=? " +
+                                                 "SET name=?, picture=? user_id=? " +
                                                  "WHERE playlist_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM playlists " +
@@ -106,11 +106,13 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
         if (playlistId == null) {
             return QueryHelper.insert(SQL_INSERT_ONE,
                     playlist.getName(),
-                    playlist.getPicture());
+                    playlist.getPicture(),
+                    playlist.getUserId());
         } else {
             QueryHelper.update(SQL_UPDATE_ONE,
                     playlist.getName(),
                     playlist.getPicture(),
+                    playlist.getUserId(),
                     playlistId);
             return playlistId;
         }
