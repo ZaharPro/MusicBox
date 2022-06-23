@@ -33,4 +33,4 @@ New music. On any device. Your favorite albums
 
 ### Database schema
 
-![db schema img](https://github.com/ZaharPro/MusicBox/blob/main/src/main/sql/music_schema.png?raw=true)
+![db schema img](https://github.com/ZaharPro/MusicBox/blob/main/src/sql/music_schema.png?raw=true)
