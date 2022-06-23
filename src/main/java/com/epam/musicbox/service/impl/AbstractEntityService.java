@@ -26,7 +26,7 @@ public abstract class AbstractEntityService<T extends Entity> implements EntityS
         try {
             Repository<T> repository = getRepository();
             long count = repository.count();
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -62,6 +62,10 @@ public abstract class AbstractEntityService<T extends Entity> implements EntityS
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
+    }
+
+    protected boolean isValidPage(int page, int pageSize) {
+        return page > 0 && pageSize > 0;
     }
 
     protected int getOffset(int page, int pageSize) {

@@ -80,7 +80,7 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
         try {
             UserRepository repository = getRepository();
             long count = repository.countByRole(roleId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -115,7 +115,7 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
         try {
             UserRepository repository = getRepository();
             long count = repository.countLikedTracks(userId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -168,7 +168,7 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
         try {
             UserRepository repository = getRepository();
             long count = repository.countLikedAlbums(userId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -221,7 +221,7 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
         try {
             UserRepository repository = getRepository();
             long count = repository.countLikedArtists(userId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -274,7 +274,7 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
         try {
             UserRepository repository = getRepository();
             long count = repository.countPlaylists(userId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);

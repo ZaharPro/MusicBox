@@ -12,11 +12,14 @@ import com.epam.musicbox.validator.EntityValidator;
 import com.epam.musicbox.validator.impl.EntityValidatorImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.security.Key;
 import java.sql.Timestamp;
@@ -26,6 +29,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class AuthServiceImpl implements AuthService {
+
+    private static final Logger logger = LogManager.getLogger();
 
     private static final String PROP_PATH = "prop/application";
     private static final String JWT_SECRET_KEY = "JWT_SECRET_KEY";
@@ -41,8 +46,9 @@ public class AuthServiceImpl implements AuthService {
     private static final String USER_WITH_EMAIL_ALREADY_EXIST = "User with this email already exists";
     private static final String USER_BANNED = "User banned";
     private static final String JWT_TOKEN_NOT_FOUND = "Jwt not found";
+    private static final String CREATION_ERROR = "Creation error";
 
-    private static final AuthServiceImpl instance = createInstance();
+    private static final AuthServiceImpl instance = new AuthServiceImpl();
 
     private final Key secretKey;
     private final long tokenLifetime;
@@ -52,19 +58,17 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordHasher passwordHasher = PBKDF2PasswordHasher.getInstance();
     private final EntityValidator validator = EntityValidatorImpl.getInstance();
 
-    private AuthServiceImpl(Key secretKey, long tokenLifetime, int cookieMaxAge) {
-        this.secretKey = secretKey;
-        this.tokenLifetime = tokenLifetime;
-        this.cookieMaxAge = cookieMaxAge;
-    }
-
-    private static AuthServiceImpl createInstance() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(PROP_PATH);
-        Key secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(resourceBundle.getString(JWT_SECRET_KEY)));
-        long tokenLifetime = Long.parseLong(resourceBundle.getString(JWT_TOKEN_LIFE_TIME));
-        int timezoneGmtPlusThree = 60 * 60 * 3;
-        int cookieMaxAge = (int) (timezoneGmtPlusThree + TimeUnit.MINUTES.toSeconds(tokenLifetime));
-        return new AuthServiceImpl(secretKey, tokenLifetime, cookieMaxAge);
+    private AuthServiceImpl() {
+        try {
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(PROP_PATH);
+            this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(resourceBundle.getString(JWT_SECRET_KEY)));
+            this.tokenLifetime = Long.parseLong(resourceBundle.getString(JWT_TOKEN_LIFE_TIME));
+            int timezoneGmtPlusThree = 60 * 60 * 3;
+            this.cookieMaxAge = (int) (timezoneGmtPlusThree + TimeUnit.MINUTES.toSeconds(tokenLifetime));
+        } catch (Exception e) {
+            logger.fatal(CREATION_ERROR, e);
+            throw new ExceptionInInitializerError(e);
+        }
     }
 
     public static AuthServiceImpl getInstance() {
@@ -78,9 +82,11 @@ public class AuthServiceImpl implements AuthService {
     public String generateToken(Map<String, String> claims) {
         String id = UUID.randomUUID().toString().replace("-", "");
         Instant instant = Instant.now();
-        return Jwts.builder()
-                .setClaims(claims)
-                .setId(id)
+        JwtBuilder builder = Jwts.builder();
+        if (claims != null) {
+            builder = builder.setClaims(claims);
+        }
+        return builder.setId(id)
                 .setIssuedAt(Date.from(instant))
                 .setExpiration(Date.from(instant.plus(tokenLifetime, ChronoUnit.MINUTES)))
                 .signWith(secretKey)
@@ -104,6 +110,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public Jws<Claims> getToken(HttpServletRequest req) throws ServiceException {
+        if (req == null)
+            return null;
         Cookie cookie = getTokenCookie(req.getCookies())
                 .orElseThrow(() -> new ServiceException(JWT_TOKEN_NOT_FOUND));
         String token = cookie.getValue();

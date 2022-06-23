@@ -51,7 +51,7 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
             String regex = buildRegex(name);
             TrackRepository repository = getRepository();
             long count = repository.countByName(name);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -76,7 +76,7 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
         try {
             TrackRepository repository = getRepository();
             long count = repository.countArtists(trackId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);

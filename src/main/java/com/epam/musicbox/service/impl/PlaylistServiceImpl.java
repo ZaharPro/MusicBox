@@ -51,7 +51,7 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
             String regex = buildRegex(name);
             PlaylistRepository repository = getRepository();
             long count = repository.countByName(name);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -76,7 +76,7 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
         try {
             PlaylistRepository repository = getRepository();
             long count = repository.countTracks(playlistId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);

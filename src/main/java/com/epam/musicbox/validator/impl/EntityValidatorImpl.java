@@ -6,16 +6,18 @@ import java.util.regex.Pattern;
 
 public class EntityValidatorImpl implements EntityValidator {
 
-    private static final String LOGIN_REGEX = "^([\\w\\s:.'-]{1,30})$";
+    private static final String LOGIN_REGEX = "^([\\w\\d:.'-]{4,32})$";
     private static final String PASSWORD_REGEX = "[A-Za-z\\d@$!%*#?&]{8,32}";
     private static final String EMAIL_REGEX =
             "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
+    private static final String NAME_REGEX = "^([\\w\\d:.'-]{4,32})$";
 
     private static final EntityValidatorImpl instance = new EntityValidatorImpl();
 
     private final Pattern loginPattern = Pattern.compile(LOGIN_REGEX);
     private final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
     private final Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
+    private final Pattern namePattern = Pattern.compile(NAME_REGEX);
 
     private EntityValidatorImpl() {
     }
@@ -44,6 +46,7 @@ public class EntityValidatorImpl implements EntityValidator {
 
     @Override
     public boolean isValidName(String name) {
-        return name != null && name.length() > 1;
+        return name != null &&
+               namePattern.matcher(name).matches();
     }
 }

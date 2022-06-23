@@ -52,7 +52,7 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
             String regex = buildRegex(name);
             ArtistRepository repository = getRepository();
             long count = repository.countByName(name);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -77,7 +77,7 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
         try {
             ArtistRepository repository = getRepository();
             long count = repository.countTracks(artistId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
@@ -129,7 +129,7 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
         try {
             ArtistRepository repository = getRepository();
             long count = repository.countAlbums(artistId);
-            if (count == 0) {
+            if (count == 0 || !isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);

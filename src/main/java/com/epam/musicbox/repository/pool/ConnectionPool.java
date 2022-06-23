@@ -29,8 +29,8 @@ public class ConnectionPool {
 
     private static final String POOL_CREATED_MSG = "Pool created";
     private static final String POOL_DESTROYED_MSG = "Pool destroyed";
-    private static final String DRIVER_NOT_FOUND_MSG = "Driver is not found ";
-    private static final String POOL_CREATION_ERROR_MSG = "Pool creation error ";
+    private static final String DRIVER_NOT_FOUND_MSG = "Driver is not found";
+    private static final String POOL_CREATION_ERROR_MSG = "Pool creation error";
 
 
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
@@ -63,11 +63,11 @@ public class ConnectionPool {
             this.lock = new ReentrantLock();
             this.semaphore = new Semaphore(size);
         } catch (SQLException e) {
-            logger.fatal(POOL_CREATION_ERROR_MSG + e.getMessage());
+            logger.fatal(POOL_CREATION_ERROR_MSG, e);
             throw new ExceptionInInitializerError(e);
         } catch (ClassNotFoundException e) {
-            logger.fatal(DRIVER_NOT_FOUND_MSG + e.getMessage());
-            throw new ExceptionInInitializerError(DRIVER_NOT_FOUND_MSG + e.getMessage());
+            logger.fatal(DRIVER_NOT_FOUND_MSG, e);
+            throw new ExceptionInInitializerError(e);
         }
     }
 
