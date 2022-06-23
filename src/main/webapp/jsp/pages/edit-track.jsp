@@ -29,7 +29,7 @@
                 </c:when>
                 <c:otherwise>
                     <a class="f-col justify-content-center img-link img-link-sm m-1"
-                       style="background-image: url('/system/img/album-default.png')" href="#">
+                       style="background-image: url('/system/img/default-album.png')" href="#">
                         <fmt:message key="edit.track.album.not.selected"/>
                     </a>
                 </c:otherwise>

@@ -25,7 +25,7 @@
                              src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/playlist-default.png">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/default-playlist.png">
                     </c:otherwise>
                 </c:choose>
             </div>

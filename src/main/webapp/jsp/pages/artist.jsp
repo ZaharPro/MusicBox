@@ -24,7 +24,7 @@
                         <img class="card-img" src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/artist-default.png">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/default-artist.png">
                     </c:otherwise>
                 </c:choose>
             </div>

@@ -20,24 +20,24 @@
             <div class="col f-col align-items-center">
                 <div class="row justify-content-center">
                     <a class="f-col justify-content-center img-link img-link-lg m-1"
-                       style="background-image: url('/system/img/home-track.png');"
+                       style="background-image: url('/system/img/track.png');"
                        href="${pageContext.request.contextPath}/controller?command=track-get">
                         <fmt:message key="user.tracks"/>
                     </a>
                     <a class="f-col justify-content-center img-link img-link-lg m-1"
-                       style="background-image: url('/system/img/home-album.png');"
+                       style="background-image: url('/system/img/album.png');"
                        href="${pageContext.request.contextPath}/controller?command=album-get">
                         <fmt:message key="user.albums"/>
                     </a>
                 </div>
                 <div class="row justify-content-center">
                     <a class="f-col justify-content-center img-link img-link-lg m-1"
-                       style="background-image: url('/system/img/home-artist.png');"
+                       style="background-image: url('/system/img/artist.png');"
                        href="${pageContext.request.contextPath}/controller?command=artist-get">
                         <fmt:message key="user.artists"/>
                     </a>
                     <a class="f-col justify-content-center img-link img-link-lg m-1"
-                       style="background-image: url('/system/img/home-playlist.png');"
+                       style="background-image: url('/system/img/playlist.png');"
                        href="${pageContext.request.contextPath}/controller?command=user-get-playlists">
                         <fmt:message key="user.playlists"/>
                     </a>

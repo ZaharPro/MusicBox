@@ -25,7 +25,7 @@
                              src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
                     </c:when>
                     <c:otherwise>
-                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/album-default.png">
+                        <img class="card-img" src="${pageContext.request.contextPath}/system/img/default-album.png">
                     </c:otherwise>
                 </c:choose>
             </div>

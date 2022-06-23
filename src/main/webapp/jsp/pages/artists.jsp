@@ -38,7 +38,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <img class="img-fluid col-1"
-                                             src="${pageContext.request.contextPath}/system/img/artist-default.png">
+                                             src="${pageContext.request.contextPath}/system/img/default-artist.png">
                                     </c:otherwise>
                                 </c:choose>
                             </a>
