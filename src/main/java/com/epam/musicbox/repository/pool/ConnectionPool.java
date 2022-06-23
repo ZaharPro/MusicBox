@@ -18,6 +18,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
 
+    private static final Logger logger = LogManager.getLogger();
+
     private static final String PROP_PATH = "prop/database";
     private static final String DB_URL = "URL";
     private static final String DB_USER = "USER";
@@ -25,12 +27,11 @@ public class ConnectionPool {
     private static final String DB_DRIVER = "DRIVER";
     private static final String DB_POOL_SIZE = "POOL_SIZE";
 
-    private static final String DRIVER_NOT_FOUND_MSG = "Driver is not found %s";
     private static final String POOL_CREATED_MSG = "Pool created";
-    private static final String POOL_CREATION_ERROR_MSG = "Pool creation error";
     private static final String POOL_DESTROYED_MSG = "Pool destroyed";
+    private static final String DRIVER_NOT_FOUND_MSG = "Driver is not found ";
+    private static final String POOL_CREATION_ERROR_MSG = "Pool creation error ";
 
-    private static final Logger logger = LogManager.getLogger();
 
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static final ReentrantLock instanceLock = new ReentrantLock();
@@ -38,15 +39,10 @@ public class ConnectionPool {
 
     private final ReentrantLock lock;
     private final Semaphore semaphore;
-    private final Deque<Connection> connections;
+    private final Deque<ProxyConnection> freeConnections;
+    private final Deque<ProxyConnection> busyConnections;
 
-    private ConnectionPool(Deque<Connection> connections) {
-        this.connections = connections;
-        this.lock = new ReentrantLock();
-        this.semaphore = new Semaphore(connections.size());
-    }
-
-    private static ConnectionPool createInstance() {
+    private ConnectionPool() {
         try {
             ResourceBundle resourceBundle = ResourceBundle.getBundle(PROP_PATH);
             String url = resourceBundle.getString(DB_URL);
@@ -55,18 +51,23 @@ public class ConnectionPool {
             String driver = resourceBundle.getString(DB_DRIVER);
             Class.forName(driver);
 
-            int connectionSize = Integer.parseInt(resourceBundle.getString(DB_POOL_SIZE));
-            Deque<Connection> connections = new ArrayDeque<>(connectionSize);
+            int size = Integer.parseInt(resourceBundle.getString(DB_POOL_SIZE));
+            Deque<ProxyConnection> connections = new ArrayDeque<>(size);
 
-            for (int i = 0; i < connectionSize; i++) {
+            for (int i = 0; i < size; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
-                connections.push(connection);
+                connections.push(new ProxyConnection(this, connection));
             }
-            return new ConnectionPool(connections);
+            this.freeConnections = connections;
+            this.busyConnections = new ArrayDeque<>(size);
+            this.lock = new ReentrantLock();
+            this.semaphore = new Semaphore(size);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.fatal(POOL_CREATION_ERROR_MSG + e.getMessage());
+            throw new ExceptionInInitializerError(e);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(DRIVER_NOT_FOUND_MSG + e.getMessage(), e);
+            logger.fatal(DRIVER_NOT_FOUND_MSG + e.getMessage());
+            throw new ExceptionInInitializerError(DRIVER_NOT_FOUND_MSG + e.getMessage());
         }
     }
 
@@ -74,15 +75,12 @@ public class ConnectionPool {
         if (!instanceCreated.get()) {
             try {
                 instanceLock.lock();
-                if (instanceCreated.compareAndSet(false, true)) {
-                    ConnectionPool pool = createInstance();
-                    logger.info(POOL_CREATED_MSG);
+                if (!instanceCreated.get()) {
+                    ConnectionPool pool = new ConnectionPool();
                     instance.set(pool);
+                    instanceCreated.set(true);
+                    logger.info(POOL_CREATED_MSG);
                 }
-            } catch (Exception e) {
-                logger.error(POOL_CREATION_ERROR_MSG, e);
-                instanceCreated.set(false);
-                throw e;
             } finally {
                 instanceLock.unlock();
             }
@@ -90,11 +88,13 @@ public class ConnectionPool {
         return instance.get();
     }
 
-    Connection take() {
+    public ProxyConnection getConnection() {
         try {
             lock.lock();
             semaphore.acquire();
-            return connections.pop();
+            ProxyConnection connection = freeConnections.pop();
+            busyConnections.push(connection);
+            return connection;
         } catch (InterruptedException e) {
             logger.error(e.getMessage(), e);
             Thread.currentThread().interrupt();
@@ -104,26 +104,26 @@ public class ConnectionPool {
         }
     }
 
-    void release(Connection connection) {
+    public void release(ProxyConnection connection) {
         try {
             lock.lock();
-            connections.push(connection);
+            if (busyConnections.remove(connection)) {
+                freeConnections.push(connection);
+            }
             semaphore.release();
         } finally {
             lock.unlock();
         }
     }
 
-    public Connection getConnection() {
-        return new ProxyConnection(this);
-    }
-
     public void destroyPool() {
         try {
             lock.lock();
-            for (Connection connection : connections) {
+            freeConnections.addAll(busyConnections);
+            busyConnections.clear();
+            for (ProxyConnection connection : freeConnections) {
                 try {
-                    connection.close();
+                    connection.closeConnection();
                 } catch (SQLException e) {
                     logger.error(e.getMessage(), e);
                 }

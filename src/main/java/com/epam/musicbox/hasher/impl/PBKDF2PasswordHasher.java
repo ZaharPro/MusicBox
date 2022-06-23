@@ -29,7 +29,8 @@ public class PBKDF2PasswordHasher implements PasswordHasher {
         try {
             factory = SecretKeyFactory.getInstance(ALGORITHM);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+
+            throw new ExceptionInInitializerError(e);
         }
     }
 

@@ -26,8 +26,7 @@ public final class QueryHelper {
     public static <T> List<T> queryAll(String sql,
                                        RowMapper<T> mapper,
                                        Object... params) throws RepositoryException {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        try (Connection connection = connectionPool.getConnection()) {
+        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             QueryHelper.prepare(preparedStatement, params);
 
@@ -44,8 +43,7 @@ public final class QueryHelper {
     }
 
     public static long insert(String sql, Object... params) throws RepositoryException {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        try (Connection connection = connectionPool.getConnection()) {
+        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             QueryHelper.prepare(preparedStatement, params);
             preparedStatement.executeUpdate();
@@ -58,8 +56,7 @@ public final class QueryHelper {
     }
 
     public static void update(String sql, Object... params) throws RepositoryException {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        try (Connection connection = connectionPool.getConnection()) {
+        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             QueryHelper.prepare(preparedStatement, params);
             preparedStatement.executeUpdate();
