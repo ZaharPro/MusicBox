@@ -7,8 +7,8 @@ import com.epam.musicbox.repository.UserRepository;
 import com.epam.musicbox.repository.impl.UserRepositoryImpl;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.psr.PageSearchResult;
-import com.epam.musicbox.validator.EntityValidator;
-import com.epam.musicbox.validator.impl.EntityValidatorImpl;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
 
     private static final UserServiceImpl instance = new UserServiceImpl();
 
-    private final EntityValidator validator = EntityValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
     private final UserRepository repository = UserRepositoryImpl.getInstance();
 
     private UserServiceImpl() {

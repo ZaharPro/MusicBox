@@ -4,12 +4,12 @@ import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.hasher.PasswordHasher;
-import com.epam.musicbox.hasher.impl.PBKDF2PasswordHasher;
 import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.service.UserService;
-import com.epam.musicbox.validator.EntityValidator;
-import com.epam.musicbox.validator.impl.EntityValidatorImpl;
+import com.epam.musicbox.util.hasher.PasswordHasher;
+import com.epam.musicbox.util.hasher.impl.PBKDF2PasswordHasher;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserService userService = UserServiceImpl.getInstance();
     private final PasswordHasher passwordHasher = PBKDF2PasswordHasher.getInstance();
-    private final EntityValidator validator = EntityValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
 
     private AuthServiceImpl() {
         try {

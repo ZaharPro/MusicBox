@@ -8,8 +8,8 @@ import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.repository.impl.PlaylistRepositoryImpl;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.psr.PageSearchResult;
-import com.epam.musicbox.validator.EntityValidator;
-import com.epam.musicbox.validator.impl.EntityValidatorImpl;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
 
     private static final PlaylistServiceImpl instance = new PlaylistServiceImpl();
 
-    private final EntityValidator validator = EntityValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
     private final PlaylistRepository repository = PlaylistRepositoryImpl.getInstance();
 
     private PlaylistServiceImpl() {

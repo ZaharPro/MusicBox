@@ -17,7 +17,7 @@
 
 <div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <div class="row pt-3 pb-3">
+        <div class="row align-items-center pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${playlist != null && playlist.getPicture() != null}">
@@ -43,9 +43,9 @@
             </div>
         </div>
         <div class="col f-col h-100 pt-3 pb-3 mb-0">
-            <h4 class="title text-center mb-2">
+            <h2 class="title text-center mb-2">
                 <fmt:message key="tracks.title"/>
-            </h4>
+            </h2>
             <c:choose>
                 <c:when test="${trackpsr.hasElements()}">
                     <div class="f-col h-100">
@@ -75,9 +75,9 @@
                 </c:when>
                 <c:otherwise>
                     <div class="col f-col justify-content-center h-100">
-                        <h4 class="title text-center mb-2">
+                        <h2 class="title text-center mb-2">
                             <fmt:message key="tracks.empty"/>
-                        </h4>
+                        </h2>
                     </div>
                 </c:otherwise>
             </c:choose>

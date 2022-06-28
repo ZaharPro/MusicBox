@@ -1,6 +1,7 @@
 package com.epam.musicbox.controller.command.impl.playlist;
 
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.controller.command.CommandType;
@@ -8,7 +9,6 @@ import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
-import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class PlaylistAddTrackCommand implements Command {
@@ -25,13 +25,13 @@ public class PlaylistAddTrackCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
-            long playlistId = ParamTaker.getLong(req, Parameter.PLAYLIST_ID);
-            long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
+            long playlistId = ParameterTaker.getLong(req, Parameter.PLAYLIST_ID);
+            long trackId = ParameterTaker.getLong(req, Parameter.TRACK_ID);
 
             service.addTrack(playlistId, trackId);
 
-            int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int trackPageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
+            int trackPage = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
+            int trackPageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
             String url = String.format(REDIRECT_URL_FORMAT,
                     playlistId,
                     trackPage,

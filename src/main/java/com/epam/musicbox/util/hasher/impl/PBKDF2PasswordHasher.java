@@ -1,6 +1,6 @@
-package com.epam.musicbox.hasher.impl;
+package com.epam.musicbox.util.hasher.impl;
 
-import com.epam.musicbox.hasher.PasswordHasher;
+import com.epam.musicbox.util.hasher.PasswordHasher;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

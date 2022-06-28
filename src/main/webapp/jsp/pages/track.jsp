@@ -10,8 +10,9 @@
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
-    <c:import url="/jsp/fragments/head.jsp"/>
+
     <link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/audio-touch/audio-touch.css"/>
+    <c:import url="/jsp/fragments/head.jsp"/>
 </head>
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>

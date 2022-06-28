@@ -5,7 +5,6 @@ import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.repository.rowmapper.AlbumRowMapper;
 import com.epam.musicbox.repository.rowmapper.CountRowMapper;
-import com.epam.musicbox.util.QueryHelper;
 
 import java.util.List;
 import java.util.Optional;

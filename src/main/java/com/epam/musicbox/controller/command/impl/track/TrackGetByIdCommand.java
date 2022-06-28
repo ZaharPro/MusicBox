@@ -2,6 +2,7 @@ package com.epam.musicbox.controller.command.impl.track;
 
 import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Album;
@@ -17,7 +18,6 @@ import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.service.psr.PageSearchResult;
-import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,8 +39,8 @@ public class TrackGetByIdCommand implements Command {
         try {
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
-            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
-            long trackId = ParamTaker.getLong(req, Parameter.TRACK_ID);
+            long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
+            long trackId = ParameterTaker.getLong(req, Parameter.TRACK_ID);
 
             boolean like = userService.isLikedTrack(userId, trackId);
             req.setAttribute(Parameter.LIKE, like);

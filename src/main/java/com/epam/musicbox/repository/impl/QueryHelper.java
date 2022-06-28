@@ -1,4 +1,4 @@
-package com.epam.musicbox.util;
+package com.epam.musicbox.repository.impl;
 
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.pool.ConnectionPool;

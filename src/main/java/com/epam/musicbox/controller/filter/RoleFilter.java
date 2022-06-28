@@ -2,10 +2,10 @@ package com.epam.musicbox.controller.filter;
 
 
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
-import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.*;
@@ -30,7 +30,7 @@ public class RoleFilter implements Filter {
             try {
                 Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
                 Claims body = token.getBody();
-                role = ParamTaker.getRole(body);
+                role = ParameterTaker.getRole(body);
             } catch (ServiceException e) {
                 role = Role.GUEST;
             }

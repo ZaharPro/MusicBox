@@ -4,7 +4,6 @@ import com.epam.musicbox.entity.*;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.UserRepository;
 import com.epam.musicbox.repository.rowmapper.*;
-import com.epam.musicbox.util.QueryHelper;
 
 import java.util.List;
 import java.util.Optional;

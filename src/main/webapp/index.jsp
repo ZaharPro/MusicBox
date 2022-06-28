@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><fmt:message key="title"/></title>
+    <title><fmt:message key="title"/></title><c:import url="/jsp/fragments/head.jsp"/>
 </head>
 <body>
 <c:redirect url="${pageContext.request.contextPath}/controller?command=home-page"/>

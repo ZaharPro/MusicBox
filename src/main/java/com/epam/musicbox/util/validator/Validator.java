@@ -1,6 +1,6 @@
-package com.epam.musicbox.validator;
+package com.epam.musicbox.util.validator;
 
-public interface EntityValidator {
+public interface Validator {
 
     boolean isValidLogin(String login);
 

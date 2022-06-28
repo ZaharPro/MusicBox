@@ -17,7 +17,7 @@
 
 <div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <div class="row pt-3 pb-3">
+        <div class="row align-items-center pt-3 pb-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${playlist != null && playlist.getPicture() != null}">
@@ -30,13 +30,13 @@
                 </c:choose>
             </div>
             <div class="col-lg-10 col-md-10 f-col h-100">
-                <form method="post" class="row"
+                <form method="post" class="row h-100"
                       action="${pageContext.request.contextPath}/controller?command=playlist-save"
                       enctype="multipart/form-data">
                     <c:if test="${playlist != null}">
                         <input type="hidden" name="playlistid" value="${playlist.getId()}">
                     </c:if>
-                    <div class="form-outline col-3">
+                    <div class="form-outline col-3 f-col justify-content-center">
                         <label for="playlistName" class="title h4">
                             <fmt:message key="edit.playlist.enter.name"/>
                         </label>
@@ -47,7 +47,7 @@
                         </c:if>>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-7">
                         <div class="file-drop-area h-100 p-3">
                             <label for="picture" class="text-center">
                                 <fmt:message key="edit.playlist.upload.picture"/>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
 
-                    <div class="btn-group-lg col-3 f-col">
+                    <div class="btn-group btn-group-sm col-2 f-col justify-content-center">
                         <button type="submit" class="btn w-100">
                             <fmt:message key="edit.playlist.save"/>
                         </button>
@@ -73,9 +73,9 @@
         </div>
         <c:if test="${playlist != null}">
             <div class="col f-col h-100 pt-3 pb-3 mb-0">
-                <h4 class="title text-center mb-2">
+                <h2 class="title text-center mb-2">
                     <fmt:message key="tracks.title"/>
-                </h4>
+                </h2>
                 <c:choose>
                     <c:when test="${trackpsr.hasElements()}">
                         <div class="f-col h-100">
@@ -121,9 +121,9 @@
                     </c:when>
                     <c:otherwise>
                         <div class="col f-col justify-content-center h-100">
-                            <h4 class="title text-center mb-2">
+                            <h2 class="title text-center mb-2">
                                 <fmt:message key="tracks.empty"/>
-                            </h4>
+                            </h2>
                         </div>
                     </c:otherwise>
                 </c:choose>

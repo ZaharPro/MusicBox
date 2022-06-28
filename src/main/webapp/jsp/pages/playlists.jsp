@@ -20,9 +20,9 @@
 
 <div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <h4 class="title text-center mb-2">
+        <h2 class="title text-center mb-2">
             <fmt:message key="playlists.title"/>
-        </h4>
+        </h2>
         <c:choose>
             <c:when test="${playlistpsr.hasElements()}">
                 <div class="f-col h-100">
@@ -53,9 +53,9 @@
             </c:when>
             <c:otherwise>
                 <div class="col f-col justify-content-center h-100">
-                    <h4 class="title text-center mb-2">
+                    <h2 class="title text-center mb-2">
                         <fmt:message key="playlists.empty"/>
-                    </h4>
+                    </h2>
                 </div>
             </c:otherwise>
         </c:choose>

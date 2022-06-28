@@ -8,7 +8,6 @@ import com.epam.musicbox.repository.rowmapper.BooleanRowMapper;
 import com.epam.musicbox.repository.rowmapper.CountRowMapper;
 import com.epam.musicbox.repository.rowmapper.PlaylistRowMapper;
 import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
-import com.epam.musicbox.util.QueryHelper;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,9 +1,9 @@
-package com.epam.musicbox.validator.impl;
+package com.epam.musicbox.util.validator.impl;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class EntityValidatorImplTest {
+public class ValidatorImplTest {
 
     private static final String NULL = null;
     private static final String EMPTY = "";
@@ -21,7 +21,7 @@ public class EntityValidatorImplTest {
     private static final String BAD_NAME = BAD_STR;
     private static final String GOOD_NAME = "qwer1234@$!%*#?&";
 
-    private static final EntityValidatorImpl validator = EntityValidatorImpl.getInstance();
+    private static final ValidatorImpl validator = ValidatorImpl.getInstance();
 
     @Test
     public void isValidLoginIfNullFalse() {

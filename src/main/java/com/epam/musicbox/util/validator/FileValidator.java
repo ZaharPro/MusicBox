@@ -1,4 +1,4 @@
-package com.epam.musicbox.validator;
+package com.epam.musicbox.util.validator;
 
 public interface FileValidator {
 

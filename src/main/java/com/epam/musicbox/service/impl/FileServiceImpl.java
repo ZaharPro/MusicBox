@@ -2,8 +2,8 @@ package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.FileService;
-import com.epam.musicbox.validator.FileValidator;
-import com.epam.musicbox.validator.impl.FileValidatorImpl;
+import com.epam.musicbox.util.validator.FileValidator;
+import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
@@ -42,7 +42,7 @@ public class FileServiceImpl implements FileService {
     }
 
     public static String generateKey(String entityField, Object id) {
-        return entityField + String.valueOf(id);
+        return entityField + id;
     }
 
     private String getRoot(HttpServletRequest req) {

@@ -124,9 +124,9 @@
             </c:when>
             <c:otherwise>
                 <div class="f-col justify-content-center h-100">
-                    <h4 class="title text-center mb-2">
+                    <h2 class="title text-center mb-2">
                         <fmt:message key="user.not.found"/>
-                    </h4>
+                    </h2>
                 </div>
             </c:otherwise>
         </c:choose>

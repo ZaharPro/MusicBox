@@ -95,6 +95,7 @@ body {
 .file-drop-area {
     border: 1px solid #dd2476;
     border-radius: 4px;
+    min-height: 9rem;
 }
 
 .min-h {

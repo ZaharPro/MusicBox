@@ -1,10 +1,10 @@
-package com.epam.musicbox.validator.impl;
+package com.epam.musicbox.util.validator.impl;
 
-import com.epam.musicbox.validator.EntityValidator;
+import com.epam.musicbox.util.validator.Validator;
 
 import java.util.regex.Pattern;
 
-public class EntityValidatorImpl implements EntityValidator {
+public class ValidatorImpl implements Validator {
 
     private static final String LOGIN_REGEX = "^([\\w\\d:.'-]{4,32})$";
     private static final String PASSWORD_REGEX = "[A-Za-z\\d@$!%*#?&]{8,32}";
@@ -12,17 +12,17 @@ public class EntityValidatorImpl implements EntityValidator {
             "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
     private static final String NAME_REGEX = "^([\\w\\d:.'-]{4,32})$";
 
-    private static final EntityValidatorImpl instance = new EntityValidatorImpl();
+    private static final ValidatorImpl instance = new ValidatorImpl();
 
     private final Pattern loginPattern = Pattern.compile(LOGIN_REGEX);
     private final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
     private final Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
     private final Pattern namePattern = Pattern.compile(NAME_REGEX);
 
-    private EntityValidatorImpl() {
+    private ValidatorImpl() {
     }
 
-    public static EntityValidatorImpl getInstance() {
+    public static ValidatorImpl getInstance() {
         return instance;
     }
 
