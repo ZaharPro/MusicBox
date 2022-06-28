@@ -1,6 +1,7 @@
 package com.epam.musicbox.controller.command.impl.artist;
 
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.controller.command.CommandType;
@@ -11,12 +12,13 @@ import com.epam.musicbox.service.ArtistService;
 import com.epam.musicbox.service.FileService;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.service.impl.FileServiceImpl;
-import com.epam.musicbox.util.ParamTaker;
-import com.epam.musicbox.validator.EntityValidator;
-import com.epam.musicbox.validator.FileValidator;
-import com.epam.musicbox.validator.impl.EntityValidatorImpl;
-import com.epam.musicbox.validator.impl.FileValidatorImpl;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.FileValidator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
+import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.Optional;
 
 public class ArtistSaveCommand implements Command {
 
@@ -33,16 +35,21 @@ public class ArtistSaveCommand implements Command {
     private final ArtistService artistService = ArtistServiceImpl.getInstance();
     private final FileService fileService = FileServiceImpl.getInstance();
     private final FileValidator fileValidator = FileValidatorImpl.getInstance();
-    private final EntityValidator validator = EntityValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
             Artist artist;
-            Long id = ParamTaker.getNullableLong(req, Parameter.ALBUM_ID);
-            if (id == null) {
+            Optional<Long> optionalLong = ParameterTaker.getOptionalLong(req, Parameter.ALBUM_ID);
+            if (optionalLong.isPresent()) {
+                long id = optionalLong.get();
+                artist = artistService.findById(id).
+                        orElseThrow(() -> new CommandException(ARTIST_NOT_FOUND_MSG));
+                fillAlbum(req, id, artist);
+            } else {
                 artist = new Artist(null, DEFAULT_ARTIST_NAME, null);
-                id = artistService.save(artist);
+                long id = artistService.save(artist);
                 artist.setId(id);
                 try {
                     fillAlbum(req, id, artist);
@@ -50,20 +57,16 @@ public class ArtistSaveCommand implements Command {
                     artistService.deleteById(id);
                     throw new CommandException(e);
                 }
-            } else {
-                artist = artistService.findById(id).
-                        orElseThrow(() -> new CommandException(ARTIST_NOT_FOUND_MSG));
-                fillAlbum(req, id, artist);
             }
             artistService.save(artist);
-            return CommandResult.redirect(REDIRECT_URL + id);
+            return CommandResult.redirect(REDIRECT_URL + artist.getId());
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
     }
 
     private void fillAlbum(HttpServletRequest req, Long id, Artist artist) throws ServiceException {
-        String name = req.getParameter(Parameter.NAME);
+        String name = ParameterTaker.getName(req);
         if (name != null) {
             if (!validator.isValidName(name)) {
                 throw new ServiceException(INVALID_NAME_MSG);

@@ -1,6 +1,7 @@
 package com.epam.musicbox.controller.filter.access;
 
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.CommandType;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.entity.User;
@@ -9,7 +10,6 @@ import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.*;
@@ -27,7 +27,6 @@ public class AccessFilter implements Filter {
     private static final String SESSION_TIMEOUT_MSG = "Session timeout";
     private static final String PERMISSION_DENIED_MSG = "Permission denied";
     private static final String USER_BANNED_MSG = "User banned";
-    private static final String COMMAND_NOT_FOUND_MSG = "Command not found";
 
     private final AuthService authService = AuthServiceImpl.getInstance();
     private final RoleRights roleRights = RoleRights.getInstance();
@@ -65,7 +64,6 @@ public class AccessFilter implements Filter {
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN);
                 break;
             case NOT_FOUND:
-                req.setAttribute(Parameter.MESSAGE, COMMAND_NOT_FOUND_MSG);
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
         }
@@ -86,8 +84,8 @@ public class AccessFilter implements Filter {
         }
         try {
             Claims body = token.getBody();
-            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
-            Role role = ParamTaker.getRole(body);
+            long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
+            Role role = ParameterTaker.getRole(body);
 
             UserService userService = UserServiceImpl.getInstance();
             Optional<User> optionalUser = userService.findById(userId);

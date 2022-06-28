@@ -1,6 +1,7 @@
 package com.epam.musicbox.controller.command.impl.common;
 
 import com.epam.musicbox.controller.PagePath;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
@@ -30,7 +31,7 @@ public class SearchCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
-            String name = req.getParameter(Parameter.NAME);
+            String name = ParameterTaker.getName(req);
 
             PageSearchResult<Artist> artistPageSearchResult = artistService.findByName(name, FIRST_PAGE, PAGE_SIZE);
             PageSearchResult<Album> albumPageSearchResult = albumService.findByName(name, FIRST_PAGE, PAGE_SIZE);

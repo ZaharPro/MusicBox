@@ -10,8 +10,9 @@
 <html lang="<fmt:message key="html.lang"/>">
 <head>
     <title><fmt:message key="title"/></title>
-    <c:import url="/jsp/fragments/head.jsp"/>
+
     <link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/audio-touch/audio-touch.css"/>
+    <c:import url="/jsp/fragments/head.jsp"/>
 </head>
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
@@ -41,7 +42,7 @@
             <c:if test="${track != null}">
                 <input type="hidden" name="trackid" value="${track.getId()}">
             </c:if>
-            <div class="form-outline col-3">
+            <div class="form-outline col-3 f-col justify-content-center">
                 <label for="trackName" class="title h4">
                     <fmt:message key="edit.track.enter.name"/>
                 </label>
@@ -50,7 +51,7 @@
                        value="${track.getName()}"
                 </c:if>>
             </div>
-            <div class="col-6 f-col h-100">
+            <div class="col-7 f-col h-100">
                 <div class="file-drop-area h-100 p-3 ">
                     <label for="picture" class="text-center">
                         <fmt:message key="edit.track.upload.track"/>
@@ -63,7 +64,7 @@
                 <c:when test="${album != null}">
                     <input type="hidden" name="albumid" value="${album.getId()}">
                     <input type="hidden" name="albumpage" value="${albumpsr.getPage()}">
-                    <div class="btn-group-lg col-3 f-col">
+                    <div class="btn-group btn-group-sm col-2 f-col justify-content-center">
                         <button type="submit" class="btn w-100">
                             <fmt:message key="edit.track.save"/>
                         </button>
@@ -102,9 +103,9 @@
             </script>
         </c:if>
         <div class="col f-col h-100 pt-3 pb-3 mb-0">
-            <h4 class="title text-center mb-2">
+            <h2 class="title text-center mb-2">
                 <fmt:message key="albums.title"/>
-            </h4>
+            </h2>
             <c:choose>
                 <c:when test="${albumpsr.hasElements()}">
                     <div class="f-col h-100">
@@ -126,9 +127,9 @@
                 </c:when>
                 <c:otherwise>
                     <div class="col f-col justify-content-center h-100">
-                        <h4 class="title text-center mb-2">
+                        <h2 class="title text-center mb-2">
                             <fmt:message key="albums.empty"/>
-                        </h4>
+                        </h2>
                     </div>
                 </c:otherwise>
             </c:choose>

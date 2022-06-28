@@ -7,7 +7,6 @@ import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.repository.rowmapper.ArtistRowMapper;
 import com.epam.musicbox.repository.rowmapper.CountRowMapper;
 import com.epam.musicbox.repository.rowmapper.TrackRowMapper;
-import com.epam.musicbox.util.QueryHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,12 +52,12 @@ public class TrackRepositoryImpl implements TrackRepository {
                                                     "WHERE artist_tracks.track_id=?";
 
     private static final String SQL_FIND_ARTISTS = "SELECT * " +
-                                                  "FROM artists " +
-                                                  "JOIN artist_tracks " +
-                                                  "ON artist_tracks.artist_id = artists.artist_id " +
-                                                  "WHERE artist_tracks.track_id=? " +
-                                                  "ORDER BY artists.name " +
-                                                  "LIMIT ?,?";
+                                                   "FROM artists " +
+                                                   "JOIN artist_tracks " +
+                                                   "ON artist_tracks.artist_id = artists.artist_id " +
+                                                   "WHERE artist_tracks.track_id=? " +
+                                                   "ORDER BY artists.name " +
+                                                   "LIMIT ?,?";
 
     public static final TrackRepositoryImpl instance = new TrackRepositoryImpl();
 

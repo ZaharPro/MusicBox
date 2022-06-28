@@ -8,8 +8,8 @@ import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.psr.PageSearchResult;
-import com.epam.musicbox.validator.EntityValidator;
-import com.epam.musicbox.validator.impl.EntityValidatorImpl;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
 
     private static final TrackServiceImpl instance = new TrackServiceImpl();
 
-    private final EntityValidator validator = EntityValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
     private final TrackRepository trackRepository = TrackRepositoryImpl.getInstance();
 
     private TrackServiceImpl() {

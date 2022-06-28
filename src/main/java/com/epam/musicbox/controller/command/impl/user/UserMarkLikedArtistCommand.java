@@ -1,6 +1,7 @@
 package com.epam.musicbox.controller.command.impl.user;
 
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.controller.command.CommandType;
@@ -9,7 +10,6 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,16 +32,16 @@ public class UserMarkLikedArtistCommand implements Command {
         try {
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
-            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
-            long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
+            long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
+            long artistId = ParameterTaker.getLong(req, Parameter.ARTIST_ID);
 
             userService.markLikedArtist(userId, artistId);
 
-            int trackPage = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int trackPageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
+            int trackPage = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
+            int trackPageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
 
-            int albumPage = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
-            int albumPageSize = ParamTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
+            int albumPage = ParameterTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
+            int albumPageSize = ParameterTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
 
             String url = String.format(REDIRECT_URL_FORMAT,
                     artistId,

@@ -1,6 +1,7 @@
 package com.epam.musicbox.controller.command.impl.playlist;
 
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.controller.command.CommandType;
@@ -12,14 +13,15 @@ import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.FileServiceImpl;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
-import com.epam.musicbox.util.ParamTaker;
-import com.epam.musicbox.validator.EntityValidator;
-import com.epam.musicbox.validator.FileValidator;
-import com.epam.musicbox.validator.impl.EntityValidatorImpl;
-import com.epam.musicbox.validator.impl.FileValidatorImpl;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.FileValidator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
+import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.Optional;
 
 public class PlaylistSaveCommand implements Command {
 
@@ -36,20 +38,25 @@ public class PlaylistSaveCommand implements Command {
     private final PlaylistService playlistService = PlaylistServiceImpl.getInstance();
     private final FileService fileService = FileServiceImpl.getInstance();
     private final FileValidator fileValidator = FileValidatorImpl.getInstance();
-    private final EntityValidator validator = EntityValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
 
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
-            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+            long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
 
             Playlist playlist;
-            Long id = ParamTaker.getNullableLong(req, Parameter.ALBUM_ID);
-            if (id == null) {
+            Optional<Long> optionalId = ParameterTaker.getOptionalLong(req, Parameter.ALBUM_ID);
+            if (optionalId.isPresent()) {
+                long id = optionalId.get();
+                playlist = playlistService.findById(id).
+                        orElseThrow(() -> new CommandException(PLAYLIST_NOT_FOUND_MSG));
+                fillAlbum(req, id, playlist);
+            } else {
                 playlist = new Playlist(null, DEFAULT_PLAYLIST_NAME, null, userId);
-                id = playlistService.save(playlist);
+                long id = playlistService.save(playlist);
                 playlist.setId(id);
                 try {
                     fillAlbum(req, id, playlist);
@@ -57,20 +64,16 @@ public class PlaylistSaveCommand implements Command {
                     playlistService.deleteById(id);
                     throw new CommandException(e);
                 }
-            } else {
-                playlist = playlistService.findById(id).
-                        orElseThrow(() -> new CommandException(PLAYLIST_NOT_FOUND_MSG));
-                fillAlbum(req, id, playlist);
             }
             playlistService.save(playlist);
-            return CommandResult.redirect(REDIRECT_URL + id);
+            return CommandResult.redirect(REDIRECT_URL + playlist.getId());
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
     }
 
     private void fillAlbum(HttpServletRequest req, Long id, Playlist playlist) throws ServiceException {
-        String name = req.getParameter(Parameter.NAME);
+        String name = ParameterTaker.getName(req);
         if (name != null) {
             if (!validator.isValidName(name)) {
                 throw new ServiceException(INVALID_NAME_MSG);

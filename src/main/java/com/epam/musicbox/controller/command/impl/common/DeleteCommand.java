@@ -1,6 +1,7 @@
 package com.epam.musicbox.controller.command.impl.common;
 
 import com.epam.musicbox.controller.PagePath;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Entity;
@@ -9,7 +10,6 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.EntityService;
 import com.epam.musicbox.service.FileService;
 import com.epam.musicbox.service.impl.FileServiceImpl;
-import com.epam.musicbox.util.ParamTaker;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +33,7 @@ public class DeleteCommand<T extends Entity> implements Command {
     @Override
     public CommandResult execute(HttpServletRequest req) throws CommandException {
         try {
-            long id = ParamTaker.getLong(req, this.id);
+            long id = ParameterTaker.getLong(req, this.id);
             service.deleteById(id);
 
             FileService fileService = FileServiceImpl.getInstance();

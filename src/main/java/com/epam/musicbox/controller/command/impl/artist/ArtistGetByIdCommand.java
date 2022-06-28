@@ -2,6 +2,7 @@ package com.epam.musicbox.controller.command.impl.artist;
 
 import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.Album;
@@ -15,7 +16,6 @@ import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
 import com.epam.musicbox.service.psr.PageSearchResult;
-import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,8 +32,8 @@ public class ArtistGetByIdCommand implements Command {
         try {
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
-            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
-            long artistId = ParamTaker.getLong(req, Parameter.ARTIST_ID);
+            long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
+            long artistId = ParameterTaker.getLong(req, Parameter.ARTIST_ID);
 
             boolean like = userService.isLikedArtist(userId, artistId);
             req.setAttribute(Parameter.LIKE, like);
@@ -42,13 +42,13 @@ public class ArtistGetByIdCommand implements Command {
                     .orElseThrow(() -> new CommandException(ARTIST_NOT_FOUND_MSG));
             req.setAttribute(Parameter.ARTIST, artist);
 
-            int page = ParamTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
-            int pageSize = ParamTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
+            int page = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
+            int pageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
             PageSearchResult<Track> trackPageSearchResult = artistService.getTracks(artistId, page, pageSize);
             req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
 
-            page = ParamTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
-            pageSize = ParamTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
+            page = ParameterTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
+            pageSize = ParameterTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
             PageSearchResult<Album> albumPageSearchResult = artistService.getAlbums(artistId, page, pageSize);
             req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
 

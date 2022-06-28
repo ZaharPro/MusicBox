@@ -7,8 +7,8 @@ import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.repository.impl.AlbumRepositoryImpl;
 import com.epam.musicbox.service.AlbumService;
 import com.epam.musicbox.service.psr.PageSearchResult;
-import com.epam.musicbox.validator.EntityValidator;
-import com.epam.musicbox.validator.impl.EntityValidatorImpl;
+import com.epam.musicbox.util.validator.Validator;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class AlbumServiceImpl extends AbstractEntityService<Album> implements Al
 
     private static final AlbumServiceImpl instance = new AlbumServiceImpl();
 
-    private final EntityValidator validator = EntityValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
     private final AlbumRepository repository = AlbumRepositoryImpl.getInstance();
 
     private AlbumServiceImpl() {

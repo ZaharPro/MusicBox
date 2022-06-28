@@ -1,6 +1,6 @@
-package com.epam.musicbox.validator.impl;
+package com.epam.musicbox.util.validator.impl;
 
-import com.epam.musicbox.validator.FileValidator;
+import com.epam.musicbox.util.validator.FileValidator;
 
 import java.util.regex.Pattern;
 

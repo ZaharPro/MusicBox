@@ -14,7 +14,7 @@
             </h3>
         </a>
 
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarToggle"
+        <button class="navbar-toggle d-lg-none btn" type="button" data-toggle="collapse" data-target="#navbarToggle"
                 aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggle-icon"></span>
         </button>

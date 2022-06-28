@@ -1,4 +1,4 @@
-package com.epam.musicbox.validator.impl;
+package com.epam.musicbox.util.validator.impl;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

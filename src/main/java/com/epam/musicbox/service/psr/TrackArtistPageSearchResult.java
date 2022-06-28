@@ -4,8 +4,6 @@ import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.ArtistService;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TrackArtistPageSearchResult extends PageSearchResult<Track> {

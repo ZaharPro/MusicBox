@@ -2,6 +2,7 @@ package com.epam.musicbox.controller.command.impl.page;
 
 import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.CommandException;
@@ -9,7 +10,6 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.util.ParamTaker;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class ProfilePageCommand extends PageCommand {
         try {
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
-            long userId = ParamTaker.getLong(body, Parameter.USER_ID);
+            long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
 
             User user = userService.findById(userId)
                     .orElseThrow(() -> new CommandException(USER_NOT_FOUND_MSG));
