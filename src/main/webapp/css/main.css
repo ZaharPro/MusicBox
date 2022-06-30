@@ -44,6 +44,11 @@ body {
     min-height: 20rem;
 }
 
+.list-group-item {
+    flex: 1;
+    max-height: 6rem;
+}
+
 .tr-link td {
     cursor: pointer;
     transition: all .4s ease;
@@ -118,9 +123,4 @@ body {
 .dropdown-menu {
     width: 100%;
     min-width: 3rem;
-}
-
-.list-group-item {
-    flex: 1;
-    max-height: 7rem;
 }

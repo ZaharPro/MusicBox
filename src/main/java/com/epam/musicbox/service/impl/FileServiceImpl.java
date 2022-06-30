@@ -25,7 +25,7 @@ public class FileServiceImpl implements FileService {
 
     private static final String INVALID_KEY_MSG = "Invalid key: ";
     private static final String INVALID_FILE_NAME_MSG = "Invalid file name: ";
-    private static final String KEY_NOT_FOUND_MSG = "Key not found";
+    private static final String KEY_NOT_FOUND_MSG = "Key not found: ";
 
     private static final String UPLOAD_ROOT_DIR = "file";
     private static final String KEY_SEPARATOR = "_";
@@ -45,8 +45,10 @@ public class FileServiceImpl implements FileService {
         return entityField + id;
     }
 
-    private String getRoot(HttpServletRequest req) {
-        return req.getServletContext().getRealPath("") + UPLOAD_ROOT_DIR + File.separatorChar;
+    private String getRoot(HttpServletRequest req) throws IOException {
+        String root = req.getServletContext().getRealPath("") + UPLOAD_ROOT_DIR + File.separatorChar;
+        Files.createDirectories(Paths.get(root));
+        return root;
     }
 
     private void remove(String root, String key) throws IOException {

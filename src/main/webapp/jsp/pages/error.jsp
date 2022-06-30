@@ -28,17 +28,17 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${not empty pageContext.errorData.throwable}">
+        <c:if test="${pageContext.errorData.throwable != null}">
             <div class="mb-3">
                 <h4 class="text-danger text-center mb-1">
                     Exception
                 </h4>
                 <div class="text-info text-center">
-                        ${pageContext.errorData.throwable}
+                        ${pageContext.errorData.throwable.toString()}
                 </div>
             </div>
         </c:if>
-        <c:if test="${not empty msg}">
+        <c:if test="${msg != null}">
             <div class="mb-3">
                 <h4 class="text-danger text-center mb-1">
                     Message

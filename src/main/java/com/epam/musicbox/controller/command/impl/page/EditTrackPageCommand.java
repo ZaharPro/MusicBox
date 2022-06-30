@@ -47,7 +47,8 @@ public class EditTrackPageCommand extends PageCommand {
 
             Optional<Long> optionalTrackId = ParameterTaker.getOptionalLong(req, Parameter.TRACK_ID);
             if (optionalTrackId.isPresent()) {
-                Track track = trackService.findById(optionalTrackId.get())
+                long trackId = optionalTrackId.get();
+                Track track = trackService.findById(trackId)
                         .orElseThrow(() -> new CommandException(TRACK_NOT_FOUND_MSG));
                 req.setAttribute(Parameter.TRACK, track);
 
@@ -57,22 +58,23 @@ public class EditTrackPageCommand extends PageCommand {
                 navCommandBuilder.append(URL_ATTRIBUTE_DELIMITER)
                         .append(Parameter.TRACK_ID)
                         .append(URL_ATTRIBUTE_EQ)
-                        .append(optionalTrackId);
+                        .append(trackId);
 
                 albumChooseCommandBuilder.append(URL_ATTRIBUTE_DELIMITER)
                         .append(Parameter.TRACK_ID)
                         .append(URL_ATTRIBUTE_EQ)
-                        .append(optionalTrackId);
+                        .append(trackId);
             }
 
             if (optionalAlbumId.isPresent()) {
-                Album album = albumService.findById(optionalAlbumId.get())
+                long albumId = optionalAlbumId.get();
+                Album album = albumService.findById(albumId)
                         .orElseThrow(() -> new CommandException(ALBUM_NOT_FOUND_MSG));
                 req.setAttribute(Parameter.ALBUM, album);
                 navCommandBuilder.append(URL_ATTRIBUTE_DELIMITER)
                         .append(Parameter.ALBUM_ID)
                         .append(URL_ATTRIBUTE_EQ)
-                        .append(optionalAlbumId);
+                        .append(albumId);
             }
 
             String navCommand = navCommandBuilder.toString();
