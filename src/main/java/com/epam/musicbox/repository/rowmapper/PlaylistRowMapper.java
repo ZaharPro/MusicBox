@@ -30,7 +30,7 @@ public class PlaylistRowMapper implements RowMapper<Playlist> {
                     resultSet.getString(ROW_PICTURE),
                     resultSet.getLong(ROW_USER_ID));
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 }

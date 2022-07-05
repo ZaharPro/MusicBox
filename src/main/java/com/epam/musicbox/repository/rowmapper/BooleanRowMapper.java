@@ -23,7 +23,7 @@ public class BooleanRowMapper implements RowMapper<Boolean> {
         try {
             return resultSet.getBoolean(BOOLEAN_COL_INDEX);
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 }

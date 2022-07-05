@@ -3,7 +3,7 @@ package com.epam.musicbox.controller.command.impl.page;
 import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.ParameterTaker;
-import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
@@ -25,7 +25,7 @@ public class ProfilePageCommand extends PageCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws CommandException {
+    public Router execute(HttpServletRequest req) throws CommandException {
         try {
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
@@ -37,7 +37,7 @@ public class ProfilePageCommand extends PageCommand {
 
             return super.execute(req);
         } catch (ServiceException e) {
-            throw new CommandException(e);
+            throw new CommandException(e.getMessage(), e);
         }
     }
 }

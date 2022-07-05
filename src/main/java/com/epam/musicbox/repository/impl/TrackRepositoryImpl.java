@@ -13,17 +13,17 @@ import java.util.Optional;
 
 public class TrackRepositoryImpl implements TrackRepository {
 
-    private static final String SQL_COUNT = "SELECT COUNT(*) " +
-                                            "FROM tracks";
+    private static final String SQL_COUNT = "SELECT COUNT(t.track_id) " +
+                                            "FROM tracks AS t";
 
     private static final String SQL_FIND_ALL = "SELECT * " +
-                                               "FROM tracks " +
-                                               "ORDER BY name " +
+                                               "FROM tracks AS t " +
+                                               "ORDER BY t.name " +
                                                "LIMIT ?,?";
 
     private static final String SQL_FIND_BY_ID = "SELECT * " +
-                                                 "FROM tracks " +
-                                                 "WHERE track_id=?";
+                                                 "FROM tracks AS t " +
+                                                 "WHERE t.track_id=?";
 
     private static final String SQL_INSERT_ONE = "INSERT INTO tracks (name, audio, album_id) " +
                                                  "VALUES (?,?,?)";
@@ -35,28 +35,28 @@ public class TrackRepositoryImpl implements TrackRepository {
     private static final String SQL_DELETE_BY_ID = "DELETE FROM tracks " +
                                                    "WHERE track_id=?";
 
-    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(*) " +
-                                                    "FROM tracks " +
-                                                    "WHERE name REGEXP (?)";
+    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(t.track_id) " +
+                                                    "FROM tracks AS t " +
+                                                    "WHERE t.name REGEXP (?)";
 
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
-                                                   "FROM tracks " +
-                                                   "WHERE name REGEXP (?) " +
-                                                   "ORDER BY name " +
+                                                   "FROM tracks AS t " +
+                                                   "WHERE t.name REGEXP (?) " +
+                                                   "ORDER BY t.name " +
                                                    "LIMIT ?,?";
 
-    private static final String SQL_COUNT_ARTISTS = "SELECT COUNT(*) " +
-                                                    "FROM artists " +
-                                                    "JOIN artist_tracks " +
-                                                    "ON artist_tracks.artist_id = artists.artist_id " +
-                                                    "WHERE artist_tracks.track_id=?";
+    private static final String SQL_COUNT_ARTISTS = "SELECT COUNT(a.artist_id) " +
+                                                    "FROM artists AS a " +
+                                                    "JOIN artist_tracks AS at " +
+                                                    "ON at.artist_id = a.artist_id " +
+                                                    "WHERE at.track_id=?";
 
     private static final String SQL_FIND_ARTISTS = "SELECT * " +
-                                                   "FROM artists " +
-                                                   "JOIN artist_tracks " +
-                                                   "ON artist_tracks.artist_id = artists.artist_id " +
-                                                   "WHERE artist_tracks.track_id=? " +
-                                                   "ORDER BY artists.name " +
+                                                   "FROM artists AS a " +
+                                                   "JOIN artist_tracks AS at " +
+                                                   "ON at.artist_id = a.artist_id " +
+                                                   "WHERE at.track_id=? " +
+                                                   "ORDER BY a.name " +
                                                    "LIMIT ?,?";
 
     public static final TrackRepositoryImpl instance = new TrackRepositoryImpl();

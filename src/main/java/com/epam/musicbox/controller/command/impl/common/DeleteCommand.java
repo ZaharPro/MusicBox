@@ -3,7 +3,7 @@ package com.epam.musicbox.controller.command.impl.common;
 import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.entity.Entity;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
@@ -31,7 +31,7 @@ public class DeleteCommand<T extends Entity> implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws CommandException {
+    public Router execute(HttpServletRequest req) throws CommandException {
         try {
             long id = ParameterTaker.getLong(req, this.id);
             service.deleteById(id);
@@ -45,9 +45,9 @@ public class DeleteCommand<T extends Entity> implements Command {
                     logger.error(DELETE_FILE_ERROR_MSG, e);
                 }
             }
-            return CommandResult.forward(PagePath.HOME);
+            return Router.forward(PagePath.HOME);
         } catch (ServiceException e) {
-            throw new CommandException(e);
+            throw new CommandException(e.getMessage(), e);
         }
     }
 }

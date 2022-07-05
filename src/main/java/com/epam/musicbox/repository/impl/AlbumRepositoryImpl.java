@@ -11,17 +11,17 @@ import java.util.Optional;
 
 public class AlbumRepositoryImpl implements AlbumRepository {
 
-    private static final String SQL_COUNT = "SELECT COUNT(*) " +
-                                            "FROM albums";
+    private static final String SQL_COUNT = "SELECT COUNT(a.album_id) " +
+                                            "FROM albums AS a";
 
     private static final String SQL_FIND_ALL = "SELECT * " +
-                                               "FROM albums " +
-                                               "ORDER BY name " +
+                                               "FROM albums AS a " +
+                                               "ORDER BY a.name " +
                                                "LIMIT ?,?";
 
     private static final String SQL_FIND_BY_ID = "SELECT * " +
-                                                 "FROM albums " +
-                                                 "WHERE album_id=?";
+                                                 "FROM albums AS a " +
+                                                 "WHERE a.album_id=?";
 
     private static final String SQL_INSERT_ONE = "INSERT INTO albums (name, picture) " +
                                                  "VALUES (?,?)";
@@ -33,14 +33,14 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     private static final String SQL_DELETE_BY_ID = "DELETE FROM albums " +
                                                    "WHERE album_id=?";
 
-    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(*) " +
-                                                    "FROM albums " +
-                                                    "WHERE name REGEXP (?)";
+    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(a.album_id) " +
+                                                    "FROM albums AS a " +
+                                                    "WHERE a.name REGEXP (?)";
 
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
-                                                   "FROM albums " +
-                                                   "WHERE name REGEXP (?) " +
-                                                   "ORDER BY name " +
+                                                   "FROM albums AS a " +
+                                                   "WHERE a.name REGEXP (?) " +
+                                                   "ORDER BY a.name " +
                                                    "LIMIT ?,?";
 
     public static final AlbumRepositoryImpl instance = new AlbumRepositoryImpl();

@@ -22,11 +22,22 @@
         <div class="row justify-content-center">
             <c:choose>
                 <c:when test="${album != null}">
-                    <a class="f-col justify-content-center img-link img-link-sm m-1"
-                       style='background-image: url("/file/img/${album.getPicture()}");'
-                       href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
-                            ${album.getName()}
-                    </a>
+                    <c:choose>
+                        <c:when test="${album.getPicture() != null}">
+                            <a class="f-col justify-content-center img-link img-link-sm m-1"
+                               style='background-image: url("/file/img/${album.getPicture()}");'
+                               href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
+                                    ${album.getName()}
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="f-col justify-content-center img-link img-link-sm m-1"
+                               style="background-image: url('/system/img/default-album.png')"
+                               href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
+                                    ${album.getName()}
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                 </c:when>
                 <c:otherwise>
                     <a class="f-col justify-content-center img-link img-link-sm m-1"
@@ -46,7 +57,8 @@
                 <label for="trackName" class="title h4">
                     <fmt:message key="edit.track.enter.name"/>
                 </label>
-                <input type="text" id="trackName" name="name" required
+                <input type="text" id="trackName" name="name" required minlength="4" maxlength="32"
+                       pattern="[\w\d:.'-]+"
                 <c:if test="${track != null}">
                        value="${track.getName()}"
                 </c:if>>

@@ -130,7 +130,7 @@ public class FileServiceImpl implements FileService {
 
             return newFileName;
         } catch (ServletException | IOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -140,7 +140,7 @@ public class FileServiceImpl implements FileService {
             String root = getRoot(req);
             remove(root, key);
         } catch (IOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 }

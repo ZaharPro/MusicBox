@@ -1,4 +1,4 @@
-package com.epam.musicbox.service.psr;
+package com.epam.musicbox.service.page;
 
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;

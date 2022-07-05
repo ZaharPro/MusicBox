@@ -30,7 +30,7 @@ public class TrackRowMapper implements RowMapper<Track> {
                     resultSet.getString(ROW_AUDIO),
                     resultSet.getLong(ROW_ALBUM_ID));
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 }

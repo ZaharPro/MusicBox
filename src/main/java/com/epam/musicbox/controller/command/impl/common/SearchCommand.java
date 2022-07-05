@@ -1,10 +1,10 @@
 package com.epam.musicbox.controller.command.impl.common;
 
 import com.epam.musicbox.controller.PagePath;
-import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.Parameter;
+import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
@@ -16,8 +16,10 @@ import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.ArtistServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.Optional;
 
 public class SearchCommand implements Command {
 
@@ -29,23 +31,26 @@ public class SearchCommand implements Command {
     private final TrackService trackService = TrackServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws CommandException {
+    public Router execute(HttpServletRequest req) throws CommandException {
         try {
-            String name = ParameterTaker.getName(req);
+            Optional<String> optionalName = ParameterTaker.getName(req);
 
-            PageSearchResult<Artist> artistPageSearchResult = artistService.findByName(name, FIRST_PAGE, PAGE_SIZE);
-            PageSearchResult<Album> albumPageSearchResult = albumService.findByName(name, FIRST_PAGE, PAGE_SIZE);
-            PageSearchResult<Track> trackPageSearchResult = trackService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+            if (optionalName.isPresent()) {
+                String name = optionalName.get();
+                PageSearchResult<Artist> artistPageSearchResult = artistService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+                PageSearchResult<Album> albumPageSearchResult = albumService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+                PageSearchResult<Track> trackPageSearchResult = trackService.findByName(name, FIRST_PAGE, PAGE_SIZE);
 
-            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, artistPageSearchResult);
-            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
+                req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, artistPageSearchResult);
+                req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
+                req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
+            }
 
-            req.setAttribute(Parameter.NAME, name);
+            req.setAttribute(Parameter.NAME, req.getParameter(Parameter.NAME));
 
-            return CommandResult.forward(PagePath.SEARCH);
+            return Router.forward(PagePath.SEARCH);
         } catch (ServiceException e) {
-            throw new CommandException(e);
+            throw new CommandException(e.getMessage(), e);
         }
     }
 }

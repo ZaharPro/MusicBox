@@ -5,5 +5,5 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface Command {
 
-    CommandResult execute(HttpServletRequest req) throws CommandException;
+    Router execute(HttpServletRequest req) throws CommandException;
 }

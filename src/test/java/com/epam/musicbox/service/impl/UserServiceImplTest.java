@@ -3,7 +3,7 @@ package com.epam.musicbox.service.impl;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

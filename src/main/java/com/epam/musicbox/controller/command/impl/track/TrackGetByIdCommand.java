@@ -4,7 +4,7 @@ import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.controller.command.CommandResult;
+import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
@@ -17,7 +17,7 @@ import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.impl.UserServiceImpl;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class TrackGetByIdCommand implements Command {
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws CommandException {
+    public Router execute(HttpServletRequest req) throws CommandException {
         try {
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
@@ -56,9 +56,9 @@ public class TrackGetByIdCommand implements Command {
             PageSearchResult<Artist> pageSearchResult = trackService.getArtists(trackId, FIRST_PAGE, PAGE_SIZE);
             req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
 
-            return CommandResult.forward(PagePath.TRACK);
+            return Router.forward(PagePath.TRACK);
         } catch (ServiceException e) {
-            throw new CommandException(e);
+            throw new CommandException(e.getMessage(), e);
         }
     }
 }

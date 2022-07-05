@@ -14,17 +14,17 @@ import java.util.Optional;
 
 public class PlaylistRepositoryImpl implements PlaylistRepository {
 
-    private static final String SQL_COUNT = "SELECT COUNT(*) " +
-                                            "FROM artists";
+    private static final String SQL_COUNT = "SELECT COUNT(p.playlist_id) " +
+                                            "FROM playlists AS p";
 
     private static final String SQL_FIND_ALL = "SELECT * " +
-                                               "FROM playlists " +
-                                               "ORDER BY name " +
+                                               "FROM playlists AS p " +
+                                               "ORDER BY p.name " +
                                                "LIMIT ?,?";
 
     private static final String SQL_FIND_BY_ID = "SELECT * " +
-                                                 "FROM playlists " +
-                                                 "WHERE playlist_id=?";
+                                                 "FROM playlists AS p " +
+                                                 "WHERE p.playlist_id=?";
 
     private static final String SQL_INSERT_ONE = "INSERT INTO playlists (name, picture, user_id) " +
                                                  "VALUES (?,?,?)";
@@ -36,33 +36,33 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     private static final String SQL_DELETE_BY_ID = "DELETE FROM playlists " +
                                                    "WHERE playlist_id=?";
 
-    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(*) " +
-                                                    "FROM playlists " +
-                                                    "WHERE name REGEXP (?)";
+    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(p.playlist_id) " +
+                                                    "FROM playlists AS p " +
+                                                    "WHERE p.name REGEXP (?)";
 
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
-                                                   "FROM playlists " +
-                                                   "WHERE name REGEXP (?) " +
-                                                   "ORDER BY name " +
+                                                   "FROM playlists AS p " +
+                                                   "WHERE p.name REGEXP (?) " +
+                                                   "ORDER BY p.name " +
                                                    "LIMIT ?,?";
 
-    private static final String SQL_COUNT_TRACKS = "SELECT COUNT(*) " +
-                                                   "FROM tracks " +
-                                                   "JOIN playlist_tracks " +
-                                                   "ON playlist_tracks.track_id = tracks.track_id " +
-                                                   "WHERE playlist_tracks.playlist_id=?";
+    private static final String SQL_COUNT_TRACKS = "SELECT COUNT(t.track_id) " +
+                                                   "FROM tracks AS t " +
+                                                   "JOIN playlist_tracks AS pt " +
+                                                   "ON pt.track_id = t.track_id " +
+                                                   "WHERE pt.playlist_id=?";
 
     private static final String SQL_FIND_TRACKS = "SELECT * " +
-                                                  "FROM tracks " +
-                                                  "JOIN playlist_tracks " +
-                                                  "ON playlist_tracks.track_id = tracks.track_id " +
-                                                  "WHERE playlist_tracks.playlist_id=? " +
-                                                  "ORDER BY tracks.name " +
+                                                  "FROM tracks AS t " +
+                                                  "JOIN playlist_tracks AS pt " +
+                                                  "ON pt.track_id = t.track_id " +
+                                                  "WHERE pt.playlist_id=? " +
+                                                  "ORDER BY t.name " +
                                                   "LIMIT ?,?";
 
     private static final String SQL_EXIST_TRACK = "SELECT 1 " +
-                                                  "FROM playlist_tracks " +
-                                                  "WHERE playlist_id=? AND track_id=?";
+                                                  "FROM playlist_tracks AS pt " +
+                                                  "WHERE pt.playlist_id=? AND pt.track_id=?";
 
     private static final String SQL_ADD_TRACK = "INSERT INTO playlist_tracks (playlist_id, track_id) " +
                                                 "VALUES (?,?)";

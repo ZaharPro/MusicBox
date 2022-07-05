@@ -12,17 +12,17 @@ import java.util.Optional;
 
 public class ArtistRepositoryImpl implements ArtistRepository {
 
-    private static final String SQL_COUNT = "SELECT COUNT(*) " +
-                                            "FROM artists";
+    private static final String SQL_COUNT = "SELECT COUNT(a.artist_id) " +
+                                            "FROM artists AS a";
 
     private static final String SQL_FIND_ALL = "SELECT * " +
-                                               "FROM artists " +
-                                               "ORDER BY name " +
+                                               "FROM artists AS a " +
+                                               "ORDER BY a.name " +
                                                "LIMIT ?,?";
 
     private static final String SQL_FIND_BY_ID = "SELECT * " +
-                                                 "FROM artists " +
-                                                 "WHERE artist_id=?";
+                                                 "FROM artists AS a " +
+                                                 "WHERE a.artist_id=?";
 
     private static final String SQL_INSERT_ONE = "INSERT INTO artists (name, avatar) " +
                                                  "VALUES (?,?)";
@@ -34,33 +34,33 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_DELETE_BY_ID = "DELETE FROM artists " +
                                                    "WHERE artist_id=?";
 
-    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(*) " +
-                                                    "FROM artists " +
-                                                    "WHERE name REGEXP (?)";
+    private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(a.artist_id) " +
+                                                    "FROM artists AS a " +
+                                                    "WHERE a.name REGEXP (?)";
 
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
-                                                   "FROM artists " +
-                                                   "WHERE name REGEXP (?) " +
-                                                   "ORDER BY name " +
+                                                   "FROM artists AS a " +
+                                                   "WHERE a.name REGEXP (?) " +
+                                                   "ORDER BY a.name " +
                                                    "LIMIT ?,?";
 
-    private static final String SQL_COUNT_TRACKS = "SELECT COUNT(*) " +
-                                                   "FROM tracks " +
-                                                   "JOIN artist_tracks " +
-                                                   "ON artist_tracks.track_id = tracks.track_id " +
-                                                   "WHERE artist_tracks.artist_id=?";
+    private static final String SQL_COUNT_TRACKS = "SELECT COUNT(t.track_id) " +
+                                                   "FROM tracks AS t " +
+                                                   "JOIN artist_tracks AS at " +
+                                                   "ON at.track_id = t.track_id " +
+                                                   "WHERE at.artist_id=?";
 
     private static final String SQL_FIND_TRACKS = "SELECT * " +
-                                                  "FROM tracks " +
-                                                  "JOIN artist_tracks " +
-                                                  "ON artist_tracks.track_id = tracks.track_id " +
-                                                  "WHERE artist_tracks.artist_id=? " +
-                                                  "ORDER BY tracks.name " +
+                                                  "FROM tracks AS t " +
+                                                  "JOIN artist_tracks AS at " +
+                                                  "ON at.track_id = t.track_id " +
+                                                  "WHERE at.artist_id=? " +
+                                                  "ORDER BY t.name " +
                                                   "LIMIT ?,?";
 
     private static final String SQL_EXIST_TRACK = "SELECT 1 " +
-                                                  "FROM artist_tracks " +
-                                                  "WHERE artist_id=? AND track_id=?";
+                                                  "FROM artist_tracks AS at " +
+                                                  "WHERE at.artist_id=? AND at.track_id=?";
 
     private static final String SQL_ADD_TRACK = "INSERT INTO artist_tracks (artist_id, track_id) " +
                                                 "VALUES (?,?)";
@@ -68,22 +68,22 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_REMOVE_TRACK = "DELETE FROM artist_tracks " +
                                                    "WHERE artist_id=? AND track_id=?";
 
-    private static final String SQL_COUNT_ALBUMS = "SELECT COUNT(*) " +
-                                                   "FROM albums " +
-                                                   "JOIN tracks " +
-                                                   "ON albums.album_id = tracks.album_id " +
-                                                   "JOIN artist_tracks " +
-                                                   "ON tracks.track_id = artist_tracks.track_id " +
-                                                   "WHERE artist_tracks.artist_id=? ";
+    private static final String SQL_COUNT_ALBUMS = "SELECT COUNT(a.album_id) " +
+                                                   "FROM albums AS a " +
+                                                   "JOIN tracks AS t " +
+                                                   "ON a.album_id = t.album_id " +
+                                                   "JOIN artist_tracks AS at " +
+                                                   "ON t.track_id = at.track_id " +
+                                                   "WHERE at.artist_id=? ";
 
     private static final String SQL_FIND_ALBUMS = "SELECT * " +
-                                                  "FROM albums " +
-                                                  "JOIN tracks " +
-                                                  "ON albums.album_id = tracks.album_id " +
-                                                  "JOIN artist_tracks " +
-                                                  "ON tracks.track_id = artist_tracks.track_id " +
-                                                  "WHERE artist_tracks.artist_id=? " +
-                                                  "ORDER BY albums.name " +
+                                                  "FROM albums AS a " +
+                                                  "JOIN tracks AS t " +
+                                                  "ON a.album_id = t.album_id " +
+                                                  "JOIN artist_tracks AS at " +
+                                                  "ON t.track_id = at.track_id " +
+                                                  "WHERE at.artist_id=? " +
+                                                  "ORDER BY a.name " +
                                                   "LIMIT ?,?";
 
     private static final ArtistRepositoryImpl instance = new ArtistRepositoryImpl();

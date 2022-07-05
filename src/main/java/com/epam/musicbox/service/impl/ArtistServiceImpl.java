@@ -8,7 +8,7 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.ArtistRepository;
 import com.epam.musicbox.repository.impl.ArtistRepositoryImpl;
 import com.epam.musicbox.service.ArtistService;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
@@ -38,28 +38,27 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
         try {
             return getRepository().countByName(buildRegex(name));
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public PageSearchResult<Artist> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!validator.isValidName(name)) {
+            if (!isValidPage(page, pageSize) || !validator.isValidName(name)) {
                 return new PageSearchResult<>(page, pageSize);
             }
 
-            String regex = buildRegex(name);
             ArtistRepository repository = getRepository();
             long count = repository.countByName(name);
-            if (count == 0 || !isValidPage(page, pageSize)) {
+            if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
-            List<Artist> list = repository.findByName(regex, offset, pageSize);
+            List<Artist> list = repository.findByName(buildRegex(name), offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -68,23 +67,26 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
         try {
             return getRepository().countTracks(artistId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public PageSearchResult<Track> getTracks(long artistId, int page, int pageSize) throws ServiceException {
         try {
+            if (!isValidPage(page, pageSize)) {
+                return new PageSearchResult<>(page, pageSize);
+            }
             ArtistRepository repository = getRepository();
             long count = repository.countTracks(artistId);
-            if (count == 0 || !isValidPage(page, pageSize)) {
+            if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
             List<Track> list = repository.getTracks(artistId, offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -93,7 +95,7 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
         try {
             return getRepository().hasTrack(artistId, trackId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -102,7 +104,7 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
         try {
             getRepository().addTrack(artistId, trackId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -111,7 +113,7 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
         try {
             getRepository().removeTrack(artistId, trackId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -120,23 +122,26 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
         try {
             return getRepository().countAlbums(artistId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public PageSearchResult<Album> getAlbums(long artistId, int page, int pageSize) throws ServiceException {
         try {
+            if (!isValidPage(page, pageSize)) {
+                return new PageSearchResult<>(page, pageSize);
+            }
             ArtistRepository repository = getRepository();
             long count = repository.countAlbums(artistId);
-            if (count == 0 || !isValidPage(page, pageSize)) {
+            if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
             List<Album> list = repository.getAlbums(artistId, offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 }

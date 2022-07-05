@@ -3,8 +3,8 @@ package com.epam.musicbox.controller.command.impl.user;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.controller.command.CommandType;
+import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.UserService;
@@ -17,7 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UserMarkLikedAlbumCommand implements Command {
 
     private static final String REDIRECT_URL_FORMAT =
-            String.format("controller?command=%s&%s=%%s&%s=%%s&%s=%%s",
+            String.format("controller?%s=%s&%s=%%s&%s=%%s&%s=%%s",
+                    Parameter.COMMAND,
                     CommandType.ALBUM_GET_BY_ID.getName(),
                     Parameter.ALBUM_ID,
                     Parameter.TRACK_PAGE_INDEX,
@@ -26,7 +27,7 @@ public class UserMarkLikedAlbumCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws CommandException {
+    public Router execute(HttpServletRequest req) throws CommandException {
         try {
             Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
             Claims body = token.getBody();
@@ -42,9 +43,9 @@ public class UserMarkLikedAlbumCommand implements Command {
                     albumId,
                     trackPage,
                     trackPageSize);
-            return CommandResult.redirect(url);
+            return Router.redirect(url);
         } catch (ServiceException e) {
-            throw new CommandException(e);
+            throw new CommandException(e.getMessage(), e);
         }
     }
 }

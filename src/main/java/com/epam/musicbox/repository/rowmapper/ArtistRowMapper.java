@@ -28,7 +28,7 @@ public class ArtistRowMapper implements RowMapper<Artist> {
                     resultSet.getString(ROW_NAME),
                     resultSet.getString(ROW_AVATAR));
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 }

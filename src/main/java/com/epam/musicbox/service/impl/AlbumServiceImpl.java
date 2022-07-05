@@ -6,7 +6,7 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.AlbumRepository;
 import com.epam.musicbox.repository.impl.AlbumRepositoryImpl;
 import com.epam.musicbox.service.AlbumService;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
@@ -36,28 +36,27 @@ public class AlbumServiceImpl extends AbstractEntityService<Album> implements Al
         try {
             return getRepository().countByName(buildRegex(name));
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public PageSearchResult<Album> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!validator.isValidName(name)) {
+            if (!isValidPage(page, pageSize) || !validator.isValidName(name)) {
                 return new PageSearchResult<>(page, pageSize);
             }
 
-            String regex = buildRegex(name);
             AlbumRepository repository = getRepository();
             long count = repository.countByName(name);
-            if (count == 0 || !isValidPage(page, pageSize)) {
+            if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
-            List<Album> list = repository.findByName(regex, offset, pageSize);
+            List<Album> list = repository.findByName(buildRegex(name), offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 }

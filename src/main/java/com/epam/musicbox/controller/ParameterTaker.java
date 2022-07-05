@@ -105,9 +105,12 @@ public final class ParameterTaker {
         return ParameterTaker.getOptional(req, paramName, INT_MAPPER).orElse(DEFAULT_PAGE_SIZE);
     }
 
-    public static String getName(HttpServletRequest req) {
+    public static Optional<String> getName(HttpServletRequest req) {
         String name = req.getParameter(Parameter.NAME);
         Validator validator = ValidatorImpl.getInstance();
-        return validator.isValidName(name) ? name : null;
+        if (validator.isValidName(name)) {
+            return Optional.of(name);
+        }
+        return Optional.empty();
     }
 }

@@ -40,8 +40,8 @@
                         <label for="playlistName" class="title h4">
                             <fmt:message key="edit.playlist.enter.name"/>
                         </label>
-                        <input type="text" id="playlistName" name="name" required
-                               class="form-control form-control-lg w-100"
+                        <input type="text" id="playlistName" name="name" required minlength="4" maxlength="32"
+                               pattern="[\w\d:.'-]+" class="form-control form-control-lg w-100"
                         <c:if test="${playlist != null}">
                                value="${playlist.getName()}"
                         </c:if>>

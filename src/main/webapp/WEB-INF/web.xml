@@ -86,7 +86,11 @@
         <location>/jsp/pages/error.jsp</location>
     </error-page>
     <error-page>
-        <exception-type>java.lang.RuntimeException</exception-type>
+        <error-code>400</error-code>
+        <location>/jsp/pages/error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
         <location>/jsp/pages/error.jsp</location>
     </error-page>
 </web-app>

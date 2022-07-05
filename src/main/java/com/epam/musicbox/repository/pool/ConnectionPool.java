@@ -27,11 +27,11 @@ public class ConnectionPool {
     private static final String DB_DRIVER = "DRIVER";
     private static final String DB_POOL_SIZE = "POOL_SIZE";
 
+    private static final String POOL_PROPS_NOT_FOUND_MSG = "Pool's creation properties not found";
     private static final String POOL_CREATED_MSG = "Pool created";
     private static final String POOL_DESTROYED_MSG = "Pool destroyed";
     private static final String DRIVER_NOT_FOUND_MSG = "Driver is not found";
     private static final String POOL_CREATION_ERROR_MSG = "Pool creation error";
-
 
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static final ReentrantLock instanceLock = new ReentrantLock();
@@ -40,18 +40,22 @@ public class ConnectionPool {
     private final ReentrantLock lock;
     private final Semaphore semaphore;
     private final Deque<ProxyConnection> freeConnections;
-    private final Deque<ProxyConnection> busyConnections;
+    private final Deque<ProxyConnection> usedConnections;
 
     private ConnectionPool() {
         try {
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(PROP_PATH);
-            String url = resourceBundle.getString(DB_URL);
-            String user = resourceBundle.getString(DB_USER);
-            String password = resourceBundle.getString(DB_PASSWORD);
-            String driver = resourceBundle.getString(DB_DRIVER);
+            ResourceBundle bundle = ResourceBundle.getBundle(PROP_PATH);
+            if (bundle == null) {
+                logger.fatal(POOL_PROPS_NOT_FOUND_MSG);
+                throw new ExceptionInInitializerError(POOL_PROPS_NOT_FOUND_MSG);
+            }
+            String url = bundle.getString(DB_URL);
+            String user = bundle.getString(DB_USER);
+            String password = bundle.getString(DB_PASSWORD);
+            String driver = bundle.getString(DB_DRIVER);
             Class.forName(driver);
 
-            int size = Integer.parseInt(resourceBundle.getString(DB_POOL_SIZE));
+            int size = Integer.parseInt(bundle.getString(DB_POOL_SIZE));
             Deque<ProxyConnection> connections = new ArrayDeque<>(size);
 
             for (int i = 0; i < size; i++) {
@@ -59,7 +63,7 @@ public class ConnectionPool {
                 connections.push(new ProxyConnection(this, connection));
             }
             this.freeConnections = connections;
-            this.busyConnections = new ArrayDeque<>(size);
+            this.usedConnections = new ArrayDeque<>(size);
             this.lock = new ReentrantLock();
             this.semaphore = new Semaphore(size);
         } catch (SQLException e) {
@@ -93,7 +97,7 @@ public class ConnectionPool {
             lock.lock();
             semaphore.acquire();
             ProxyConnection connection = freeConnections.pop();
-            busyConnections.push(connection);
+            usedConnections.push(connection);
             return connection;
         } catch (InterruptedException e) {
             logger.error(e.getMessage(), e);
@@ -107,7 +111,7 @@ public class ConnectionPool {
     public void release(ProxyConnection connection) {
         try {
             lock.lock();
-            if (busyConnections.remove(connection)) {
+            if (usedConnections.remove(connection)) {
                 freeConnections.push(connection);
             }
             semaphore.release();
@@ -119,8 +123,8 @@ public class ConnectionPool {
     public void destroyPool() {
         try {
             lock.lock();
-            freeConnections.addAll(busyConnections);
-            busyConnections.clear();
+            freeConnections.addAll(usedConnections);
+            usedConnections.clear();
             for (ProxyConnection connection : freeConnections) {
                 try {
                     connection.closeConnection();

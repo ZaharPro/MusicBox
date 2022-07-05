@@ -38,7 +38,7 @@ public final class QueryHelper {
             }
             return list;
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 
@@ -51,7 +51,7 @@ public final class QueryHelper {
             resultSet.next();
             return resultSet.getLong(1);
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 
@@ -61,7 +61,7 @@ public final class QueryHelper {
             QueryHelper.prepare(preparedStatement, params);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 

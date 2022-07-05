@@ -13,7 +13,7 @@ public class SessionCreateListenerImpl implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent event) {
-       logger.info("sessionCreated: sessionId=" + event.getSession().getId());
+        logger.info("sessionCreated: sessionId=" + event.getSession().getId());
     }
 
     @Override

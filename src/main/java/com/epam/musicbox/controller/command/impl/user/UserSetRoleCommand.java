@@ -3,8 +3,8 @@ package com.epam.musicbox.controller.command.impl.user;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
-import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.controller.command.CommandType;
+import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.CommandException;
 import com.epam.musicbox.exception.ServiceException;
@@ -21,7 +21,7 @@ public class UserSetRoleCommand implements Command {
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws CommandException {
+    public Router execute(HttpServletRequest req) throws CommandException {
         try {
             long userId = ParameterTaker.getLong(req, Parameter.USER_ID);
             Role role = ParameterTaker.getRole(req);
@@ -29,9 +29,9 @@ public class UserSetRoleCommand implements Command {
             userService.setRole(userId, role.getId());
             req.setAttribute(Parameter.ROLE, role.getName());
 
-            return CommandResult.redirect(REDIRECT_URL + userId);
+            return Router.redirect(REDIRECT_URL + userId);
         } catch (ServiceException e) {
-            throw new CommandException(e);
+            throw new CommandException(e.getMessage(), e);
         }
     }
 }

@@ -7,7 +7,7 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
 import com.epam.musicbox.service.TrackService;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
@@ -37,28 +37,27 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
         try {
             return getRepository().countByName(buildRegex(name));
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public PageSearchResult<Track> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!validator.isValidName(name)) {
+            if (!isValidPage(page, pageSize) || !validator.isValidName(name)) {
                 return new PageSearchResult<>(page, pageSize);
             }
 
-            String regex = buildRegex(name);
             TrackRepository repository = getRepository();
             long count = repository.countByName(name);
-            if (count == 0 || !isValidPage(page, pageSize)) {
+            if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
-            List<Track> list = repository.findByName(regex, offset, pageSize);
+            List<Track> list = repository.findByName(buildRegex(name), offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -67,23 +66,26 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
         try {
             return getRepository().countArtists(trackId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public PageSearchResult<Artist> getArtists(long trackId, int page, int pageSize) throws ServiceException {
         try {
+            if (!isValidPage(page, pageSize)) {
+                return new PageSearchResult<>(page, pageSize);
+            }
             TrackRepository repository = getRepository();
             long count = repository.countArtists(trackId);
-            if (count == 0 || !isValidPage(page, pageSize)) {
+            if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
             List<Artist> list = repository.getArtists(trackId, offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 }

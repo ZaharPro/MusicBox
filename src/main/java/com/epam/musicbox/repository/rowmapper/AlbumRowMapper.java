@@ -28,7 +28,7 @@ public class AlbumRowMapper implements RowMapper<Album> {
                     resultSet.getString(ROW_NAME),
                     resultSet.getString(ROW_PICTURE));
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 }

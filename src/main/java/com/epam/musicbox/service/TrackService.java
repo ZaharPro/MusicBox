@@ -3,7 +3,7 @@ package com.epam.musicbox.service;
 import com.epam.musicbox.entity.Artist;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 
 public interface TrackService extends EntityService<Track> {
 

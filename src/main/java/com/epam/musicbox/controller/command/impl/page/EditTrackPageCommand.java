@@ -3,8 +3,8 @@ package com.epam.musicbox.controller.command.impl.page;
 import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.ParameterTaker;
-import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.controller.command.CommandType;
+import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.entity.Album;
 import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.CommandException;
@@ -13,7 +13,7 @@ import com.epam.musicbox.service.AlbumService;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class EditTrackPageCommand extends PageCommand {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest req) throws CommandException {
+    public Router execute(HttpServletRequest req) throws CommandException {
         try {
             StringBuilder navCommandBuilder = new StringBuilder();
             StringBuilder albumChooseCommandBuilder = new StringBuilder();
@@ -94,7 +94,7 @@ public class EditTrackPageCommand extends PageCommand {
 
             return super.execute(req);
         } catch (ServiceException e) {
-            throw new CommandException(e);
+            throw new CommandException(e.getMessage(), e);
         }
     }
 }

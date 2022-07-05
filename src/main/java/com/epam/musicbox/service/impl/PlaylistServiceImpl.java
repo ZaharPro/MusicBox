@@ -7,7 +7,7 @@ import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.repository.impl.PlaylistRepositoryImpl;
 import com.epam.musicbox.service.PlaylistService;
-import com.epam.musicbox.service.psr.PageSearchResult;
+import com.epam.musicbox.service.page.PageSearchResult;
 import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
@@ -37,28 +37,27 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
         try {
             return getRepository().countByName(buildRegex(name));
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public PageSearchResult<Playlist> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!validator.isValidName(name)) {
+            if (!isValidPage(page, pageSize) || !validator.isValidName(name)) {
                 return new PageSearchResult<>(page, pageSize);
             }
 
-            String regex = buildRegex(name);
             PlaylistRepository repository = getRepository();
             long count = repository.countByName(name);
-            if (count == 0 || !isValidPage(page, pageSize)) {
+            if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
-            List<Playlist> list = repository.findByName(regex, offset, pageSize);
+            List<Playlist> list = repository.findByName(buildRegex(name), offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -67,23 +66,26 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
         try {
             return getRepository().countTracks(playlistId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
     public PageSearchResult<Track> getTracks(long playlistId, int page, int pageSize) throws ServiceException {
         try {
+            if (!isValidPage(page, pageSize)) {
+                return new PageSearchResult<>(page, pageSize);
+            }
             PlaylistRepository repository = getRepository();
             long count = repository.countTracks(playlistId);
-            if (count == 0 || !isValidPage(page, pageSize)) {
+            if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
             List<Track> list = repository.getTracks(playlistId, offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -92,7 +94,7 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
         try {
             return getRepository().hasTrack(playlistId, trackId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -101,7 +103,7 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
         try {
             getRepository().addTrack(playlistId, trackId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
@@ -110,7 +112,7 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
         try {
             getRepository().removeTrack(playlistId, trackId);
         } catch (RepositoryException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 }

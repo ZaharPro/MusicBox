@@ -22,7 +22,7 @@
                 <c:choose>
                     <c:when test="${album != null && album.getPicture() != null}">
                         <img class="card-img"
-                             src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
+                             src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                     </c:when>
                     <c:otherwise>
                         <img class="card-img" src="${pageContext.request.contextPath}/system/img/default-album.png">
@@ -40,8 +40,8 @@
                         <label for="albumName" class="title h4">
                             <fmt:message key="edit.album.enter.name"/>
                         </label>
-                        <input type="text" id="albumName" name="name" required
-                               class="form-control form-control-lg w-100"
+                        <input type="text" id="albumName" name="name" required minlength="4" maxlength="32"
+                               pattern="[\w\d:.'-]+" class="form-control form-control-lg w-100"
                         <c:if test="${album != null}">
                                value="${album.getName()}"
                         </c:if>>

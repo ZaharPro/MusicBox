@@ -1,4 +1,4 @@
-package com.epam.musicbox.service.psr;
+package com.epam.musicbox.service.page;
 
 import java.util.Collections;
 import java.util.List;

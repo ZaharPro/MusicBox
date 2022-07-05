@@ -37,7 +37,7 @@ public class UserRowMapper implements RowMapper<User> {
                     resultSet.getBoolean(ROW_BANNED),
                     resultSet.getTimestamp(ROW_REGISTRATION));
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.epam.musicbox.controller.filter.access;
 
+import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.CommandType;
@@ -44,8 +45,7 @@ public class AccessFilter implements Filter {
                 filterChain.doFilter(req, resp);
                 break;
             case UNAUTHORIZED:
-                req.setAttribute(Parameter.MESSAGE, UNAUTHORIZED_MSG);
-                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                req.getRequestDispatcher(PagePath.LOGIN).forward(req, resp);
                 break;
             case SESSION_TIMEOUT:
                 Cookie deleteBlackToken = new Cookie(Parameter.ACCESS_TOKEN, null);

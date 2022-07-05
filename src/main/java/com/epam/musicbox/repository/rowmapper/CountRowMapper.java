@@ -23,7 +23,7 @@ public class CountRowMapper implements RowMapper<Long> {
         try {
             return resultSet.getLong(COUNT_COL_INDEX);
         } catch (SQLException e) {
-            throw new RepositoryException(e);
+            throw new RepositoryException(e.getMessage(), e);
         }
     }
 }

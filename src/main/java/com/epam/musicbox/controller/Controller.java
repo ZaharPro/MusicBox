@@ -2,8 +2,8 @@ package com.epam.musicbox.controller;
 
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.CommandProvider;
-import com.epam.musicbox.controller.command.CommandResult;
 import com.epam.musicbox.controller.command.CommandType;
+import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.exception.CommandException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -46,13 +46,13 @@ public class Controller extends HttpServlet {
                 return;
             CommandType commandType = CommandType.findByName(commandName);
             Command command = commandProvider.get(commandType);
-            CommandResult commandResult = command.execute(req);
-            List<Cookie> cookies = commandResult.getCookies();
+            Router router = command.execute(req);
+            List<Cookie> cookies = router.getCookies();
             if (!cookies.isEmpty()) {
                 cookies.forEach(resp::addCookie);
             }
-            String page = commandResult.getPage();
-            if (commandResult.isRedirect()) {
+            String page = router.getPage();
+            if (router.isRedirect()) {
                 resp.sendRedirect(page);
             } else {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
@@ -61,7 +61,7 @@ public class Controller extends HttpServlet {
         } catch (CommandException e) {
             logger.error(e.getMessage(), e);
             req.setAttribute(Parameter.MESSAGE, e.getMessage());
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 }

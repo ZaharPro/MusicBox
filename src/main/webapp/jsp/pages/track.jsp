@@ -21,18 +21,28 @@
     <div class="card col f-col h-100 align-items-center pt-3 pb-3 mb-0 bg-dark">
         <div class="row justify-content-center">
             <c:choose>
-                <c:when test="${album.getPicture() != null}">
-                    <a class="f-col justify-content-center img-link img-link-sm m-1"
-                       style='background-image: url("/file/img/${album.getPicture()}");'
-                       href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
-                            ${album.getName()}
-                    </a>
+                <c:when test="${album != null}">
+                    <c:choose>
+                        <c:when test="${album.getPicture() != null}">
+                            <a class="f-col justify-content-center img-link img-link-sm m-1"
+                               style='background-image: url("/file/img/${album.getPicture()}");'
+                               href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
+                                    ${album.getName()}
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="f-col justify-content-center img-link img-link-sm m-1"
+                               style="background-image: url('/system/img/default-album.png')"
+                               href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
+                                    ${album.getName()}
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                 </c:when>
                 <c:otherwise>
                     <a class="f-col justify-content-center img-link img-link-sm m-1"
-                       style="background-image: url('/system/img/default-album.png')"
-                       href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
-                            ${album.getName()}
+                       style="background-image: url('/system/img/default-album.png')" href="#">
+                        <fmt:message key="edit.track.album.not.selected"/>
                     </a>
                 </c:otherwise>
             </c:choose>

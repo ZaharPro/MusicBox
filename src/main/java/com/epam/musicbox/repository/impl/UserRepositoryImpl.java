@@ -10,17 +10,17 @@ import java.util.Optional;
 
 public class UserRepositoryImpl implements UserRepository {
 
-    private static final String SQL_COUNT = "SELECT COUNT(*) " +
-                                            "FROM users";
+    private static final String SQL_COUNT = "SELECT COUNT(u.user_id) " +
+                                            "FROM users AS u";
 
     private static final String SQL_FIND_ALL = "SELECT * " +
-                                               "FROM users " +
-                                               "ORDER BY login " +
+                                               "FROM users AS u " +
+                                               "ORDER BY u.login " +
                                                "LIMIT ?,?";
 
     private static final String SQL_FIND_BY_ID = "SELECT * " +
-                                                 "FROM users " +
-                                                 "WHERE user_id=?";
+                                                 "FROM users AS u " +
+                                                 "WHERE u.user_id=?";
 
     private static final String SQL_INSERT_ONE = "INSERT INTO users (login, password, email, role_id, banned) " +
                                                  "VALUES (?,?,?,?,?)";
@@ -33,21 +33,21 @@ public class UserRepositoryImpl implements UserRepository {
                                                    "WHERE user_id=?";
 
     private static final String SQL_FIND_BY_LOGIN = "SELECT * " +
-                                                    "FROM users " +
-                                                    "WHERE login=?";
+                                                    "FROM users AS u " +
+                                                    "WHERE u.login=?";
 
     private static final String SQL_FIND_BY_EMAIL = "SELECT * " +
-                                                    "FROM users " +
-                                                    "WHERE email=?";
+                                                    "FROM users AS u " +
+                                                    "WHERE u.email=?";
 
-    private static final String SQL_COUNT_BY_ROLE = "SELECT COUNT(*) " +
-                                                    "FROM users " +
-                                                    "WHERE role_id=?";
+    private static final String SQL_COUNT_BY_ROLE = "SELECT COUNT(u.user_id) " +
+                                                    "FROM users AS u " +
+                                                    "WHERE u.role_id=?";
 
     private static final String SQL_FIND_BY_ROLE = "SELECT * " +
-                                                   "FROM users " +
-                                                   "WHERE role_id=? " +
-                                                   "ORDER BY login " +
+                                                   "FROM users AS u " +
+                                                   "WHERE u.role_id=? " +
+                                                   "ORDER BY u.login " +
                                                    "LIMIT ?,?";
 
     private static final String SQL_UPDATE_ROLE = "UPDATE users " +
@@ -55,32 +55,32 @@ public class UserRepositoryImpl implements UserRepository {
                                                   "WHERE user_id=?";
 
     //playlists
-    private static final String SQL_COUNT_PLAYLISTS = "SELECT COUNT(*) " +
-                                                      "FROM playlists " +
-                                                      "WHERE user_id=?";
+    private static final String SQL_COUNT_PLAYLISTS = "SELECT COUNT(p.playlist_id) " +
+                                                      "FROM playlists AS p " +
+                                                      "WHERE p.user_id=?";
 
     private static final String SQL_EXIST_PLAYLIST = "SELECT 1 " +
-                                                     "FROM playlists " +
-                                                     "WHERE user_id=? AND playlist_id=?";
+                                                     "FROM playlists AS p " +
+                                                     "WHERE p.user_id=? AND p.playlist_id=?";
 
     private static final String SQL_FIND_PLAYLISTS = "SELECT * " +
-                                                     "FROM playlists " +
-                                                     "WHERE user_id=? " +
-                                                     "ORDER BY name " +
+                                                     "FROM playlists AS p " +
+                                                     "WHERE p.user_id=? " +
+                                                     "ORDER BY p.name " +
                                                      "LIMIT ?,?";
 
-    private static final String SQL_COUNT_LIKED_ARTISTS = "SELECT COUNT(*) " +
-                                                          "FROM artists " +
-                                                          "JOIN user_liked_artists " +
-                                                          "ON user_liked_artists.artist_id = artists.artist_id " +
-                                                          "WHERE user_liked_artists.user_id=? ";
+    private static final String SQL_COUNT_LIKED_ARTISTS = "SELECT COUNT(a.artist_id) " +
+                                                          "FROM artists AS a " +
+                                                          "JOIN user_liked_artists AS ula " +
+                                                          "ON ula.artist_id = a.artist_id " +
+                                                          "WHERE ula.user_id=? ";
 
     private static final String SQL_FIND_LIKED_ARTISTS = "SELECT * " +
-                                                         "FROM artists " +
-                                                         "JOIN user_liked_artists " +
-                                                         "ON user_liked_artists.artist_id = artists.artist_id " +
-                                                         "WHERE user_liked_artists.user_id=? " +
-                                                         "ORDER BY artists.name " +
+                                                         "FROM artists AS a " +
+                                                         "JOIN user_liked_artists AS ula " +
+                                                         "ON ula.artist_id = a.artist_id " +
+                                                         "WHERE ula.user_id=? " +
+                                                         "ORDER BY a.name " +
                                                          "LIMIT ?,?";
 
     //liked artist
@@ -95,18 +95,18 @@ public class UserRepositoryImpl implements UserRepository {
                                                           "WHERE user_id=? AND artist_id=?";
 
     private static final String SQL_COUNT_LIKED_ALBUMS = "SELECT * " +
-                                                         "FROM albums " +
-                                                         "JOIN user_liked_albums " +
-                                                         "ON user_liked_albums.album_id = albums.album_id " +
-                                                         "WHERE user_liked_albums.user_id=?";
+                                                         "FROM albums AS a " +
+                                                         "JOIN user_liked_albums AS ula " +
+                                                         "ON ula.album_id = a.album_id " +
+                                                         "WHERE ula.user_id=?";
 
     //liked albums
     private static final String SQL_FIND_LIKED_ALBUMS = "SELECT * " +
-                                                        "FROM albums " +
-                                                        "JOIN user_liked_albums " +
-                                                        "ON user_liked_albums.album_id = albums.album_id " +
-                                                        "WHERE user_liked_albums.user_id=? " +
-                                                        "ORDER BY albums.name " +
+                                                        "FROM albums AS a " +
+                                                        "JOIN user_liked_albums AS ula " +
+                                                        "ON ula.album_id = a.album_id " +
+                                                        "WHERE ula.user_id=? " +
+                                                        "ORDER BY a.name " +
                                                         "LIMIT ?,?";
 
     private static final String SQL_EXIST_LIKED_ALBUM = "SELECT 1 " +
@@ -120,22 +120,22 @@ public class UserRepositoryImpl implements UserRepository {
                                                          "WHERE user_id=? AND album_id=?";
 
     //liked tracks
-    private static final String SQL_COUNT_LIKED_TRACKS = "SELECT COUNT(*) " +
-                                                         "FROM tracks " +
-                                                         "JOIN user_liked_tracks " +
-                                                         "ON user_liked_tracks.track_id = tracks.track_id " +
-                                                         "WHERE user_liked_tracks.user_id=?";
+    private static final String SQL_COUNT_LIKED_TRACKS = "SELECT COUNT(t.track_id) " +
+                                                         "FROM tracks AS t " +
+                                                         "JOIN user_liked_tracks AS ult " +
+                                                         "ON ult.track_id = t.track_id " +
+                                                         "WHERE ult.user_id=?";
 
     private static final String SQL_EXIST_LIKED_TRACK = "SELECT 1 " +
                                                         "FROM user_liked_tracks " +
                                                         "WHERE user_id=? AND track_id=?";
 
     private static final String SQL_FIND_LIKED_TRACKS = "SELECT * " +
-                                                        "FROM tracks " +
-                                                        "JOIN user_liked_tracks " +
-                                                        "ON user_liked_tracks.track_id = tracks.track_id " +
-                                                        "WHERE user_liked_tracks.user_id=? " +
-                                                        "ORDER BY tracks.name " +
+                                                        "FROM tracks AS t " +
+                                                        "JOIN user_liked_tracks AS ult " +
+                                                        "ON ult.track_id = t.track_id " +
+                                                        "WHERE ult.user_id=? " +
+                                                        "ORDER BY t.name " +
                                                         "LIMIT ?,?";
 
     private static final String SQL_MARK_LIKED_TRACK = "INSERT INTO user_liked_tracks (user_id, track_id) " +

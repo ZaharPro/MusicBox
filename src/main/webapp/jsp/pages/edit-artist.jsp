@@ -39,8 +39,8 @@
                         <label for="artistName" class="title h4">
                             <fmt:message key="edit.artist.enter.name"/>
                         </label>
-                        <input type="text" id="artistName" name="name" required
-                               class="form-control form-control-lg w-100"
+                        <input type="text" id="artistName" name="name" required minlength="4" maxlength="32"
+                               pattern="[\w\d:.'-]+" class="form-control form-control-lg w-100"
                         <c:if test="${artist != null}">
                                value="${artist.getName()}"
                         </c:if>>

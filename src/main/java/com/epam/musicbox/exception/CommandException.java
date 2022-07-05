@@ -1,6 +1,7 @@
 package com.epam.musicbox.exception;
 
 public class CommandException extends Exception {
+
     public CommandException() {
     }
 

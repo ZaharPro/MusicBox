@@ -22,7 +22,7 @@
                 <c:choose>
                     <c:when test="${album != null && album.getPicture() != null}">
                         <img class="card-img"
-                             src="${pageContext.request.contextPath}/file/img/${album.getPicture() != null}">
+                             src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                     </c:when>
                     <c:otherwise>
                         <img class="card-img" src="${pageContext.request.contextPath}/system/img/default-album.png">
