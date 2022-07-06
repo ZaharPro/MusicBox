@@ -1,9 +1,11 @@
 package com.epam.musicbox.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class User implements Entity {
+public class User implements Entity, Serializable {
 
+    private static final long serialVersionUID = -2088667589661182477L;
     private Long id;
     private String login;
     private String email;
@@ -109,6 +111,15 @@ public class User implements Entity {
 
     @Override
     public String toString() {
-        return new StringBuilder("User{").append("id=").append(id).append(", login='").append(login).append('\'').append(", email='").append(email).append('\'').append(", password='").append(password).append('\'').append(", role=").append(role).append(", banned=").append(banned).append(", registration=").append(registration).append('}').toString();
+        return new StringBuilder("User{")
+                .append("id=").append(id)
+                .append(", login='").append(login).append('\'')
+                .append(", email='").append(email).append('\'')
+                .append(", password='").append(password).append('\'')
+                .append(", role=").append(role)
+                .append(", banned=").append(banned)
+                .append(", registration=").append(registration)
+                .append('}')
+                .toString();
     }
 }

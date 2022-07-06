@@ -24,7 +24,6 @@ import java.util.Optional;
 
 public class AccessFilter implements Filter {
 
-    private static final String UNAUTHORIZED_MSG = "Unauthorized";
     private static final String SESSION_TIMEOUT_MSG = "Session timeout";
     private static final String PERMISSION_DENIED_MSG = "Permission denied";
     private static final String USER_BANNED_MSG = "User banned";

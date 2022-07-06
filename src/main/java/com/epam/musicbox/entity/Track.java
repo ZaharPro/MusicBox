@@ -1,7 +1,10 @@
 package com.epam.musicbox.entity;
 
-public class Track implements Entity {
+import java.io.Serializable;
 
+public class Track implements Entity, Serializable {
+
+    private static final long serialVersionUID = -3330908376356894184L;
     private Long id;
     private String name;
     private String audio;

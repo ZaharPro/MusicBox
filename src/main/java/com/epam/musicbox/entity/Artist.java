@@ -1,7 +1,10 @@
 package com.epam.musicbox.entity;
 
-public class Artist implements Entity {
+import java.io.Serializable;
 
+public class Artist implements Entity, Serializable {
+
+    private static final long serialVersionUID = -6250596912678318522L;
     private Long id;
     private String name;
     private String avatar;
