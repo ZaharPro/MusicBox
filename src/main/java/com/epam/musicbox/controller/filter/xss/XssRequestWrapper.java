@@ -5,10 +5,18 @@ import jakarta.servlet.http.HttpServletRequestWrapper;
 
 import java.util.regex.Pattern;
 
+/**
+ * The type Xss request wrapper removing tags.
+ */
 public class XssRequestWrapper extends HttpServletRequestWrapper {
 
     private static final Pattern tagPattern = Pattern.compile("[<>]");
 
+    /**
+     * Instantiates a new Xss request wrapper.
+     *
+     * @param request the http request
+     */
     public XssRequestWrapper(HttpServletRequest request) {
         super(request);
     }

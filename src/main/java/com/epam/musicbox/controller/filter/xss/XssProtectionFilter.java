@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 
+/**
+ * The type Xss protection filter.
+ */
 @WebFilter(urlPatterns = {"/*"})
 public class XssProtectionFilter implements Filter {
 

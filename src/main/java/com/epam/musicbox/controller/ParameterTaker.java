@@ -12,14 +12,17 @@ import org.apache.logging.log4j.Logger;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * The type Parameter taker.
+ */
 public final class ParameterTaker {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public static final String JWT_VALUE_NOT_FOUND_MSG = "Jwt value not found: ";
-    public static final String JWT_VALUE_ERROR_MSG = "Jwt value not found: ";
-    public static final String REQ_INVALID_PARAMETER_MSG = "Invalid parameter: ";
-    public static final String REQ_PARAMETER_ERROR_MSG = "Invalid parameter: ";
+    private static final String JWT_VALUE_NOT_FOUND_MSG = "Jwt value not found: ";
+    private static final String JWT_VALUE_ERROR_MSG = "Jwt value not found: ";
+    private static final String REQ_INVALID_PARAMETER_MSG = "Invalid parameter: ";
+    private static final String REQ_PARAMETER_ERROR_MSG = "Invalid parameter: ";
 
     private static final Function<String, Integer> INT_MAPPER = Integer::parseInt;
     private static final Function<String, Long> LONG_MAPPER = Long::parseLong;
@@ -32,6 +35,15 @@ public final class ParameterTaker {
     private ParameterTaker() {
     }
 
+    /**
+     * Gets optional.
+     *
+     * @param <T>       the type parameter
+     * @param body      the body
+     * @param paramName the param name
+     * @param function  the function
+     * @return the optional
+     */
     public static <T> Optional<T> getOptional(Claims body,
                                               String paramName,
                                               Function<String, T> function) {
@@ -47,6 +59,14 @@ public final class ParameterTaker {
         }
     }
 
+    /**
+     * Gets long.
+     *
+     * @param body      the body
+     * @param paramName the param name
+     * @return the long
+     * @throws ServiceException the service exception
+     */
     public static long getLong(Claims body,
                                String paramName) throws ServiceException {
         return ParameterTaker.getOptional(body, paramName, LONG_MAPPER).orElseThrow(() -> {
@@ -54,12 +74,28 @@ public final class ParameterTaker {
         });
     }
 
+    /**
+     * Gets role.
+     *
+     * @param body the body
+     * @return the role
+     * @throws ServiceException the service exception
+     */
     public static Role getRole(Claims body) throws ServiceException {
         return ParameterTaker.getOptional(body, Parameter.ROLE, ROLE_MAPPER).orElseThrow(() -> {
             return new ServiceException(JWT_VALUE_NOT_FOUND_MSG + Parameter.ROLE);
         });
     }
 
+    /**
+     * Gets optional.
+     *
+     * @param <T>       the type parameter
+     * @param req       the http request
+     * @param paramName the param name
+     * @param function  the function
+     * @return the optional
+     */
     public static <T> Optional<T> getOptional(HttpServletRequest req,
                                               String paramName,
                                               Function<String, T> function) {
@@ -75,36 +111,86 @@ public final class ParameterTaker {
         }
     }
 
+    /**
+     * Gets optional long.
+     *
+     * @param req       the http request
+     * @param paramName the param name
+     * @return the optional long
+     */
     public static Optional<Long> getOptionalLong(HttpServletRequest req, String paramName) {
         return ParameterTaker.getOptional(req, paramName, LONG_MAPPER);
     }
 
+    /**
+     * Gets long.
+     *
+     * @param req       the http request
+     * @param paramName the param name
+     * @return the long
+     * @throws ServiceException the service exception
+     */
     public static long getLong(HttpServletRequest req, String paramName) throws ServiceException {
         return ParameterTaker.getOptional(req, paramName, LONG_MAPPER).orElseThrow(() -> {
             return new ServiceException(REQ_INVALID_PARAMETER_MSG + paramName);
         });
     }
 
+    /**
+     * Gets boolean.
+     *
+     * @param req       the http request
+     * @param paramName the param name
+     * @return the boolean
+     * @throws ServiceException the service exception
+     */
     public static boolean getBoolean(HttpServletRequest req, String paramName) throws ServiceException {
         return ParameterTaker.getOptional(req, paramName, BOOLEAN_MAPPER).orElseThrow(() -> {
             return new ServiceException(REQ_INVALID_PARAMETER_MSG + paramName);
         });
     }
 
+    /**
+     * Gets role.
+     *
+     * @param req the http request
+     * @return the role
+     * @throws ServiceException the service exception
+     */
     public static Role getRole(HttpServletRequest req) throws ServiceException {
         return ParameterTaker.getOptional(req, Parameter.ROLE, ROLE_MAPPER).orElseThrow(() -> {
             return new ServiceException(REQ_INVALID_PARAMETER_MSG + Parameter.ROLE);
         });
     }
 
+    /**
+     * Gets page.
+     *
+     * @param req       the http request
+     * @param paramName the param name
+     * @return the page
+     */
     public static int getPage(HttpServletRequest req, String paramName) {
         return ParameterTaker.getOptional(req, paramName, INT_MAPPER).orElse(FIRST_PAGE);
     }
 
+    /**
+     * Gets page size.
+     *
+     * @param req       the http request
+     * @param paramName the param name
+     * @return the page size
+     */
     public static int getPageSize(HttpServletRequest req, String paramName) {
         return ParameterTaker.getOptional(req, paramName, INT_MAPPER).orElse(DEFAULT_PAGE_SIZE);
     }
 
+    /**
+     * Gets name.
+     *
+     * @param req the http request
+     * @return the name
+     */
     public static Optional<String> getName(HttpServletRequest req) {
         String name = req.getParameter(Parameter.NAME);
         Validator validator = ValidatorImpl.getInstance();

@@ -5,16 +5,30 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * The type Proxy connection.
+ */
 public class ProxyConnection implements Connection {
 
     private final ConnectionPool pool;
     private final Connection core;
 
+    /**
+     * Instantiates a new Proxy connection.
+     *
+     * @param pool the pool
+     * @param core the core
+     */
     ProxyConnection(ConnectionPool pool, Connection core) {
         this.pool = pool;
         this.core = core;
     }
 
+    /**
+     * Close connection.
+     *
+     * @throws SQLException the sql exception
+     */
     void closeConnection() throws SQLException {
         core.close();
     }

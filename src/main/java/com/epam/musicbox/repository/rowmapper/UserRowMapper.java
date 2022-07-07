@@ -7,6 +7,9 @@ import com.epam.musicbox.exception.RepositoryException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type User row mapper.
+ */
 public class UserRowMapper implements RowMapper<User> {
 
     private static final String ROW_USER_ID = "user_id";
@@ -22,6 +25,11 @@ public class UserRowMapper implements RowMapper<User> {
     private UserRowMapper() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static UserRowMapper getInstance() {
         return instance;
     }

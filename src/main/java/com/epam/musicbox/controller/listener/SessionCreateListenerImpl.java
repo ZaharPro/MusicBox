@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpSessionListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Session create listener.
+ */
 @WebListener
 public class SessionCreateListenerImpl implements HttpSessionListener {
 

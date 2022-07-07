@@ -1,5 +1,8 @@
 package com.epam.musicbox.controller.command;
 
+/**
+ * The enum Command type.
+ */
 public enum CommandType {
     //page
     SIGN_UP_PAGE("sign-up-page"),
@@ -87,10 +90,21 @@ public enum CommandType {
         this.name = name;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Find by name command type.
+     *
+     * @param name the name
+     * @return the command type
+     */
     public static CommandType findByName(String name) {
         if (name == null)
             return null;

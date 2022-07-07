@@ -5,6 +5,9 @@ import com.epam.musicbox.exception.RepositoryException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Boolean row mapper.
+ */
 public class BooleanRowMapper implements RowMapper<Boolean> {
 
     private static final int BOOLEAN_COL_INDEX = 1;
@@ -14,6 +17,11 @@ public class BooleanRowMapper implements RowMapper<Boolean> {
     private BooleanRowMapper() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static BooleanRowMapper getInstance() {
         return instance;
     }

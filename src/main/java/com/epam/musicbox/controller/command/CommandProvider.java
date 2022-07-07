@@ -16,6 +16,9 @@ import com.epam.musicbox.controller.command.impl.user.*;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * The type Command provider.
+ */
 public class CommandProvider {
 
     private static final CommandProvider instance = new CommandProvider();
@@ -97,10 +100,21 @@ public class CommandProvider {
         this.commands = commands;
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CommandProvider getInstance() {
         return instance;
     }
 
+    /**
+     * Get command by command type.
+     *
+     * @param type the command type
+     * @return the command
+     */
     public Command get(CommandType type) {
         return commands.get(type);
     }

@@ -1,5 +1,8 @@
 package com.epam.musicbox.entity;
 
+/**
+ * The enum Role.
+ */
 public enum Role implements Entity {
 
     GUEST(-1, "guest"),
@@ -14,14 +17,30 @@ public enum Role implements Entity {
         this.name = name;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Find by name role.
+     *
+     * @param name the name
+     * @return the role
+     */
     public static Role findByName(String name) {
         for (Role role : Role.values()) {
             if (role.getName().equals(name)) {

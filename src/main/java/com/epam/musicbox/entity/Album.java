@@ -2,6 +2,9 @@ package com.epam.musicbox.entity;
 
 import java.io.Serializable;
 
+/**
+ * The type Album.
+ */
 public class Album implements Entity, Serializable {
 
     private static final long serialVersionUID = 1827397228126636927L;
@@ -9,35 +12,75 @@ public class Album implements Entity, Serializable {
     private String name;
     private String picture;
 
+    /**
+     * Instantiates a new Album.
+     */
     public Album() {
     }
 
+    /**
+     * Instantiates a new Album.
+     *
+     * @param id      the id
+     * @param name    the name
+     * @param picture the picture
+     */
     public Album(Long id, String name, String picture) {
         this.id = id;
         this.name = name;
         this.picture = picture;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets picture.
+     *
+     * @return the picture
+     */
     public String getPicture() {
         return picture;
     }
 
+    /**
+     * Sets picture.
+     *
+     * @param picture the picture
+     */
     public void setPicture(String picture) {
         this.picture = picture;
     }

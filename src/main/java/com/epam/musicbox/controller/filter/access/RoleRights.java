@@ -5,6 +5,9 @@ import com.epam.musicbox.entity.Role;
 
 import java.util.*;
 
+/**
+ * The type Role rights.
+ */
 public class RoleRights {
 
     private static final RoleRights instance = new RoleRights();
@@ -75,6 +78,11 @@ public class RoleRights {
         this.map = map;
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static RoleRights getInstance() {
         return instance;
     }
@@ -83,6 +91,13 @@ public class RoleRights {
         return EnumSet.copyOf(Arrays.asList(commandTypes));
     }
 
+    /**
+     * Is exist command type for role.
+     *
+     * @param role the user role
+     * @param type the command type
+     * @return the boolean
+     */
     public boolean isExistCommandType(Role role, CommandType type) {
         Set<CommandType> commands = map.get(role);
         return commands != null && commands.contains(type);

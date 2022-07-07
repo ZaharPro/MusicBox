@@ -22,6 +22,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The type Access filter.
+ */
 public class AccessFilter implements Filter {
 
     private static final String SESSION_TIMEOUT_MSG = "Session timeout";

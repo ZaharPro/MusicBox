@@ -10,14 +10,17 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+/**
+ * The type Locale tag. Print locale name.
+ */
 public class LocaleTag extends TagSupport {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public static final String LOCALE_EN = "en_EN";
-    public static final String LOCALE_RU = "ru_RU";
-    public static final String EN = "En";
-    public static final String RU = "Ru";
+    private static final String LOCALE_EN = "en_EN";
+    private static final String LOCALE_RU = "ru_RU";
+    private static final String EN = "En";
+    private static final String RU = "Ru";
 
     @Override
     public int doStartTag() throws JspTagException {

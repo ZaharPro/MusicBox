@@ -5,6 +5,9 @@ import com.epam.musicbox.exception.RepositoryException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Count row mapper.
+ */
 public class CountRowMapper implements RowMapper<Long> {
 
     private static final int COUNT_COL_INDEX = 1;
@@ -14,6 +17,11 @@ public class CountRowMapper implements RowMapper<Long> {
     private CountRowMapper() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CountRowMapper getInstance() {
         return instance;
     }

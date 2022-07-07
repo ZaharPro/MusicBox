@@ -15,6 +15,9 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+/**
+ * The type Role filter initialized user role.
+ */
 @WebFilter(urlPatterns = {"/*"})
 public class RoleFilter implements Filter {
 

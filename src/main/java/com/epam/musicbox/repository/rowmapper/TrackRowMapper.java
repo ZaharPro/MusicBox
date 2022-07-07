@@ -6,6 +6,9 @@ import com.epam.musicbox.exception.RepositoryException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Track row mapper.
+ */
 public class TrackRowMapper implements RowMapper<Track> {
 
     private static final String ROW_TRACK_ID = "track_id";
@@ -18,6 +21,11 @@ public class TrackRowMapper implements RowMapper<Track> {
     private TrackRowMapper() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static TrackRowMapper getInstance() {
         return instance;
     }

@@ -2,6 +2,9 @@ package com.epam.musicbox.entity;
 
 import java.io.Serializable;
 
+/**
+ * The type Artist.
+ */
 public class Artist implements Entity, Serializable {
 
     private static final long serialVersionUID = -6250596912678318522L;
@@ -9,35 +12,75 @@ public class Artist implements Entity, Serializable {
     private String name;
     private String avatar;
 
+    /**
+     * Instantiates a new Artist.
+     */
     public Artist() {
     }
 
+    /**
+     * Instantiates a new Artist.
+     *
+     * @param id     the id
+     * @param name   the name
+     * @param avatar the avatar
+     */
     public Artist(Long id, String name, String avatar) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets avatar.
+     *
+     * @return the avatar
+     */
     public String getAvatar() {
         return avatar;
     }
 
+    /**
+     * Sets avatar.
+     *
+     * @param avatar the avatar
+     */
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }

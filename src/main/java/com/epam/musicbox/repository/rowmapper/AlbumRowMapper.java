@@ -6,6 +6,9 @@ import com.epam.musicbox.exception.RepositoryException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Album row mapper.
+ */
 public class AlbumRowMapper implements RowMapper<Album> {
 
     private static final String ROW_ALBUM_ID = "album_id";
@@ -17,6 +20,11 @@ public class AlbumRowMapper implements RowMapper<Album> {
     private AlbumRowMapper() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static AlbumRowMapper getInstance() {
         return instance;
     }

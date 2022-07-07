@@ -2,6 +2,9 @@ package com.epam.musicbox.entity;
 
 import java.io.Serializable;
 
+/**
+ * The type Playlist.
+ */
 public class Playlist implements Entity, Serializable {
 
     private static final long serialVersionUID = -8893393159729478875L;
@@ -10,9 +13,20 @@ public class Playlist implements Entity, Serializable {
     private String picture;
     private long userId;
 
+    /**
+     * Instantiates a new Playlist.
+     */
     public Playlist() {
     }
 
+    /**
+     * Instantiates a new Playlist.
+     *
+     * @param id      the id
+     * @param name    the name
+     * @param picture the picture
+     * @param userId  the user id
+     */
     public Playlist(Long id, String name, String picture, long userId) {
         this.id = id;
         this.name = name;
@@ -20,34 +34,74 @@ public class Playlist implements Entity, Serializable {
         this.userId = userId;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets picture.
+     *
+     * @return the picture
+     */
     public String getPicture() {
         return picture;
     }
 
+    /**
+     * Sets picture.
+     *
+     * @param picture the picture
+     */
     public void setPicture(String picture) {
         this.picture = picture;
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public long getUserId() {
         return userId;
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(long userId) {
         this.userId = userId;
     }

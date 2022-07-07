@@ -19,6 +19,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Controller. Command executor.
+ */
 @WebServlet(name = "controller", urlPatterns = "/controller")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 10,

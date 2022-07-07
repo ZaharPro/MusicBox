@@ -1,5 +1,8 @@
 package com.epam.musicbox.controller;
 
+/**
+ * The type Parameter.
+ */
 public final class Parameter {
 
     public static final String LOGIN = "login";

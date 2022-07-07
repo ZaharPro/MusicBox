@@ -5,12 +5,20 @@ import com.epam.musicbox.entity.Role;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.jsp.tagext.TagSupport;
 
+/**
+ * The type Access tag. Include body if actual role equals expected.
+ */
 public class AccessTag extends TagSupport {
 
-    public static final String NOT_GUEST = "not-guest";
+    private static final String NOT_GUEST = "not-guest";
 
     private String role;
 
+    /**
+     * Sets role.
+     *
+     * @param role the role
+     */
     public void setRole(String role) {
         this.role = role;
     }

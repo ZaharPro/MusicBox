@@ -9,10 +9,13 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+/**
+ * The type Locale filter initialized locale.
+ */
 @WebFilter(urlPatterns = {"/*"})
 public class LocaleFilter implements Filter {
 
-    public static final String DEFAULT_LOCALE = "en_EN";
+    private static final String DEFAULT_LOCALE = "en_EN";
 
     @Override
     public void doFilter(ServletRequest servletRequest,

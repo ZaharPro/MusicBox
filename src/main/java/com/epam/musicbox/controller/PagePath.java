@@ -1,5 +1,8 @@
 package com.epam.musicbox.controller;
 
+/**
+ * The type Page path.
+ */
 public final class PagePath {
 
     public static final String HOME = "/jsp/pages/home.jsp";
