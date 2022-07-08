@@ -26,7 +26,7 @@ public class UserRepositoryImpl implements UserRepository {
                                                  "VALUES (?,?,?,?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE users " +
-                                                 "SET login=?, password=?, email=?, role_id, banned=? " +
+                                                 "SET login=?, password=?, email=?, role_id=?, banned=? " +
                                                  "WHERE user_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM users " +

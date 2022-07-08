@@ -40,19 +40,19 @@
                         <label for="albumName" class="title h4">
                             <fmt:message key="edit.album.enter.name"/>
                         </label>
-                        <input type="text" id="albumName" name="name" required minlength="4" maxlength="32"
-                               pattern="[\w\d:.'-]+" class="form-control form-control-lg w-100"
+                        <input type="text" id="albumName" name="name" class="form-control form-control-lg w-100"
+                               required minlength="4" maxlength="32" pattern="[\w\d:.'-]+"
                         <c:if test="${album != null}">
                                value="${album.getName()}"
                         </c:if>>
                     </div>
 
                     <div class="col-7">
-                        <div class="file-drop-area h-100 p-3">
-                            <label for="picture" class="text-center">
+                        <div class="file-drop-area f-col justify-content-center align-items-center h-100 p-3">
+                            <label for="picture" class="h5">
                                 <fmt:message key="edit.album.upload.picture"/>
                             </label>
-                            <input class="file-input w-100" id="picture" type="file" name="picture"
+                            <input class="file-input" id="picture" type="file" name="picture"
                                    accept=".png, .jpg, .jpeg, .gif">
                         </div>
                     </div>

@@ -70,26 +70,28 @@
                                     </c:otherwise>
                                 </c:choose>
                             </div>
-                            <div class="col-3">
-                                <form method="post"
-                                      action="${pageContext.request.contextPath}/controller?command=user-set-ban">
-                                    <input type="hidden" name="userid" value="${user.getId()}"/>
-                                    <c:choose>
-                                        <c:when test="${user.getBanned() == true}">
-                                            <input type="hidden" value="false"/>
-                                            <button type="submit" class="btn btn-sm w-100">
-                                                <fmt:message key="user.unban"/>
-                                            </button>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <input type="hidden" value="true"/>
-                                            <button type="submit" class="btn btn-sm w-100">
-                                                <fmt:message key="user.ban"/>
-                                            </button>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </form>
-                            </div>
+                            <c:if test="${canban}">
+                                <div class="col-3">
+                                    <form method="post"
+                                          action="${pageContext.request.contextPath}/controller?command=user-set-ban">
+                                        <input type="hidden" name="userid" value="${user.getId()}"/>
+                                        <c:choose>
+                                            <c:when test="${user.getBanned() == true}">
+                                                <input type="hidden" name="banned" value="false"/>
+                                                <button type="submit" class="btn btn-sm w-100">
+                                                    <fmt:message key="user.unban"/>
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input type="hidden" name="banned" value="true"/>
+                                                <button type="submit" class="btn btn-sm w-100">
+                                                    <fmt:message key="user.ban"/>
+                                                </button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </form>
+                                </div>
+                            </c:if>
                         </div>
                         <div class="row">
                             <div class="col f-col align-items-center">
@@ -97,24 +99,24 @@
                                     <a class="f-col justify-content-center img-link img-link-sm"
                                        style="background-image: url('/system/img/liked-track.png');"
                                        href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks&userid=${user.getId()}">
-                                        <fmt:message key="user.tracks"/>
+                                        <fmt:message key="user.tracks"/> (${trackcount})
                                     </a>
                                     <a class="f-col justify-content-center img-link img-link-sm ml-1"
                                        style="background-image: url('/system/img/liked-album.png');"
                                        href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums&userid=${user.getId()}">
-                                        <fmt:message key="user.albums"/>
+                                        <fmt:message key="user.albums"/> (${albumcount})
                                     </a>
                                 </div>
                                 <div class="row justify-content-center mt-1">
                                     <a class="f-col justify-content-center img-link img-link-sm"
                                        style="background-image: url('/system/img/liked-artist.png');"
                                        href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists&userid=${user.getId()}">
-                                        <fmt:message key="user.artists"/>
+                                        <fmt:message key="user.artists"/> (${artistcount})
                                     </a>
                                     <a class="f-col justify-content-center img-link img-link-sm ml-1"
                                        style="background-image: url('/system/img/playlist.png');"
                                        href="${pageContext.request.contextPath}/controller?command=user-get-playlists&userid=${user.getId()}">
-                                        <fmt:message key="user.playlists"/>
+                                        <fmt:message key="user.playlists"/> (${playlistcount})
                                     </a>
                                 </div>
                             </div>
@@ -123,10 +125,10 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="f-col justify-content-center h-100">
-                    <h2 class="title text-center mb-2">
+                <div class="col f-col justify-content-center h-100">
+                    <h4 class="text-info text-center mb-2">
                         <fmt:message key="user.not.found"/>
-                    </h2>
+                    </h4>
                 </div>
             </c:otherwise>
         </c:choose>

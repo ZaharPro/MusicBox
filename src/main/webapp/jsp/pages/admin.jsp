@@ -16,7 +16,7 @@
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
 <div class="container f-col h-100 pt-2 pb-2">
-    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark align-items-center">
+    <div class="card col f-col h-100 pt-5 pb-3 mb-0 bg-dark align-items-center">
         <h2 class="title">
             <fmt:message key="admin.title"/>
         </h2>
@@ -24,7 +24,7 @@
         <h4 class="mt-3">
             <fmt:message key="admin.manage"/>
         </h4>
-        <div class="btn-group btn-group-sm col-2 f-col">
+        <div class="btn-group btn-group-sm f-col">
             <a class="btn w-100 mt-2"
                href="${pageContext.request.contextPath}/controller?command=edit-track-page">
                 <fmt:message key="admin.add.track"/>

@@ -10,7 +10,7 @@ public class ValidatorImpl implements Validator {
     private static final String PASSWORD_REGEX = "[A-Za-z\\d@$!%*#?&]{8,32}";
     private static final String EMAIL_REGEX =
             "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
-    private static final String NAME_REGEX = "^([\\w\\d:.'-]{4,32})$";
+    private static final String NAME_REGEX = "^([\\w\\d:.'-]{2,32})$";
 
     private static final ValidatorImpl instance = new ValidatorImpl();
 

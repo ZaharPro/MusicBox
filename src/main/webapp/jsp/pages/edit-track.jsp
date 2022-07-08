@@ -57,18 +57,18 @@
                 <label for="trackName" class="title h4">
                     <fmt:message key="edit.track.enter.name"/>
                 </label>
-                <input type="text" id="trackName" name="name" required minlength="4" maxlength="32"
-                       pattern="[\w\d:.'-]+"
+                <input type="text" id="trackName" name="name" class="form-control form-control-lg w-100"
+                       required minlength="4" maxlength="32" pattern="[\w\d:.'-]+"
                 <c:if test="${track != null}">
                        value="${track.getName()}"
                 </c:if>>
             </div>
             <div class="col-7 f-col h-100">
-                <div class="file-drop-area h-100 p-3 ">
-                    <label for="picture" class="text-center">
+                <div class="file-drop-area f-col justify-content-center align-items-center h-100 p-3">
+                    <label for="picture" class="h5">
                         <fmt:message key="edit.track.upload.track"/>
                     </label>
-                    <input class="file-input w-100" id="picture" type="file" name="audio" accept=".wav, .mp3">
+                    <input class="file-input" id="picture" type="file" name="audio" accept=".wav, .mp3">
                 </div>
             </div>
 

@@ -20,11 +20,12 @@
 
 <div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <h2 class="title text-center mb-2">
-            <fmt:message key="tracks.title"/>
-        </h2>
         <c:choose>
             <c:when test="${trackpsr.hasElements()}">
+                <h2 class="title text-center mb-2">
+                    <fmt:message key="tracks.title"/>
+                    <span class="h6 text-info">(${trackpsr.getCount()})</span>
+                </h2>
                 <div class="f-col h-100">
                     <div class="list-group list-group-flush bg-light h-100 mb-2">
                         <c:forEach items="${trackpsr.getElements()}" var="track">
@@ -42,10 +43,13 @@
                 </div>
             </c:when>
             <c:otherwise>
+                <h2 class="title text-center mb-2">
+                    <fmt:message key="tracks.title"/>
+                </h2>
                 <div class="col f-col justify-content-center h-100">
-                    <h2 class="title text-center mb-2">
+                    <h4 class="text-info text-center mb-2">
                         <fmt:message key="tracks.empty"/>
-                    </h2>
+                    </h4>
                 </div>
             </c:otherwise>
         </c:choose>

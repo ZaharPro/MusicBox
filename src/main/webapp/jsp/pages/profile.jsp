@@ -22,30 +22,30 @@
         </h2>
         <div class="col-auto">
             <div class="d-flex mb-3">
-                <h4 class="text-primary mr-5">
+                <h4 class="h4 text-primary mr-3">
                     <fmt:message key="user.login"/>
                 </h4>
-                <div class="text-info">
+                <span class="text-info">
                     ${user.getLogin()}
-                </div>
+                </span>
             </div>
             <div class="d-flex mb-3">
-                <h4 class="text-primary mr-5">
+                <h4 class="h4 text-primary mr-3">
                     <fmt:message key="user.email"/>
                 </h4>
-                <div class="text-info">
+                <span class="text-info">
                     ${user.getEmail()}
-                </div>
+                </span>
             </div>
             <c:choose>
                 <c:when test="${user.getBanned() == true}">
                     <div class="d-flex mb-5 align-items-center">
-                        <h4 class="text-primary mr-5">
+                        <h4 class="h4 text-primary mr-3">
                             <fmt:message key="user.status"/>
                         </h4>
-                        <div class="text-info">
+                        <span class="text-info">
                             <fmt:message key="user.banned"/>
-                        </div>
+                        </span>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -63,24 +63,24 @@
                         <a class="f-col justify-content-center img-link img-link-sm"
                            style="background-image: url('/system/img/liked-track.png');"
                            href="${pageContext.request.contextPath}/controller?command=user-get-liked-tracks">
-                            <fmt:message key="user.tracks"/>
+                            <fmt:message key="user.tracks"/> (${trackcount})
                         </a>
                         <a class="f-col justify-content-center img-link img-link-sm ml-1"
                            style="background-image: url('/system/img/liked-album.png');"
                            href="${pageContext.request.contextPath}/controller?command=user-get-liked-albums">
-                            <fmt:message key="user.albums"/>
+                            <fmt:message key="user.albums"/> (${albumcount})
                         </a>
                     </div>
                     <div class="row justify-content-center mt-1">
                         <a class="f-col justify-content-center img-link img-link-sm"
                            style="background-image: url('/system/img/liked-artist.png');"
                            href="${pageContext.request.contextPath}/controller?command=user-get-liked-artists">
-                            <fmt:message key="user.artists"/>
+                            <fmt:message key="user.artists"/> (${artistcount})
                         </a>
                         <a class="f-col justify-content-center img-link img-link-sm ml-1"
                            style="background-image: url('/system/img/playlist.png');"
                            href="${pageContext.request.contextPath}/controller?command=user-get-playlists">
-                            <fmt:message key="user.playlists"/>
+                            <fmt:message key="user.playlists"/> (${playlistcount})
                         </a>
                     </div>
                 </div>

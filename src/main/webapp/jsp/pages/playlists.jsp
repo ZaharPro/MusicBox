@@ -20,11 +20,16 @@
 
 <div class="container f-col h-100 pt-2 pb-2">
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <h2 class="title text-center mb-2">
-            <fmt:message key="playlists.title"/>
-        </h2>
         <c:choose>
             <c:when test="${playlistpsr.hasElements()}">
+                <h2 class="title text-center mb-2">
+                    <fmt:message key="playlists.title"/>
+                    <span class="h6 text-info">(${playlistpsr.getCount()})</span>
+                </h2>
+                <a class="btn btn-sm" style="position: absolute; right: 1rem;"
+                   href="${pageContext.request.contextPath}/controller?command=edit-playlist-page">
+                    <fmt:message key="playlists.add.playlist"/>
+                </a>
                 <div class="f-col h-100">
                     <div class="list-group list-group-flush bg-light h-100 mb-2">
                         <c:forEach items="${playlistpsr.getElements()}" var="playlist">
@@ -52,10 +57,13 @@
                 </div>
             </c:when>
             <c:otherwise>
+                <h2 class="title text-center mb-2">
+                    <fmt:message key="playlists.title"/>
+                </h2>
                 <div class="col f-col justify-content-center h-100">
-                    <h2 class="title text-center mb-2">
+                    <h4 class="text-info text-center mb-2">
                         <fmt:message key="playlists.empty"/>
-                    </h2>
+                    </h4>
                 </div>
             </c:otherwise>
         </c:choose>

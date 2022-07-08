@@ -23,6 +23,7 @@ public final class Parameter {
     public static final String INVALIDATE = "invalidate";
     public static final String LIKE = "like";
     public static final String LOCALE = "locale";
+    public static final String CAN_BAN = "canban";
 
     public static final String IMG_DIR = "img";
     public static final String AUDIO_DIR = "audio";
@@ -56,6 +57,11 @@ public final class Parameter {
     public static final String ALBUM_PAGE_SEARCH_RESULT = ALBUM + "psr";
     public static final String ARTIST_PAGE_SEARCH_RESULT = ARTIST + "psr";
     public static final String PLAYLIST_PAGE_SEARCH_RESULT = PLAYLIST + "psr";
+
+    public static final String TRACK_COUNT = TRACK + "count";
+    public static final String ALBUM_COUNT = ALBUM + "count";
+    public static final String ARTIST_COUNT = ARTIST + "count";
+    public static final String PLAYLIST_COUNT = PLAYLIST + "count";
 
     private Parameter() {
     }

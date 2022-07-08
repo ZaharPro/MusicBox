@@ -46,7 +46,7 @@ body {
 
 .list-group-item {
     flex: 1;
-    max-height: 6rem;
+    max-height: 5rem;
 }
 
 .tr-link td {

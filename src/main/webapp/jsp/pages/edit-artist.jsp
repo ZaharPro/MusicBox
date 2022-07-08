@@ -39,19 +39,19 @@
                         <label for="artistName" class="title h4">
                             <fmt:message key="edit.artist.enter.name"/>
                         </label>
-                        <input type="text" id="artistName" name="name" required minlength="4" maxlength="32"
-                               pattern="[\w\d:.'-]+" class="form-control form-control-lg w-100"
+                        <input type="text" id="artistName" name="name" class="form-control form-control-lg w-100"
+                               required minlength="4" maxlength="32" pattern="[\w\d:.'-]+"
                         <c:if test="${artist != null}">
                                value="${artist.getName()}"
                         </c:if>>
                     </div>
 
                     <div class="col-7">
-                        <div class="file-drop-area h-100 p-3">
-                            <label for="avatar" class="text-center">
+                        <div class="file-drop-area f-col justify-content-center align-items-center h-100 p-3">
+                            <label for="avatar" class="h5">
                                 <fmt:message key="edit.artist.upload.avatar"/>
                             </label>
-                            <input class="file-input w-100" id="avatar" type="file" name="avatar"
+                            <input class="file-input" id="avatar" type="file" name="avatar"
                                    accept=".png, .jpg, .jpeg, .gif">
                         </div>
                     </div>

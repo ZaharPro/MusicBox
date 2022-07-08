@@ -30,7 +30,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
                                                  "VALUES (?,?,?)";
 
     private static final String SQL_UPDATE_ONE = "UPDATE playlists " +
-                                                 "SET name=?, picture=? user_id=? " +
+                                                 "SET name=?, picture=?, user_id=? " +
                                                  "WHERE playlist_id=?";
 
     private static final String SQL_DELETE_BY_ID = "DELETE FROM playlists " +

@@ -34,7 +34,10 @@ public class ProfilePageCommand extends PageCommand {
             User user = userService.findById(userId)
                     .orElseThrow(() -> new CommandException(USER_NOT_FOUND_MSG));
             req.setAttribute(Parameter.USER, user);
-
+            req.setAttribute(Parameter.TRACK_COUNT, userService.countLikedTracks(userId));
+            req.setAttribute(Parameter.ALBUM_COUNT, userService.countLikedAlbums(userId));
+            req.setAttribute(Parameter.ARTIST_COUNT, userService.countLikedArtists(userId));
+            req.setAttribute(Parameter.PLAYLIST_COUNT, userService.countPlaylists(userId));
             return super.execute(req);
         } catch (ServiceException e) {
             throw new CommandException(e.getMessage(), e);

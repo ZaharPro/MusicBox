@@ -22,8 +22,9 @@
     <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
         <h2 class="title text-center mb-2">
             <fmt:message key="users.title"/>
+            <span class="h6 text-info">(${userpsr.getCount()})</span>
         </h2>
-        <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="btn-group btn-group-sm">
                 <a class="btn"
                    href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=user">
@@ -91,9 +92,9 @@
             </c:when>
             <c:otherwise>
                 <div class="col f-col justify-content-center h-100">
-                    <h2 class="title text-center mb-2">
+                    <h4 class="text-info text-center mb-2">
                         <fmt:message key="users.empty"/>
-                    </h2>
+                    </h4>
                 </div>
             </c:otherwise>
         </c:choose>
