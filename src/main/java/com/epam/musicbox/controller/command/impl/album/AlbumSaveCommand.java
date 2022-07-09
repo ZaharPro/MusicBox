@@ -12,11 +12,10 @@ import com.epam.musicbox.service.AlbumService;
 import com.epam.musicbox.service.FileService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.FileServiceImpl;
-import com.epam.musicbox.util.validator.FileValidator;
 import com.epam.musicbox.util.validator.Validator;
-import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
 import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 
 import java.util.Optional;
 
@@ -24,10 +23,9 @@ public class AlbumSaveCommand implements Command {
 
     private static final String ALBUM_NOT_FOUND_MSG = "Album not found";
     private static final String INVALID_NAME_MSG = "Invalid name";
+    private static final String INVALID_FILE_MSG = "Invalid file";
 
     private static final String DEFAULT_ALBUM_NAME = "Album";
-    public static final String ALBUM_PICTURE = Parameter.ALBUM + Parameter.PICTURE;
-
     private static final String REDIRECT_URL = String.format("controller?%s=%s&%s=",
             Parameter.COMMAND,
             CommandType.EDIT_ALBUM_PAGE.getName(),
@@ -35,8 +33,11 @@ public class AlbumSaveCommand implements Command {
 
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
     private final FileService fileService = FileServiceImpl.getInstance();
-    private final FileValidator fileValidator = FileValidatorImpl.getInstance();
     private final Validator validator = ValidatorImpl.getInstance();
+
+    public static String pictureKey(long id) {
+        return Parameter.ALBUM + Parameter.PICTURE + id;
+    }
 
     @Override
     public Router execute(HttpServletRequest req) throws CommandException {
@@ -47,13 +48,13 @@ public class AlbumSaveCommand implements Command {
                 long id = optionalId.get();
                 album = albumService.findById(id).
                         orElseThrow(() -> new CommandException(ALBUM_NOT_FOUND_MSG));
-                fillAlbum(req, album);
+                fill(req, album);
             } else {
                 album = new Album(null, DEFAULT_ALBUM_NAME, null);
                 long id = albumService.save(album);
                 album.setId(id);
                 try {
-                    fillAlbum(req, album);
+                    fill(req, album);
                 } catch (Exception e) {
                     albumService.deleteById(id);
                     throw new CommandException(e.getMessage(), e);
@@ -66,17 +67,26 @@ public class AlbumSaveCommand implements Command {
         }
     }
 
-    private void fillAlbum(HttpServletRequest req, Album album) throws ServiceException {
+
+    private void fill(HttpServletRequest req, Album album) throws ServiceException {
         String name = req.getParameter(Parameter.NAME);
         if (!validator.isValidName(name)) {
             throw new ServiceException(INVALID_NAME_MSG);
         }
         album.setName(name);
-        String key = FileServiceImpl.generateKey(ALBUM_PICTURE, album.getId());
-        String picture = fileService.put(req, key, Parameter.PICTURE, false,
-                Parameter.IMG_DIR, fileValidator::isValidImageFileName);
-        if (picture != null) {
-            album.setPicture(picture);
+
+        Part part = ParameterTaker.getPart(req, Parameter.PICTURE);
+        if (part != null) {
+            String fileName = part.getSubmittedFileName();
+            if (fileName != null && !fileName.isEmpty()) {
+                if (!validator.isValidImageFileName(fileName)) {
+                    throw new ServiceException(INVALID_FILE_MSG);
+                }
+                String dir = FileService.getUploadDir(req) + FileService.IMAGE_DIR;
+                String key = pictureKey(album.getId());
+                String picture = fileService.save(dir, key, part);
+                album.setPicture(picture);
+            }
         }
     }
 }

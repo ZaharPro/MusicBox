@@ -8,6 +8,6 @@ import com.epam.musicbox.service.impl.TrackServiceImpl;
 public class TrackDeleteCommand extends DeleteCommand<Track> {
 
     public TrackDeleteCommand() {
-        super(TrackServiceImpl.getInstance(), Parameter.TRACK_ID, TrackSaveCommand.TRACK_AUDIO);
+        super(TrackServiceImpl.getInstance(), Parameter.TRACK_ID, TrackSaveCommand::audioKey);
     }
 }

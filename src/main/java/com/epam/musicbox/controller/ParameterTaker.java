@@ -2,13 +2,14 @@ package com.epam.musicbox.controller;
 
 import com.epam.musicbox.entity.Role;
 import com.epam.musicbox.exception.ServiceException;
-import com.epam.musicbox.util.validator.Validator;
-import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -183,5 +184,21 @@ public final class ParameterTaker {
      */
     public static int getPageSize(HttpServletRequest req, String paramName) {
         return ParameterTaker.getOptional(req, paramName, INT_MAPPER).orElse(DEFAULT_PAGE_SIZE);
+    }
+
+    /**
+     * Gets part.
+     *
+     * @param req  the req
+     * @param name the name
+     * @return the part
+     * @throws ServiceException the service exception
+     */
+    public static Part getPart(HttpServletRequest req, String name) throws ServiceException {
+        try {
+            return req.getPart(name);
+        } catch (IOException | ServletException e) {
+            throw new ServiceException(e);
+        }
     }
 }

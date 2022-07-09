@@ -92,7 +92,9 @@ public class EditTrackPageCommand extends PageCommand {
             String albumChooseCommand = albumChooseCommandBuilder.toString();
             req.setAttribute(ALBUM_CHOOSE_COMMAND, albumChooseCommand);
 
-            return super.execute(req);
+            Router router = super.execute(req);
+            router.setCache(false);
+            return router;
         } catch (ServiceException e) {
             throw new CommandException(e.getMessage(), e);
         }

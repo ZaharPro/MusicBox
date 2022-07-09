@@ -2,145 +2,110 @@ package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.FileService;
-import com.epam.musicbox.util.validator.FileValidator;
-import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Predicate;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class FileServiceImpl implements FileService {
 
-    private static final Logger logger = LogManager.getLogger();
-
-    private static final String INVALID_KEY_MSG = "Invalid key: ";
-    private static final String INVALID_FILE_NAME_MSG = "Invalid file name: ";
-    private static final String KEY_NOT_FOUND_MSG = "Key not found: ";
-
-    private static final String UPLOAD_ROOT_DIR = "file";
-    private static final String KEY_SEPARATOR = "_";
+    private static final String ALGORITHM = "SHA-256";
 
     private static final FileServiceImpl instance = new FileServiceImpl();
 
-    private final FileValidator validator = FileValidatorImpl.getInstance();
+    private final MessageDigest messageDigest;
+    private final Lock messageDigestLock;
 
     private FileServiceImpl() {
+        try {
+            messageDigest = MessageDigest.getInstance(ALGORITHM);
+        } catch (NoSuchAlgorithmException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+        messageDigestLock = new ReentrantLock();
     }
 
     public static FileServiceImpl getInstance() {
         return instance;
     }
 
-    public static String generateKey(String entityField, Object id) {
-        return entityField + id;
-    }
-
-    private String getRoot(HttpServletRequest req) throws IOException {
-        String root = req.getServletContext().getRealPath("") + UPLOAD_ROOT_DIR + File.separatorChar;
-        Files.createDirectories(Paths.get(root));
-        return root;
-    }
-
-    private void remove(String root, String key) throws IOException {
-        Optional<Path> oldPath = filePathByKey(root, key);
-        if (oldPath.isPresent()) {
-            Files.delete(oldPath.get());
+    @Override
+    public String save(String root, String key, Part part) throws ServiceException {
+        try {
+            remove(root, key);
+            Path rootPath = Paths.get(root);
+            Files.createDirectories(rootPath);
+            String fileName = fileName(hash(key), part.getSubmittedFileName());
+            part.write(root + fileName);
+            return fileName;
+        } catch (IOException e) {
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    private static String buildPath(String root, String dir, String fileName) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(root);
-        if (dir != null) {
-            sb.append(dir).append(File.separatorChar);
+    @Override
+    public Optional<Path> get(String root, String key) throws ServiceException {
+        try {
+            String hash = hash(key);
+            Path rootPath = Paths.get(root);
+            if (Files.exists(rootPath)) {
+                return Files.walk(rootPath)
+                        .filter(path -> hash.equals(extractKey(getFileName(path))))
+                        .findAny();
+            } else {
+                return Optional.empty();
+            }
+        } catch (IOException e) {
+            throw new ServiceException(e.getMessage(), e);
         }
-        sb.append(fileName);
-        return sb.toString();
     }
 
-    private static String getExtension(String fileName) {
+    @Override
+    public void remove(String root, String key) throws ServiceException {
+        Optional<Path> path = get(root, key);
+        if (path.isPresent()) {
+            try {
+                Files.delete(path.get());
+            } catch (IOException e) {
+                throw new ServiceException(e.getMessage(), e);
+            }
+        }
+    }
+
+    private String hash(String key) {
+        try {
+            messageDigestLock.lock();
+            byte[] hash = messageDigest.digest(key.getBytes(StandardCharsets.UTF_8));
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
+        } finally {
+            messageDigestLock.unlock();
+        }
+    }
+
+    private String fileName(String key, String file) {
+        return key + getExtension(file);
+    }
+
+    private String getExtension(String fileName) {
         int i = fileName.lastIndexOf('.');
         return i == -1 ? "" : fileName.substring(i);
     }
 
-    private static Optional<Path> filePathByKey(String root, String key) throws IOException {
-        return Files.walk(Paths.get(root))
-                .filter(path -> key.equals(extractKey(getFileName(path))))
-                .findAny();
+    private String extractKey(String fileName) {
+        int i = fileName.indexOf('.');
+        return i == -1 ? fileName : fileName.substring(0, i);
     }
 
-    private static String extractKey(String fileName) {
-        String[] parts = fileName.split(KEY_SEPARATOR);
-        if (parts.length == 0) {
-            logger.error(KEY_NOT_FOUND_MSG + fileName);
-            return null;
-        }
-        return parts[0];
-    }
-
-    private static String getFileName(Path path) {
+    private String getFileName(Path path) {
         return path.getFileName().toString();
-    }
-
-    @Override
-    public String put(HttpServletRequest req,
-                      String key,
-                      String file,
-                      boolean required,
-                      String dir,
-                      Predicate<String> fileNameValidator) throws ServiceException {
-        if (!validator.isValidKey(key)) {
-            throw new ServiceException(INVALID_KEY_MSG + key);
-        }
-        try {
-            Part filePart = req.getPart(file);
-            String fileName = filePart.getSubmittedFileName();
-
-            String root = getRoot(req);
-            if (fileName.isEmpty() && !required) {
-                return filePathByKey(root, key)
-                        .map(FileServiceImpl::getFileName)
-                        .orElse(null);
-            }
-            if (fileNameValidator != null && !fileNameValidator.test(fileName)) {
-                throw new ServiceException(INVALID_FILE_NAME_MSG + fileName);
-            }
-
-            remove(root, key);
-
-            String newFileName = key + KEY_SEPARATOR + UUID.randomUUID() + getExtension(fileName);
-            String path = buildPath(root, dir, newFileName);
-
-            Files.createDirectories(Paths.get(path).getParent());
-            for (Part part : req.getParts()) {
-                if (fileName.equals(part.getSubmittedFileName())) {
-                    part.write(path);
-                }
-            }
-
-            return newFileName;
-        } catch (ServletException | IOException e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public void remove(HttpServletRequest req, String key) throws ServiceException {
-        try {
-            String root = getRoot(req);
-            remove(root, key);
-        } catch (IOException e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
     }
 }

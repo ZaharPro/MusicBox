@@ -52,8 +52,7 @@ public class PBKDF2PasswordHasher implements PasswordHasher {
         byte[] hash = new byte[salt.length + dk.length]; //salt + hash
         System.arraycopy(salt, 0, hash, 0, salt.length);
         System.arraycopy(dk, 0, hash, salt.length, dk.length);
-        Base64.Encoder encoder = Base64.getUrlEncoder().withoutPadding();
-        return encoder.encodeToString(hash);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
     }
 
     public boolean checkPassword(char[] password, String token) {

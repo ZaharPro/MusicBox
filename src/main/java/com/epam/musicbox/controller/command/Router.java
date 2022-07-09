@@ -13,6 +13,7 @@ public class Router {
     private final String page;
     private final boolean redirect;
     private final List<Cookie> cookies;
+    private boolean cache;
 
     private Router(String page, boolean redirect) {
         this.page = page;
@@ -65,5 +66,23 @@ public class Router {
      */
     public List<Cookie> getCookies() {
         return cookies;
+    }
+
+    /**
+     * Is cache boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isCache() {
+        return cache;
+    }
+
+    /**
+     * Sets cache.
+     *
+     * @param cache the cache
+     */
+    public void setCache(boolean cache) {
+        this.cache = cache;
     }
 }

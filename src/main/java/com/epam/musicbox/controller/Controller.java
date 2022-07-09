@@ -50,6 +50,10 @@ public class Controller extends HttpServlet {
             CommandType commandType = CommandType.findByName(commandName);
             Command command = commandProvider.get(commandType);
             Router router = command.execute(req);
+            if (!router.isCache()) {
+                resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+                resp.setHeader("Pragma", "no-cache");
+            }
             List<Cookie> cookies = router.getCookies();
             if (!cookies.isEmpty()) {
                 cookies.forEach(resp::addCookie);

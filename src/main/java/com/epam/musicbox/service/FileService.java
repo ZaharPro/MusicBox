@@ -2,38 +2,67 @@ package com.epam.musicbox.service;
 
 import com.epam.musicbox.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 
-import java.util.function.Predicate;
+import java.io.File;
+import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * The interface File service.
  */
 public interface FileService {
+
     /**
-     * Put string.
+     * The constant UPLOAD_DIR.
+     */
+    String UPLOAD_DIR = "file" + File.separatorChar;
+    /**
+     * The constant IMAGE_DIR.
+     */
+    String IMAGE_DIR = "img" + File.separatorChar;
+    /**
+     * The constant AUDIO_DIR.
+     */
+    String AUDIO_DIR = "audio" + File.separatorChar;
+
+    /**
+     * Save string.
      *
-     * @param req               the http request
-     * @param key               the key
-     * @param file              the file
-     * @param required          the required
-     * @param dir               the dir
-     * @param fileNameValidator the file name validator
+     * @param root the root
+     * @param key  the key
+     * @param part the part
      * @return the string
      * @throws ServiceException the service exception
      */
-    String put(HttpServletRequest req,
-               String key,
-               String file,
-               boolean required,
-               String dir,
-               Predicate<String> fileNameValidator) throws ServiceException;
+    String save(String root, String key, Part part) throws ServiceException;
+
+    /**
+     * Get optional.
+     *
+     * @param root the root
+     * @param key  the key
+     * @return the optional
+     * @throws ServiceException the service exception
+     */
+    Optional<Path> get(String root, String key) throws ServiceException;
 
     /**
      * Remove.
      *
-     * @param req the http request
-     * @param key the key
+     * @param root the root
+     * @param key  the key
      * @throws ServiceException the service exception
      */
-    void remove(HttpServletRequest req, String key) throws ServiceException;
+    void remove(String root, String key) throws ServiceException;
+
+    /**
+     * Gets upload dir.
+     *
+     * @param req the http request
+     * @return the upload dir
+     */
+    static String getUploadDir(HttpServletRequest req) {
+        return req.getServletContext().getRealPath("") + UPLOAD_DIR;
+    }
 }

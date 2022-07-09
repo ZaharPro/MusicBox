@@ -11,6 +11,8 @@ public class ValidatorImpl implements Validator {
     private static final String EMAIL_REGEX =
             "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
     private static final String NAME_REGEX = "^([A-Za-z\\d\\[\\]() -]{4,64})$";
+    private static final String AUDIO_FILE_NAME_REGEX = ".*\\.(?:wav|mp3)$";
+    private static final String IMAGE_FILE_NAME_REGEX = ".*\\.(gif|jpe?g|png)$";
 
     private static final ValidatorImpl instance = new ValidatorImpl();
 
@@ -18,6 +20,8 @@ public class ValidatorImpl implements Validator {
     private final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
     private final Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
     private final Pattern namePattern = Pattern.compile(NAME_REGEX);
+    private final Pattern imageFileNamePattern = Pattern.compile(IMAGE_FILE_NAME_REGEX);
+    private final Pattern audioFileNamePattern = Pattern.compile(AUDIO_FILE_NAME_REGEX);
 
     private ValidatorImpl() {
     }
@@ -48,5 +52,17 @@ public class ValidatorImpl implements Validator {
     public boolean isValidName(String name) {
         return name != null &&
                namePattern.matcher(name).matches();
+    }
+
+    @Override
+    public boolean isValidAudioFileName(String fileName) {
+        return fileName != null &&
+               audioFileNamePattern.matcher(fileName).matches();
+    }
+
+    @Override
+    public boolean isValidImageFileName(String fileName) {
+        return fileName != null &&
+               imageFileNamePattern.matcher(fileName).matches();
     }
 }

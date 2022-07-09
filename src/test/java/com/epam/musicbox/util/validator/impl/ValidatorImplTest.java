@@ -21,6 +21,12 @@ public class ValidatorImplTest {
     private static final String BAD_NAME = BAD_STR;
     private static final String GOOD_NAME = "Track (Remix[Version 12-34])";
 
+    private static final String BAD_IMAGE = BAD_STR;
+    private static final String GOOD_IMAGE = "1234qwer.png";
+
+    private static final String BAD_AUDIO = BAD_STR;
+    private static final String GOOD_AUDIO = "1234qwer.mp3";
+
     private static final ValidatorImpl validator = ValidatorImpl.getInstance();
 
     @Test
@@ -104,5 +110,45 @@ public class ValidatorImplTest {
     @Test
     public void isValidNameIfGoodTrue() {
         Assertions.assertTrue(validator.isValidName(GOOD_NAME));
+    }
+
+    @Test
+    public void isValidImageFileNameIfNullFalse() {
+        Assertions.assertFalse(validator.isValidImageFileName(NULL));
+    }
+
+    @Test
+    public void isValidImageFileNameIfEmptyFalse() {
+        Assertions.assertFalse(validator.isValidImageFileName(EMPTY));
+    }
+
+    @Test
+    public void isValidImageFileNameIfBadFalse() {
+        Assertions.assertFalse(validator.isValidImageFileName(BAD_IMAGE));
+    }
+
+    @Test
+    public void isValidImageFileNameIfGoodTrue() {
+        Assertions.assertTrue(validator.isValidImageFileName(GOOD_IMAGE));
+    }
+
+    @Test
+    public void isValidAudioFileNameIfNullFalse() {
+        Assertions.assertFalse(validator.isValidAudioFileName(NULL));
+    }
+
+    @Test
+    public void isValidAudioFileNameIfEmptyFalse() {
+        Assertions.assertFalse(validator.isValidAudioFileName(EMPTY));
+    }
+
+    @Test
+    public void isValidAudioFileNameIfBadFalse() {
+        Assertions.assertFalse(validator.isValidAudioFileName(BAD_AUDIO));
+    }
+
+    @Test
+    public void isValidAudioFileNameIfGoodTrue() {
+        Assertions.assertTrue(validator.isValidAudioFileName(GOOD_AUDIO));
     }
 }

@@ -30,7 +30,9 @@ public class EditAlbumPageCommand extends PageCommand {
                 Album album = albumService.findById(id).orElse(null);
                 req.setAttribute(Parameter.ALBUM, album);
             }
-            return super.execute(req);
+            Router router = super.execute(req);
+            router.setCache(false);
+            return router;
         } catch (ServiceException e) {
             throw new CommandException(e.getMessage(), e);
         }

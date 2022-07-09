@@ -12,11 +12,10 @@ import com.epam.musicbox.service.FileService;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.FileServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
-import com.epam.musicbox.util.validator.FileValidator;
 import com.epam.musicbox.util.validator.Validator;
-import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
 import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 
 import java.util.Optional;
 
@@ -24,10 +23,9 @@ public class TrackSaveCommand implements Command {
 
     private static final String TRACK_NOT_FOUND_MSG = "Track not found";
     private static final String INVALID_NAME_MSG = "Invalid name";
+    private static final String INVALID_FILE_MSG = "Invalid file";
 
     private static final String DEFAULT_TRACK_NAME = "Track";
-    public static final String TRACK_AUDIO = Parameter.TRACK + Parameter.AUDIO;
-
     private static final String REDIRECT_URL_FORMAT =
             String.format("controller?%s=%s&%s=%%s&%s=%%s&%s=%%s&%s=%%s",
                     Parameter.COMMAND,
@@ -39,8 +37,11 @@ public class TrackSaveCommand implements Command {
 
     private final TrackService trackService = TrackServiceImpl.getInstance();
     private final FileService fileService = FileServiceImpl.getInstance();
-    private final FileValidator fileValidator = FileValidatorImpl.getInstance();
     private final Validator validator = ValidatorImpl.getInstance();
+
+    public static String audioKey(long id) {
+        return Parameter.TRACK + Parameter.AUDIO + id;
+    }
 
     @Override
     public Router execute(HttpServletRequest req) throws CommandException {
@@ -53,14 +54,14 @@ public class TrackSaveCommand implements Command {
                         orElseThrow(() -> new CommandException(TRACK_NOT_FOUND_MSG));
                 Optional<Long> albumId = ParameterTaker.getOptionalLong(req, Parameter.ALBUM_ID);
                 albumId.ifPresent(track::setAlbumId);
-                fillTrack(req, track);
+                fill(req, track);
             } else {
                 long albumId = ParameterTaker.getLong(req, Parameter.ALBUM_ID);
                 track = new Track(null, DEFAULT_TRACK_NAME, null, albumId);
                 long id = trackService.save(track);
                 track.setId(id);
                 try {
-                    fillTrack(req, track);
+                    fill(req, track);
                 } catch (Exception e) {
                     trackService.deleteById(id);
                     throw new CommandException(e.getMessage(), e);
@@ -80,17 +81,24 @@ public class TrackSaveCommand implements Command {
         }
     }
 
-    private void fillTrack(HttpServletRequest req, Track track) throws ServiceException {
+    private void fill(HttpServletRequest req, Track track) throws ServiceException {
         String name = req.getParameter(Parameter.NAME);
         if (!validator.isValidName(name)) {
             throw new ServiceException(INVALID_NAME_MSG);
         }
         track.setName(name);
-        String key = FileServiceImpl.generateKey(TRACK_AUDIO, track.getId());
-        String audio = fileService.put(req, key, Parameter.AUDIO, false,
-                Parameter.AUDIO_DIR, fileValidator::isValidAudioFileName);
-        if (audio != null) {
-            track.setAudio(audio);
+        Part part = ParameterTaker.getPart(req, Parameter.AUDIO);
+        if (part != null) {
+            String fileName = part.getSubmittedFileName();
+            if (fileName != null && !fileName.isEmpty()) {
+                if (!validator.isValidAudioFileName(fileName)) {
+                    throw new ServiceException(INVALID_FILE_MSG);
+                }
+                String dir = FileService.getUploadDir(req) + FileService.AUDIO_DIR;
+                String key = audioKey(track.getId());
+                String audio = fileService.save(dir, key, part);
+                track.setAudio(audio);
+            }
         }
     }
 }

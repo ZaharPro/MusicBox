@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.function.LongFunction;
+
 public class DeleteCommand<T extends Entity> implements Command {
 
     private static final Logger logger = LogManager.getLogger();
@@ -22,12 +24,13 @@ public class DeleteCommand<T extends Entity> implements Command {
 
     private final EntityService<T> service;
     private final String id;
-    private final String[] entityFields;
+    private final LongFunction<String>[] keyGenByIdFunctions;
 
-    public DeleteCommand(EntityService<T> service, String id, String... entityFields) {
+    @SafeVarargs
+    public DeleteCommand(EntityService<T> service, String id, LongFunction<String>... keyGenByIdFunctions) {
         this.service = service;
         this.id = id;
-        this.entityFields = entityFields;
+        this.keyGenByIdFunctions = keyGenByIdFunctions;
     }
 
     @Override
@@ -37,10 +40,10 @@ public class DeleteCommand<T extends Entity> implements Command {
             service.deleteById(id);
 
             FileService fileService = FileServiceImpl.getInstance();
-            for (String entityField : entityFields) {
-                String key = FileServiceImpl.generateKey(entityField, id);
+            String dir = FileService.getUploadDir(req);
+            for (LongFunction<String> function : keyGenByIdFunctions) {
                 try {
-                    fileService.remove(req, key);
+                    fileService.remove(dir, function.apply(id));
                 } catch (ServiceException e) {
                     logger.error(DELETE_FILE_ERROR_MSG, e);
                 }

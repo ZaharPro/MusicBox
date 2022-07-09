@@ -43,7 +43,9 @@ public class EditPlaylistPageCommand extends PageCommand {
                         id);
                 req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
             }
-            return super.execute(req);
+            Router router = super.execute(req);
+            router.setCache(false);
+            return router;
         } catch (ServiceException e) {
             throw new CommandException(e.getMessage(), e);
         }

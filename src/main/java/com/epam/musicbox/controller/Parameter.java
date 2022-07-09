@@ -25,9 +25,6 @@ public final class Parameter {
     public static final String LOCALE = "locale";
     public static final String CAN_BAN = "canban";
 
-    public static final String IMG_DIR = "img";
-    public static final String AUDIO_DIR = "audio";
-
     public static final String USER = "user";
     public static final String TRACK = "track";
     public static final String ALBUM = "album";
