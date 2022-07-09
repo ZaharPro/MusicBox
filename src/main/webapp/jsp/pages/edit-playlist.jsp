@@ -15,9 +15,9 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-2 pb-2">
-    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <div class="row align-items-center pt-3 pb-3">
+<div class="container f-col h-100 py-2">
+    <div class="card col f-col h-100 py-3 mb-0 bg-dark">
+        <div class="row align-items-center py-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${playlist != null && playlist.getPicture() != null}">
@@ -41,23 +41,23 @@
                             <fmt:message key="edit.playlist.enter.name"/>
                         </label>
                         <input type="text" id="playlistName" name="name" class="form-control form-control-lg w-100"
-                               required minlength="4" maxlength="32" pattern="[\w\d:.'-]+"
+                               required minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
                         <c:if test="${playlist != null}">
                                value="${playlist.getName()}"
                         </c:if>>
                     </div>
 
-                    <div class="col-7">
-                        <div class="file-drop-area f-col justify-content-center align-items-center h-100 p-3">
-                            <label for="picture" class="h5">
-                                <fmt:message key="edit.playlist.upload.picture"/>
-                            </label>
-                            <input class="file-input" id="picture" type="file" name="picture"
+                    <div class="col-6">
+                        <div class="file-drop-area p-3">
+                            <script src="${pageContext.request.contextPath}/js/file-upload.js"></script>
+                            <span class="choose-file-button"><fmt:message key="edit.file.btn"/></span>
+                            <span class="file-message"><fmt:message key="edit.file.msg"/></span>
+                            <input class="file-input" type="file" name="picture"
                                    accept=".png, .jpg, .jpeg, .gif">
                         </div>
                     </div>
 
-                    <div class="btn-group btn-group-sm col-2 f-col justify-content-center">
+                    <div class="btn-group btn-group-sm offset-1 col-2 f-col justify-content-center">
                         <button type="submit" class="btn w-100">
                             <fmt:message key="edit.playlist.save"/>
                         </button>
@@ -72,7 +72,7 @@
             </div>
         </div>
         <c:if test="${playlist != null}">
-            <div class="col f-col h-100 pt-3 pb-3 mb-0">
+            <div class="col f-col h-100 py-3 mb-0">
                 <h2 class="title text-center mb-2">
                     <fmt:message key="tracks.title"/>
                 </h2>

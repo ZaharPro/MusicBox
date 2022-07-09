@@ -45,17 +45,18 @@ public class ArtistServiceImpl extends AbstractEntityService<Artist> implements 
     @Override
     public PageSearchResult<Artist> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize) || !validator.isValidName(name)) {
+            if (!isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
 
             ArtistRepository repository = getRepository();
-            long count = repository.countByName(name);
+            String regex = buildRegex(name);
+            long count = repository.countByName(regex);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
-            List<Artist> list = repository.findByName(buildRegex(name), offset, pageSize);
+            List<Artist> list = repository.findByName(regex, offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);

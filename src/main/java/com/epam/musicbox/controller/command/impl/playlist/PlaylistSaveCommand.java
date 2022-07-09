@@ -14,7 +14,9 @@ import com.epam.musicbox.service.impl.AuthServiceImpl;
 import com.epam.musicbox.service.impl.FileServiceImpl;
 import com.epam.musicbox.service.impl.PlaylistServiceImpl;
 import com.epam.musicbox.util.validator.FileValidator;
+import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +39,7 @@ public class PlaylistSaveCommand implements Command {
     private final PlaylistService playlistService = PlaylistServiceImpl.getInstance();
     private final FileService fileService = FileServiceImpl.getInstance();
     private final FileValidator fileValidator = FileValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest req) throws CommandException {
@@ -71,8 +74,10 @@ public class PlaylistSaveCommand implements Command {
     }
 
     private void fillAlbum(HttpServletRequest req, Playlist playlist) throws ServiceException {
-        Optional<String> optionalName = ParameterTaker.getName(req);
-        String name = optionalName.orElseThrow(() -> new ServiceException(INVALID_NAME_MSG));
+        String name = req.getParameter(Parameter.NAME);
+        if (!validator.isValidName(name)) {
+            throw new ServiceException(INVALID_NAME_MSG);
+        }
         playlist.setName(name);
         String key = FileServiceImpl.generateKey(PLAYLIST_PICTURE, playlist.getId());
         String picture = fileService.put(req, key, Parameter.PICTURE, false,

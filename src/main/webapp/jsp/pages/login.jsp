@@ -14,7 +14,7 @@
 <body>
 
 <div class="d-flex justify-content-center align-items-center h-100">
-    <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
+    <div class="col-xl-4 col-md-8 col-lg-6 py-3 bg-light">
         <form method="post" name="loginForm" action="${pageContext.request.contextPath}/controller?command=login">
             <h2 class="lead font-weight-normal mb-4 me-3">
                 <fmt:message key="login.title"/>
@@ -25,6 +25,7 @@
                     <fmt:message key="login.login"/>
                 </label>
                 <input type="text" id="loginInput" placeholder="Enter login" name="login"
+                       required minlength="4" maxlength="32" pattern="[A-Za-z\d ]+"
                        class="form-control form-control-lg"/>
             </div>
 
@@ -33,6 +34,7 @@
                     <fmt:message key="login.password"/>
                 </label>
                 <input type="password" id="passwordInput" placeholder="Enter password" name="password"
+                       required minlength="8" maxlength="32" pattern="[A-Za-z\\d@$!%*#?&]+"
                        class="form-control form-control-lg"/>
             </div>
 

@@ -68,8 +68,8 @@ public class TrackPlaylistPageSearchResult extends PageSearchResult<Track> {
     /**
      * From track playlist page search result.
      *
-     * @param psr      the page search result
-     * @param service  the playlist service
+     * @param psr        the page search result
+     * @param service    the playlist service
      * @param playlistId the playlist id
      * @return the track playlist page search result
      * @throws ServiceException the service exception

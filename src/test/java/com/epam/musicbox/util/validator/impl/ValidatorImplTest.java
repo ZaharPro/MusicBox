@@ -19,7 +19,7 @@ public class ValidatorImplTest {
     private static final String GOOD_EMAIL = "1234qwer@gmail.com";
 
     private static final String BAD_NAME = BAD_STR;
-    private static final String GOOD_NAME = "qwer.12-34";
+    private static final String GOOD_NAME = "Track (Remix[Version 12-34])";
 
     private static final ValidatorImpl validator = ValidatorImpl.getInstance();
 

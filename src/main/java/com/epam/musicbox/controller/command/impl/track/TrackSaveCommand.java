@@ -13,7 +13,9 @@ import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.impl.FileServiceImpl;
 import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.util.validator.FileValidator;
+import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
@@ -38,6 +40,7 @@ public class TrackSaveCommand implements Command {
     private final TrackService trackService = TrackServiceImpl.getInstance();
     private final FileService fileService = FileServiceImpl.getInstance();
     private final FileValidator fileValidator = FileValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest req) throws CommandException {
@@ -78,8 +81,10 @@ public class TrackSaveCommand implements Command {
     }
 
     private void fillTrack(HttpServletRequest req, Track track) throws ServiceException {
-        Optional<String> optionalName = ParameterTaker.getName(req);
-        String name = optionalName.orElseThrow(() -> new ServiceException(INVALID_NAME_MSG));
+        String name = req.getParameter(Parameter.NAME);
+        if (!validator.isValidName(name)) {
+            throw new ServiceException(INVALID_NAME_MSG);
+        }
         track.setName(name);
         String key = FileServiceImpl.generateKey(TRACK_AUDIO, track.getId());
         String audio = fileService.put(req, key, Parameter.AUDIO, false,

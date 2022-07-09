@@ -15,9 +15,9 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-2 pb-2">
-    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
-        <div class="row align-items-center pt-3 pb-3">
+<div class="container f-col h-100 py-2">
+    <div class="card col f-col h-100 py-3 mb-0 bg-dark">
+        <div class="row align-items-center py-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
                     <c:when test="${artist != null && artist.getAvatar() != null}">
@@ -68,7 +68,7 @@
             </div>
         </div>
         <c:if test="${trackpsr.hasElements()}">
-            <div class="col f-col h-100 pt-3 pb-3 mb-0">
+            <div class="col f-col h-100 py-3 mb-0">
                 <h2 class="title text-center mb-2">
                     <fmt:message key="tracks.title"/>
                 </h2>
@@ -92,7 +92,7 @@
             </div>
         </c:if>
         <c:if test="${albumpsr.hasElements()}">
-            <div class="col f-col h-100 pt-3 pb-3 mb-0">
+            <div class="col f-col h-100 py-3 mb-0">
                 <h2 class="title text-center mb-2">
                     <fmt:message key="albums.title"/>
                 </h2>

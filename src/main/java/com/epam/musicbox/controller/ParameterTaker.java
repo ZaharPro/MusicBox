@@ -184,19 +184,4 @@ public final class ParameterTaker {
     public static int getPageSize(HttpServletRequest req, String paramName) {
         return ParameterTaker.getOptional(req, paramName, INT_MAPPER).orElse(DEFAULT_PAGE_SIZE);
     }
-
-    /**
-     * Gets name.
-     *
-     * @param req the http request
-     * @return the name
-     */
-    public static Optional<String> getName(HttpServletRequest req) {
-        String name = req.getParameter(Parameter.NAME);
-        Validator validator = ValidatorImpl.getInstance();
-        if (validator.isValidName(name)) {
-            return Optional.of(name);
-        }
-        return Optional.empty();
-    }
 }

@@ -13,7 +13,7 @@
 <body>
 
 <div class="container f-col h-100 p-5">
-    <div class="card f-col justify-content-center align-items-center h-100 pt-3 pb-3 mb-0 bg-dark">
+    <div class="card f-col justify-content-center align-items-center h-100 py-3 mb-0 bg-dark">
         <h2 class="title text-center mb-3">
             Error
         </h2>

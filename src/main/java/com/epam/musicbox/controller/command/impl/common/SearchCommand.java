@@ -2,7 +2,6 @@ package com.epam.musicbox.controller.command.impl.common;
 
 import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
-import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.Command;
 import com.epam.musicbox.controller.command.Router;
 import com.epam.musicbox.entity.Album;
@@ -19,8 +18,6 @@ import com.epam.musicbox.service.impl.TrackServiceImpl;
 import com.epam.musicbox.service.page.PageSearchResult;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.Optional;
-
 public class SearchCommand implements Command {
 
     private static final int FIRST_PAGE = 1;
@@ -33,18 +30,14 @@ public class SearchCommand implements Command {
     @Override
     public Router execute(HttpServletRequest req) throws CommandException {
         try {
-            Optional<String> optionalName = ParameterTaker.getName(req);
+            String name = req.getParameter(Parameter.NAME);
+            PageSearchResult<Artist> artistPageSearchResult = artistService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+            PageSearchResult<Album> albumPageSearchResult = albumService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+            PageSearchResult<Track> trackPageSearchResult = trackService.findByName(name, FIRST_PAGE, PAGE_SIZE);
 
-            if (optionalName.isPresent()) {
-                String name = optionalName.get();
-                PageSearchResult<Artist> artistPageSearchResult = artistService.findByName(name, FIRST_PAGE, PAGE_SIZE);
-                PageSearchResult<Album> albumPageSearchResult = albumService.findByName(name, FIRST_PAGE, PAGE_SIZE);
-                PageSearchResult<Track> trackPageSearchResult = trackService.findByName(name, FIRST_PAGE, PAGE_SIZE);
-
-                req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, artistPageSearchResult);
-                req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
-                req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
-            }
+            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, artistPageSearchResult);
+            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
 
             req.setAttribute(Parameter.NAME, req.getParameter(Parameter.NAME));
 

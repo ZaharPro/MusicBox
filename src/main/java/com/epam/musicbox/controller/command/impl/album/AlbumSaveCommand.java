@@ -13,7 +13,9 @@ import com.epam.musicbox.service.FileService;
 import com.epam.musicbox.service.impl.AlbumServiceImpl;
 import com.epam.musicbox.service.impl.FileServiceImpl;
 import com.epam.musicbox.util.validator.FileValidator;
+import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.FileValidatorImpl;
+import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
@@ -34,6 +36,7 @@ public class AlbumSaveCommand implements Command {
     private final AlbumService albumService = AlbumServiceImpl.getInstance();
     private final FileService fileService = FileServiceImpl.getInstance();
     private final FileValidator fileValidator = FileValidatorImpl.getInstance();
+    private final Validator validator = ValidatorImpl.getInstance();
 
     @Override
     public Router execute(HttpServletRequest req) throws CommandException {
@@ -64,8 +67,10 @@ public class AlbumSaveCommand implements Command {
     }
 
     private void fillAlbum(HttpServletRequest req, Album album) throws ServiceException {
-        Optional<String> optionalName = ParameterTaker.getName(req);
-        String name = optionalName.orElseThrow(() -> new ServiceException(INVALID_NAME_MSG));
+        String name = req.getParameter(Parameter.NAME);
+        if (!validator.isValidName(name)) {
+            throw new ServiceException(INVALID_NAME_MSG);
+        }
         album.setName(name);
         String key = FileServiceImpl.generateKey(ALBUM_PICTURE, album.getId());
         String picture = fileService.put(req, key, Parameter.PICTURE, false,

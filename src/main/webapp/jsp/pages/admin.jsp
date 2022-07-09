@@ -15,7 +15,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-2 pb-2">
+<div class="container f-col h-100 py-2">
     <div class="card col f-col h-100 pt-5 pb-3 mb-0 bg-dark align-items-center">
         <h2 class="title">
             <fmt:message key="admin.title"/>

@@ -14,7 +14,7 @@
 <body>
 
 <div class="d-flex justify-content-center align-items-center h-100">
-    <div class="col-xl-4 col-md-8 col-lg-6 pt-3 pb-3 bg-light">
+    <div class="col-xl-4 col-md-8 col-lg-6 py-3 bg-light">
         <form method="post" action="${pageContext.request.contextPath}/controller?command=change-password">
             <h2 class="lead font-weight-normal mb-4 me-3">
                 <fmt:message key="ch.pass.title"/>

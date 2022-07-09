@@ -17,8 +17,8 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-2 pb-2">
-    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
+<div class="container f-col h-100 py-2">
+    <div class="card col f-col h-100 py-3 mb-0 bg-dark">
         <div class="row justify-content-center">
             <c:choose>
                 <c:when test="${album != null}">
@@ -47,7 +47,7 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        <form method="post" class="row pt-3 pb-3"
+        <form method="post" class="row py-3"
               action="${pageContext.request.contextPath}/controller?command=track-save"
               enctype="multipart/form-data">
             <c:if test="${track != null}">
@@ -58,17 +58,17 @@
                     <fmt:message key="edit.track.enter.name"/>
                 </label>
                 <input type="text" id="trackName" name="name" class="form-control form-control-lg w-100"
-                       required minlength="4" maxlength="32" pattern="[\w\d:.'-]+"
+                       required minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
                 <c:if test="${track != null}">
                        value="${track.getName()}"
                 </c:if>>
             </div>
-            <div class="col-7 f-col h-100">
-                <div class="file-drop-area f-col justify-content-center align-items-center h-100 p-3">
-                    <label for="picture" class="h5">
-                        <fmt:message key="edit.track.upload.track"/>
-                    </label>
-                    <input class="file-input" id="picture" type="file" name="audio" accept=".wav, .mp3">
+            <div class="col-6 f-col h-100">
+                <div class="file-drop-area p-3">
+                    <script src="${pageContext.request.contextPath}/js/file-upload.js"></script>
+                    <span class="choose-file-button"><fmt:message key="edit.file.btn"/></span>
+                    <span class="file-message"><fmt:message key="edit.file.msg"/></span>
+                    <input class="file-input" type="file" name="audio" accept=".wav, .mp3">
                 </div>
             </div>
 
@@ -76,7 +76,7 @@
                 <c:when test="${album != null}">
                     <input type="hidden" name="albumid" value="${album.getId()}">
                     <input type="hidden" name="albumpage" value="${albumpsr.getPage()}">
-                    <div class="btn-group btn-group-sm col-2 f-col justify-content-center">
+                    <div class="btn-group btn-group-sm offset-1 col-2 f-col justify-content-center">
                         <button type="submit" class="btn w-100">
                             <fmt:message key="edit.track.save"/>
                         </button>
@@ -102,7 +102,7 @@
             </c:choose>
         </form>
         <c:if test="${track != null && track.getAudio() != null}">
-            <div class="row justify-content-center my-3">
+            <div class="d-flex justify-content-center my-3">
                 <audio class="audioplayer" preload="auto" controls>
                     <source src="${pageContext.request.contextPath}/file/audio/${track.getAudio()}" type="audio/mpeg">
                 </audio>
@@ -114,7 +114,7 @@
                 });
             </script>
         </c:if>
-        <div class="col f-col h-100 pt-3 pb-3 mb-0">
+        <div class="col f-col h-100 py-3 mb-0">
             <h2 class="title text-center mb-2">
                 <fmt:message key="albums.title"/>
             </h2>

@@ -18,8 +18,8 @@
     <c:set var="command" value="track-get" scope="request"/>
 </c:if>
 
-<div class="container f-col h-100 pt-2 pb-2">
-    <div class="card col f-col h-100 pt-3 pb-3 mb-0 bg-dark">
+<div class="container f-col h-100 py-2">
+    <div class="card col f-col h-100 py-3 mb-0 bg-dark">
         <c:choose>
             <c:when test="${trackpsr.hasElements()}">
                 <h2 class="title text-center mb-2">

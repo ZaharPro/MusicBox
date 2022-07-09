@@ -8,8 +8,6 @@ import com.epam.musicbox.repository.TrackRepository;
 import com.epam.musicbox.repository.impl.TrackRepositoryImpl;
 import com.epam.musicbox.service.TrackService;
 import com.epam.musicbox.service.page.PageSearchResult;
-import com.epam.musicbox.util.validator.Validator;
-import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.List;
 
@@ -17,7 +15,6 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
 
     private static final TrackServiceImpl instance = new TrackServiceImpl();
 
-    private final Validator validator = ValidatorImpl.getInstance();
     private final TrackRepository trackRepository = TrackRepositoryImpl.getInstance();
 
     private TrackServiceImpl() {
@@ -44,17 +41,18 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
     @Override
     public PageSearchResult<Track> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize) || !validator.isValidName(name)) {
+            if (!isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
 
             TrackRepository repository = getRepository();
-            long count = repository.countByName(name);
+            String regex = buildRegex(name);
+            long count = repository.countByName(regex);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
-            List<Track> list = repository.findByName(buildRegex(name), offset, pageSize);
+            List<Track> list = repository.findByName(regex, offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);

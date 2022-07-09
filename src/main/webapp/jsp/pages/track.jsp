@@ -17,8 +17,8 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-2 pb-2">
-    <div class="card col f-col h-100 align-items-center pt-3 pb-3 mb-0 bg-dark">
+<div class="container f-col h-100 py-2">
+    <div class="card col f-col h-100 align-items-center py-3 mb-0 bg-dark">
         <div class="row justify-content-center">
             <c:choose>
                 <c:when test="${album != null}">
@@ -101,9 +101,11 @@
         </div>
 
         <c:if test="${track.getAudio() != null}">
-            <audio class="audioplayer" preload="auto" controls>
-                <source src="${pageContext.request.contextPath}/file/audio/${track.getAudio()}" type="audio/mpeg">
-            </audio>
+            <div class="d-flex justify-content-center my-3">
+                <audio class="audioplayer" preload="auto" controls>
+                    <source src="${pageContext.request.contextPath}/file/audio/${track.getAudio()}" type="audio/mpeg">
+                </audio>
+            </div>
             <script src="https://bootstraptema.ru/plugins/2015/audio-touch/audio-touch.js"></script>
             <script>
                 $(function () {

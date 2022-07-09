@@ -14,8 +14,8 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<div class="container f-col h-100 pt-2 pb-2">
-    <div class="card f-col justify-content-center align-items-center h-100 pt-3 pb-3 mb-0 bg-dark">
+<div class="container f-col h-100 py-2">
+    <div class="card f-col justify-content-center align-items-center h-100 py-3 mb-0 bg-dark">
         <div class="row">
             <div class="col f-col align-items-center">
                 <div class="row justify-content-center">

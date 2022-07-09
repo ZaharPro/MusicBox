@@ -8,8 +8,6 @@ import com.epam.musicbox.repository.PlaylistRepository;
 import com.epam.musicbox.repository.impl.PlaylistRepositoryImpl;
 import com.epam.musicbox.service.PlaylistService;
 import com.epam.musicbox.service.page.PageSearchResult;
-import com.epam.musicbox.util.validator.Validator;
-import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 
 import java.util.List;
 
@@ -17,7 +15,6 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
 
     private static final PlaylistServiceImpl instance = new PlaylistServiceImpl();
 
-    private final Validator validator = ValidatorImpl.getInstance();
     private final PlaylistRepository repository = PlaylistRepositoryImpl.getInstance();
 
     private PlaylistServiceImpl() {
@@ -44,17 +41,18 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
     @Override
     public PageSearchResult<Playlist> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize) || !validator.isValidName(name)) {
+            if (!isValidPage(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
 
             PlaylistRepository repository = getRepository();
-            long count = repository.countByName(name);
+            String regex = buildRegex(name);
+            long count = repository.countByName(regex);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
             int offset = getOffset(page, pageSize);
-            List<Playlist> list = repository.findByName(buildRegex(name), offset, pageSize);
+            List<Playlist> list = repository.findByName(regex, offset, pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);

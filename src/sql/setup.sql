@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`roles`
 CREATE TABLE IF NOT EXISTS `music_schema`.`users`
 (
     `user_id`      BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `login`        VARCHAR(32)                         NOT NULL,
+    `login`        VARCHAR(64)                         NOT NULL,
     `password`     VARCHAR(128)                        NOT NULL,
     `email`        VARCHAR(64)                         NOT NULL,
     `role_id`      BIGINT                              NOT NULL,
@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`users`
 CREATE TABLE IF NOT EXISTS `music_schema`.`albums`
 (
     `album_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `name`     VARCHAR(32)  NOT NULL,
+    `name`     VARCHAR(64)  NOT NULL,
     `picture`  VARCHAR(128)
 );
 
 CREATE TABLE IF NOT EXISTS `music_schema`.`tracks`
 (
     `track_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `name`     VARCHAR(32)  NOT NULL,
+    `name`     VARCHAR(64)  NOT NULL,
     `audio`    VARCHAR(128),
     `album_id` BIGINT       NOT NULL,
     CONSTRAINT `tracks_album_id`
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`tracks`
 CREATE TABLE IF NOT EXISTS `music_schema`.`artists`
 (
     `artist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `name`      VARCHAR(32)  NOT NULL,
+    `name`      VARCHAR(64)  NOT NULL,
     `avatar`    VARCHAR(128)
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `music_schema`.`artist_tracks`
 CREATE TABLE IF NOT EXISTS `music_schema`.`playlists`
 (
     `playlist_id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `name`        VARCHAR(32) NOT NULL,
+    `name`        VARCHAR(64) NOT NULL,
     `picture`     VARCHAR(128),
     `user_id`     BIGINT NOT NULL,
     CONSTRAINT `playlists_user_id`
