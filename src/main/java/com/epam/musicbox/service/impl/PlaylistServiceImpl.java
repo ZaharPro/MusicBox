@@ -32,7 +32,7 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
     @Override
     public long countByName(String name) throws ServiceException {
         try {
-            return getRepository().countByName(buildRegex(name));
+            return getRepository().countByName(name);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -41,18 +41,14 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
     @Override
     public PageSearchResult<Playlist> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-
-            PlaylistRepository repository = getRepository();
-            String regex = buildRegex(name);
-            long count = repository.countByName(regex);
+            long count = getRepository().countByName(name);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Playlist> list = repository.findByName(regex, offset, pageSize);
+            List<Playlist> list = getRepository().findByName(name, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -71,16 +67,14 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
     @Override
     public PageSearchResult<Track> getTracks(long playlistId, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            PlaylistRepository repository = getRepository();
-            long count = repository.countTracks(playlistId);
+            long count = getRepository().countTracks(playlistId);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Track> list = repository.getTracks(playlistId, offset, pageSize);
+            List<Track> list = getRepository().getTracks(playlistId, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);

@@ -14,22 +14,22 @@ public interface PlaylistRepository extends Repository<Playlist> {
     /**
      * Count by name long.
      *
-     * @param regex the regex
+     * @param name the name
      * @return the long
      * @throws RepositoryException the repository exception
      */
-    long countByName(String regex) throws RepositoryException;
+    long countByName(String name) throws RepositoryException;
 
     /**
      * Find by name list.
      *
-     * @param regex  the regex
+     * @param name   the name
      * @param offset the offset
      * @param limit  the limit
      * @return the list
      * @throws RepositoryException the repository exception
      */
-    List<Playlist> findByName(String regex, int offset, int limit) throws RepositoryException;
+    List<Playlist> findByName(String name, int offset, int limit) throws RepositoryException;
 
 
     /**

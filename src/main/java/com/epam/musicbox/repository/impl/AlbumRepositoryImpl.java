@@ -35,11 +35,11 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(a.album_id) " +
                                                     "FROM albums AS a " +
-                                                    "WHERE a.name REGEXP (?)";
+                                                    "WHERE a.name LIKE CONCAT('%',?,'%')";
 
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
                                                    "FROM albums AS a " +
-                                                   "WHERE a.name REGEXP (?) " +
+                                                   "WHERE a.name LIKE CONCAT('%',?,'%') " +
                                                    "ORDER BY a.name " +
                                                    "LIMIT ?,?";
 
@@ -92,12 +92,12 @@ public class AlbumRepositoryImpl implements AlbumRepository {
     }
 
     @Override
-    public long countByName(String regex) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex).orElse(0L);
+    public long countByName(String name) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
     }
 
     @Override
-    public List<Album> findByName(String regex, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_NAME, albumRowMapper, regex, offset, limit);
+    public List<Album> findByName(String name, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, albumRowMapper, name, offset, limit);
     }
 }

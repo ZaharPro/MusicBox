@@ -78,16 +78,14 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
     @Override
     public PageSearchResult<User> findByRole(int roleId, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            UserRepository repository = getRepository();
-            long count = repository.countByRole(roleId);
+            long count = getRepository().countByRole(roleId);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<User> list = repository.findByRole(roleId, offset, pageSize);
+            List<User> list = getRepository().findByRole(roleId, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -116,16 +114,14 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
     @Override
     public PageSearchResult<Track> getLikedTracks(long userId, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            UserRepository repository = getRepository();
-            long count = repository.countLikedTracks(userId);
+            long count = getRepository().countLikedTracks(userId);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Track> list = repository.getLikedTracks(userId, offset, pageSize);
+            List<Track> list = getRepository().getLikedTracks(userId, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -172,16 +168,14 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
     @Override
     public PageSearchResult<Album> getLikedAlbums(long userId, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            UserRepository repository = getRepository();
-            long count = repository.countLikedAlbums(userId);
+            long count = getRepository().countLikedAlbums(userId);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Album> list = repository.getLikedAlbums(userId, offset, pageSize);
+            List<Album> list = getRepository().getLikedAlbums(userId, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -228,16 +222,14 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
     @Override
     public PageSearchResult<Artist> getLikedArtists(long userId, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            UserRepository repository = getRepository();
-            long count = repository.countLikedArtists(userId);
+            long count = getRepository().countLikedArtists(userId);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Artist> list = repository.getLikedArtists(userId, offset, pageSize);
+            List<Artist> list = getRepository().getLikedArtists(userId, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -284,16 +276,14 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
     @Override
     public PageSearchResult<Playlist> getPlaylists(long userId, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            UserRepository repository = getRepository();
-            long count = repository.countPlaylists(userId);
+            long count = getRepository().countPlaylists(userId);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Playlist> list = repository.getPlaylists(userId, offset, pageSize);
+            List<Playlist> list = getRepository().getPlaylists(userId, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);

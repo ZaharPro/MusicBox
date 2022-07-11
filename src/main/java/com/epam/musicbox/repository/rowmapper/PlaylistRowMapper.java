@@ -33,6 +33,9 @@ public class PlaylistRowMapper implements RowMapper<Playlist> {
     @Override
     public Playlist map(ResultSet resultSet) throws RepositoryException {
         try {
+            if (!resultSet.next()) {
+                return null;
+            }
             return new Playlist(resultSet.getLong(ROW_PLAYLIST_ID),
                     resultSet.getString(ROW_NAME),
                     resultSet.getString(ROW_PICTURE),

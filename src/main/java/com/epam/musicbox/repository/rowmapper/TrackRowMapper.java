@@ -33,6 +33,9 @@ public class TrackRowMapper implements RowMapper<Track> {
     @Override
     public Track map(ResultSet resultSet) throws RepositoryException {
         try {
+            if (!resultSet.next()) {
+                return null;
+            }
             return new Track(resultSet.getLong(ROW_TRACK_ID),
                     resultSet.getString(ROW_NAME),
                     resultSet.getString(ROW_AUDIO),

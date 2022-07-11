@@ -24,16 +24,15 @@ public abstract class AbstractEntityService<T extends Entity> implements EntityS
     @Override
     public PageSearchResult<T> findPage(int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
             Repository<T> repository = getRepository();
-            long count = repository.count();
+            long count = getRepository().count();
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<T> list = repository.findAll(offset, pageSize);
+            List<T> list = getRepository().findAll(getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -67,16 +66,12 @@ public abstract class AbstractEntityService<T extends Entity> implements EntityS
         }
     }
 
-    protected boolean isValidPage(int page, int pageSize) {
+    protected boolean isValid(int page, int pageSize) {
         return page > 0 && pageSize > 0;
     }
 
     protected int getOffset(int page, int pageSize) {
         return (page - 1) * pageSize;
-    }
-
-    protected String buildRegex(String name) {
-        return '[' + name + "]{2,}";
     }
 
     protected abstract Repository<T> getRepository();

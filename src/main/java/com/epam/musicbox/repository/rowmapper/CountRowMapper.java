@@ -29,6 +29,9 @@ public class CountRowMapper implements RowMapper<Long> {
     @Override
     public Long map(ResultSet resultSet) throws RepositoryException {
         try {
+            if (!resultSet.next()) {
+                return null;
+            }
             return resultSet.getLong(COUNT_COL_INDEX);
         } catch (SQLException e) {
             throw new RepositoryException(e.getMessage(), e);

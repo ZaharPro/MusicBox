@@ -37,6 +37,9 @@ public class UserRowMapper implements RowMapper<User> {
     @Override
     public User map(ResultSet resultSet) throws RepositoryException {
         try {
+            if (!resultSet.next()) {
+                return null;
+            }
             return new User(resultSet.getLong(ROW_USER_ID),
                     resultSet.getString(ROW_LOGIN),
                     resultSet.getString(ROW_EMAIL),

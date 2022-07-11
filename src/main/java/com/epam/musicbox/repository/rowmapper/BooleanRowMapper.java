@@ -29,6 +29,9 @@ public class BooleanRowMapper implements RowMapper<Boolean> {
     @Override
     public Boolean map(ResultSet resultSet) throws RepositoryException {
         try {
+            if (!resultSet.next()) {
+                return null;
+            }
             return resultSet.getBoolean(BOOLEAN_COL_INDEX);
         } catch (SQLException e) {
             throw new RepositoryException(e.getMessage(), e);

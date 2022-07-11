@@ -32,7 +32,7 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
     @Override
     public long countByName(String name) throws ServiceException {
         try {
-            return getRepository().countByName(buildRegex(name));
+            return getRepository().countByName(name);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -41,18 +41,14 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
     @Override
     public PageSearchResult<Track> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-
-            TrackRepository repository = getRepository();
-            String regex = buildRegex(name);
-            long count = repository.countByName(regex);
+            long count = getRepository().countByName(name);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Track> list = repository.findByName(regex, offset, pageSize);
+            List<Track> list = getRepository().findByName(name, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
@@ -71,16 +67,14 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
     @Override
     public PageSearchResult<Artist> getArtists(long trackId, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            TrackRepository repository = getRepository();
-            long count = repository.countArtists(trackId);
+            long count = getRepository().countArtists(trackId);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Artist> list = repository.getArtists(trackId, offset, pageSize);
+            List<Artist> list = getRepository().getArtists(trackId, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);

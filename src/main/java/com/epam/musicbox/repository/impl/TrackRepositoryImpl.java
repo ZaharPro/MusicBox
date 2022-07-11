@@ -37,11 +37,11 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(t.track_id) " +
                                                     "FROM tracks AS t " +
-                                                    "WHERE t.name REGEXP (?)";
+                                                    "WHERE t.name LIKE CONCAT('%',?,'%')";
 
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
                                                    "FROM tracks AS t " +
-                                                   "WHERE t.name REGEXP (?) " +
+                                                   "WHERE t.name LIKE CONCAT('%',?,'%') " +
                                                    "ORDER BY t.name " +
                                                    "LIMIT ?,?";
 
@@ -111,13 +111,13 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public long countByName(String regex) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex).orElse(0L);
+    public long countByName(String name) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
     }
 
     @Override
-    public List<Track> findByName(String regex, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_NAME, trackRowMapper, regex, offset, limit);
+    public List<Track> findByName(String name, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, trackRowMapper, name, offset, limit);
     }
 
     @Override

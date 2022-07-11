@@ -36,11 +36,11 @@ public class ArtistRepositoryImpl implements ArtistRepository {
 
     private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(a.artist_id) " +
                                                     "FROM artists AS a " +
-                                                    "WHERE a.name REGEXP (?)";
+                                                    "WHERE a.name LIKE CONCAT('%',?,'%')";
 
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
                                                    "FROM artists AS a " +
-                                                   "WHERE a.name REGEXP (?) " +
+                                                   "WHERE a.name LIKE CONCAT('%',?,'%') " +
                                                    "ORDER BY a.name " +
                                                    "LIMIT ?,?";
 
@@ -138,13 +138,13 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     }
 
     @Override
-    public long countByName(String regex) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex).orElse(0L);
+    public long countByName(String name) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
     }
 
     @Override
-    public List<Artist> findByName(String regex, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_NAME, artistRowMapper, regex, offset, limit);
+    public List<Artist> findByName(String name, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, artistRowMapper, name, offset, limit);
     }
 
     @Override

@@ -2,10 +2,11 @@ package com.epam.musicbox.repository.impl;
 
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.repository.pool.ConnectionPool;
+import com.epam.musicbox.repository.rowmapper.ListRowMapper;
 import com.epam.musicbox.repository.rowmapper.RowMapper;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,10 +31,14 @@ public final class QueryHelper {
     public static <T> Optional<T> queryOne(String sql,
                                            RowMapper<T> mapper,
                                            Object... params) throws RepositoryException {
-        List<T> items = QueryHelper.queryAll(sql, mapper, params);
-        return items.size() == 1 ?
-                Optional.ofNullable(items.get(0)) :
-                Optional.empty();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            QueryHelper.setParams(preparedStatement, params);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return Optional.ofNullable(mapper.map(resultSet));
+        } catch (SQLException e) {
+            throw new RepositoryException(e.getMessage(), e);
+        }
     }
 
     /**
@@ -49,33 +54,20 @@ public final class QueryHelper {
     public static <T> List<T> queryAll(String sql,
                                        RowMapper<T> mapper,
                                        Object... params) throws RepositoryException {
-        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            QueryHelper.setParams(preparedStatement, params);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<T> list = new ArrayList<>();
-            while (resultSet.next()) {
-                T t = mapper.map(resultSet);
-                list.add(t);
-            }
-            return list;
-        } catch (SQLException e) {
-            throw new RepositoryException(e.getMessage(), e);
-        }
+        return queryOne(sql, new ListRowMapper<>(mapper), params).orElse(Collections.emptyList());
     }
 
     /**
-     * Insert long.
+     * Insert.
      *
      * @param sql    the sql
      * @param params the params
-     * @return the long
+     * @return the generated keys
      * @throws RepositoryException the repository exception
      */
     public static long insert(String sql, Object... params) throws RepositoryException {
-        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             QueryHelper.setParams(preparedStatement, params);
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -94,8 +86,8 @@ public final class QueryHelper {
      * @throws RepositoryException the repository exception
      */
     public static void update(String sql, Object... params) throws RepositoryException {
-        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             QueryHelper.setParams(preparedStatement, params);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

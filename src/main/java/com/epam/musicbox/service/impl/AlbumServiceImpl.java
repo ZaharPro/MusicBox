@@ -31,7 +31,7 @@ public class AlbumServiceImpl extends AbstractEntityService<Album> implements Al
     @Override
     public long countByName(String name) throws ServiceException {
         try {
-            return getRepository().countByName(buildRegex(name));
+            return getRepository().countByName(name);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -40,18 +40,14 @@ public class AlbumServiceImpl extends AbstractEntityService<Album> implements Al
     @Override
     public PageSearchResult<Album> findByName(String name, int page, int pageSize) throws ServiceException {
         try {
-            if (!isValidPage(page, pageSize)) {
+            if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-
-            AlbumRepository repository = getRepository();
-            String regex = buildRegex(name);
-            long count = repository.countByName(regex);
+            long count = getRepository().countByName(name);
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            int offset = getOffset(page, pageSize);
-            List<Album> list = repository.findByName(regex, offset, pageSize);
+            List<Album> list = getRepository().findByName(name, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);

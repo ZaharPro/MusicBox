@@ -32,6 +32,9 @@ public class ArtistRowMapper implements RowMapper<Artist> {
     @Override
     public Artist map(ResultSet resultSet) throws RepositoryException {
         try {
+            if (!resultSet.next()) {
+                return null;
+            }
             return new Artist(resultSet.getLong(ROW_ARTIST_ID),
                     resultSet.getString(ROW_NAME),
                     resultSet.getString(ROW_AVATAR));

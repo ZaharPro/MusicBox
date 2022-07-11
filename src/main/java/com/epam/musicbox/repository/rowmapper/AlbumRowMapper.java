@@ -32,6 +32,9 @@ public class AlbumRowMapper implements RowMapper<Album> {
     @Override
     public Album map(ResultSet resultSet) throws RepositoryException {
         try {
+            if (!resultSet.next()) {
+                return null;
+            }
             return new Album(resultSet.getLong(ROW_ALBUM_ID),
                     resultSet.getString(ROW_NAME),
                     resultSet.getString(ROW_PICTURE));

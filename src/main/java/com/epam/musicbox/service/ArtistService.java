@@ -14,11 +14,11 @@ public interface ArtistService extends EntityService<Artist> {
     /**
      * Count by name long.
      *
-     * @param regex the regex
+     * @param name the name
      * @return the long
      * @throws ServiceException the service exception
      */
-    long countByName(String regex) throws ServiceException;
+    long countByName(String name) throws ServiceException;
 
     /**
      * Find by name page search result.

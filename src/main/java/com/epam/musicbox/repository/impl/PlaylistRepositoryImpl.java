@@ -38,11 +38,11 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     private static final String SQL_COUNT_BY_NAME = "SELECT COUNT(p.playlist_id) " +
                                                     "FROM playlists AS p " +
-                                                    "WHERE p.name REGEXP (?)";
+                                                    "WHERE p.name LIKE CONCAT('%',?,'%')";
 
     private static final String SQL_FIND_BY_NAME = "SELECT * " +
                                                    "FROM playlists AS p " +
-                                                   "WHERE p.name REGEXP (?) " +
+                                                   "WHERE p.name LIKE CONCAT('%',?,'%') " +
                                                    "ORDER BY p.name " +
                                                    "LIMIT ?,?";
 
@@ -123,13 +123,13 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
     }
 
     @Override
-    public long countByName(String regex) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, regex).orElse(0L);
+    public long countByName(String name) throws RepositoryException {
+        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
     }
 
     @Override
-    public List<Playlist> findByName(String regex, int offset, int limit) throws RepositoryException {
-        return QueryHelper.queryAll(SQL_FIND_BY_NAME, playlistRowMapper, regex, offset, limit);
+    public List<Playlist> findByName(String name, int offset, int limit) throws RepositoryException {
+        return QueryHelper.queryAll(SQL_FIND_BY_NAME, playlistRowMapper, name, offset, limit);
     }
 
     @Override
