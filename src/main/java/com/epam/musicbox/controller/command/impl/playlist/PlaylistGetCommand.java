@@ -22,8 +22,8 @@ public class PlaylistGetCommand implements Command {
         try {
             int page = ParameterTaker.getPage(req, Parameter.PLAYLIST_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.PLAYLIST_PAGE_SIZE);
-            PageSearchResult<Playlist> pageSearchResult = playlistService.findPage(page, pageSize);
-            req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Playlist> psr = playlistService.findPage(page, pageSize);
+            req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, psr);
             return Router.forward(PagePath.PLAYLISTS);
         } catch (ServiceException e) {
             throw new CommandException(e.getMessage(), e);

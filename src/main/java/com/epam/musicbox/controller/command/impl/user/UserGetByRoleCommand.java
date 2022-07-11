@@ -29,8 +29,8 @@ public class UserGetByRoleCommand implements Command {
             Role role = ParameterTaker.getRole(req);
             int page = ParameterTaker.getPage(req, Parameter.USER_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.USER_PAGE_SIZE);
-            PageSearchResult<User> pageSearchResult = userService.findByRole(role.getId(), page, pageSize);
-            req.setAttribute(Parameter.USER_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<User> psr = userService.findByRole(role.getId(), page, pageSize);
+            req.setAttribute(Parameter.USER_PAGE_SEARCH_RESULT, psr);
             req.setAttribute(Parameter.COMMAND, COMMAND + role.getName());
             return Router.forward(PagePath.USERS);
         } catch (ServiceException e) {

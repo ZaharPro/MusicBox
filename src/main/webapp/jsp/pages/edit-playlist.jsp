@@ -41,7 +41,7 @@
                             <fmt:message key="edit.playlist.enter.name"/>
                         </label>
                         <input type="text" id="playlistName" name="name" class="form-control form-control-lg w-100"
-                               required minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
+                               minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
                         <c:if test="${playlist != null}">
                                value="${playlist.getName()}"
                         </c:if>>

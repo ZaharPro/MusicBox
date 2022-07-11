@@ -28,8 +28,8 @@ public class TrackGetByNameCommand implements Command {
             String name = req.getParameter(Parameter.NAME);
             int page = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> pageSearchResult = trackService.findByName(name, page, pageSize);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Track> psr = trackService.findByName(name, page, pageSize);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, psr);
             req.setAttribute(Parameter.COMMAND, COMMAND + name);
             return Router.forward(PagePath.TRACKS);
         } catch (ServiceException e) {

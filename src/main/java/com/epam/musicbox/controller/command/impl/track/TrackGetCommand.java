@@ -22,8 +22,8 @@ public class TrackGetCommand implements Command {
         try {
             int page = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Track> psr = trackService.findPage(page, pageSize);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, psr);
             return Router.forward(PagePath.TRACKS);
         } catch (ServiceException e) {
             throw new CommandException(e.getMessage(), e);

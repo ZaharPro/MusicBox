@@ -28,8 +28,8 @@ public class PlaylistGetByNameCommand implements Command {
             String name = req.getParameter(Parameter.NAME);
             int page = ParameterTaker.getPage(req, Parameter.PLAYLIST_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.PLAYLIST_PAGE_SIZE);
-            PageSearchResult<Playlist> pageSearchResult = playlistService.findByName(name, page, pageSize);
-            req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Playlist> psr = playlistService.findByName(name, page, pageSize);
+            req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, psr);
             req.setAttribute(Parameter.COMMAND, COMMAND + name);
             return Router.forward(PagePath.PLAYLISTS);
         } catch (ServiceException e) {

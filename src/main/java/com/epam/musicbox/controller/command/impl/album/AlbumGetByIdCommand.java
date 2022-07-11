@@ -46,8 +46,8 @@ public class AlbumGetByIdCommand implements Command {
 
             int page = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Track> psr = trackService.findPage(page, pageSize);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, psr);
 
             return Router.forward(PagePath.ALBUM);
         } catch (ServiceException e) {

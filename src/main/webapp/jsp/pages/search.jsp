@@ -20,7 +20,8 @@
             <fmt:message key="search.title"/>
         </h2>
         <div class="d-flex justify-content-center">
-            <span class="h6 text-white mr-2">For name:</span><span class="h6 text-info">${name}</span>
+            <span class="h6 text-white mr-2"><fmt:message key="search.name"/></span>
+            <span class="h6 text-info">${name}</span>
         </div>
         <c:choose>
             <c:when test="${trackpsr.hasElements() or albumpsr.hasElements() or artistpsr.hasElements()}">

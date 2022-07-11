@@ -42,7 +42,7 @@
             <form class="form-inline" method="post"
                   action="${pageContext.request.contextPath}/controller?command=user-get-by-login">
                 <input class="form-control mr-sm-2" type="search" name="login" aria-label="Search by login"
-                       value="${login}">
+                       value="${login}" minlength="2" maxlength="64">
                 <button class="btn" type="submit">
                     <fmt:message key="users.search"/>
                 </button>

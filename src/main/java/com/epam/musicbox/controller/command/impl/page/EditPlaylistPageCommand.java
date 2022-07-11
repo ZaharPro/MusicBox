@@ -37,11 +37,11 @@ public class EditPlaylistPageCommand extends PageCommand {
                 req.setAttribute(Parameter.PLAYLIST, playlist);
                 int page = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
                 int pageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
-                PageSearchResult<Track> pageSearchResult = trackService.findPage(page, pageSize);
-                pageSearchResult = TrackPlaylistPageSearchResult.from(pageSearchResult,
+                PageSearchResult<Track> psr = trackService.findPage(page, pageSize);
+                psr = TrackPlaylistPageSearchResult.from(psr,
                         playlistService,
                         id);
-                req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
+                req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, psr);
             }
             Router router = super.execute(req);
             router.setCache(false);

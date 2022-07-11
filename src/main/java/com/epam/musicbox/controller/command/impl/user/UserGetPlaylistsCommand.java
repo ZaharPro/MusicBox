@@ -29,8 +29,8 @@ public class UserGetPlaylistsCommand implements Command {
             long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
             int page = ParameterTaker.getPage(req, Parameter.PLAYLIST_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.PLAYLIST_PAGE_SIZE);
-            PageSearchResult<Playlist> pageSearchResult = service.getPlaylists(userId, page, pageSize);
-            req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Playlist> psr = service.getPlaylists(userId, page, pageSize);
+            req.setAttribute(Parameter.PLAYLIST_PAGE_SEARCH_RESULT, psr);
             req.setAttribute(Parameter.COMMAND, CommandType.USER_GET_PLAYLISTS.getName());
             return Router.forward(PagePath.PLAYLISTS);
         } catch (ServiceException e) {

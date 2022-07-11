@@ -82,13 +82,13 @@ public class EditTrackPageCommand extends PageCommand {
 
             int page = ParameterTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
-            PageSearchResult<Album> pageSearchResult = albumService.findPage(page, pageSize);
-            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Album> psr = albumService.findPage(page, pageSize);
+            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, psr);
 
             albumChooseCommandBuilder.append(URL_ATTRIBUTE_DELIMITER)
                     .append(Parameter.ALBUM_PAGE_INDEX)
                     .append(URL_ATTRIBUTE_EQ)
-                    .append(pageSearchResult.getPage());
+                    .append(psr.getPage());
             String albumChooseCommand = albumChooseCommandBuilder.toString();
             req.setAttribute(ALBUM_CHOOSE_COMMAND, albumChooseCommand);
 

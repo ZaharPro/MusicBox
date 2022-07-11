@@ -53,8 +53,8 @@ public class TrackGetByIdCommand implements Command {
                     .orElseThrow(() -> new CommandException(ALBUM_NOT_FOUND_MSG));
             req.setAttribute(Parameter.ALBUM, album);
 
-            PageSearchResult<Artist> pageSearchResult = trackService.getArtists(trackId, FIRST_PAGE, PAGE_SIZE);
-            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Artist> psr = trackService.getArtists(trackId, FIRST_PAGE, PAGE_SIZE);
+            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, psr);
 
             return Router.forward(PagePath.TRACK);
         } catch (ServiceException e) {

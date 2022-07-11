@@ -44,8 +44,8 @@ public class PlaylistGetByIdCommand implements Command {
 
             int page = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> pageSearchResult = playlistService.getTracks(playlistId, page, pageSize);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Track> psr = playlistService.getTracks(playlistId, page, pageSize);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, psr);
 
             return Router.forward(PagePath.PLAYLIST);
         } catch (ServiceException e) {

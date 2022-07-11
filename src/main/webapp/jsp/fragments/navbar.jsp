@@ -66,7 +66,8 @@
             <ct:access role="not-guest">
                 <form class="form-inline my-2 my-lg-0 mr-1" method="post"
                       action="${pageContext.request.contextPath}/controller?command=search">
-                    <input class="form-control mr-sm-2" type="search" name="name" aria-label="Search" value="${name}">
+                    <input class="form-control mr-sm-2" type="search" name="name" aria-label="Search" value="${name}"
+                           minlength="2" maxlength="64">
                     <button class="btn" type="submit">
                         <fmt:message key="navbar.search"/>
                     </button>

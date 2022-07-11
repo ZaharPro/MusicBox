@@ -30,14 +30,24 @@ public class SearchCommand implements Command {
     @Override
     public Router execute(HttpServletRequest req) throws CommandException {
         try {
-            String name = req.getParameter(Parameter.NAME);
-            PageSearchResult<Artist> artistPageSearchResult = artistService.findByName(name, FIRST_PAGE, PAGE_SIZE);
-            PageSearchResult<Album> albumPageSearchResult = albumService.findByName(name, FIRST_PAGE, PAGE_SIZE);
-            PageSearchResult<Track> trackPageSearchResult = trackService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+            PageSearchResult<Artist> artistPsr;
+            PageSearchResult<Album> albumPsr;
+            PageSearchResult<Track> trackPsr;
 
-            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, artistPageSearchResult);
-            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
+            String name = req.getParameter(Parameter.NAME);
+            if (name != null && !name.trim().isEmpty()) {
+                artistPsr = artistService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+                albumPsr = albumService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+                trackPsr = trackService.findByName(name, FIRST_PAGE, PAGE_SIZE);
+            } else {
+                artistPsr = new PageSearchResult<>(FIRST_PAGE, PAGE_SIZE);
+                albumPsr = new PageSearchResult<>(FIRST_PAGE, PAGE_SIZE);
+                trackPsr = new PageSearchResult<>(FIRST_PAGE, PAGE_SIZE);
+            }
+
+            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, artistPsr);
+            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPsr);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPsr);
 
             req.setAttribute(Parameter.NAME, req.getParameter(Parameter.NAME));
 

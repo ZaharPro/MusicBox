@@ -44,13 +44,13 @@ public class ArtistGetByIdCommand implements Command {
 
             int page = ParameterTaker.getPage(req, Parameter.TRACK_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.TRACK_PAGE_SIZE);
-            PageSearchResult<Track> trackPageSearchResult = artistService.getTracks(artistId, page, pageSize);
-            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPageSearchResult);
+            PageSearchResult<Track> trackPsr = artistService.getTracks(artistId, page, pageSize);
+            req.setAttribute(Parameter.TRACK_PAGE_SEARCH_RESULT, trackPsr);
 
             page = ParameterTaker.getPage(req, Parameter.ALBUM_PAGE_INDEX);
             pageSize = ParameterTaker.getPageSize(req, Parameter.ALBUM_PAGE_SIZE);
-            PageSearchResult<Album> albumPageSearchResult = artistService.getAlbums(artistId, page, pageSize);
-            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPageSearchResult);
+            PageSearchResult<Album> albumPsr = artistService.getAlbums(artistId, page, pageSize);
+            req.setAttribute(Parameter.ALBUM_PAGE_SEARCH_RESULT, albumPsr);
 
             return Router.forward(PagePath.ARTIST);
         } catch (ServiceException e) {

@@ -25,11 +25,11 @@
                     <fmt:message key="ch.pass.old.pass"/>
                 </label>
                 <input type="password" id="oldPasswordInput" placeholder="Enter old password" name="oldpass"
-                       class="form-control form-control-lg"/>
+                       minlength="8" maxlength="32" pattern="[A-Za-z\d@$!%*#?&]+" class="form-control form-control-lg"/>
             </div>
             <div class="form-check mb-4">
                 <input class="form-check-input me-2" type="checkbox" id="oldPasswordCheckbox" value=""
-                       minlength="8" maxlength="32" onclick="toggleOldPasswordCheckbox()"/>
+                       onclick="toggleOldPasswordCheckbox()"/>
                 <label class="form-check-label" for="oldPasswordCheckbox">
                     <fmt:message key="ch.pass.show.old.pass"/>
                 </label>
@@ -40,11 +40,11 @@
                     <fmt:message key="ch.pass.new.pass"/>
                 </label>
                 <input type="password" id="newPasswordInput" placeholder="Enter password" name="newpass"
-                       class="form-control form-control-lg"/>
+                       minlength="8" maxlength="32" pattern="[A-Za-z\d@$!%*#?&]+" class="form-control form-control-lg"/>
             </div>
             <div class="form-check mb-4">
                 <input class="form-check-input me-2" type="checkbox" id="newPasswordCheckbox" value=""
-                       minlength="8" maxlength="32" onclick="toggleNewPasswordCheckbox()"/>
+                       onclick="toggleNewPasswordCheckbox()"/>
                 <label class="form-check-label" for="newPasswordCheckbox">
                     <fmt:message key="ch.pass.show.new.pass"/>
                 </label>
@@ -55,14 +55,14 @@
                     <fmt:message key="ch.pass.repeat.pass"/>
                 </label>
                 <input type="password" id="repeatPasswordInput" placeholder="Enter password"
-                       class="form-control form-control-lg"/>
+                       minlength="8" maxlength="32" pattern="[A-Za-z\d@$!%*#?&]+" class="form-control form-control-lg"/>
                 <div id="invalidRepPassLabel" class="email-error d-none text-danger">
                     <fmt:message key="ch.pass.passwords.must.match"/>
                 </div>
             </div>
             <div class="form-check mb-4">
                 <input class="form-check-input me-2" type="checkbox" id="repeatPasswordCheckbox" value=""
-                       minlength="8" maxlength="32" onclick="toggleRepeatPasswordCheckbox()"/>
+                       onclick="toggleRepeatPasswordCheckbox()"/>
                 <label class="form-check-label" for="repeatPasswordCheckbox">
                     <fmt:message key="ch.pass.show.repeat.pass"/>
                 </label>

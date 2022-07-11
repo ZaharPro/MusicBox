@@ -25,7 +25,7 @@
                     <fmt:message key="login.login"/>
                 </label>
                 <input type="text" id="loginInput" placeholder="Enter login" name="login"
-                       required minlength="4" maxlength="32" pattern="[A-Za-z\d ]+"
+                       minlength="4" maxlength="32" pattern="[A-Za-z\d ]+"
                        class="form-control form-control-lg"/>
             </div>
 
@@ -34,7 +34,7 @@
                     <fmt:message key="login.password"/>
                 </label>
                 <input type="password" id="passwordInput" placeholder="Enter password" name="password"
-                       required minlength="8" maxlength="32" pattern="[A-Za-z\d@$!%*#?&]+"
+                       minlength="8" maxlength="32" pattern="[A-Za-z\d@$!%*#?&]+"
                        class="form-control form-control-lg"/>
             </div>
 

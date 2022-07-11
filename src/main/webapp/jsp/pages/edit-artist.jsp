@@ -40,7 +40,7 @@
                             <fmt:message key="edit.artist.enter.name"/>
                         </label>
                         <input type="text" id="artistName" name="name" class="form-control form-control-lg w-100"
-                               required minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
+                               minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
                         <c:if test="${artist != null}">
                                value="${artist.getName()}"
                         </c:if>>

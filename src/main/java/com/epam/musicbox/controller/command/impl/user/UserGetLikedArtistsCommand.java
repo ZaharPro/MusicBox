@@ -29,8 +29,8 @@ public class UserGetLikedArtistsCommand implements Command {
             long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
             int page = ParameterTaker.getPage(req, Parameter.ARTIST_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.ARTIST_PAGE_SIZE);
-            PageSearchResult<Artist> pageSearchResult = service.getLikedArtists(userId, page, pageSize);
-            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Artist> psr = service.getLikedArtists(userId, page, pageSize);
+            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, psr);
             req.setAttribute(Parameter.COMMAND, CommandType.USER_GET_LIKED_ARTISTS.getName());
             return Router.forward(PagePath.ARTISTS);
         } catch (ServiceException e) {

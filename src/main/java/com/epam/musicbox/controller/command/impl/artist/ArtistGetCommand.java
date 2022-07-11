@@ -22,8 +22,8 @@ public class ArtistGetCommand implements Command {
         try {
             int page = ParameterTaker.getPage(req, Parameter.ARTIST_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.ARTIST_PAGE_SIZE);
-            PageSearchResult<Artist> pageSearchResult = artistService.findPage(page, pageSize);
-            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<Artist> psr = artistService.findPage(page, pageSize);
+            req.setAttribute(Parameter.ARTIST_PAGE_SEARCH_RESULT, psr);
             return Router.forward(PagePath.ARTISTS);
         } catch (ServiceException e) {
             throw new CommandException(e.getMessage(), e);

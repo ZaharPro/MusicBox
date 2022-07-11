@@ -58,7 +58,7 @@
                     <fmt:message key="edit.track.enter.name"/>
                 </label>
                 <input type="text" id="trackName" name="name" class="form-control form-control-lg w-100"
-                       required minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
+                       minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
                 <c:if test="${track != null}">
                        value="${track.getName()}"
                 </c:if>>

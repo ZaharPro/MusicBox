@@ -22,8 +22,8 @@ public class UserGetCommand implements Command {
         try {
             int page = ParameterTaker.getPage(req, Parameter.USER_PAGE_INDEX);
             int pageSize = ParameterTaker.getPageSize(req, Parameter.USER_PAGE_SIZE);
-            PageSearchResult<User> pageSearchResult = userService.findPage(page, pageSize);
-            req.setAttribute(Parameter.USER_PAGE_SEARCH_RESULT, pageSearchResult);
+            PageSearchResult<User> psr = userService.findPage(page, pageSize);
+            req.setAttribute(Parameter.USER_PAGE_SEARCH_RESULT, psr);
             return Router.forward(PagePath.USERS);
         } catch (ServiceException e) {
             throw new CommandException(e.getMessage(), e);
