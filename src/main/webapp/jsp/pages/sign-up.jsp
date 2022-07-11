@@ -34,7 +34,7 @@
                     <fmt:message key="signup.pass"/>
                 </label>
                 <input type="password" id="passwordInput" placeholder="Enter password" name="password"
-                       required minlength="8" maxlength="32" pattern="[A-Za-z\\d@$!%*#?&]+"
+                       required minlength="8" maxlength="32" pattern="[A-Za-z\d@$!%*#?&]+"
                        class="form-control form-control-lg"/>
             </div>
             <div class="form-check mb-4">
@@ -50,7 +50,7 @@
                     <fmt:message key="signup.repeat.pass"/>
                 </label>
                 <input type="password" id="repeatPasswordInput" placeholder="Enter password"
-                       required minlength="8" maxlength="32" pattern="[A-Za-z\\d@$!%*#?&]+"
+                       required minlength="8" maxlength="32" pattern="[A-Za-z\d@$!%*#?&]+"
                        class="form-control form-control-lg"/>
                 <div id="invalidRepPassLabel" class="email-error d-none text-danger">
                     <fmt:message key="signup.passwords.must.match"/>

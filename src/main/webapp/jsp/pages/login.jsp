@@ -34,7 +34,7 @@
                     <fmt:message key="login.password"/>
                 </label>
                 <input type="password" id="passwordInput" placeholder="Enter password" name="password"
-                       required minlength="8" maxlength="32" pattern="[A-Za-z\\d@$!%*#?&]+"
+                       required minlength="8" maxlength="32" pattern="[A-Za-z\d@$!%*#?&]+"
                        class="form-control form-control-lg"/>
             </div>
 
