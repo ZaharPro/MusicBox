@@ -20,7 +20,6 @@ public final class Parameter {
     public static final String ACCESS_TOKEN = "accesstoken";
     public static final String OLD_PASSWORD = "oldpass";
     public static final String NEW_PASSWORD = "newpass";
-    public static final String INVALIDATE = "invalidate";
     public static final String LIKE = "like";
     public static final String LOCALE = "locale";
     public static final String CAN_BAN = "canban";

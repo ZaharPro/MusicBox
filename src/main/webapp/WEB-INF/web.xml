@@ -28,20 +28,11 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>locale-filter</filter-name>
-        <filter-class>com.epam.musicbox.controller.filter.LocaleFilter</filter-class>
+        <filter-name>session-filter</filter-name>
+        <filter-class>com.epam.musicbox.controller.filter.SessionFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>locale-filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>role-filter</filter-name>
-        <filter-class>com.epam.musicbox.controller.filter.RoleFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>role-filter</filter-name>
+        <filter-name>session-filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
@@ -78,19 +69,7 @@
         <location>/jsp/pages/error.jsp</location>
     </error-page>
     <error-page>
-        <error-code>402</error-code>
-        <location>/jsp/pages/error.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>401</error-code>
-        <location>/jsp/pages/error.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>400</error-code>
-        <location>/jsp/pages/error.jsp</location>
-    </error-page>
-    <error-page>
-        <exception-type>java.lang.Exception</exception-type>
+        <exception-type>java.lang.Throwable</exception-type>
         <location>/jsp/pages/error.jsp</location>
     </error-page>
 </web-app>

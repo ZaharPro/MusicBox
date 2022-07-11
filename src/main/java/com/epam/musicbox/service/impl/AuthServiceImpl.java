@@ -10,10 +10,7 @@ import com.epam.musicbox.util.hasher.PasswordHasher;
 import com.epam.musicbox.util.hasher.impl.PBKDF2PasswordHasher;
 import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.ValidatorImpl;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
@@ -26,16 +23,16 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class AuthServiceImpl implements AuthService {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static final String PROP_PATH = "prop/application";
+    private static final String PROPS_PATH = "prop/application";
     private static final String JWT_SECRET_KEY = "JWT_SECRET_KEY";
-    private static final String JWT_TOKEN_LIFE_TIME = "JWT_LIFETIME";
+    private static final String JWT_LIFETIME = "JWT_LIFETIME";
 
+    private static final String PROP_NOT_FOUND_MSG = "Auth service property not found: ";
     private static final String INVALID_LOGIN_MSG = "Invalid login";
     private static final String INVALID_EMAIL_MSG = "Invalid email";
     private static final String INVALID_PASSWORD_MSG = "Invalid password";
@@ -46,59 +43,65 @@ public class AuthServiceImpl implements AuthService {
     private static final String USER_WITH_EMAIL_ALREADY_EXIST = "User with this email already exists";
     private static final String USER_BANNED = "User banned";
     private static final String JWT_TOKEN_NOT_FOUND = "Jwt not found";
-    private static final String CREATION_ERROR = "Creation error";
 
     private static final AuthServiceImpl instance = new AuthServiceImpl();
-
-    private final Key secretKey;
-    private final long tokenLifetime;
-    private final int cookieMaxAge;
+    private static final ResourceBundle bundle = ResourceBundle.getBundle(PROPS_PATH);
 
     private final UserService userService = UserServiceImpl.getInstance();
     private final PasswordHasher passwordHasher = PBKDF2PasswordHasher.getInstance();
     private final Validator validator = ValidatorImpl.getInstance();
 
+    private final Key secretKey;
+    private final int tokenLifetime;
+
     private AuthServiceImpl() {
-        try {
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(PROP_PATH);
-            this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(resourceBundle.getString(JWT_SECRET_KEY)));
-            this.tokenLifetime = Long.parseLong(resourceBundle.getString(JWT_TOKEN_LIFE_TIME));
-            int timezoneGmtPlusThree = 60 * 60 * 3;
-            this.cookieMaxAge = (int) (timezoneGmtPlusThree + TimeUnit.MINUTES.toSeconds(tokenLifetime));
-        } catch (Exception e) {
-            logger.fatal(CREATION_ERROR, e);
-            throw new ExceptionInInitializerError(e);
+        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(getProp(JWT_SECRET_KEY)));
+        this.tokenLifetime = Integer.parseInt(getProp(JWT_LIFETIME));
+    }
+
+    private static String getProp(String name) {
+        String val = System.getenv(name);
+        if (val == null && bundle != null)
+            val = bundle.getString(name);
+        if (val == null) {
+            logger.fatal(PROP_NOT_FOUND_MSG + name);
+            throw new ExceptionInInitializerError(PROP_NOT_FOUND_MSG + name);
         }
+        return val;
     }
 
     public static AuthServiceImpl getInstance() {
         return instance;
     }
 
-    public int getCookieMaxAge() {
-        return cookieMaxAge;
+    public int getTokenLifetime() {
+        return tokenLifetime;
     }
 
     public String generateToken(Map<String, String> claims) {
         String id = UUID.randomUUID().toString().replace("-", "");
-        Instant instant = Instant.now();
         JwtBuilder builder = Jwts.builder();
         if (claims != null) {
             builder = builder.setClaims(claims);
         }
+        Instant instant = Instant.now();
         return builder.setId(id)
                 .setIssuedAt(Date.from(instant))
-                .setExpiration(Date.from(instant.plus(tokenLifetime, ChronoUnit.MINUTES)))
+                .setExpiration(Date.from(instant.plus(tokenLifetime, ChronoUnit.SECONDS)))
                 .signWith(secretKey)
                 .compact();
     }
 
-    public Jws<Claims> buildToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .setAllowedClockSkewSeconds(10)
-                .build()
-                .parseClaimsJws(token);
+    public Jws<Claims> buildToken(String token) throws ServiceException {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .setAllowedClockSkewSeconds(10)
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (JwtException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     public Optional<Cookie> getTokenCookie(Cookie[] cookies) {
@@ -106,18 +109,23 @@ public class AuthServiceImpl implements AuthService {
                 Optional.empty() :
                 Arrays.stream(cookies)
                         .filter(c -> c.getName().equals(Parameter.ACCESS_TOKEN))
-                        .findFirst();
+                        .findAny();
     }
 
+    @Override
+    public boolean hasToken(HttpServletRequest req) {
+        return getTokenCookie(req.getCookies()).isPresent();
+    }
+
+    @Override
     public Jws<Claims> getToken(HttpServletRequest req) throws ServiceException {
-        if (req == null)
-            return null;
         Cookie cookie = getTokenCookie(req.getCookies())
                 .orElseThrow(() -> new ServiceException(JWT_TOKEN_NOT_FOUND));
         String token = cookie.getValue();
         return buildToken(token);
     }
 
+    @Override
     public void signUp(String login, String email, String password) throws ServiceException {
         if (!validator.isValidLogin(login))
             throw new ServiceException(INVALID_LOGIN_MSG);
@@ -139,6 +147,7 @@ public class AuthServiceImpl implements AuthService {
         userService.save(user);
     }
 
+    @Override
     public User login(String login, String password) throws ServiceException {
         if (!validator.isValidLogin(login))
             throw new ServiceException(INVALID_LOGIN_MSG);
@@ -156,6 +165,7 @@ public class AuthServiceImpl implements AuthService {
         return user;
     }
 
+    @Override
     public void changePassword(long userId, String oldPassword, String newPassword) throws ServiceException {
         if (!validator.isValidPassword(oldPassword))
             throw new ServiceException(INVALID_OLD_PASSWORD_MSG);

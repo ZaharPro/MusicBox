@@ -16,30 +16,34 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * The type Role filter initialized user role.
+ * The type Locale filter initialized locale.
  */
 @WebFilter(urlPatterns = {"/*"})
-public class RoleFilter implements Filter {
+public class SessionFilter implements Filter {
+
+    private static final String DEFAULT_LOCALE = "en_EN";
 
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-
         HttpSession session = req.getSession();
-        if (session.getAttribute(Parameter.ROLE) == null) {
-            Role role;
+        if (session.isNew()) {
+            session.setAttribute(Parameter.LOCALE, DEFAULT_LOCALE);
             try {
                 Jws<Claims> token = AuthServiceImpl.getInstance().getToken(req);
                 Claims body = token.getBody();
-                role = ParameterTaker.getRole(body);
-            } catch (ServiceException e) {
-                role = Role.GUEST;
-            }
-            session.setAttribute(Parameter.ROLE, role.getName());
-        }
 
+                String login = (String) body.get(Parameter.LOGIN);
+                session.setAttribute(Parameter.LOGIN, login);
+
+                Role role = ParameterTaker.getRole(body);
+                session.setAttribute(Parameter.ROLE, role.getName());
+            } catch (ServiceException e) {
+                session.setAttribute(Parameter.ROLE, Role.GUEST.getName());
+            }
+        }
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }

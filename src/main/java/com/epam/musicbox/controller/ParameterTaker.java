@@ -45,9 +45,7 @@ public final class ParameterTaker {
      * @param function  the function
      * @return the optional
      */
-    public static <T> Optional<T> getOptional(Claims body,
-                                              String paramName,
-                                              Function<String, T> function) {
+    public static <T> Optional<T> getOptional(Claims body, String paramName, Function<String, T> function) {
         Object value = body.get(paramName);
         if (value == null) {
             return Optional.empty();
@@ -68,8 +66,7 @@ public final class ParameterTaker {
      * @return the long
      * @throws ServiceException the service exception
      */
-    public static long getLong(Claims body,
-                               String paramName) throws ServiceException {
+    public static long getLong(Claims body, String paramName) throws ServiceException {
         return ParameterTaker.getOptional(body, paramName, LONG_MAPPER).orElseThrow(() -> {
             return new ServiceException(JWT_VALUE_NOT_FOUND_MSG + paramName);
         });
@@ -97,9 +94,7 @@ public final class ParameterTaker {
      * @param function  the function
      * @return the optional
      */
-    public static <T> Optional<T> getOptional(HttpServletRequest req,
-                                              String paramName,
-                                              Function<String, T> function) {
+    public static <T> Optional<T> getOptional(HttpServletRequest req, String paramName, Function<String, T> function) {
         String value = req.getParameter(paramName);
         if (value == null) {
             return Optional.empty();

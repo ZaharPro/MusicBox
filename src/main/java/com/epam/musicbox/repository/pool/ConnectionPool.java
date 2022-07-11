@@ -23,22 +23,24 @@ public class ConnectionPool {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static final String PROP_PATH = "prop/database";
+    private static final String PROPS_PATH = "prop/database";
     private static final String DB_URL = "URL";
     private static final String DB_USER = "USER";
     private static final String DB_PASSWORD = "PASSWORD";
     private static final String DB_DRIVER = "DRIVER";
     private static final String DB_POOL_SIZE = "POOL_SIZE";
 
-    private static final String POOL_PROPS_NOT_FOUND_MSG = "Pool's creation properties not found";
-    private static final String POOL_CREATED_MSG = "Pool created";
-    private static final String POOL_DESTROYED_MSG = "Pool destroyed";
+    private static final String PROP_NOT_FOUND_MSG = "Pool property not found: ";
     private static final String DRIVER_NOT_FOUND_MSG = "Driver is not found";
     private static final String POOL_CREATION_ERROR_MSG = "Pool creation error";
+    private static final String POOL_CREATED_MSG = "Pool created";
+    private static final String POOL_DESTROYED_MSG = "Pool destroyed";
 
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static final ReentrantLock instanceLock = new ReentrantLock();
     private static final AtomicReference<ConnectionPool> instance = new AtomicReference<>();
+
+    private static final ResourceBundle bundle = ResourceBundle.getBundle(PROPS_PATH);
 
     private final ReentrantLock lock;
     private final Semaphore semaphore;
@@ -47,18 +49,13 @@ public class ConnectionPool {
 
     private ConnectionPool() {
         try {
-            ResourceBundle bundle = ResourceBundle.getBundle(PROP_PATH);
-            if (bundle == null) {
-                logger.fatal(POOL_PROPS_NOT_FOUND_MSG);
-                throw new ExceptionInInitializerError(POOL_PROPS_NOT_FOUND_MSG);
-            }
-            String url = bundle.getString(DB_URL);
-            String user = bundle.getString(DB_USER);
-            String password = bundle.getString(DB_PASSWORD);
-            String driver = bundle.getString(DB_DRIVER);
+            String url = getProp(DB_URL);
+            String user = getProp(DB_USER);
+            String password = getProp(DB_PASSWORD);
+            String driver = getProp(DB_DRIVER);
             Class.forName(driver);
 
-            int size = Integer.parseInt(bundle.getString(DB_POOL_SIZE));
+            int size = Integer.parseInt(getProp(DB_POOL_SIZE));
             Deque<ProxyConnection> connections = new ArrayDeque<>(size);
 
             for (int i = 0; i < size; i++) {
@@ -76,6 +73,17 @@ public class ConnectionPool {
             logger.fatal(DRIVER_NOT_FOUND_MSG, e);
             throw new ExceptionInInitializerError(e);
         }
+    }
+
+    private static String getProp(String name) {
+        String val = System.getenv(name);
+        if (val == null && bundle != null)
+            val = bundle.getString(name);
+        if (val == null) {
+            logger.fatal(PROP_NOT_FOUND_MSG + name);
+            throw new ExceptionInInitializerError(PROP_NOT_FOUND_MSG + name);
+        }
+        return val;
     }
 
     /**

@@ -14,11 +14,11 @@ import java.util.Map;
 public interface AuthService {
 
     /**
-     * Gets cookie max age.
+     * Gets token lifetime in seconds.
      *
-     * @return the cookie max age
+     * @return the token lifetime
      */
-    int getCookieMaxAge();
+    int getTokenLifetime();
 
     /**
      * Generate token string.
@@ -27,6 +27,15 @@ public interface AuthService {
      * @return the string
      */
     String generateToken(Map<String, String> claims);
+
+
+    /**
+     * Has token boolean.
+     *
+     * @param req the http request
+     * @return the boolean
+     */
+    boolean hasToken(HttpServletRequest req);
 
     /**
      * Gets token.

@@ -1,6 +1,5 @@
 package com.epam.musicbox.controller.filter.access;
 
-import com.epam.musicbox.controller.PagePath;
 import com.epam.musicbox.controller.Parameter;
 import com.epam.musicbox.controller.ParameterTaker;
 import com.epam.musicbox.controller.command.CommandType;
@@ -17,20 +16,20 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Optional;
 
-/**
- * The type Access filter.
- */
 public class AccessFilter implements Filter {
 
-    private static final String SESSION_TIMEOUT_MSG = "Session timeout";
     private static final String PERMISSION_DENIED_MSG = "Permission denied";
     private static final String USER_BANNED_MSG = "User banned";
+    private static final String COMMAND_NOT_FOUND_MSG = "Command not found";
 
+    private static final String REDIRECT_URL =
+            String.format("controller?%s=%s",
+                    Parameter.COMMAND,
+                    CommandType.LOGIN_PAGE.getName());
     private final AuthService authService = AuthServiceImpl.getInstance();
     private final RoleRights roleRights = RoleRights.getInstance();
 
@@ -47,15 +46,11 @@ public class AccessFilter implements Filter {
                 filterChain.doFilter(req, resp);
                 break;
             case UNAUTHORIZED:
-                req.getRequestDispatcher(PagePath.LOGIN).forward(req, resp);
-                break;
-            case SESSION_TIMEOUT:
-                Cookie deleteBlackToken = new Cookie(Parameter.ACCESS_TOKEN, null);
-                deleteBlackToken.setMaxAge(0);
-                resp.addCookie(deleteBlackToken);
-
-                req.setAttribute(Parameter.MESSAGE, SESSION_TIMEOUT_MSG);
-                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                Cookie blackToken = new Cookie(Parameter.ACCESS_TOKEN, null);
+                blackToken.setMaxAge(0);
+                req.getSession().invalidate();
+                resp.addCookie(blackToken);
+                resp.sendRedirect(REDIRECT_URL);
                 break;
             case PERMISSION_DENIED:
                 req.setAttribute(Parameter.MESSAGE, PERMISSION_DENIED_MSG);
@@ -66,18 +61,13 @@ public class AccessFilter implements Filter {
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN);
                 break;
             case NOT_FOUND:
+                req.setAttribute(Parameter.MESSAGE, COMMAND_NOT_FOUND_MSG);
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
         }
     }
 
     private AccessCode checkRequest(HttpServletRequest req) {
-        HttpSession session = req.getSession();
-        Object invalidate = session.getAttribute(Parameter.INVALIDATE);
-        if (invalidate != null) {
-            session.invalidate();
-            return checkCommand(req, Role.GUEST, AccessCode.UNAUTHORIZED);
-        }
         Jws<Claims> token;
         try {
             token = authService.getToken(req);
@@ -87,20 +77,19 @@ public class AccessFilter implements Filter {
         try {
             Claims body = token.getBody();
             long userId = ParameterTaker.getLong(body, Parameter.USER_ID);
-            Role role = ParameterTaker.getRole(body);
 
             UserService userService = UserServiceImpl.getInstance();
             Optional<User> optionalUser = userService.findById(userId);
             if (optionalUser.isEmpty()) {
-                return AccessCode.SESSION_TIMEOUT;
+                return AccessCode.UNAUTHORIZED;
             }
             User user = optionalUser.get();
             if (user.getBanned()) {
                 return AccessCode.USER_BANNED;
             }
-            return checkCommand(req, role, AccessCode.PERMISSION_DENIED);
+            return checkCommand(req, user.getRole(), AccessCode.PERMISSION_DENIED);
         } catch (ServiceException e) {
-            return AccessCode.SESSION_TIMEOUT;
+            return AccessCode.UNAUTHORIZED;
         }
     }
 
