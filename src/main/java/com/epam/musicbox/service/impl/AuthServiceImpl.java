@@ -114,12 +114,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean hasToken(HttpServletRequest req) {
-        return getTokenCookie(req.getCookies()).isPresent();
+        return req != null && getTokenCookie(req.getCookies()).isPresent();
     }
 
     @Override
     public Jws<Claims> getToken(HttpServletRequest req) throws ServiceException {
-        Cookie cookie = getTokenCookie(req.getCookies())
+        Cookie cookie = getTokenCookie(req == null ? null : req.getCookies())
                 .orElseThrow(() -> new ServiceException(JWT_TOKEN_NOT_FOUND));
         String token = cookie.getValue();
         return buildToken(token);
