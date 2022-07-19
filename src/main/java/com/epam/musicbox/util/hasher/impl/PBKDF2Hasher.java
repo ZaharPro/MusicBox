@@ -1,6 +1,6 @@
 package com.epam.musicbox.util.hasher.impl;
 
-import com.epam.musicbox.util.hasher.PasswordHasher;
+import com.epam.musicbox.util.hasher.Hasher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,11 +13,11 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
-public class PBKDF2PasswordHasher implements PasswordHasher {
+public class PBKDF2Hasher implements Hasher {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static final PBKDF2PasswordHasher instance = new PBKDF2PasswordHasher();
+    private static final PBKDF2Hasher instance = new PBKDF2Hasher();
 
     private static final int ITERATIONS = 65536;
     private static final int KEY_LENGTH = 128;
@@ -29,7 +29,7 @@ public class PBKDF2PasswordHasher implements PasswordHasher {
     private static final String ALGORITHM_NOT_FOUND = "Algorithm not found";
     private static final String INVALID_KEY_SPEC = "Invalid key specification";
 
-    private PBKDF2PasswordHasher() {
+    private PBKDF2Hasher() {
     }
 
     static {
@@ -41,44 +41,53 @@ public class PBKDF2PasswordHasher implements PasswordHasher {
         }
     }
 
-    public static PBKDF2PasswordHasher getInstance() {
+    public static PBKDF2Hasher getInstance() {
         return instance;
     }
 
-    public String hash(char[] password) {
+    public String hash(char[] plain) {
         byte[] salt = new byte[SALT_LENGTH];
         random.nextBytes(salt);
-        byte[] dk = pbkdf2(password, salt);
+        byte[] dk = pbkdf2(plain, salt);
         byte[] hash = new byte[salt.length + dk.length]; //salt + hash
         System.arraycopy(salt, 0, hash, 0, salt.length);
         System.arraycopy(dk, 0, hash, salt.length, dk.length);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
     }
 
-    public boolean checkPassword(char[] password, String token) {
-        byte[] hash = Base64.getUrlDecoder().decode(token);
-        byte[] salt = Arrays.copyOfRange(hash, 0, SALT_LENGTH);
-        byte[] check = pbkdf2(password, salt);
-        return Arrays.equals(hash, salt.length, hash.length, check, 0, check.length);
+    public boolean checkPassword(char[] plain, String hash) {
+        if (hash == null) {
+            return false;
+        }
+        byte[] hashBytes;
+        try {
+            hashBytes = Base64.getUrlDecoder().decode(hash);
+        } catch (IllegalArgumentException e) {
+            logger.error(e);
+            return false;
+        }
+        byte[] salt = Arrays.copyOfRange(hashBytes, 0, SALT_LENGTH);
+        byte[] check = pbkdf2(plain, salt);
+        return Arrays.equals(hashBytes, salt.length, hashBytes.length, check, 0, check.length);
     }
 
-    private static byte[] pbkdf2(char[] password, byte[] salt) {
+    private static byte[] pbkdf2(char[] plain, byte[] salt) {
         try {
-            KeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
+            KeySpec spec = new PBEKeySpec(plain, salt, ITERATIONS, KEY_LENGTH);
             return factory.generateSecret(spec).getEncoded();
         } catch (InvalidKeySpecException e) {
-            logger.fatal(INVALID_KEY_SPEC, e);
-            throw new Error(e);
+            logger.warn(INVALID_KEY_SPEC, e);
+            throw new AssertionError(e);
         }
     }
 
     @Override
-    public String hash(String password) {
-        return hash(password.toCharArray());
+    public String hash(String plain) {
+        return hash(plain == null ? null : plain.toCharArray());
     }
 
     @Override
-    public boolean checkPassword(String password, String token) {
-        return checkPassword(password.toCharArray(), token);
+    public boolean check(String plain, String hash) {
+        return checkPassword(plain == null ? null : plain.toCharArray(), hash);
     }
 }

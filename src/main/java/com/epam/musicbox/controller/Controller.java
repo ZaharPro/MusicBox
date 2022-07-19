@@ -66,7 +66,7 @@ public class Controller extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         } catch (CommandException e) {
-            logger.error(e.getMessage(), e);
+            logger.error(e);
             req.setAttribute(Parameter.MESSAGE, e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

@@ -121,7 +121,7 @@ public class ConnectionPool {
             usedConnections.push(connection);
             return connection;
         } catch (InterruptedException e) {
-            logger.error(e.getMessage(), e);
+            logger.error(e);
             Thread.currentThread().interrupt();
             return null;
         } finally {
@@ -158,7 +158,7 @@ public class ConnectionPool {
                 try {
                     connection.closeConnection();
                 } catch (SQLException e) {
-                    logger.error(e.getMessage(), e);
+                    logger.error(e);
                 }
             }
             Enumeration<Driver> drivers = DriverManager.getDrivers();
@@ -167,7 +167,7 @@ public class ConnectionPool {
                 try {
                     DriverManager.deregisterDriver(driver);
                 } catch (SQLException e) {
-                    logger.error(e.getMessage(), e);
+                    logger.error(e);
                 }
             }
             logger.info(POOL_DESTROYED_MSG);

@@ -6,8 +6,8 @@ import com.epam.musicbox.entity.User;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.service.AuthService;
 import com.epam.musicbox.service.UserService;
-import com.epam.musicbox.util.hasher.PasswordHasher;
-import com.epam.musicbox.util.hasher.impl.PBKDF2PasswordHasher;
+import com.epam.musicbox.util.hasher.Hasher;
+import com.epam.musicbox.util.hasher.impl.PBKDF2Hasher;
 import com.epam.musicbox.util.validator.Validator;
 import com.epam.musicbox.util.validator.impl.ValidatorImpl;
 import io.jsonwebtoken.*;
@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
     private static final ResourceBundle bundle = ResourceBundle.getBundle(PROPS_PATH);
 
     private final UserService userService = UserServiceImpl.getInstance();
-    private final PasswordHasher passwordHasher = PBKDF2PasswordHasher.getInstance();
+    private final Hasher hasher = PBKDF2Hasher.getInstance();
     private final Validator validator = ValidatorImpl.getInstance();
 
     private final Key secretKey;
@@ -142,7 +142,7 @@ public class AuthServiceImpl implements AuthService {
         if (optionalUser.isPresent())
             throw new ServiceException(USER_WITH_EMAIL_ALREADY_EXIST);
 
-        String hash = passwordHasher.hash(password);
+        String hash = hasher.hash(password);
         User user = new User(null, login, email, hash, Role.USER, false, Timestamp.from(Instant.now()));
         userService.save(user);
     }
@@ -160,7 +160,7 @@ public class AuthServiceImpl implements AuthService {
         if (user.getBanned())
             throw new ServiceException(USER_BANNED);
 
-        if (!passwordHasher.checkPassword(password, user.getPassword()))
+        if (!hasher.check(password, user.getPassword()))
             throw new ServiceException(INVALID_PASSWORD_MSG);
         return user;
     }
@@ -175,10 +175,10 @@ public class AuthServiceImpl implements AuthService {
         User user = userService.findById(userId)
                 .orElseThrow(() -> new ServiceException(USER_NOT_FOUND));
 
-        if (!passwordHasher.checkPassword(oldPassword, user.getPassword()))
+        if (!hasher.check(oldPassword, user.getPassword()))
             throw new ServiceException(INVALID_OLD_PASSWORD_MSG);
 
-        String hash = passwordHasher.hash(newPassword);
+        String hash = hasher.hash(newPassword);
         user.setPassword(hash);
         userService.save(user);
     }
