@@ -14,7 +14,7 @@ import java.util.Map;
 public interface AuthService {
 
     /**
-     * Gets token lifetime in seconds.
+     * Gets token lifetime.
      *
      * @return the token lifetime
      */
@@ -28,6 +28,14 @@ public interface AuthService {
      */
     String generateToken(Map<String, String> claims);
 
+    /**
+     * Parse token jws.
+     *
+     * @param token the token
+     * @return the jws
+     * @throws ServiceException the service exception
+     */
+    Jws<Claims> parseToken(String token) throws ServiceException;
 
     /**
      * Has token boolean.

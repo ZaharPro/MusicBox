@@ -15,9 +15,10 @@ public class PlaylistServiceImpl extends AbstractEntityService<Playlist> impleme
 
     private static final PlaylistServiceImpl instance = new PlaylistServiceImpl();
 
-    private final PlaylistRepository repository = PlaylistRepositoryImpl.getInstance();
+    private PlaylistRepository repository;
 
     private PlaylistServiceImpl() {
+        repository = PlaylistRepositoryImpl.getInstance();
     }
 
     public static PlaylistServiceImpl getInstance() {

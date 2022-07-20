@@ -163,7 +163,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
+        return QueryHelper.query(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override
@@ -173,7 +173,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findById(long id) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, userRowMapper, id);
+        return QueryHelper.query(SQL_FIND_BY_ID, userRowMapper, id);
     }
 
     @Override
@@ -206,18 +206,18 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findByLogin(String login) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_FIND_BY_LOGIN, userRowMapper, login);
+        return QueryHelper.query(SQL_FIND_BY_LOGIN, userRowMapper, login);
     }
 
     @Override
     public Optional<User> findByEmail(String email) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_FIND_BY_EMAIL, userRowMapper, email);
+        return QueryHelper.query(SQL_FIND_BY_EMAIL, userRowMapper, email);
     }
 
 
     @Override
     public long countByRole(int roleId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_BY_ROLE, countRowMapper, roleId).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_BY_ROLE, countRowMapper, roleId).orElse(0L);
     }
 
     @Override
@@ -232,7 +232,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public long countLikedTracks(long userId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_LIKED_TRACKS, countRowMapper, userId).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_LIKED_TRACKS, countRowMapper, userId).orElse(0L);
     }
 
     @Override
@@ -242,7 +242,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean isLikedTrack(long userId, long trackId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_EXIST_LIKED_TRACK, booleanRowMapper, userId, trackId).orElse(false);
+        return QueryHelper.query(SQL_EXIST_LIKED_TRACK, booleanRowMapper, userId, trackId).orElse(false);
     }
 
     @Override
@@ -260,7 +260,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public long countLikedAlbums(long userId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_LIKED_ALBUMS, countRowMapper, userId).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_LIKED_ALBUMS, countRowMapper, userId).orElse(0L);
     }
 
     @Override
@@ -270,7 +270,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean isLikedAlbum(long userId, long albumId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_EXIST_LIKED_ALBUM, booleanRowMapper, userId, albumId).orElse(false);
+        return QueryHelper.query(SQL_EXIST_LIKED_ALBUM, booleanRowMapper, userId, albumId).orElse(false);
     }
 
     @Override
@@ -288,7 +288,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public long countLikedArtists(long userId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_LIKED_ARTISTS, countRowMapper, userId).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_LIKED_ARTISTS, countRowMapper, userId).orElse(0L);
     }
 
     @Override
@@ -298,7 +298,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean isLikedArtist(long userId, long artistId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_EXIST_LIKED_ARTIST, booleanRowMapper, userId, artistId).orElse(false);
+        return QueryHelper.query(SQL_EXIST_LIKED_ARTIST, booleanRowMapper, userId, artistId).orElse(false);
     }
 
     @Override
@@ -316,7 +316,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public long countPlaylists(long userId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_PLAYLISTS, countRowMapper, userId).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_PLAYLISTS, countRowMapper, userId).orElse(0L);
     }
 
     @Override
@@ -326,6 +326,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean hasPlaylist(long userId, long playlistId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_EXIST_PLAYLIST, booleanRowMapper, userId, playlistId).orElse(false);
+        return QueryHelper.query(SQL_EXIST_PLAYLIST, booleanRowMapper, userId, playlistId).orElse(false);
     }
 }

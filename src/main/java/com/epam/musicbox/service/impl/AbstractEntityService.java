@@ -27,7 +27,6 @@ public abstract class AbstractEntityService<T extends Entity> implements EntityS
             if (!isValid(page, pageSize)) {
                 return new PageSearchResult<>(page, pageSize);
             }
-            Repository<T> repository = getRepository();
             long count = getRepository().count();
             if (count == 0) {
                 return new PageSearchResult<>(page, pageSize);

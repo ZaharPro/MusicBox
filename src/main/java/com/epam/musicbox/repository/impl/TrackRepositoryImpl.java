@@ -74,7 +74,7 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
+        return QueryHelper.query(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public Optional<Track> findById(long id) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, trackRowMapper, id);
+        return QueryHelper.query(SQL_FIND_BY_ID, trackRowMapper, id);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public long countByName(String name) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public long countArtists(long trackId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_ARTISTS, countRowMapper, trackId).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_ARTISTS, countRowMapper, trackId).orElse(0L);
     }
 
     @Override

@@ -22,7 +22,7 @@ public enum Role implements Entity {
      *
      * @return the id
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

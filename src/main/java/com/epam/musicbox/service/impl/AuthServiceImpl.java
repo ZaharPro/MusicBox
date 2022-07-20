@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
                 .compact();
     }
 
-    public Jws<Claims> buildToken(String token) throws ServiceException {
+    public Jws<Claims> parseToken(String token) throws ServiceException {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(secretKey)
@@ -122,7 +122,7 @@ public class AuthServiceImpl implements AuthService {
         Cookie cookie = getTokenCookie(req == null ? null : req.getCookies())
                 .orElseThrow(() -> new ServiceException(JWT_TOKEN_NOT_FOUND));
         String token = cookie.getValue();
-        return buildToken(token);
+        return parseToken(token);
     }
 
     @Override

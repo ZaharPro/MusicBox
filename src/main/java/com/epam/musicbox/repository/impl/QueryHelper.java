@@ -19,7 +19,7 @@ public final class QueryHelper {
     }
 
     /**
-     * Query one optional.
+     * Query one.
      *
      * @param <T>    the type parameter
      * @param sql    the sql
@@ -28,9 +28,9 @@ public final class QueryHelper {
      * @return the optional
      * @throws RepositoryException the repository exception
      */
-    public static <T> Optional<T> queryOne(String sql,
-                                           RowMapper<T> mapper,
-                                           Object... params) throws RepositoryException {
+    public static <T> Optional<T> query(String sql,
+                                        RowMapper<T> mapper,
+                                        Object... params) throws RepositoryException {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             QueryHelper.setParams(preparedStatement, params);
@@ -54,7 +54,7 @@ public final class QueryHelper {
     public static <T> List<T> queryAll(String sql,
                                        RowMapper<T> mapper,
                                        Object... params) throws RepositoryException {
-        return queryOne(sql, new ListRowMapper<>(mapper), params).orElse(Collections.emptyList());
+        return query(sql, new ListRowMapper<>(mapper), params).orElse(Collections.emptyList());
     }
 
     /**

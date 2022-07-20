@@ -57,7 +57,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
+        return QueryHelper.query(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @Override
     public Optional<Album> findById(long id) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, albumRowMapper, id);
+        return QueryHelper.query(SQL_FIND_BY_ID, albumRowMapper, id);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class AlbumRepositoryImpl implements AlbumRepository {
 
     @Override
     public long countByName(String name) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
     }
 
     @Override

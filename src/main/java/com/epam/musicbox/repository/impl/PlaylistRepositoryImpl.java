@@ -86,7 +86,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public long count() throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT, countRowMapper).orElse(0L);
+        return QueryHelper.query(SQL_COUNT, countRowMapper).orElse(0L);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public Optional<Playlist> findById(long id) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_FIND_BY_ID, playlistRowMapper, id);
+        return QueryHelper.query(SQL_FIND_BY_ID, playlistRowMapper, id);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public long countByName(String name) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_BY_NAME, countRowMapper, name).orElse(0L);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public long countTracks(long artistId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_COUNT_TRACKS, countRowMapper, artistId).orElse(0L);
+        return QueryHelper.query(SQL_COUNT_TRACKS, countRowMapper, artistId).orElse(0L);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class PlaylistRepositoryImpl implements PlaylistRepository {
 
     @Override
     public boolean hasTrack(long artistId, long trackId) throws RepositoryException {
-        return QueryHelper.queryOne(SQL_EXIST_TRACK, booleanRowMapper, artistId, trackId).orElse(false);
+        return QueryHelper.query(SQL_EXIST_TRACK, booleanRowMapper, artistId, trackId).orElse(false);
     }
 
     @Override
