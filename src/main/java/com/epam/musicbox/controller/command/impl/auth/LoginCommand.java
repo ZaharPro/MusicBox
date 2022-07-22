@@ -44,7 +44,7 @@ public class LoginCommand implements Command {
         Map<String, String> claims = new HashMap<>();
         claims.put(Parameter.USER_ID, String.valueOf(user.getId()));
         claims.put(Parameter.LOGIN, user.getLogin());
-        claims.put(Parameter.ROLE, user.getRole().getName());
+        claims.put(Parameter.ROLE, user.getRole().name());
         String token = authService.generateToken(claims);
 
         Cookie cookie = new Cookie(Parameter.ACCESS_TOKEN, token);

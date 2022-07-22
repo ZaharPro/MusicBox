@@ -39,9 +39,9 @@ public class SessionFilter implements Filter {
                 session.setAttribute(Parameter.LOGIN, login);
 
                 Role role = ParameterTaker.getRole(body);
-                session.setAttribute(Parameter.ROLE, role.getName());
+                session.setAttribute(Parameter.ROLE, role.name());
             } catch (ServiceException e) {
-                session.setAttribute(Parameter.ROLE, Role.GUEST.getName());
+                session.setAttribute(Parameter.ROLE, Role.GUEST.name());
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);

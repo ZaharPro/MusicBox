@@ -20,7 +20,7 @@
         <div class="row align-items-center py-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
-                    <c:when test="${playlist != null && playlist.getPicture() != null}">
+                    <c:when test="${playlist ne null && playlist.getPicture() ne null}">
                         <img class="card-img"
                              src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                     </c:when>

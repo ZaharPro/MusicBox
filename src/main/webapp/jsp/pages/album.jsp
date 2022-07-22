@@ -20,7 +20,7 @@
         <div class="row align-items-center py-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
-                    <c:when test="${album != null && album.getPicture() != null}">
+                    <c:when test="${album ne null && album.getPicture() ne null}">
                         <img class="card-img"
                              src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                     </c:when>
@@ -34,7 +34,7 @@
                     ${album.getName()}
                 </h2>
                 <c:choose>
-                    <c:when test="${like == false}">
+                    <c:when test="${like eq false}">
                         <c:set var="cmd" value="user-mark-liked-album" scope="request"/>
                     </c:when>
                     <c:otherwise>
@@ -49,7 +49,7 @@
                     <div class="btn-group btn-group-sm">
                         <button type="submit" class="btn w-100">
                             <c:choose>
-                                <c:when test="${like == false}">
+                                <c:when test="${like eq false}">
                                     <fmt:message key="album.mark.liked"/>
                                 </c:when>
                                 <c:otherwise>
@@ -57,7 +57,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </button>
-                        <ct:access role="admin">
+                        <ct:access role="ADMIN">
                             <a class="btn w-100 ml-1"
                                href="${pageContext.request.contextPath}/controller?command=edit-album-page&albumid=${album.getId()}">
                                 <fmt:message key="album.edit"/>

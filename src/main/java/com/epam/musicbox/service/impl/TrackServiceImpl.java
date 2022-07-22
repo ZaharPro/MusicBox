@@ -15,7 +15,7 @@ public class TrackServiceImpl extends AbstractEntityService<Track> implements Tr
 
     private static final TrackServiceImpl instance = new TrackServiceImpl();
 
-    private TrackRepository trackRepository;
+    private final TrackRepository trackRepository;
 
     private TrackServiceImpl() {
         trackRepository = TrackRepositoryImpl.getInstance();

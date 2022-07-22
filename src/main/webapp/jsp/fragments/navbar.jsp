@@ -26,14 +26,14 @@
                         <fmt:message key="navbar.home"/>
                     </a>
                 </li>
-                <ct:access role="guest">
+                <ct:access role="GUEST">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=login-page">
                             <fmt:message key="navbar.login"/>
                         </a>
                     </li>
                 </ct:access>
-                <ct:access role="user">
+                <ct:access role="USER">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=profile-page">
                             <fmt:message key="navbar.profile"/>
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                 </ct:access>
-                <ct:access role="admin">
+                <ct:access role="ADMIN">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=profile-page">
                             <fmt:message key="navbar.profile"/>
@@ -63,7 +63,7 @@
                     </li>
                 </ct:access>
             </ul>
-            <ct:access role="not-guest">
+            <c:if test="${role eq 'USER' or role eq 'ADMIN'}">
                 <form class="form-inline my-2 my-lg-0 mr-1" method="post"
                       action="${pageContext.request.contextPath}/controller?command=search">
                     <input class="form-control mr-sm-2" type="search" name="name" aria-label="Search" value="${name}"
@@ -72,14 +72,14 @@
                         <fmt:message key="navbar.search"/>
                     </button>
                 </form>
-            </ct:access>
+            </c:if>
 
             <div class="dropdown" id="localeChooser">
                 <a class="btn" href="#" id="navbarDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <ct:locale-label/>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" style="width: 100%; min-width: 3rem;" aria-labelledby="navbarDropdown">
                     <form method="post"
                           action="${pageContext.request.contextPath}/controller?command=change-locale">
                         <input type="hidden" name="locale" value="en_EN">

@@ -61,7 +61,7 @@
                                        href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}&albumpage=${albumpsr.getPage()}">
                                             ${album.getName()}
                                         <c:choose>
-                                            <c:when test="${album != null && album.getPicture() != null}">
+                                            <c:when test="${album ne null && album.getPicture() ne null}">
                                                 <img class="img-fluid col-1"
                                                      src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                                             </c:when>
@@ -94,7 +94,7 @@
                                        href="${pageContext.request.contextPath}/controller?command=artist-get-by-id&artistid=${artist.getId()}&artistpage=${artistpsr.getPage()}">
                                             ${artist.getName()}
                                         <c:choose>
-                                            <c:when test="${artist != null && artist.getAvatar() != null}">
+                                            <c:when test="${artist ne null && artist.getAvatar() ne null}">
                                                 <img class="img-fluid col-1"
                                                      src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}">
                                             </c:when>

@@ -114,11 +114,6 @@ body {
     border-bottom: 1px solid #dd2476;
 }
 
-.dropdown-menu {
-    width: 100%;
-    min-width: 3rem;
-}
-
 .audioplayer {
     width: 100%;
 }

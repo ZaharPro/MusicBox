@@ -10,7 +10,7 @@ public class ValidatorImpl implements Validator {
     private static final String PASSWORD_REGEX = "^([A-Za-z\\d@$!%*#?&]{8,32})$";
     private static final String EMAIL_REGEX =
             "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$";
-    private static final String NAME_REGEX = "^([A-Za-z\\d\\[\\]() -]{4,64})$";
+    private static final String NAME_REGEX = "^([A-Za-z\\d\\[\\]() -@$!%*#?&]{4,64})$";
     private static final String AUDIO_FILE_NAME_REGEX = ".*\\.(?:wav|mp3)$";
     private static final String IMAGE_FILE_NAME_REGEX = ".*\\.(gif|jpe?g|png)$";
 

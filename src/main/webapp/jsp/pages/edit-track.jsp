@@ -21,9 +21,9 @@
     <div class="card col f-col h-100 py-3 mb-0 bg-dark">
         <div class="row justify-content-center">
             <c:choose>
-                <c:when test="${album != null}">
+                <c:when test="${album ne null}">
                     <c:choose>
-                        <c:when test="${album.getPicture() != null}">
+                        <c:when test="${album.getPicture() ne null}">
                             <a class="f-col justify-content-center img-link img-link-sm m-1"
                                style='background-image: url("/file/img/${album.getPicture()}");'
                                href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
@@ -50,7 +50,7 @@
         <form method="post" class="row py-3"
               action="${pageContext.request.contextPath}/controller?command=track-save"
               enctype="multipart/form-data">
-            <c:if test="${track != null}">
+            <c:if test="${track ne null}">
                 <input type="hidden" name="trackid" value="${track.getId()}">
             </c:if>
             <div class="form-outline col-3 f-col justify-content-center">
@@ -58,8 +58,8 @@
                     <fmt:message key="edit.track.enter.name"/>
                 </label>
                 <input type="text" id="trackName" name="name" class="form-control form-control-lg w-100"
-                       minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
-                <c:if test="${track != null}">
+                       minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -@$!%*#?&]+"
+                <c:if test="${track ne null}">
                        value="${track.getName()}"
                 </c:if>>
             </div>
@@ -73,14 +73,14 @@
             </div>
 
             <c:choose>
-                <c:when test="${album != null}">
+                <c:when test="${album ne null}">
                     <input type="hidden" name="albumid" value="${album.getId()}">
                     <input type="hidden" name="albumpage" value="${albumpsr.getPage()}">
                     <div class="btn-group btn-group-sm offset-1 col-2 f-col justify-content-center">
                         <button type="submit" class="btn w-100">
                             <fmt:message key="edit.track.save"/>
                         </button>
-                        <c:if test="${track != null}">
+                        <c:if test="${track ne null}">
                             <a class="btn w-100 mt-2"
                                href="${pageContext.request.contextPath}/controller?command=track-delete&trackid=${track.getId()}">
                                 <fmt:message key="edit.track.delete"/>
@@ -101,8 +101,8 @@
                 </c:otherwise>
             </c:choose>
         </form>
-        <c:if test="${track != null && track.getAudio() != null}">
-            <div class="d-flex justify-content-center my-3">
+        <c:if test="${track ne null && track.getAudio() ne null}">
+            <div class="d-flex justify-content-center my-3" style="width: 100%">
                 <audio class="audioplayer" preload="auto" controls>
                     <source src="${pageContext.request.contextPath}/file/audio/${track.getAudio()}" type="audio/mpeg">
                 </audio>

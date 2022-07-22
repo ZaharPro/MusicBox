@@ -21,7 +21,7 @@
             <fmt:message key="user.title"/>
         </h2>
         <c:choose>
-            <c:when test="${user != null}">
+            <c:when test="${user ne null}">
                 <div class="f-col align-items-center">
                     <div class="col-auto">
                         <div class="row mb-3">
@@ -62,7 +62,7 @@
                             </h4>
                             <div class="col-3 text-info">
                                 <c:choose>
-                                    <c:when test="${user.getBanned() == true}">
+                                    <c:when test="${user.getBanned() eq true}">
                                         <fmt:message key="user.banned"/>
                                     </c:when>
                                     <c:otherwise>
@@ -76,7 +76,7 @@
                                           action="${pageContext.request.contextPath}/controller?command=user-set-ban">
                                         <input type="hidden" name="userid" value="${user.getId()}"/>
                                         <c:choose>
-                                            <c:when test="${user.getBanned() == true}">
+                                            <c:when test="${user.getBanned() eq true}">
                                                 <input type="hidden" name="banned" value="false"/>
                                                 <button type="submit" class="btn btn-sm w-100">
                                                     <fmt:message key="user.unban"/>

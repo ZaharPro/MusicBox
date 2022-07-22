@@ -74,7 +74,7 @@
                 </button>
             </div>
 
-            <c:if test="${msg != null}">
+            <c:if test="${msg ne null}">
                 <p class="text-center text-danger mt-1">${msg}</p>
             </c:if>
         </form>

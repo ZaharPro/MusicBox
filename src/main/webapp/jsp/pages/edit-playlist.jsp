@@ -20,7 +20,7 @@
         <div class="row align-items-center py-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
-                    <c:when test="${playlist != null && playlist.getPicture() != null}">
+                    <c:when test="${playlist ne null && playlist.getPicture() ne null}">
                         <img class="card-img"
                              src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                     </c:when>
@@ -33,7 +33,7 @@
                 <form method="post" class="row h-100"
                       action="${pageContext.request.contextPath}/controller?command=playlist-save"
                       enctype="multipart/form-data">
-                    <c:if test="${playlist != null}">
+                    <c:if test="${playlist ne null}">
                         <input type="hidden" name="playlistid" value="${playlist.getId()}">
                     </c:if>
                     <div class="form-outline col-3 f-col justify-content-center">
@@ -41,8 +41,8 @@
                             <fmt:message key="edit.playlist.enter.name"/>
                         </label>
                         <input type="text" id="playlistName" name="name" class="form-control form-control-lg w-100"
-                               minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
-                        <c:if test="${playlist != null}">
+                               minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -@$!%*#?&]+"
+                        <c:if test="${playlist ne null}">
                                value="${playlist.getName()}"
                         </c:if>>
                     </div>
@@ -61,7 +61,7 @@
                         <button type="submit" class="btn w-100">
                             <fmt:message key="edit.playlist.save"/>
                         </button>
-                        <c:if test="${playlist != null}">
+                        <c:if test="${playlist ne null}">
                             <a class="btn w-100 mt-2"
                                href="${pageContext.request.contextPath}/controller?command=playlist-delete&playlistid=${playlist.getId()}">
                                 <fmt:message key="edit.playlist.delete"/>
@@ -71,7 +71,7 @@
                 </form>
             </div>
         </div>
-        <c:if test="${playlist != null}">
+        <c:if test="${playlist ne null}">
             <div class="col f-col h-100 py-3 mb-0">
                 <h2 class="title text-center mb-2">
                     <fmt:message key="tracks.title"/>

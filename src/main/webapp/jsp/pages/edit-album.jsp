@@ -20,7 +20,7 @@
         <div class="row align-items-center py-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
-                    <c:when test="${album != null && album.getPicture() != null}">
+                    <c:when test="${album ne null && album.getPicture() ne null}">
                         <img class="card-img"
                              src="${pageContext.request.contextPath}/file/img/${album.getPicture()}">
                     </c:when>
@@ -33,7 +33,7 @@
                 <form method="post" class="row h-100"
                       action="${pageContext.request.contextPath}/controller?command=album-save"
                       enctype="multipart/form-data">
-                    <c:if test="${album != null}">
+                    <c:if test="${album ne null}">
                         <input type="hidden" name="albumid" value="${album.getId()}">
                     </c:if>
                     <div class="form-outline col-3 f-col justify-content-center">
@@ -41,8 +41,8 @@
                             <fmt:message key="edit.album.enter.name"/>
                         </label>
                         <input type="text" id="albumName" name="name" class="form-control form-control-lg w-100"
-                               minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
-                        <c:if test="${album != null}">
+                               minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -@$!%*#?&]+"
+                        <c:if test="${album ne null}">
                                value="${album.getName()}"
                         </c:if>>
                     </div>
@@ -61,7 +61,7 @@
                         <button type="submit" class="btn w-100">
                             <fmt:message key="edit.album.save"/>
                         </button>
-                        <c:if test="${album != null}">
+                        <c:if test="${album ne null}">
                             <a class="btn w-100 mt-2"
                                href="${pageContext.request.contextPath}/controller?command=album-delete&albumid=${album.getId()}">
                                 <fmt:message key="edit.album.delete"/>

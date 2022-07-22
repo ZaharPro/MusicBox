@@ -20,7 +20,7 @@
         <div class="row align-items-center py-3">
             <div class="col-lg-2 col-md-2">
                 <c:choose>
-                    <c:when test="${artist != null && artist.getAvatar() != null}">
+                    <c:when test="${artist ne null && artist.getAvatar() ne null}">
                         <img class="card-img" src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}">
                     </c:when>
                     <c:otherwise>
@@ -32,7 +32,7 @@
                 <form method="post" class="row h-100"
                       action="${pageContext.request.contextPath}/controller?command=artist-save"
                       enctype="multipart/form-data">
-                    <c:if test="${artist != null}">
+                    <c:if test="${artist ne null}">
                         <input type="hidden" name="artistid" value="${artist.getId()}">
                     </c:if>
                     <div class="form-outline col-3 mb-4">
@@ -40,8 +40,8 @@
                             <fmt:message key="edit.artist.enter.name"/>
                         </label>
                         <input type="text" id="artistName" name="name" class="form-control form-control-lg w-100"
-                               minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -]+"
-                        <c:if test="${artist != null}">
+                               minlength="4" maxlength="64" pattern="[A-Za-z\\d\\[\\]() -@$!%*#?&]+"
+                        <c:if test="${artist ne null}">
                                value="${artist.getName()}"
                         </c:if>>
                     </div>
@@ -60,7 +60,7 @@
                         <button type="submit" class="btn w-100">
                             <fmt:message key="edit.artist.save"/>
                         </button>
-                        <c:if test="${artist != null}">
+                        <c:if test="${artist ne null}">
                             <a class="btn w-100 mt-2"
                                href="${pageContext.request.contextPath}/controller?command=artist-delete&artistid=${artist.getId()}">
                                 <fmt:message key="edit.artist.delete"/>
@@ -70,7 +70,7 @@
                 </form>
             </div>
         </div>
-        <c:if test="${artist != null}">
+        <c:if test="${artist ne null}">
             <div class="col f-col h-100 py-3 mb-0">
                 <h2 class="title text-center mb-2">
                     <fmt:message key="tracks.title"/>

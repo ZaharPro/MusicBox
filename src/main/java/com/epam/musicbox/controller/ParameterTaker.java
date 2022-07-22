@@ -28,7 +28,7 @@ public final class ParameterTaker {
     private static final Function<String, Integer> INT_MAPPER = Integer::parseInt;
     private static final Function<String, Long> LONG_MAPPER = Long::parseLong;
     private static final Function<String, Boolean> BOOLEAN_MAPPER = Boolean::parseBoolean;
-    private static final Function<String, Role> ROLE_MAPPER = Role::findByName;
+    private static final Function<String, Role> ROLE_MAPPER = Role::valueOf;
 
     private static final int FIRST_PAGE = 1;
     private static final int DEFAULT_PAGE_SIZE = 7;
@@ -52,8 +52,8 @@ public final class ParameterTaker {
         }
         try {
             return Optional.ofNullable(function.apply(value.toString()));
-        } catch (NumberFormatException e) {
-            logger.info(JWT_VALUE_ERROR_MSG + paramName, e);
+        } catch (IllegalArgumentException e) {
+            logger.error(JWT_VALUE_ERROR_MSG + paramName, e);
             return Optional.empty();
         }
     }
@@ -101,8 +101,8 @@ public final class ParameterTaker {
         }
         try {
             return Optional.ofNullable(function.apply(value));
-        } catch (NumberFormatException e) {
-            logger.info(REQ_PARAMETER_ERROR_MSG + paramName, e);
+        } catch (IllegalArgumentException e) {
+            logger.error(REQ_PARAMETER_ERROR_MSG + paramName, e);
             return Optional.empty();
         }
     }

@@ -14,7 +14,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${command == null}">
+<c:if test="${command eq null}">
     <c:set var="command" value="artist-get" scope="request"/>
 </c:if>
 
@@ -33,7 +33,7 @@
                                href="${pageContext.request.contextPath}/controller?command=artist-get-by-id&artistid=${artist.getId()}">
                                     ${artist.getName()}
                                 <c:choose>
-                                    <c:when test="${artist != null && artist.getAvatar() != null}">
+                                    <c:when test="${artist ne null && artist.getAvatar() ne null}">
                                         <img class="img-fluid col-1"
                                              src="${pageContext.request.contextPath}/file/img/${artist.getAvatar()}">
                                     </c:when>

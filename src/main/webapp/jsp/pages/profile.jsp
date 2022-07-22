@@ -38,7 +38,7 @@
                 </span>
             </div>
             <c:choose>
-                <c:when test="${user.getBanned() == true}">
+                <c:when test="${user.getBanned() eq true}">
                     <div class="d-flex mb-5 align-items-center">
                         <h4 class="h4 text-primary mr-3">
                             <fmt:message key="user.status"/>

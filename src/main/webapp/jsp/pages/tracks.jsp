@@ -14,7 +14,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${command == null}">
+<c:if test="${command eq null}">
     <c:set var="command" value="track-get" scope="request"/>
 </c:if>
 

@@ -14,7 +14,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${command == null}">
+<c:if test="${command eq null}">
     <c:set var="command" value="playlist-get" scope="request"/>
 </c:if>
 
@@ -37,7 +37,7 @@
                                href="${pageContext.request.contextPath}/controller?command=playlist-get-by-id&playlistid=${playlist.getId()}">
                                     ${playlist.getName()}
                                 <c:choose>
-                                    <c:when test="${playlist != null && playlist.getPicture() != null}">
+                                    <c:when test="${playlist ne null && playlist.getPicture() ne null}">
                                         <img class="img-fluid col-1"
                                              src="${pageContext.request.contextPath}/file/img/${playlist.getPicture()}">
                                     </c:when>

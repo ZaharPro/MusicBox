@@ -18,7 +18,7 @@
             Error
         </h2>
 
-        <c:if test="${pageContext.errorData.statusCode != 0}">
+        <c:if test="${pageContext.errorData.statusCode ne 0}">
             <div class="mb-3">
                 <h4 class="text-danger text-center mb-1">
                     Status code
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${pageContext.errorData.throwable != null}">
+        <c:if test="${pageContext.errorData.throwable ne null}">
             <div class="mb-3">
                 <h4 class="text-danger text-center mb-1">
                     Exception
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${msg != null}">
+        <c:if test="${msg ne null}">
             <div class="mb-3">
                 <h4 class="text-danger text-center mb-1">
                     Message

@@ -14,7 +14,7 @@
 <body>
 <c:import url="/jsp/fragments/navbar.jsp"/>
 
-<c:if test="${command == null}">
+<c:if test="${command eq null}">
     <c:set var="command" value="user-get" scope="request"/>
 </c:if>
 
@@ -27,11 +27,11 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="btn-group btn-group-sm">
                 <a class="btn"
-                   href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=user">
+                   href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=USER">
                     <fmt:message key="users.only.users"/>
                 </a>
                 <a class="btn"
-                   href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=admin">
+                   href="${pageContext.request.contextPath}/controller?command=user-get-by-role&role=ADMIN">
                     <fmt:message key="users.only.admins"/>
                 </a>
                 <a class="btn"

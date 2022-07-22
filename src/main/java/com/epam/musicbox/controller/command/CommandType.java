@@ -1,93 +1,90 @@
 package com.epam.musicbox.controller.command;
 
+import java.util.Locale;
+
 /**
  * The enum Command type.
  */
 public enum CommandType {
+
     //page
-    SIGN_UP_PAGE("sign-up-page"),
-    LOGIN_PAGE("login-page"),
-    CHANGE_PASSWORD_PAGE("change-password-page"),
-    HOME_PAGE("home-page"),
-    ADMIN_PAGE("admin-page"),
-    PROFILE_PAGE("profile-page"),
-    EDIT_ARTIST_PAGE("edit-artist-page"),
-    EDIT_ALBUM_PAGE("edit-album-page"),
-    EDIT_TRACK_PAGE("edit-track-page"),
-    EDIT_PLAYLIST_PAGE("edit-playlist-page"),
-    SEARCH("search"),
-    CHANGE_LOCALE("change-locale"),
+    SIGN_UP_PAGE,
+    LOGIN_PAGE,
+    CHANGE_PASSWORD_PAGE,
+    HOME_PAGE,
+    ADMIN_PAGE,
+    PROFILE_PAGE,
+    EDIT_ARTIST_PAGE,
+    EDIT_ALBUM_PAGE,
+    EDIT_TRACK_PAGE,
+    EDIT_PLAYLIST_PAGE,
+
+    //common
+    SEARCH,
+    CHANGE_LOCALE,
 
     //auth
-    LOGIN("login"),
-    LOGOUT("logout"),
-    SIGN_UP("sign-up"),
-    CHANGE_PASSWORD("change-password"),
+    LOGIN,
+    LOGOUT,
+    SIGN_UP,
+    CHANGE_PASSWORD,
 
     //track
-    TRACK_GET("track-get"),
-    TRACK_GET_BY_ID("track-get-by-id"),
-    TRACK_GET_BY_NAME("track-get-by-name"),
-    TRACK_SAVE("track-save"),
-    TRACK_DELETE("track-delete"),
+    TRACK_GET,
+    TRACK_GET_BY_ID,
+    TRACK_GET_BY_NAME,
+    TRACK_SAVE,
+    TRACK_DELETE,
 
     //album
-    ALBUM_GET("album-get"),
-    ALBUM_GET_BY_ID("album-get-by-id"),
-    ALBUM_GET_BY_NAME("album-get-by-name"),
-    ALBUM_SAVE("album-save"),
-    ALBUM_DELETE("album-delete"),
+    ALBUM_GET,
+    ALBUM_GET_BY_ID,
+    ALBUM_GET_BY_NAME,
+    ALBUM_SAVE,
+    ALBUM_DELETE,
 
     //artist
-    ARTIST_GET("artist-get"),
-    ARTIST_GET_BY_ID("artist-get-by-id"),
-    ARTIST_GET_BY_NAME("artist-get-by-name"),
-    ARTIST_SAVE("artist-save"),
-    ARTIST_DELETE("artist-delete"),
-
-    ARTIST_ADD_TRACK("artist-add-track"),
-    ARTIST_REMOVE_TRACK("artist-remove-track"),
+    ARTIST_GET,
+    ARTIST_GET_BY_ID,
+    ARTIST_GET_BY_NAME,
+    ARTIST_SAVE,
+    ARTIST_DELETE,
+    ARTIST_ADD_TRACK,
+    ARTIST_REMOVE_TRACK,
 
     //playlist
-    PLAYLIST_GET("playlist-get"),
-    PLAYLIST_GET_BY_ID("playlist-get-by-id"),
-    PLAYLIST_GET_BY_NAME("playlist-get-by-name"),
-    PLAYLIST_SAVE("playlist-save"),
-    PLAYLIST_DELETE("playlist-delete"),
-
-    PLAYLIST_ADD_TRACK("playlist-add-track"),
-    PLAYLIST_REMOVE_TRACK("playlist-remove-track"),
+    PLAYLIST_GET,
+    PLAYLIST_GET_BY_ID,
+    PLAYLIST_GET_BY_NAME,
+    PLAYLIST_SAVE,
+    PLAYLIST_DELETE,
+    PLAYLIST_ADD_TRACK,
+    PLAYLIST_REMOVE_TRACK,
 
     //user
-    USER_GET("user-get"),
-    USER_DELETE("user-delete"),
-
-    USER_GET_BY_ID("user-get-by-id"),
-    USER_GET_BY_LOGIN("user-get-by-login"),
-    USER_GET_BY_EMAIL("user-get-by-email"),
-    USER_GET_BY_ROLE("user-get-by-role"),
-
-    USER_GET_LIKED_ALBUMS("user-get-liked-albums"),
-    USER_MARK_LIKED_ALBUM("user-mark-liked-album"),
-    USER_UNMARK_LIKED_ALBUM("user-unmark-liked-album"),
-
-    USER_GET_LIKED_ARTISTS("user-get-liked-artists"),
-    USER_MARK_LIKED_ARTIST("user-mark-liked-artist"),
-    USER_UNMARK_LIKED_ARTIST("user-unmark-liked-artist"),
-
-    USER_GET_LIKED_TRACKS("user-get-liked-tracks"),
-    USER_MARK_LIKED_TRACK("user-mark-liked-track"),
-    USER_UNMARK_LIKED_TRACK("user-unmark-liked-track"),
-
-    USER_GET_PLAYLISTS("user-get-playlists"),
-
-    USER_SET_BAN("user-set-ban"),
-    USER_SET_ROLE("user-set-role");
+    USER_GET,
+    USER_DELETE,
+    USER_GET_BY_ID,
+    USER_GET_BY_LOGIN,
+    USER_GET_BY_EMAIL,
+    USER_GET_BY_ROLE,
+    USER_GET_LIKED_ALBUMS,
+    USER_MARK_LIKED_ALBUM,
+    USER_UNMARK_LIKED_ALBUM,
+    USER_GET_LIKED_ARTISTS,
+    USER_MARK_LIKED_ARTIST,
+    USER_UNMARK_LIKED_ARTIST,
+    USER_GET_LIKED_TRACKS,
+    USER_MARK_LIKED_TRACK,
+    USER_UNMARK_LIKED_TRACK,
+    USER_GET_PLAYLISTS,
+    USER_SET_BAN,
+    USER_SET_ROLE;
 
     private final String name;
 
-    CommandType(String name) {
-        this.name = name;
+    CommandType() {
+        this.name = name().toLowerCase(Locale.ROOT).replace('_', '-');
     }
 
     /**
@@ -106,11 +103,11 @@ public enum CommandType {
      * @return the command type
      */
     public static CommandType findByName(String name) {
-        if (name == null)
-            return null;
-        for (CommandType type : CommandType.values()) {
-            if (name.equals(type.getName())) {
-                return type;
+        if (name != null) {
+            for (CommandType value : CommandType.values()) {
+                if (value.getName().equals(name)) {
+                    return value;
+                }
             }
         }
         return null;

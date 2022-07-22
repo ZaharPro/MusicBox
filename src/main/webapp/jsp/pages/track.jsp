@@ -21,9 +21,9 @@
     <div class="card col f-col h-100 align-items-center py-3 mb-0 bg-dark">
         <div class="row justify-content-center">
             <c:choose>
-                <c:when test="${album != null}">
+                <c:when test="${album ne null}">
                     <c:choose>
-                        <c:when test="${album.getPicture() != null}">
+                        <c:when test="${album.getPicture() ne null}">
                             <a class="f-col justify-content-center img-link img-link-sm m-1"
                                style='background-image: url("/file/img/${album.getPicture()}");'
                                href="${pageContext.request.contextPath}/controller?command=album-get-by-id&albumid=${album.getId()}">
@@ -53,7 +53,7 @@
             </h2>
             <div class="btn-group btn-group-sm f-col align-items-center">
                 <c:choose>
-                    <c:when test="${like == false}">
+                    <c:when test="${like eq false}">
                         <c:set var="cmd" value="user-mark-liked-track" scope="request"/>
                     </c:when>
                     <c:otherwise>
@@ -65,7 +65,7 @@
                     <input type="hidden" name="trackid" value="${track.getId()}"/>
                     <button type="submit" class="btn w-100">
                         <c:choose>
-                            <c:when test="${like == false}">
+                            <c:when test="${like eq false}">
                                 <fmt:message key="track.mark.liked"/>
                             </c:when>
                             <c:otherwise>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                 </c:if>
-                <ct:access role="admin">
+                <ct:access role="ADMIN">
                     <a class="btn w-100 mt-2"
                        href="${pageContext.request.contextPath}/controller?command=edit-track-page&trackid=${track.getId()}">
                         <fmt:message key="track.edit"/>
@@ -100,8 +100,8 @@
             </div>
         </div>
 
-        <c:if test="${track.getAudio() != null}">
-            <div class="d-flex justify-content-center my-3">
+        <c:if test="${track.getAudio() ne null}">
+            <div class="d-flex justify-content-center my-3" style="width: 100%">
                 <audio class="audioplayer" preload="auto" controls>
                     <source src="${pageContext.request.contextPath}/file/audio/${track.getAudio()}" type="audio/mpeg">
                 </audio>

@@ -20,7 +20,7 @@ public class UserServiceImpl extends AbstractEntityService<User> implements User
     private static final UserServiceImpl instance = new UserServiceImpl();
 
     private final Validator validator = ValidatorImpl.getInstance();
-    private UserRepository repository;
+    private final UserRepository repository;
 
     private UserServiceImpl() {
         repository = UserRepositoryImpl.getInstance();

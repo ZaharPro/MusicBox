@@ -43,9 +43,9 @@ public class ArtistSaveCommand implements Command {
     public Router execute(HttpServletRequest req) throws CommandException {
         try {
             Artist artist;
-            Optional<Long> optionalLong = ParameterTaker.getOptionalLong(req, Parameter.ALBUM_ID);
-            if (optionalLong.isPresent()) {
-                long id = optionalLong.get();
+            Optional<Long> optionalId = ParameterTaker.getOptionalLong(req, Parameter.ARTIST_ID);
+            if (optionalId.isPresent()) {
+                long id = optionalId.get();
                 artist = artistService.findById(id).
                         orElseThrow(() -> new CommandException(ARTIST_NOT_FOUND_MSG));
                 fill(req, artist);
