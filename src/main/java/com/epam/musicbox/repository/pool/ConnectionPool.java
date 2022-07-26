@@ -114,8 +114,8 @@ public class ConnectionPool {
      * @return the connection
      */
     public ProxyConnection getConnection() {
+        lock.lock();
         try {
-            lock.lock();
             semaphore.acquire();
             ProxyConnection connection = freeConnections.pop();
             usedConnections.push(connection);
@@ -135,12 +135,12 @@ public class ConnectionPool {
      * @param connection the connection
      */
     public void release(ProxyConnection connection) {
+        lock.lock();
         try {
-            lock.lock();
             if (usedConnections.remove(connection)) {
                 freeConnections.push(connection);
+                semaphore.release();
             }
-            semaphore.release();
         } finally {
             lock.unlock();
         }
@@ -150,8 +150,8 @@ public class ConnectionPool {
      * Destroy pool.
      */
     public void destroyPool() {
+        lock.lock();
         try {
-            lock.lock();
             freeConnections.addAll(usedConnections);
             usedConnections.clear();
             for (ProxyConnection connection : freeConnections) {

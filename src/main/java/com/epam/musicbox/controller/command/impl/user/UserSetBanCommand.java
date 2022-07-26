@@ -16,9 +16,11 @@ public class UserSetBanCommand implements Command {
 
     private static final String USER_NOT_FOUND = "User not found";
 
-    private static final String REDIRECT_URL = String.format("%s&%s=",
-            CommandType.USER_GET_BY_ID.getName(),
-            Parameter.USER_ID);
+    private static final String REDIRECT_URL =
+            String.format("controller?%s=%s&%s=",
+                    Parameter.COMMAND,
+                    CommandType.USER_GET_BY_ID.getName(),
+                    Parameter.USER_ID);
 
     private final UserService userService = UserServiceImpl.getInstance();
 
