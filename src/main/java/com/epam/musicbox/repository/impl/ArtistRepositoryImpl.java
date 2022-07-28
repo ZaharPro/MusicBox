@@ -68,7 +68,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
     private static final String SQL_REMOVE_TRACK = "DELETE FROM artist_tracks " +
                                                    "WHERE artist_id=? AND track_id=?";
 
-    private static final String SQL_COUNT_ALBUMS = "SELECT COUNT(a.album_id) " +
+    private static final String SQL_COUNT_ALBUMS = "SELECT COUNT(DISTINCT a.album_id) " +
                                                    "FROM albums AS a " +
                                                    "JOIN tracks AS t " +
                                                    "ON a.album_id = t.album_id " +
@@ -76,7 +76,7 @@ public class ArtistRepositoryImpl implements ArtistRepository {
                                                    "ON t.track_id = at.track_id " +
                                                    "WHERE at.artist_id=? ";
 
-    private static final String SQL_FIND_ALBUMS = "SELECT * " +
+    private static final String SQL_FIND_ALBUMS = "SELECT DISTINCT a.album_id, a.name, a.picture " +
                                                   "FROM albums AS a " +
                                                   "JOIN tracks AS t " +
                                                   "ON a.album_id = t.album_id " +
