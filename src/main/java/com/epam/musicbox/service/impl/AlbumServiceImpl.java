@@ -1,6 +1,7 @@
 package com.epam.musicbox.service.impl;
 
 import com.epam.musicbox.entity.Album;
+import com.epam.musicbox.entity.Track;
 import com.epam.musicbox.exception.RepositoryException;
 import com.epam.musicbox.exception.ServiceException;
 import com.epam.musicbox.repository.AlbumRepository;
@@ -49,6 +50,32 @@ public class AlbumServiceImpl extends AbstractEntityService<Album> implements Al
                 return new PageSearchResult<>(page, pageSize);
             }
             List<Album> list = getRepository().findByName(name, getOffset(page, pageSize), pageSize);
+            return new PageSearchResult<>(page, pageSize, count, list);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public long countTracks(long userId) throws ServiceException {
+        try {
+            return getRepository().countTracks(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public PageSearchResult<Track> getTracks(long userId, int page, int pageSize) throws ServiceException {
+        try {
+            if (!isValid(page, pageSize)) {
+                return new PageSearchResult<>(page, pageSize);
+            }
+            long count = getRepository().countTracks(userId);
+            if (count == 0) {
+                return new PageSearchResult<>(page, pageSize);
+            }
+            List<Track> list = getRepository().getTracks(userId, getOffset(page, pageSize), pageSize);
             return new PageSearchResult<>(page, pageSize, count, list);
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage(), e);
